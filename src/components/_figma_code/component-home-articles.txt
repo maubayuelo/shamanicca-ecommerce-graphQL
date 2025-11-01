@@ -1,0 +1,166 @@
+Mobile View:
+
+<div className="self-stretch px-[15px] py-[30px] inline-flex flex-col justify-start items-start gap-[26px]">
+  <div className="self-stretch justify-start text-[#121212] text-3xl font-bold font-['Poppins'] leading-9">Blog Articles</div>
+  <div data-prop="1x6-xxsm" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+    <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start">
+      <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-[9px]">
+          <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+          <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+          <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+          <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+          <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+          <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="self-stretch flex flex-col justify-start items-center">
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Secondary" className="size- px-5 py-3.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">Check Shamanicca’s Blog Posts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+Tablet View:
+
+<div className="self-stretch px-[30px] pt-[30px] pb-[60px] inline-flex flex-col justify-start items-start gap-[26px]">
+  <div className="self-stretch justify-start text-[#121212] text-4xl font-bold font-['Poppins'] leading-10">Blog Articles</div>
+  <div data-prop="1x6-sm" className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="self-stretch flex flex-col justify-start items-center">
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Secondary" className="size- px-5 py-3.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">Check Shamanicca’s Blog Posts</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+Desktop View:
+
+<div className="w-[1381px] py-[60px] inline-flex flex-col justify-start items-start gap-[26px]">
+  <div className="self-stretch justify-start text-[#121212] text-4xl font-bold font-['Poppins'] leading-10">Blog Articles</div>
+  <div data-prop="3x2" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+    <div data-prop="Row-x3" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="sm" className="w-[440px] flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="sm" className="w-[440px] flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="sm" className="w-[440px] flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Row-x3" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+      <div data-prop="sm" className="w-[440px] flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="sm" className="w-[440px] flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="sm" className="w-[440px] flex justify-start items-start gap-[15px]">
+        <div className="flex-1 flex justify-start items-start gap-[15px]">
+          <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="self-stretch flex flex-col justify-start items-center">
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Secondary" className="size- px-5 py-3.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">Check Shamanicca’s Blog Posts</div>
+      </div>
+    </div>
+  </div>
+</div>

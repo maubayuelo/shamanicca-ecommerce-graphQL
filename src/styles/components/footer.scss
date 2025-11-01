@@ -1,0 +1,78 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.site-footer {
+  //border-top: 1px solid $gray-40;
+  background: $gray-30;
+
+  .main {
+    padding-top: $spacing-30;
+    padding-bottom: $spacing-30;
+
+    @include media-tablet-up {
+      padding-top: $spacing-60;
+      padding-bottom: $spacing-60;
+    }
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr; // mobile
+    gap: $spacing-30;
+
+    @include media-tablet-up {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-desktop-up {
+      grid-template-columns: 34% 24% 15% 15%;
+    }
+
+    @include media-desktop-lg-up {
+      gap: $spacing-45;
+      grid-template-columns: 30% 30% 15% 15%;
+    }
+  }
+
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+
+    .footer-heading,
+    .footer-text,
+    li {
+      color: $text-color;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+  }
+
+  // Newsletter form styles are centralized in styles/forms.scss
+
+  .social {
+    //margin-top: $spacing-15;
+
+    .label {
+      color: $text-color;
+    }
+
+    .icons {
+      margin-top: $spacing-30;
+      display: flex;
+      gap: $spacing-30;
+    }
+
+    .icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 6px;
+      background: $black;
+    }
+  }
+}

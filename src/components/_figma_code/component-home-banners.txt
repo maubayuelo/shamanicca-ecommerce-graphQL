@@ -1,0 +1,54 @@
+Mobile View:
+
+<div className="self-stretch px-[15px] inline-flex flex-col justify-center items-start gap-[15px]">
+  <div data-prop="Tablet" className="self-stretch h-[330px] p-[30px] rounded-[15px] flex flex-col justify-end items-start">
+    <div className="self-stretch flex flex-col justify-start items-start gap-[7px]">
+      <div className="self-stretch justify-start text-white text-2xl font-bold font-['Poppins'] leading-loose">Magic Accessories</div>
+      <div className="self-stretch justify-start text-white text-lg font-normal font-['Poppins'] leading-7">Altar pads, Mose pads, collars, Printed art</div>
+    </div>
+  </div>
+  <div data-prop="Tablet" className="self-stretch h-[330px] p-[30px] rounded-[15px] flex flex-col justify-end items-start">
+    <div className="self-stretch flex flex-col justify-start items-start gap-[7px]">
+      <div className="self-stretch justify-start text-white text-2xl font-bold font-['Poppins'] leading-loose">Manifestation Audibles</div>
+      <div className="self-stretch justify-start text-white text-lg font-normal font-['Poppins'] leading-7">Guides Meditations, Subliminal audios</div>
+    </div>
+  </div>
+</div>
+
+---
+
+Tablet View:
+
+<div className="self-stretch px-[30px] inline-flex justify-start items-center gap-[15px]">
+  <div data-prop="Tablet" className="flex-1 h-[330px] p-[30px] rounded-[15px] inline-flex flex-col justify-end items-start">
+    <div className="self-stretch flex flex-col justify-start items-start gap-[7px]">
+      <div className="self-stretch justify-start text-white text-2xl font-bold font-['Poppins'] leading-loose">Magic Accessories</div>
+      <div className="self-stretch justify-start text-white text-lg font-normal font-['Poppins'] leading-7">Altar pads, Mose pads, collars, Printed art</div>
+    </div>
+  </div>
+  <div data-prop="Tablet" className="flex-1 h-[330px] p-[30px] rounded-[15px] inline-flex flex-col justify-end items-start">
+    <div className="self-stretch flex flex-col justify-start items-start gap-[7px]">
+      <div className="self-stretch justify-start text-white text-2xl font-bold font-['Poppins'] leading-loose">Manifestation Audibles</div>
+      <div className="self-stretch justify-start text-white text-lg font-normal font-['Poppins'] leading-7">Guides Meditations, Subliminal audios</div>
+    </div>
+  </div>
+</div>
+
+---
+
+Desktop View:
+
+<div className="w-[1380px] inline-flex justify-between items-center">
+  <div data-prop="Desktop" className="w-[683px] h-[420px] p-[30px] rounded-[15px] inline-flex flex-col justify-end items-start">
+    <div className="size- flex flex-col justify-start items-start gap-[7px]">
+      <div className="justify-start text-white text-4xl font-bold font-['Poppins'] leading-10">Magic Accessories</div>
+      <div className="justify-start text-white text-2xl font-normal font-['Poppins'] leading-loose">Altar pads, Mose pads, collars, Printed art</div>
+    </div>
+  </div>
+  <div data-prop="Desktop" className="w-[683px] h-[420px] p-[30px] rounded-[15px] inline-flex flex-col justify-end items-start">
+    <div className="size- flex flex-col justify-start items-start gap-[7px]">
+      <div className="justify-start text-white text-4xl font-bold font-['Poppins'] leading-10">Manifestation Audibles</div>
+      <div className="justify-start text-white text-2xl font-normal font-['Poppins'] leading-loose">Guides Meditations, Subliminal audios</div>
+    </div>
+  </div>
+</div>

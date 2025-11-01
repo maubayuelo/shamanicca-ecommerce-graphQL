@@ -1,0 +1,409 @@
+// Import global variables used by component styles
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.header{
+    &__sticky{
+        position: sticky;
+        top: 0;
+        z-index: 1000; // ensure it stays above other content
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    background-color: $white;
+    &__top_bar{
+        background-color: $black;
+        color: $white;
+        font-family: $font-family;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1rem;
+        padding: 0.5rem 0;
+        text-align: center;
+    }
+
+    &__main{
+        .main{
+            //background-color: pink;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: $spacing-10; 
+            @include media-desktop-up {
+                padding: 0 0;
+            }
+        }
+    }
+    &__logo{
+        display: flex;
+        //gap: 1.25rem;
+        img{
+            height: 1.8rem; // ~29px
+            width: auto;
+            cursor: pointer;
+        }
+    }
+
+    &__nav{
+        display: flex;
+        height: 100%;
+
+        &_item{
+            height: 100%;
+            color: $black;
+            font-family: $font-family;
+            font-size: 0.9375rem; // ~15px
+            text-decoration: none;
+            line-height: 1;
+            //padding: 0.25rem 0;
+            position: relative;
+            cursor: pointer;
+            gap: 6px;
+
+            &:hover,
+            &--hover{
+                color: $primary-color;
+            }
+
+            &--bold{
+                font-weight: 700;
+            }
+        }
+    }
+
+    // responsive: hide nav on small screens (assumes mobile menu elsewhere)
+    @media (max-width: 768px){
+        &__nav{ display: none; }
+    }
+
+    hr{
+        border: none;
+        border-top: 1px solid #b2b2b2;
+        margin: 0;
+    }
+
+    &__container{
+            height: -webkit-fill-available;
+    }
+
+    &__nav_item_wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        &:hover,
+        &:focus {
+            background: $gray-30;
+        }
+        .header__nav_item {
+            color: $black;
+            text-decoration: none;
+            padding: $spacing-15 $spacing-15;
+            height: calc(100% - 30px);
+            display: flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            align-content: center;
+            flex-direction: row;
+            justify-content: space-between;
+            
+            &:hover,
+            &:focus {
+                color: $primary-color;
+            }
+
+            
+            
+            // show chevron for items that have a submenu
+            &.has-submenu::after{
+                content: "";
+                display: block;
+                width: 9px;
+                height: 9px;
+                /* use the SVG as a mask so the element's background-color becomes the icon color */
+                background-color: currentColor;
+                mask-image: url('/images/icon-chevron-down.svg');
+                mask-repeat: no-repeat;
+                mask-position: center;
+                mask-size: contain;
+                &:hover::after,
+                &--hover::after{
+                    /* change the background-color only; the mask is already applied on the base pseudo-element */
+                    background-color: $primary-color;
+                }
+            }
+        }
+
+        .header__dropdown {
+            margin-top: 0px;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            min-width: 180px;
+            display: none;
+            z-index: 40;
+            background: $white;
+            border-radius: 0 0 6px 6px;
+            background: $gray-30;
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                border-radius: 0 0 6px 6px;
+            }
+
+            .header__dropdown_item {
+                //padding: 6px 0;
+                padding: 0;
+                margin: 0;
+                a {
+                    padding: 0;
+                    margin: 0;
+                    display: block;
+                    color: #111;
+                    text-decoration: none;
+                    padding: $spacing-5 $spacing-15;
+                    //background: red;
+                    width: calc(100% - $spacing-30);
+                    //display: flex;
+
+                    &:hover {
+                        color: $primary-color;
+                    }
+                }
+            }
+        }
+
+        &:hover,
+        &:focus-within {
+            .header__dropdown {
+                display: block;
+            }
+        }
+    }
+
+    &__actions {
+        align-items: center;
+        display: flex;
+        gap: $spacing-15;
+        @media (max-width: 768px){
+             //gap: $spacing-15;
+        }
+        
+    }
+
+    &__action_btn {
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        margin: 0;
+        &:hover{
+            opacity: 0.6;
+        }
+    }
+    &__action_icon, &__mobile_icon {
+        height: 24px;
+        width: 24px;
+
+    }
+
+    &__mobile_toggle {
+        display: none;
+        background: transparent;
+        border: none;
+    }
+
+    &__mobile_menu {
+        display: none;
+    }
+
+    @media (max-width: 900px) {
+        &__nav {
+            display: none;
+        }
+
+        &__mobile_toggle {
+            display: inline-block;
+        }
+
+        &__mobile_menu {
+            display: none;
+            background: #fff;
+            //border-top: 1px solid #eee;
+
+            &.is-open {
+                display: block;
+            }
+        }
+
+        &__mobile_nav {
+            //padding: 12px 16px;
+            background-color: $white;
+        }
+
+        .mobile__details {
+            padding-left: $spacing-15;
+            //margin-bottom: 6px;
+            //border-bottom: 1px solid #f2f2f2;
+        .mobile__summary {
+            list-style: none;
+            cursor: pointer;
+            padding: $spacing-15 0;
+            display: flex;
+            align-items: center;
+            //background-color: cyan;;
+            
+        }
+        
+        &[open] {
+            background-color: $gray-30;
+        }
+
+        .mobile__link {
+            color: $black;
+            text-decoration: none;
+            //width: 100%;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            justify-content: flex-start;
+            &.has-submenu::after {
+                content: "";
+                display: block;
+                //margin-left: 9px;
+                width: $spacing-15;
+                height: $spacing-15;
+                /* use the SVG as a mask so the element's background-color becomes the icon color */
+                background-color: currentColor;
+                mask-image: url('/images/icon-cross.svg');
+                mask-repeat: no-repeat;
+                mask-position: center;
+                mask-size: contain;
+
+                position: absolute;
+                right: $spacing-15;
+                pointer-events: none;
+
+                &:hover::after,
+                &--hover::after{
+                    /* change the background-color only; the mask is already applied on the base pseudo-element */
+                    background-color: $primary-color;
+                }
+                
+            }
+
+        } /* close .mobile__link */
+
+        /* NOTE: anchors do not receive the [open] attribute. Instead target the parent <details>[open] */
+        /* when the details element is open, override the mask to show a minus icon */
+        &[open] .mobile__link.has-submenu::after {
+            mask-image: url('/images/icon-minus.svg');
+        }
+
+        .mobile__subnav {
+            list-style: none;
+            padding-left: 12px;
+            padding-bottom: $spacing-15;
+            margin: 0;
+        }
+
+        .mobile__subnav_item {
+            padding: 6px 0;
+
+            a {
+                color: #333;
+                text-decoration: none;
+            }
+        }
+        }
+
+        
+    }
+}
+
+/* Search overlay */
+:root { --header-height: 64px; } // fallback, overwritten by JS
+.header {
+    &__search {
+        // Fixed panel emerging from under the sticky header
+        position: fixed;
+        left: 0;
+        top: var(--header-height, 64px);
+        width: 100%;
+        background: $black;
+        padding: $spacing-15 $spacing-15;
+        z-index: 900; // below the sticky header (header z-index is 1000)
+        overflow: hidden;
+        // hidden state
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-9px);
+        pointer-events: none;
+        // animation
+        transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.25s ease;
+
+        &.is-open {
+            max-height: 260px; // enough to reveal form content
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        &_inner {
+            margin: 0 auto;
+            color: $white;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 600px;
+            align-items: flex-start;
+            @media (min-width: 768px){
+                align-items: center;
+            }
+        }
+
+        &_header {
+            display: block;
+            width: fit-content;
+            float: right;
+        }
+
+        &_close {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 15px;
+            width: $spacing-15;
+            height: $spacing-15;
+            img { height: 15px; width: 15px; filter: invert(1); }
+        }
+    }
+
+    /* Utility for a11y labels (scoped to header to avoid global leaks) */
+    .visually-hidden {
+        position: absolute !important;
+        height: 1px; width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        white-space: nowrap; /* added line */
+    }
+}
+
+/* Also apply visually-hidden rules inside the search overlay context */
+.header__search .visually-hidden {
+    position: absolute !important;
+    height: 1px; width: 1px;
+    overflow: hidden;
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+}
+
+
+    
+
+    
+    

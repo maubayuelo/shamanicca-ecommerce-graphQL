@@ -1,0 +1,421 @@
+Mobile View:
+
+<div data-prop="Mobile" className="self-stretch inline-flex flex-col justify-start items-center gap-[30px]">
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-3xl font-black font-['Poppins'] leading-9">How to Use Pendulums for Energy Work and Spiritual Guidance</div>
+    <div className="self-stretch justify-start text-black text-xl font-normal font-['Poppins'] leading-7">A pendulum is a simple yet powerful tool for spiritual insight. Learn how to use it for divination.</div>
+  </div>
+  <div className="self-stretch justify-start"><span class="text-black text-sm font-normal font-['Poppins'] leading-normal">Category: </span><span class="text-[#705af8] text-sm font-normal font-['Poppins'] underline leading-normal">Mindfulness & Healing</span></div>
+  <div className="self-stretch inline-flex justify-start items-center gap-[15px]">
+    <div className="justify-start text-[#705af8] text-sm font-bold font-['Poppins'] leading-[15px]">SHARING    IS LOVE</div>
+    <div className="flex-1 self-stretch flex justify-start items-start gap-[15px]">
+      <div className="size-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[18.15px] bg-white" />
+      </div>
+      <div className="w-8 h-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="w-[9.59px] self-stretch bg-white" />
+      </div>
+      <div className="w-8 h-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[22px] bg-white" />
+      </div>
+      <div className="w-8 h-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[17.43px] bg-white" />
+      </div>
+      <div className="w-8 h-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[17.88px] bg-white" />
+      </div>
+      <div className="w-8 h-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="w-[12.10px] h-[13.54px] bg-white" />
+        <div className="w-[12.12px] h-[13.51px] bg-white" />
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch h-[207px] inline-flex justify-start items-start overflow-hidden">
+    <img className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start" src="https://placehold.co/345x207" />
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[9px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">What is a Pendulum?</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">A pendulum is a simple tool often used for divination and energy work. It consists of a weighted object attached to a string or chain. People use pendulums to seek answers, balance energies, and enhance spiritual practices.</div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[9px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">How Does a Pendulum Work?</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Pendulums respond to subtle energy shifts. They move in specific patterns when you ask questions or direct them toward energy fields. This movement is influenced by your subconscious and the energies around you.</div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[9px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">Steps to Use a Pendulum</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Choose a Pendulum:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Pick one made of crystal, wood, or metal that feels right to you.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Set Intentions:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Hold the pendulum and focus on your purpose, whether for guidance, healing, or clarity.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Determine Yes/No Movements:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Ask simple questions to identify how the pendulum signals “yes” and “no.”<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Ask Questions:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Keep your questions clear and specific.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Interpret the Responses:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Observe the pendulum’s movement and trust your intuition.</span></div>
+  </div>
+  <div data-prop="Mobile-Affiliated" className="self-stretch bg-neutral-100 rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] flex flex-col justify-start items-center overflow-hidden">
+    <div className="self-stretch h-[180px] px-[9px] py-1.5 bg-gradient-to-b from-black/0 to-black/30 flex flex-col justify-end items-start">
+      <div className="self-stretch justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Affiliated Ad</div>
+    </div>
+    <div className="self-stretch p-[15px] flex flex-col justify-start items-start gap-[15px]">
+      <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-black font-['Poppins'] leading-loose">Unlock Your Channeling Gifts</div>
+        <div className="self-stretch justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Learn to dive your spiritual power.</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="true" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">JOIN TO THE WORKSHOP</div>
+        <div data-style="Outline" className="size-5 relative overflow-hidden">
+          <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-white" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[9px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">Using a Pendulum for Energy Work</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Chakra Balancing: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Hold the pendulum over each chakra to detect blockages.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Cleansing Spaces: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Move the pendulum around a room to sense and clear stagnant energy.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Seeking Guidance: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Use the pendulum to answer spiritual questions or connect with intuition.</span></div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[9px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">Final Thoughts</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Pendulums are accessible tools for energy work and spiritual insight. With practice, they can help you refine intuition and balance energies in your life.</div>
+  </div>
+  <div data-prop="Mobile-Affiliated" className="self-stretch bg-neutral-100 rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] flex flex-col justify-start items-center overflow-hidden">
+    <div className="self-stretch h-[180px] px-[9px] py-1.5 bg-gradient-to-b from-black/0 to-black/30 flex flex-col justify-end items-start">
+      <div className="self-stretch justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Affiliated Ad</div>
+    </div>
+    <div className="self-stretch p-[15px] flex flex-col justify-start items-start gap-[15px]">
+      <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-black font-['Poppins'] leading-loose">Unlock Your Channeling Gifts</div>
+        <div className="self-stretch justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Learn to dive your spiritual power.</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="true" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">JOIN TO THE WORKSHOP</div>
+        <div data-style="Outline" className="size-5 relative overflow-hidden">
+          <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-white" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch pt-[30px] flex flex-col justify-start items-start gap-[30px]">
+    <div className="self-stretch inline-flex justify-center items-center gap-2.5">
+      <div className="flex-1 justify-start text-black text-3xl font-black font-['Poppins'] leading-9">RELATED ARTICLES</div>
+    </div>
+    <div data-prop="1x6-xxsm" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[9px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+Tablet View:
+
+<div data-prop="Tablet" className="self-stretch inline-flex flex-col justify-start items-center gap-[30px]">
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-4xl font-black font-['Poppins'] leading-10">How to Use Pendulums for Energy Work and Spiritual Guidance</div>
+    <div className="self-stretch justify-start text-black text-2xl font-normal font-['Poppins'] leading-loose">A pendulum is a simple yet powerful tool for spiritual insight. Learn how to use it for divination.</div>
+  </div>
+  <div className="self-stretch justify-start"><span class="text-black text-sm font-normal font-['Poppins'] leading-normal">Category: </span><span class="text-[#705af8] text-sm font-normal font-['Poppins'] underline leading-normal">Mindfulness & Healing</span></div>
+  <div className="self-stretch inline-flex justify-start items-center gap-[30px]">
+    <div className="justify-start text-[#705af8] text-sm font-bold font-['Poppins'] leading-[15px]">SHARING    IS LOVE</div>
+    <div className="w-[310px] self-stretch flex justify-start items-start gap-6">
+      <div className="size-[30px] p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[18.15px] bg-white" />
+      </div>
+      <div className="flex-1 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="w-[9.59px] self-stretch bg-white" />
+      </div>
+      <div className="flex-1 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[22px] bg-white" />
+      </div>
+      <div className="flex-1 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[17.43px] bg-white" />
+      </div>
+      <div className="flex-1 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[17.88px] bg-white" />
+      </div>
+      <div className="flex-1 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="w-[12.10px] h-[13.54px] bg-white" />
+        <div className="w-[12.12px] h-[13.51px] bg-white" />
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch h-[410.40px] inline-flex justify-start items-start overflow-hidden">
+    <img className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start" src="https://placehold.co/684x410" />
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">What is a Pendulum?</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">A pendulum is a simple tool often used for divination and energy work. It consists of a weighted object attached to a string or chain. People use pendulums to seek answers, balance energies, and enhance spiritual practices.</div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">How Does a Pendulum Work?</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Pendulums respond to subtle energy shifts. They move in specific patterns when you ask questions or direct them toward energy fields. This movement is influenced by your subconscious and the energies around you.</div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">Steps to Use a Pendulum</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Choose a Pendulum:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Pick one made of crystal, wood, or metal that feels right to you.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Set Intentions:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Hold the pendulum and focus on your purpose, whether for guidance, healing, or clarity.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Determine Yes/No Movements:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Ask simple questions to identify how the pendulum signals “yes” and “no.”<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Ask Questions:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Keep your questions clear and specific.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Interpret the Responses:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Observe the pendulum’s movement and trust your intuition.</span></div>
+  </div>
+  <div data-prop="Tablet-Affiliated" className="self-stretch pr-[15px] bg-neutral-100 rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[15px] overflow-hidden">
+    <div className="w-[270px] h-[180px] px-[9px] py-1.5 bg-gradient-to-b from-black/0 to-black/30 inline-flex flex-col justify-end items-start">
+      <div className="self-stretch justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Affiliated Ad</div>
+    </div>
+    <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+      <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+        <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Unlock Your Channeling Gifts</div>
+        <div className="self-stretch justify-start text-black text-base font-normal font-['Poppins'] leading-normal">Learn to dive your spiritual power.</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="true" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">JOIN TO THE WORKSHOP</div>
+        <div data-style="Outline" className="size-5 relative overflow-hidden">
+          <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-white" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">Using a Pendulum for Energy Work</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Chakra Balancing: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Hold the pendulum over each chakra to detect blockages.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Cleansing Spaces: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Move the pendulum around a room to sense and clear stagnant energy.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Seeking Guidance: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Use the pendulum to answer spiritual questions or connect with intuition.</span></div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-2xl font-bold font-['Poppins'] leading-loose">Final Thoughts</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Pendulums are accessible tools for energy work and spiritual insight. With practice, they can help you refine intuition and balance energies in your life.</div>
+  </div>
+  <div data-prop="Tablet-Affiliated" className="self-stretch pr-[15px] bg-neutral-100 rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[15px] overflow-hidden">
+    <div className="w-[270px] h-[180px] px-[9px] py-1.5 bg-gradient-to-b from-black/0 to-black/30 inline-flex flex-col justify-end items-start">
+      <div className="self-stretch justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Affiliated Ad</div>
+    </div>
+    <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+      <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+        <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Unlock Your Channeling Gifts</div>
+        <div className="self-stretch justify-start text-black text-base font-normal font-['Poppins'] leading-normal">Learn to dive your spiritual power.</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="true" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">JOIN TO THE WORKSHOP</div>
+        <div data-style="Outline" className="size-5 relative overflow-hidden">
+          <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-white" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch pt-[30px] flex flex-col justify-start items-start gap-[30px]">
+    <div className="self-stretch inline-flex justify-center items-center gap-2.5">
+      <div className="flex-1 justify-start text-black text-3xl font-black font-['Poppins'] leading-9">RELATED ARTICLES</div>
+    </div>
+    <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+      <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-center gap-[30px]">
+            <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+              <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-center gap-[30px]">
+            <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+              <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-center gap-[30px]">
+            <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">The Spirit of Nature's Teachings Awaits Your Embrace</div>
+              <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Engage with practices that unite us with the earth and cosmos. Explore their significance and ways to bring them into life.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-center gap-[30px]">
+            <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Spiritual Odyssey Awaits Your Discovery</div>
+              <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Discover practices that connect us to the earth and cosmos. Learn their origins and how to integrate them into daily life.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+Desktop View:
+
+<div data-prop="Desktop" className="self-stretch inline-flex flex-col justify-start items-center gap-[30px]">
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-5xl font-black font-['Poppins'] leading-[48px]">How to Use Pendulums for Energy Work and Spiritual Guidance</div>
+    <div className="self-stretch justify-start text-black text-3xl font-normal font-['Poppins'] leading-9">A pendulum is a simple yet powerful tool for spiritual insight. Learn how to use it for divination.</div>
+  </div>
+  <div className="self-stretch justify-start"><span class="text-black text-sm font-normal font-['Poppins'] leading-normal">Category: </span><span class="text-[#705af8] text-sm font-normal font-['Poppins'] underline leading-normal">Mindfulness & Healing</span></div>
+  <div className="self-stretch inline-flex justify-start items-center gap-[30px]">
+    <div className="justify-start text-[#705af8] text-sm font-bold font-['Poppins'] leading-[15px]">SHARING    IS LOVE</div>
+    <div className="w-[310px] h-10 flex justify-start items-start gap-6">
+      <div className="size-10 p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[27.23px] bg-white" />
+      </div>
+      <div className="w-10 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="w-[14.39px] self-stretch bg-white" />
+      </div>
+      <div className="w-10 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[30px] bg-white" />
+      </div>
+      <div className="w-10 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[23.77px] bg-white" />
+      </div>
+      <div className="w-10 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="flex-1 h-[24.38px] bg-white" />
+      </div>
+      <div className="w-10 self-stretch p-[5px] bg-[#121212] rounded-[3px] flex justify-center items-center overflow-hidden">
+        <div className="w-[16.50px] h-[20.31px] bg-white" />
+        <div className="w-[16.52px] h-[20.26px] bg-white" />
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch h-[531px] inline-flex justify-start items-start overflow-hidden">
+    <img className="flex-1 self-stretch p-[15px] rounded-[30px] inline-flex flex-col justify-start items-start" src="https://placehold.co/885x531" />
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-3xl font-bold font-['Poppins'] leading-9">What is a Pendulum?</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">A pendulum is a simple tool often used for divination and energy work. It consists of a weighted object attached to a string or chain. People use pendulums to seek answers, balance energies, and enhance spiritual practices.</div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-3xl font-bold font-['Poppins'] leading-9">How Does a Pendulum Work?</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Pendulums respond to subtle energy shifts. They move in specific patterns when you ask questions or direct them toward energy fields. This movement is influenced by your subconscious and the energies around you.</div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-3xl font-bold font-['Poppins'] leading-9">Steps to Use a Pendulum</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Choose a Pendulum:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Pick one made of crystal, wood, or metal that feels right to you.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Set Intentions:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Hold the pendulum and focus on your purpose, whether for guidance, healing, or clarity.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Determine Yes/No Movements:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Ask simple questions to identify how the pendulum signals “yes” and “no.”<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Ask Questions:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Keep your questions clear and specific.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Interpret the Responses:</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7"> Observe the pendulum’s movement and trust your intuition.</span></div>
+  </div>
+  <div data-prop="Desktop-lg-Affiliated" className="self-stretch h-[180px] pr-[30px] bg-neutral-100 rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[30px] overflow-hidden">
+    <div className="w-[270px] h-[180px] px-[9px] py-1.5 bg-gradient-to-b from-black/0 to-black/30 inline-flex flex-col justify-end items-start">
+      <div className="self-stretch justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Affiliated Ad</div>
+    </div>
+    <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+      <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Unlock Your Channeling Gifts</div>
+      <div className="self-stretch justify-start text-black text-xl font-normal font-['Poppins'] leading-7">Learn to dive your spiritual power.</div>
+    </div>
+    <div data-dropdown="Off" data-icon-left="false" data-icon-right="true" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+      <div className="justify-start text-white text-base font-bold font-['Poppins'] leading-normal">JOIN TO THE WORKSHOP</div>
+      <div data-style="Outline" className="size-5 relative overflow-hidden">
+        <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-white" />
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-3xl font-bold font-['Poppins'] leading-9">Using a Pendulum for Energy Work</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Chakra Balancing: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Hold the pendulum over each chakra to detect blockages.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Cleansing Spaces: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Move the pendulum around a room to sense and clear stagnant energy.<br/></span><span class="text-[#121212] text-lg font-bold font-['Poppins'] leading-7">Seeking Guidance: </span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Use the pendulum to answer spiritual questions or connect with intuition.</span></div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+    <div className="self-stretch justify-start text-black text-3xl font-bold font-['Poppins'] leading-9">Final Thoughts</div>
+    <div className="self-stretch justify-start text-[#121212] text-lg font-normal font-['Poppins'] leading-7">Pendulums are accessible tools for energy work and spiritual insight. With practice, they can help you refine intuition and balance energies in your life.</div>
+  </div>
+  <div data-prop="Desktop-lg-Affiliated" className="self-stretch h-[180px] pr-[30px] bg-neutral-100 rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[30px] overflow-hidden">
+    <div className="w-[270px] h-[180px] px-[9px] py-1.5 bg-gradient-to-b from-black/0 to-black/30 inline-flex flex-col justify-end items-start">
+      <div className="self-stretch justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Affiliated Ad</div>
+    </div>
+    <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+      <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Unlock Your Channeling Gifts</div>
+      <div className="self-stretch justify-start text-black text-xl font-normal font-['Poppins'] leading-7">Learn to dive your spiritual power.</div>
+    </div>
+    <div data-dropdown="Off" data-icon-left="false" data-icon-right="true" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+      <div className="justify-start text-white text-base font-bold font-['Poppins'] leading-normal">JOIN TO THE WORKSHOP</div>
+      <div data-style="Outline" className="size-5 relative overflow-hidden">
+        <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-white" />
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch pt-[30px] flex flex-col justify-start items-start gap-[30px]">
+    <div className="self-stretch inline-flex justify-center items-center gap-2.5">
+      <div className="flex-1 justify-start text-black text-3xl font-black font-['Poppins'] leading-9">RELATED ARTICLES</div>
+    </div>
+    <div data-prop="2x6" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+      <div data-prop="Row-x2" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-start gap-[15px]">
+            <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">The Essence of Nature's Spiritual Teachings Awaits</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Explore traditions that link us to the earth and cosmos. Uncover their origins and how to weave them into daily life.</div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-start gap-[15px]">
+            <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Nature's Pathways to Spiritual Enlightenment</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Delve into practices that connect us to the earth and cosmos. Discover their meanings and how to embrace them daily.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x2" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-start gap-[15px]">
+            <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Embracing the Spirit of Nature's Teachings</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Engage with practices that unite us with the earth and cosmos. Explore their origins and how to bring them into life.</div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 flex justify-start items-start gap-[15px]">
+            <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+            <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">The Wisdom of Ancient Spirits Awaits You</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Discover practices that connect us to the earth and cosmos. Learn their origins and how to integrate them into life.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

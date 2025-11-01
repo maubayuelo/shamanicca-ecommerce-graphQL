@@ -1,0 +1,194 @@
+
+
+<div data-prop="Desktop" className="self-stretch inline-flex flex-col justify-start items-start gap-[30px]">
+  <div data-prop="Desktop" className="w-[1380px] h-[525px] inline-flex justify-start items-start gap-[30px]">
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Norse Wisdom Runes Hoodie</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$249</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$249</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Norse Wisdom Runes Hoodie</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$249</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$249</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Norse Wisdom Runes Hoodie</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$249</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$249</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-prop="Desktop" className="w-[1380px] h-[525px] inline-flex justify-start items-start gap-[30px]">
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Veil of the Valkyrie Tee</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$199</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$199</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Veil of the Valkyrie Tee</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$199</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$199</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Veil of the Valkyrie Tee</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$199</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$199</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-prop="Desktop" className="w-[1380px] h-[525px] inline-flex justify-start items-start gap-[30px]">
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Runes of Fate Graphic Hoodie</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$259</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$259</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Runes of Fate Graphic Hoodie</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$259</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$259</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Desktop" className="flex-1 rounded-tl-[15px] rounded-tr-[15px] inline-flex flex-col justify-start items-center gap-[15px] overflow-hidden">
+      <div className="self-stretch h-[440px] inline-flex justify-start items-start overflow-hidden">
+        <div className="flex-1 self-stretch p-[15px] rounded-[15px] inline-flex flex-col justify-start items-start">
+          <div data-color="Alert" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#eb5962] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+        <div className="self-stretch justify-start text-[#121212] text-2xl font-bold font-['Poppins'] leading-loose">Runes of Fate Graphic Hoodie</div>
+        <div className="self-stretch inline-flex justify-start items-start gap-[15px]">
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$259</div>
+          <div className="justify-start text-[#121212] text-2xl font-normal font-['Poppins'] leading-loose">$259</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch pb-[60px] flex flex-col justify-start items-center">
+    <div data-nav-icon="On" data-nav-label="Off" data-type="Button group" className="size- bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-start overflow-hidden">
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="true" data-icon-right="false" data-size="md" data-state="Default" data-text="Off" className="size- p-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div data-style="Outline" className="size-5 relative overflow-hidden">
+          <div className="w-[15px] h-[12.50px] left-[2.50px] top-[3.75px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+        </div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">1</div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">2</div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">3</div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">...</div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">7</div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">8</div>
+      </div>
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      <div data-checkbox="Off" data-dropdown="Off" data-icon-left="true" data-icon-right="false" data-size="md" data-state="Default" data-text="Off" className="size- p-2.5 flex justify-center items-center gap-2 overflow-hidden">
+        <div data-style="Outline" className="size-5 relative overflow-hidden">
+          <div className="w-[15px] h-[12.50px] left-[2.50px] top-[3.75px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

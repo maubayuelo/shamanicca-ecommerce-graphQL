@@ -1,0 +1,60 @@
+Mobile View:
+
+<div data-prop="Mobile" className="self-stretch h-[330px] px-[30px] pt-[30px] pb-[60px] bg-gradient-to-b from-black/50 to-black/0 to 72% inline-flex flex-col justify-start items-center">
+  <div className="self-stretch flex flex-col justify-start items-center gap-[30px]">
+    <div className="size- flex flex-col justify-start items-center gap-1.5">
+      <div className="justify-start text-white text-lg font-bold font-['Poppins'] leading-7">Shamanicca Apparel</div>
+      <div className="justify-start text-white text-2xl font-bold font-['Poppins'] leading-loose">Unleash Your Mystical Style</div>
+    </div>
+    <div className="size- inline-flex justify-start items-start gap-[30px]">
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP WOMEN’S</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP MEN’S</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+Tablet View:
+
+<div data-prop="Tablet" className="self-stretch h-[450px] px-[30px] pt-[30px] pb-[60px] bg-gradient-to-b from-black/50 to-black/0 to 72% inline-flex justify-center items-start">
+  <div className="size- inline-flex flex-col justify-center items-center gap-[30px]">
+    <div className="size- flex flex-col justify-center items-center gap-[15px]">
+      <div className="justify-start text-white text-xl font-bold font-['Poppins'] leading-7">Shamanicca Apparel</div>
+      <div className="justify-start text-white text-4xl font-black font-['Poppins'] leading-10">Unleash Your Mystical Style</div>
+    </div>
+    <div className="size- inline-flex justify-start items-start gap-[30px]">
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP WOMEN’S</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP MEN’S</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+---
+
+Desktop View:
+
+<div data-prop="Desktop" className="self-stretch h-[540px] px-[30px] pt-[30px] pb-[60px] bg-gradient-to-b from-black/50 to-black/0 to 72% inline-flex flex-col justify-start items-center">
+  <div className="size- flex flex-col justify-start items-center gap-[30px]">
+    <div className="size- flex flex-col justify-start items-center gap-[15px]">
+      <div className="justify-start text-white text-xl font-bold font-['Poppins'] leading-7">Shamanicca Apparel</div>
+      <div className="justify-start text-white text-5xl font-black font-['Poppins'] leading-[48px]">Unleash Your Mystical Style</div>
+    </div>
+    <div className="size- inline-flex justify-start items-start gap-[30px]">
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP WOMEN’S</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP MEN’S</div>
+      </div>
+    </div>
+  </div>
+</div>

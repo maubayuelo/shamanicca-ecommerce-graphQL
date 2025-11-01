@@ -1,0 +1,24 @@
+Mobile View:
+
+<div data-prop="sm-2-lines" className="self-stretch px-[9px] py-[15px] bg-[#ececec] rounded-[15px] inline-flex flex-col justify-center items-center">
+  <div className="self-stretch text-center justify-start text-black text-base font-bold font-['Poppins'] leading-normal">MAGICAL PRACTICES</div>
+  <div className="self-stretch text-center justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.</div>
+</div>
+
+---
+
+Tablet View:
+
+<div data-prop="md-2-lines" className="self-stretch px-[15px] py-6 bg-[#ececec] rounded-[15px] inline-flex flex-col justify-center items-center">
+  <div className="justify-start text-black text-xl font-bold font-['Poppins'] leading-7">MAGICAL PRACTICES</div>
+  <div className="self-stretch text-center justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.</div>
+</div>
+
+---
+
+Desktop View:
+
+<div data-prop="md-2-lines" className="self-stretch px-[15px] py-6 bg-[#ececec] rounded-[15px] inline-flex flex-col justify-center items-center">
+  <div className="justify-start text-black text-xl font-bold font-['Poppins'] leading-7">MAGICAL PRACTICES</div>
+  <div className="self-stretch text-center justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.</div>
+</div>

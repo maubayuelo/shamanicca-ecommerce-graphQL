@@ -1,0 +1,19 @@
+<div className="self-stretch inline-flex flex-col justify-start items-start gap-1.5">
+  <div data-quantity="3" data-style="Slash" className="size- inline-flex justify-start items-center gap-1">
+    <div data-icon="false" data-label="true" data-state="Default" className="size- flex justify-start items-start gap-2">
+      <div className="justify-start text-[#a4a4a4] text-sm font-bold font-['Poppins'] leading-tight">Home</div>
+    </div>
+    <div data-style="Outline" className="size-5 relative overflow-hidden">
+      <div className="w-[5px] h-[13px] left-[7.50px] top-[3.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#a4a4a4]" />
+    </div>
+    <div data-icon="false" data-label="true" data-state="Default" className="size- flex justify-start items-start gap-2">
+      <div className="justify-start text-[#a4a4a4] text-sm font-bold font-['Poppins'] leading-tight">Women</div>
+    </div>
+    <div data-style="Outline" className="size-5 relative overflow-hidden">
+      <div className="w-[5px] h-[13px] left-[7.50px] top-[3.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#a4a4a4]" />
+    </div>
+    <div data-icon="false" data-label="true" data-state="Selected" className="size- flex justify-start items-start gap-2">
+      <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">Outwear</div>
+    </div>
+  </div>
+</div>

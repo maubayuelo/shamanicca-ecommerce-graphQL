@@ -1,0 +1,80 @@
+.hero{
+    background-color: rgb(0, 0, 0);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+        max-height: 390px;
+    @media (min-width: 768px) {
+        max-height: 510px;
+    }
+    @media (min-width: 1024px) {
+        max-height: 510px;
+    }
+    .main{
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        padding-bottom: 30px;
+        @media (min-width: 768px) {
+            justify-content: center;
+            padding-bottom: 45px;
+        }
+        @media (min-width: 1024px) {
+            padding-bottom: 60px;
+        } 
+        
+        h1{
+            //font-size: 1.5rem;
+            //font-weight: 700;
+            //margin: 0 1rem;
+            @media (min-width: 768px) {
+                //font-size: 1.8rem;
+            }
+            @media (min-width: 1024px) {
+                //font-size: 2.4rem;
+            }   
+        }
+
+        
+    }
+    
+    .layer{
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+
+        width: 100%;
+        height: 100%;
+        //background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.9) 100%);
+        background: rgba(0, 0, 0, 0.15);
+        z-index: 1;
+    }
+    .bg-image{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+        //filter: brightness(0.9);
+    }
+}

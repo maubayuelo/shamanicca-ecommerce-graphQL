@@ -1,0 +1,86 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.store-subheader {
+  display: flex;
+  flex-direction: column;
+  padding-top: $spacing-15; // Mobile top padding per Figma
+  gap: $spacing-5; // small gap between title and toolbar
+
+  @include media-tablet-up {
+    padding-top: $spacing-30;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__toolbar {
+    height: 40px; // h-10
+    padding-top: $spacing-5; // close to 6px spec
+    padding-bottom: $spacing-5;
+    border-top: 1px solid $gray-10;
+    border-bottom: 1px solid $gray-10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-5;
+    padding: 2px 8px; // xs button spacing per Figma
+    border-radius: 6px;
+    background: transparent;
+    color: $text-color;
+    border: none;
+    cursor: pointer;
+    font: inherit;
+  }
+
+  .toolbar-label {
+    font-size: 14px; // align with type-sm
+    line-height: 20px; // align with type-sm
+    font-weight: $font-weight-regular;
+  }
+
+  .toolbar-icon {
+    width: 20px; // size-5
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+
+    // Simple square as placeholder icon (matches Figma solid block)
+    &::before {
+      content: "";
+      position: absolute;
+      left: 3px; top: 2.5px;
+      width: 13.75px; height: 15px;
+      background: $text-color;
+      border-radius: 1px;
+    }
+  }
+
+  .toolbar-caret {
+    width: 20px; // size-5
+    height: 20px;
+    position: relative;
+    overflow: hidden;
+
+    // Small chevron caret using borders
+    &::before {
+      content: "";
+      position: absolute;
+      right: 5px; bottom: 5px;
+      width: 10px; height: 5px;
+      border-bottom: 1.25px solid $gray-60;
+      border-right: 1.25px solid $gray-60;
+      transform-origin: center;
+      transform: rotate(-45deg);
+    }
+  }
+}

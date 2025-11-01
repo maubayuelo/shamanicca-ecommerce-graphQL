@@ -1,0 +1,138 @@
+Mobile View:
+
+<div className="self-stretch inline-flex flex-col justify-start items-start gap-[30px]">
+  <div className="self-stretch h-[345px] inline-flex justify-start items-start overflow-hidden">
+    <div className="flex-1 self-stretch p-[15px] rounded-[30px] inline-flex flex-col justify-start items-start">
+      <div data-color="Red" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#fee6e5] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#d5394a] text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[30px] overflow-hidden">
+    <div className="self-stretch justify-start text-black text-4xl font-black font-['Poppins'] leading-10">Chandail à capuchon ''Club Optimiste' - Noir</div>
+    <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">95,00 $</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">This hoodie is more than just clothing; it's a magical garment designed to bring positivity and protection to its wearer. Crafted with care in Montreal, it combines 50% Cotton and 50% Polyester in a classic black color. <br/><br/>For size assistance, check our size chart </span><span class="text-[#705af8] text-lg font-black font-['Poppins'] underline leading-7">HERE</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">.</span></div>
+    <div className="size- inline-flex justify-start items-start gap-[30px]">
+      <div data-bottom-description="Off" data-button="false" data-top-description="Off" className="w-[143px] inline-flex flex-col justify-start items-start gap-2">
+        <div className="self-stretch inline-flex justify-start items-start gap-2">
+          <div className="flex-1 justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Size</div>
+        </div>
+        <div data-size="md" data-state="Empty" data-type="Default" className="self-stretch px-4 py-2.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-center gap-2 overflow-hidden">
+          <div className="flex-1 flex justify-start items-center gap-2">
+            <div className="flex-1 h-5 justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">Select Size</div>
+          </div>
+          <div data-style="Outline" className="size-5 relative overflow-hidden">
+            <div className="w-2.5 h-[5px] left-[15px] top-[12.50px] absolute origin-top-left rotate-180 outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+          </div>
+        </div>
+      </div>
+      <div data-bottom-description="Off" data-button="false" data-top-description="Off" className="size- inline-flex flex-col justify-start items-start gap-2">
+        <div className="self-stretch inline-flex justify-start items-start gap-2">
+          <div className="justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Quantity</div>
+        </div>
+        <div data-help-icon="false" data-size="md" data-state="Empty" data-type="Default" className="size- px-4 py-2.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-center gap-2 overflow-hidden">
+          <div className="size- flex justify-start items-center gap-2">
+            <div className="justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+      <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">ADD TO BAG</div>
+    </div>
+  </div>
+</div>
+
+---
+
+Tablet View:
+
+<div className="self-stretch inline-flex flex-col justify-start items-start gap-[30px]">
+  <div className="self-stretch h-[684px] inline-flex justify-start items-start overflow-hidden">
+    <div className="flex-1 self-stretch p-[15px] rounded-[30px] inline-flex flex-col justify-start items-start">
+      <div data-color="Red" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#fee6e5] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#d5394a] text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch flex flex-col justify-start items-start gap-[30px] overflow-hidden">
+    <div className="self-stretch justify-start text-black text-4xl font-black font-['Poppins'] leading-10">Chandail à capuchon ''Club Optimiste' - Noir</div>
+    <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">95,00 $</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">This hoodie is more than just clothing; it's a magical garment designed to bring positivity and protection to its wearer. Crafted with care in Montreal, it combines 50% Cotton and 50% Polyester in a classic black color. <br/><br/>For size assistance, check our size chart </span><span class="text-[#705af8] text-lg font-black font-['Poppins'] underline leading-7">HERE</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">.</span></div>
+    <div className="size- inline-flex justify-start items-start gap-[30px]">
+      <div data-bottom-description="Off" data-button="false" data-top-description="Off" className="w-[143px] inline-flex flex-col justify-start items-start gap-2">
+        <div className="self-stretch inline-flex justify-start items-start gap-2">
+          <div className="flex-1 justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Size</div>
+        </div>
+        <div data-size="md" data-state="Empty" data-type="Default" className="self-stretch px-4 py-2.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-center gap-2 overflow-hidden">
+          <div className="flex-1 flex justify-start items-center gap-2">
+            <div className="flex-1 h-5 justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">Select Size</div>
+          </div>
+          <div data-style="Outline" className="size-5 relative overflow-hidden">
+            <div className="w-2.5 h-[5px] left-[15px] top-[12.50px] absolute origin-top-left rotate-180 outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+          </div>
+        </div>
+      </div>
+      <div data-bottom-description="Off" data-button="false" data-top-description="Off" className="size- inline-flex flex-col justify-start items-start gap-2">
+        <div className="self-stretch inline-flex justify-start items-start gap-2">
+          <div className="justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Quantity</div>
+        </div>
+        <div data-help-icon="false" data-size="md" data-state="Empty" data-type="Default" className="size- px-4 py-2.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-center gap-2 overflow-hidden">
+          <div className="size- flex justify-start items-center gap-2">
+            <div className="justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+      <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">ADD TO BAG</div>
+    </div>
+  </div>
+</div>
+
+---
+
+Desktop View:
+
+<div className="self-stretch inline-flex justify-start items-start gap-[60px]">
+  <div className="size-[796px] flex justify-start items-start overflow-hidden">
+    <div className="flex-1 self-stretch p-[15px] rounded-[30px] inline-flex flex-col justify-start items-start">
+      <div data-color="Red" data-dot="Off" data-icon="Off" data-outline="Off" data-size="md" className="size- px-2 py-1.5 bg-[#fee6e5] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+        <div className="justify-start text-[#d5394a] text-sm font-normal font-['Poppins'] leading-tight">SALE</div>
+      </div>
+    </div>
+  </div>
+  <div className="flex-1 inline-flex flex-col justify-start items-start gap-[30px] overflow-hidden">
+    <div className="self-stretch justify-start text-black text-5xl font-black font-['Poppins'] leading-[48px]">Chandail à capuchon ''Club Optimiste' - Noir</div>
+    <div className="self-stretch justify-start text-black text-3xl font-black font-['Poppins'] leading-9">95,00 $</div>
+    <div className="self-stretch justify-start"><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">This hoodie is more than just clothing; it's a magical garment designed to bring positivity and protection to its wearer. Crafted with care in Montreal, it combines 50% Cotton and 50% Polyester in a classic black color. <br/><br/>For size assistance, check our size chart </span><span class="text-[#705af8] text-lg font-black font-['Poppins'] underline leading-7">HERE</span><span class="text-[#121212] text-lg font-normal font-['Poppins'] leading-7">.</span></div>
+    <div className="size- inline-flex justify-start items-start gap-[30px]">
+      <div data-bottom-description="Off" data-button="false" data-top-description="Off" className="w-[143px] inline-flex flex-col justify-start items-start gap-2">
+        <div className="self-stretch inline-flex justify-start items-start gap-2">
+          <div className="flex-1 justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Size</div>
+        </div>
+        <div data-size="md" data-state="Empty" data-type="Default" className="self-stretch px-4 py-2.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-center gap-2 overflow-hidden">
+          <div className="flex-1 flex justify-start items-center gap-2">
+            <div className="flex-1 h-5 justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">Select Size</div>
+          </div>
+          <div data-style="Outline" className="size-5 relative overflow-hidden">
+            <div className="w-2.5 h-[5px] left-[15px] top-[12.50px] absolute origin-top-left rotate-180 outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+          </div>
+        </div>
+      </div>
+      <div data-bottom-description="Off" data-button="false" data-top-description="Off" className="size- inline-flex flex-col justify-start items-start gap-2">
+        <div className="self-stretch inline-flex justify-start items-start gap-2">
+          <div className="justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Quantity</div>
+        </div>
+        <div data-help-icon="false" data-size="md" data-state="Empty" data-type="Default" className="size- px-4 py-2.5 bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-center gap-2 overflow-hidden">
+          <div className="size- flex justify-start items-center gap-2">
+            <div className="justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+      <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">ADD TO BAG</div>
+    </div>
+  </div>
+</div>

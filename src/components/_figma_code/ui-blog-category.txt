@@ -1,0 +1,895 @@
+Mobile View:
+
+<div className="w-[375px] bg-white inline-flex flex-col justify-start items-start overflow-hidden">
+  <div className="self-stretch flex flex-col justify-start items-center">
+    <div data-prop="Tablet" className="self-stretch bg-white border-b border-[#ececec] flex flex-col justify-start items-start">
+      <div className="self-stretch p-[5px] bg-[#121212] flex flex-col justify-center items-center gap-2.5">
+        <div className="justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Get 15% off orders over $50! Use code SEASONAL15.</div>
+      </div>
+      <div className="self-stretch px-[15px] flex flex-col justify-start items-center gap-2.5">
+        <div className="self-stretch inline-flex justify-between items-center">
+          <div className="size- flex justify-start items-center gap-20">
+            <div className="w-[120px] h-[25.76px] relative">
+              <div className="w-[120px] h-[25.76px] left-0 top-0 absolute overflow-hidden">
+                <div className="w-[13.10px] h-[17.30px] left-0 top-0 absolute bg-linear-270 from-[#18dcff] via-[#19d9fe] via 20% to-[#6c5ce7] to 82%" />
+                <div className="w-[10.37px] h-[16.63px] left-[1.39px] top-[9.13px] absolute bg-black" />
+                <div className="size-[3.02px] left-[5.06px] top-[20.36px] absolute bg-black" />
+                <div className="w-[8.69px] h-[10.75px] left-[16.68px] top-[9.83px] absolute bg-black" />
+                <div className="w-[9.53px] h-[10.42px] left-[26.51px] top-[10.03px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[36.61px] top-[10.02px] absolute bg-black" />
+                <div className="w-[11.71px] h-[10.42px] left-[48.83px] top-[10.03px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[61.16px] top-[10.02px] absolute bg-black" />
+                <div className="w-[9.53px] h-[10.42px] left-[73.40px] top-[10.03px] absolute bg-black" />
+                <div className="w-[2.40px] h-[10.42px] left-[84.85px] top-[10.03px] absolute bg-black" />
+                <div className="w-[9.94px] h-[10.75px] left-[88.50px] top-[9.86px] absolute bg-black" />
+                <div className="w-[9.94px] h-[10.75px] left-[98.54px] top-[9.86px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[108.34px] top-[10.02px] absolute bg-black" />
+              </div>
+            </div>
+          </div>
+          <div className="size- flex justify-start items-center gap-2">
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="w-[14.79px] h-[16.25px] left-[2.60px] top-[1.88px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="w-[12.50px] h-[16.25px] left-[3.75px] top-[1.88px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-style="Outline" className="size-10 relative overflow-hidden">
+              <div className="w-[27.50px] h-[17.50px] left-[6.25px] top-[11.25px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#121212]" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch px-[15px] pt-[15px] pb-[30px] flex flex-col justify-start items-center gap-[30px]">
+    <div data-prop="sm-2-lines" className="self-stretch px-[9px] py-[15px] bg-[#ececec] rounded-[15px] flex flex-col justify-center items-center">
+      <div className="self-stretch text-center justify-start text-black text-base font-bold font-['Poppins'] leading-normal">MAGICAL PRACTICES</div>
+      <div className="self-stretch text-center justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.</div>
+    </div>
+    <div data-prop="1x6-xxsm" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[9px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Mobile" className="self-stretch rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] flex flex-col justify-start items-center overflow-hidden">
+      <img className="self-stretch h-[180px] p-[30px]" src="https://placehold.co/345x180" />
+      <div className="self-stretch p-[15px] flex flex-col justify-start items-start gap-[15px]">
+        <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+          <div className="self-stretch justify-start text-[#121212] text-2xl font-black font-['Poppins'] leading-loose">Intentioned Apparel</div>
+          <div className="self-stretch justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Wear your protection. Embody your abundance.</div>
+        </div>
+        <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP NOW!</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="1x6-xxsm" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[9px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="Mobile" className="self-stretch rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] flex flex-col justify-start items-center overflow-hidden">
+      <img className="self-stretch h-[180px] p-[30px]" src="https://placehold.co/345x180" />
+      <div className="self-stretch p-[15px] flex flex-col justify-start items-start gap-[15px]">
+        <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+          <div className="self-stretch justify-start text-[#121212] text-2xl font-black font-['Poppins'] leading-loose">Intentioned Apparel</div>
+          <div className="self-stretch justify-start text-[#121212] text-sm font-normal font-['Poppins'] leading-tight">Wear your protection. Embody your abundance.</div>
+        </div>
+        <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP NOW!</div>
+        </div>
+      </div>
+    </div>
+    <div data-prop="1x6-xxsm" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[9px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-xxsm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div data-prop="xxs" className="flex-1 flex justify-start items-start gap-[15px]">
+          <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+            <img className="self-stretch h-[230px] rounded-[15px]" src="https://placehold.co/345x230" />
+            <div className="self-stretch flex flex-col justify-start items-start gap-1.5">
+              <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="self-stretch pt-[30px] pb-[15px] flex flex-col justify-start items-center">
+      <div data-nav-icon="Off" data-nav-label="Off" data-type="Button group" className="size- bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-start overflow-hidden">
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">1</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">2</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">3</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">...</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">7</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">8</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">9</div>
+        </div>
+        <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+      </div>
+    </div>
+  </div>
+  <div data-prop="Mobile" className="w-[363px] h-[793px] px-[15px] py-[30px] bg-white border-t border-[#dbdbdb] flex flex-col justify-center items-center gap-[30px] overflow-hidden">
+    <div className="size- flex flex-col justify-center items-center gap-[30px]">
+      <div className="size- flex flex-col justify-start items-start gap-[30px]">
+        <div className="w-[333px] h-[140px] flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">GET THE GOOD STUFF</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">We’re not into spam. Just: product drops, exclusive deals, and all the juicy updates.<br/><br/>Hit subscribe and save — your inbox will thank you. 😉</div>
+          <div className="self-stretch inline-flex justify-start items-start">
+            <div data-help-icon="false" data-size="md" data-state="Empty" data-type="Default" className="flex-1 px-4 py-2.5 bg-white rounded-tl-lg rounded-bl-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] flex justify-start items-center gap-2 overflow-hidden">
+              <div className="flex-1 flex justify-start items-center gap-2">
+                <div className="flex-1 h-5 justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">Your Email</div>
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" data-type="Primary" className="size- px-4 py-2.5 bg-[#705af8] rounded-tr-lg rounded-br-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">Send</div>
+            </div>
+          </div>
+        </div>
+        <div className="w-[333px] flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">ABOUT</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">All of our apparel is responsibly sourced and ethically manufactured. Each item is printed just for you, and ships within 7 days. We make t-shirts, they make statements.</div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-center gap-[30px]">
+        <div className="w-[333px] h-[154px] flex flex-col justify-start items-start gap-2.5">
+          <div className="self-stretch justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">EXPLORE</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">About Us<br/>Giving Back<br/>Returns & Exchanges<br/>Size Chart<br/>Visual Size Guide<br/>Prana Points<br/>FAQs<br/>Contact Us</div>
+        </div>
+        <div className="w-[333px] flex flex-col justify-start items-start gap-2.5">
+          <div className="self-stretch justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">CUSTOMER SERVICE</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">Search<br/>Returns & Exchanges<br/>Help Center / FAQ<br/>Contact Us<br/>Privacy Policy<br/>Terms & Conditions</div>
+        </div>
+      </div>
+      <div className="size- flex flex-col justify-start items-center gap-[15px]">
+        <div className="text-center justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">Catch updates following us on:</div>
+        <div className="self-stretch inline-flex justify-between items-start">
+          <div data-prop="Light" className="size-[30px] p-[5px] flex justify-start items-center overflow-hidden">
+            <div className="size-5 bg-black" />
+            <div className="w-[10.30px] h-[10.29px] bg-black" />
+            <div className="size-[2.60px] bg-black" />
+          </div>
+          <div className="size-[30px] p-[5px] flex justify-start items-center overflow-hidden">
+            <div className="flex-1 h-[13.33px] bg-black" />
+          </div>
+          <div data-prop="Light" className="size-[30px] p-[5px] bg-white rounded-[3px] flex justify-center items-center overflow-hidden">
+            <div className="flex-1 self-stretch bg-[#121212]" />
+          </div>
+        </div>
+      </div>
+      <div className="text-center justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">©2025 Shamanicca</div>
+    </div>
+  </div>
+</div>
+
+---
+
+Tablet View:
+
+<div className="w-[744px] bg-white inline-flex flex-col justify-start items-center overflow-hidden">
+  <div className="self-stretch flex flex-col justify-start items-center">
+    <div data-prop="Tablet" className="self-stretch bg-white border-b border-[#ececec] flex flex-col justify-start items-start">
+      <div className="self-stretch p-[5px] bg-[#121212] flex flex-col justify-center items-center gap-2.5">
+        <div className="justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Get 15% off orders over $50! Use code SEASONAL15.</div>
+      </div>
+      <div className="self-stretch px-[15px] flex flex-col justify-start items-center gap-2.5">
+        <div className="self-stretch inline-flex justify-between items-center">
+          <div className="size- flex justify-start items-center gap-20">
+            <div className="w-[120px] h-[25.76px] relative">
+              <div className="w-[120px] h-[25.76px] left-0 top-0 absolute overflow-hidden">
+                <div className="w-[13.10px] h-[17.30px] left-0 top-0 absolute bg-linear-270 from-[#18dcff] via-[#19d9fe] via 20% to-[#6c5ce7] to 82%" />
+                <div className="w-[10.37px] h-[16.63px] left-[1.39px] top-[9.13px] absolute bg-black" />
+                <div className="size-[3.02px] left-[5.06px] top-[20.36px] absolute bg-black" />
+                <div className="w-[8.69px] h-[10.75px] left-[16.68px] top-[9.83px] absolute bg-black" />
+                <div className="w-[9.53px] h-[10.42px] left-[26.51px] top-[10.03px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[36.61px] top-[10.02px] absolute bg-black" />
+                <div className="w-[11.71px] h-[10.42px] left-[48.83px] top-[10.03px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[61.16px] top-[10.02px] absolute bg-black" />
+                <div className="w-[9.53px] h-[10.42px] left-[73.40px] top-[10.03px] absolute bg-black" />
+                <div className="w-[2.40px] h-[10.42px] left-[84.85px] top-[10.03px] absolute bg-black" />
+                <div className="w-[9.94px] h-[10.75px] left-[88.50px] top-[9.86px] absolute bg-black" />
+                <div className="w-[9.94px] h-[10.75px] left-[98.54px] top-[9.86px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[108.34px] top-[10.02px] absolute bg-black" />
+              </div>
+            </div>
+          </div>
+          <div className="size- flex justify-start items-center gap-2">
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="w-[14.79px] h-[16.25px] left-[2.60px] top-[1.88px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="w-[12.50px] h-[16.25px] left-[3.75px] top-[1.88px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-style="Outline" className="size-10 relative overflow-hidden">
+              <div className="w-[27.50px] h-[17.50px] left-[6.25px] top-[11.25px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#121212]" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div className="self-stretch h-[2488px] px-[30px] pt-[15px] pb-[30px] flex flex-col justify-start items-center gap-[30px]">
+      <div data-prop="md-2-lines" className="self-stretch px-[15px] py-6 bg-[#ececec] rounded-[15px] flex flex-col justify-center items-center">
+        <div className="justify-start text-black text-xl font-bold font-['Poppins'] leading-7">MAGICAL PRACTICES</div>
+        <div className="self-stretch text-center justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.</div>
+      </div>
+      <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Tablet" className="self-stretch pr-[15px] bg-white rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[15px] overflow-hidden">
+        <img className="w-[270px] h-[180px] p-[30px]" src="https://placehold.co/270x180" />
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+          <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+            <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Intentioned Apparel</div>
+            <div className="self-stretch justify-start text-black text-base font-normal font-['Poppins'] leading-normal">Wear your protection. Embody your abundance.</div>
+          </div>
+          <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP NOW!</div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">The Spirit of Nature's Teachings Awaits Your Embrace</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Engage with practices that unite us with the earth and cosmos. Explore their significance and ways to bring them into life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Tablet" className="self-stretch pr-[15px] bg-white rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[15px] overflow-hidden">
+        <img className="w-[270px] h-[180px] p-[30px]" src="https://placehold.co/270x180" />
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+          <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+            <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Intentioned Apparel</div>
+            <div className="self-stretch justify-start text-black text-base font-normal font-['Poppins'] leading-normal">Wear your protection. Embody your abundance.</div>
+          </div>
+          <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP NOW!</div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">The Spirit of Nature's Teachings Awaits Your Embrace</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Engage with practices that unite us with the earth and cosmos. Explore their significance and ways to bring them into life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch pt-[30px] pb-[15px] flex flex-col justify-start items-center">
+        <div data-nav-icon="Off" data-nav-label="Off" data-type="Button group" className="size- bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-start overflow-hidden">
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">1</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">2</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">3</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">...</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">7</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">8</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">9</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-prop="Tablet" className="w-[744px] px-[30px] py-[60px] bg-white border-t border-[#dbdbdb] inline-flex justify-center items-center gap-[60px] overflow-hidden">
+    <div className="flex-1 inline-flex flex-col justify-center items-center gap-[30px]">
+      <div className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">GET THE GOOD STUFF</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">We’re not into spam. Just: product drops, exclusive deals, and all the juicy updates.<br/><br/>Hit subscribe and save — your inbox will thank you. 😉</div>
+          <div className="self-stretch inline-flex justify-start items-start">
+            <div data-help-icon="false" data-size="md" data-state="Empty" data-type="Default" className="flex-1 px-4 py-2.5 bg-white rounded-tl-lg rounded-bl-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] flex justify-start items-center gap-2 overflow-hidden">
+              <div className="flex-1 flex justify-start items-center gap-2">
+                <div className="flex-1 h-5 justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">Your Email</div>
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" data-type="Primary" className="size- px-4 py-2.5 bg-[#705af8] rounded-tr-lg rounded-br-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">Send</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">ABOUT</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">All of our apparel is responsibly sourced and ethically manufactured. Each item is printed just for you, and ships within 7 days. We make t-shirts, they make statements.</div>
+        </div>
+      </div>
+      <div className="self-stretch inline-flex justify-start items-start gap-[30px]">
+        <div className="flex-1 self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="self-stretch justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">EXPLORE</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">About Us<br/>Giving Back<br/>Returns & Exchanges<br/>Size Chart<br/>Visual Size Guide<br/>Prana Points<br/>FAQs<br/>Contact Us</div>
+        </div>
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="self-stretch justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">CUSTOMER SERVICE</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">Search<br/>Returns & Exchanges<br/>Help Center / FAQ<br/>Contact Us<br/>Privacy Policy<br/>Terms & Conditions</div>
+        </div>
+      </div>
+      <div className="size- flex flex-col justify-start items-center gap-[15px]">
+        <div className="text-center justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">Catch updates following us on:</div>
+        <div className="self-stretch inline-flex justify-between items-start">
+          <div data-prop="Light" className="size-[30px] p-[5px] flex justify-start items-center overflow-hidden">
+            <div className="size-5 bg-black" />
+            <div className="w-[10.30px] h-[10.29px] bg-black" />
+            <div className="size-[2.60px] bg-black" />
+          </div>
+          <div className="size-[30px] p-[5px] flex justify-start items-center overflow-hidden">
+            <div className="flex-1 h-[13.33px] bg-black" />
+          </div>
+          <div data-prop="Light" className="size-[30px] p-[5px] bg-white rounded-[3px] flex justify-center items-center overflow-hidden">
+            <div className="flex-1 self-stretch bg-[#121212]" />
+          </div>
+        </div>
+      </div>
+      <div className="text-center justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">©2025 Shamanicca</div>
+    </div>
+  </div>
+</div>
+
+---
+
+Desktop View:
+
+<div className="w-[1440px] bg-white inline-flex flex-col justify-start items-center gap-[30px]">
+  <div className="self-stretch flex flex-col justify-start items-center">
+    <div data-prop="Desktop" className="self-stretch bg-white border-b border-[#ececec] inline-flex justify-start items-start">
+      <div className="flex-1 inline-flex flex-col justify-start items-start">
+        <div className="self-stretch p-[5px] bg-[#121212] flex flex-col justify-center items-center gap-2.5">
+          <div className="justify-start text-white text-xs font-normal font-['Poppins'] leading-none">Get 15% off orders over $50! Use code SEASONAL15.</div>
+        </div>
+        <div className="self-stretch px-[30px] py-1.5 inline-flex justify-between items-center">
+          <div className="size- flex justify-start items-center gap-20">
+            <div className="w-[120px] h-[25.76px] relative">
+              <div className="w-[120px] h-[25.76px] left-0 top-0 absolute overflow-hidden">
+                <div className="w-[13.10px] h-[17.30px] left-0 top-0 absolute bg-linear-270 from-[#18dcff] via-[#19d9fe] via 20% to-[#6c5ce7] to 82%" />
+                <div className="w-[10.37px] h-[16.63px] left-[1.39px] top-[9.13px] absolute bg-black" />
+                <div className="size-[3.02px] left-[5.06px] top-[20.36px] absolute bg-black" />
+                <div className="w-[8.69px] h-[10.75px] left-[16.68px] top-[9.83px] absolute bg-black" />
+                <div className="w-[9.53px] h-[10.42px] left-[26.51px] top-[10.03px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[36.61px] top-[10.02px] absolute bg-black" />
+                <div className="w-[11.71px] h-[10.42px] left-[48.83px] top-[10.03px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[61.16px] top-[10.02px] absolute bg-black" />
+                <div className="w-[9.53px] h-[10.42px] left-[73.40px] top-[10.03px] absolute bg-black" />
+                <div className="w-[2.40px] h-[10.42px] left-[84.85px] top-[10.03px] absolute bg-black" />
+                <div className="w-[9.94px] h-[10.75px] left-[88.50px] top-[9.86px] absolute bg-black" />
+                <div className="w-[9.94px] h-[10.75px] left-[98.54px] top-[9.86px] absolute bg-black" />
+                <div className="w-[11.66px] h-[10.42px] left-[108.34px] top-[10.02px] absolute bg-black" />
+              </div>
+            </div>
+          </div>
+          <div className="size- flex justify-start items-start gap-3">
+            <div data-counter="Off" data-icon="false" data-state="Default" data-type="Item" className="h-10 px-4 py-2.5 flex justify-start items-center gap-2 overflow-hidden">
+              <div className="justify-start text-[#5e5e5e] text-sm font-bold font-['Poppins'] leading-tight">Women</div>
+            </div>
+            <div data-counter="Off" data-icon="false" data-state="Default" data-type="Item" className="h-10 px-4 py-2.5 flex justify-start items-center gap-2 overflow-hidden">
+              <div className="justify-start text-[#5e5e5e] text-sm font-bold font-['Poppins'] leading-tight">Men</div>
+            </div>
+            <div data-counter="Off" data-icon="false" data-state="Default" data-type="Item" className="h-10 px-4 py-2.5 flex justify-start items-center gap-2 overflow-hidden">
+              <div className="justify-start text-[#5e5e5e] text-sm font-bold font-['Poppins'] leading-tight">Accessories</div>
+            </div>
+            <div data-counter="Off" data-icon="false" data-state="Default" data-type="Item" className="h-10 px-4 py-2.5 flex justify-start items-center gap-2 overflow-hidden">
+              <div className="justify-start text-[#5e5e5e] text-sm font-bold font-['Poppins'] leading-tight">Guide</div>
+            </div>
+            <div data-counter="Off" data-icon="false" data-state="Default" data-type="Item" className="h-10 px-4 py-2.5 flex justify-start items-center gap-2 overflow-hidden">
+              <div className="justify-start text-[#5e5e5e] text-sm font-bold font-['Poppins'] leading-tight">About</div>
+            </div>
+            <div data-counter="Off" data-icon="false" data-state="Hover" data-type="Item" className="h-10 px-4 py-2.5 bg-[#ececec] rounded-lg flex justify-start items-center gap-2 overflow-hidden">
+              <div className="justify-start text-[#5e5e5e] text-sm font-black font-['Poppins'] leading-tight">BLOG</div>
+            </div>
+          </div>
+          <div className="size- flex justify-start items-center gap-2">
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="size-[15px] left-[2.50px] top-[2.50px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="w-[14.79px] h-[16.25px] left-[2.60px] top-[1.88px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="true" data-icon-right="true" data-size="md" data-state="Default" data-text="Off" data-type="Clear" className="size- p-2.5 rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div data-style="Outline" className="size-5 relative overflow-hidden">
+                <div className="w-[12.50px] h-[16.25px] left-[3.75px] top-[1.88px] absolute outline outline-[1.25px] outline-offset-[-0.62px] outline-[#5e5e5e]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="self-stretch px-[30px] inline-flex justify-center items-start gap-[60px]">
+    <div className="w-[915px] inline-flex flex-col justify-start items-center gap-[30px]">
+      <div data-prop="md-2-lines" className="self-stretch px-[15px] py-6 bg-[#ececec] rounded-[15px] flex flex-col justify-center items-center">
+        <div className="justify-start text-black text-xl font-bold font-['Poppins'] leading-7">MAGICAL PRACTICES</div>
+        <div className="self-stretch text-center justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.</div>
+      </div>
+      <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Desktop-lg" className="self-stretch h-[180px] pr-[30px] rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[30px] overflow-hidden">
+        <img className="w-[270px] h-[180px] p-[30px]" src="https://placehold.co/270x180" />
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+          <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Intentioned Apparel</div>
+          <div className="self-stretch justify-start text-black text-xl font-normal font-['Poppins'] leading-7">Wear your protection. Embody your abundance.</div>
+        </div>
+        <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-white text-base font-bold font-['Poppins'] leading-normal">SHOP NOW!</div>
+        </div>
+      </div>
+      <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">The Spirit of Nature's Teachings Awaits Your Embrace</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Engage with practices that unite us with the earth and cosmos. Explore their significance and ways to bring them into life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Desktop-lg" className="self-stretch h-[180px] pr-[30px] rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[30px] overflow-hidden">
+        <img className="w-[270px] h-[180px] p-[30px]" src="https://placehold.co/270x180" />
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+          <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Intentioned Apparel</div>
+          <div className="self-stretch justify-start text-black text-xl font-normal font-['Poppins'] leading-7">Wear your protection. Embody your abundance.</div>
+        </div>
+        <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="size- px-5 py-3.5 bg-[#705af8] rounded-lg flex justify-center items-center gap-2 overflow-hidden">
+          <div className="justify-start text-white text-base font-bold font-['Poppins'] leading-normal">SHOP NOW!</div>
+        </div>
+      </div>
+      <div data-prop="1x6-md" className="self-stretch flex flex-col justify-start items-start gap-[30px]">
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">Nature's Mystical Journey Awaits Your Exploration</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Delve into practices that link us to the earth and cosmos. Learn their roots and how to embrace them in daily life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">A Portal to the Mysteries of Nature Awaits You</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Experience traditions that connect us to the earth and cosmos. Discover their origins and how to incorporate them daily.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-prop="Row-x1-md" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+          <div data-prop="md" className="flex-1 flex justify-start items-start gap-[15px]">
+            <div className="flex-1 flex justify-start items-center gap-[30px]">
+              <img className="w-[270px] h-[180px] rounded-[15px]" src="https://placehold.co/270x180" />
+              <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                <div className="self-stretch justify-start text-black text-2xl font-black font-['Poppins'] leading-loose">The Spirit of Nature's Teachings Awaits Your Embrace</div>
+                <div className="self-stretch justify-start text-black text-lg font-normal font-['Poppins'] leading-7">Engage with practices that unite us with the earth and cosmos. Explore their significance and ways to bring them into life.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch pt-[30px] pb-[15px] flex flex-col justify-start items-center">
+        <div data-nav-icon="Off" data-nav-label="Off" data-type="Button group" className="size- bg-white rounded-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] inline-flex justify-start items-start overflow-hidden">
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">1</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">2</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">3</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">...</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">7</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">8</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+          <div data-checkbox="Off" data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" className="w-10 px-4 py-2.5 flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-[#121212] text-sm font-bold font-['Poppins'] leading-tight">9</div>
+          </div>
+          <div data-style="Heavy" data-type="Vertical" className="w-px self-stretch p-2.5 bg-[#dbdbdb]" />
+        </div>
+      </div>
+    </div>
+    <div className="w-[435px] inline-flex flex-col justify-center items-start gap-[30px]">
+      <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+        <div className="self-stretch justify-start text-black text-3xl font-black font-['Poppins'] leading-9">TOP READS</div>
+        <div data-prop="1x6-sm" className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+          <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+            <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+              <div className="flex-1 flex justify-start items-start gap-[15px]">
+                <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                  <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+                  <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+            <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+              <div className="flex-1 flex justify-start items-start gap-[15px]">
+                <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                  <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+                  <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+            <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+              <div className="flex-1 flex justify-start items-start gap-[15px]">
+                <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                  <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+                  <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Desktop-sm" className="self-stretch pr-[15px] bg-white rounded-[15px] outline outline-1 outline-offset-[-1px] outline-[#7c7c7c] inline-flex justify-start items-center gap-[15px] overflow-hidden">
+        <img className="size-[180px] p-[30px]" src="https://placehold.co/180x180" />
+        <div className="flex-1 inline-flex flex-col justify-start items-start gap-[15px]">
+          <div className="self-stretch flex flex-col justify-start items-start gap-[3px]">
+            <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Intentioned Apparel</div>
+            <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Wear your protection. Embody your abundance.</div>
+          </div>
+          <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" className="self-stretch px-5 py-3.5 bg-[#705af8] rounded-lg inline-flex justify-center items-center gap-2 overflow-hidden">
+            <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">SHOP NOW!</div>
+          </div>
+        </div>
+      </div>
+      <div className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+        <div className="self-stretch justify-start text-black text-3xl font-black font-['Poppins'] leading-9">MAGICAL PRACTICES</div>
+        <div data-prop="1x6-sm" className="self-stretch flex flex-col justify-start items-start gap-[15px]">
+          <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+            <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+              <div className="flex-1 flex justify-start items-start gap-[15px]">
+                <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                  <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+                  <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+            <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+              <div className="flex-1 flex justify-start items-start gap-[15px]">
+                <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                  <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+                  <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div data-prop="Row-x1-sm" className="self-stretch inline-flex justify-start items-start gap-[30px]">
+            <div data-prop="sm" className="flex-1 flex justify-start items-start gap-[15px]">
+              <div className="flex-1 flex justify-start items-start gap-[15px]">
+                <img className="size-[180px] rounded-[15px]" src="https://placehold.co/180x180" />
+                <div className="flex-1 inline-flex flex-col justify-start items-start gap-1.5">
+                  <div className="self-stretch justify-start text-black text-lg font-black font-['Poppins'] leading-7">Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+                  <div className="self-stretch justify-start text-black text-sm font-normal font-['Poppins'] leading-tight">Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-prop="Desktop" className="self-stretch h-[392px] px-[30px] py-[60px] bg-white border-t border-[#dbdbdb] inline-flex justify-center items-center gap-[60px] overflow-hidden">
+    <div className="flex-1 inline-flex flex-col justify-center items-center gap-[30px]">
+      <div className="self-stretch inline-flex justify-between items-start">
+        <div className="w-[333px] self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">GET THE GOOD STUFF</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">We’re not into spam. Just: product drops, exclusive deals, and all the juicy updates.<br/><br/>Hit subscribe and save — your inbox will thank you. 😉</div>
+          <div className="self-stretch inline-flex justify-start items-start">
+            <div data-help-icon="false" data-size="md" data-state="Empty" data-type="Default" className="flex-1 px-4 py-2.5 bg-white rounded-tl-lg rounded-bl-lg shadow-[0px_3px_6px_-3px_rgba(0,0,0,0.05)] shadow-[0px_2px_4px_-2px_rgba(0,0,0,0.05)] shadow-[0px_1px_2px_-1px_rgba(0,0,0,0.05)] shadow-[0px_1px_0px_-1px_rgba(0,0,0,0.05)] outline outline-1 outline-offset-[-1px] outline-[#dbdbdb] flex justify-start items-center gap-2 overflow-hidden">
+              <div className="flex-1 flex justify-start items-center gap-2">
+                <div className="flex-1 h-5 justify-start text-[#a4a4a4] text-sm font-normal font-['Poppins'] leading-tight">Your Email</div>
+              </div>
+            </div>
+            <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="md" data-state="Default" data-text="On" data-type="Primary" className="size- px-4 py-2.5 bg-[#705af8] rounded-tr-lg rounded-br-lg flex justify-center items-center gap-2 overflow-hidden">
+              <div className="justify-start text-white text-sm font-bold font-['Poppins'] leading-tight">Send</div>
+            </div>
+          </div>
+        </div>
+        <div className="w-[215px] self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">ABOUT</div>
+          <div className="self-stretch justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">All of our apparel is responsibly sourced and ethically manufactured. Each item is printed just for you, and ships within 7 days. We make t-shirts, they make statements.</div>
+        </div>
+        <div className="w-[215px] self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">EXPLORE</div>
+          <div className="justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">About Us<br/>Giving Back<br/>Returns & Exchanges<br/>Size Chart<br/>Visual Size Guide<br/>Prana Points<br/>FAQs<br/>Contact Us</div>
+        </div>
+        <div className="w-[215px] self-stretch inline-flex flex-col justify-start items-start gap-2.5">
+          <div className="text-center justify-center text-[#121212] text-xs font-black font-['Poppins'] leading-none">CUSTOMER SERVICE</div>
+          <div className="justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">Search<br/>Returns & Exchanges<br/>Help Center / FAQ<br/>Contact Us<br/>Privacy Policy<br/>Terms & Conditions</div>
+        </div>
+      </div>
+      <div className="size- flex flex-col justify-start items-center gap-[15px]">
+        <div className="text-center justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">Catch updates following us on:</div>
+        <div className="self-stretch inline-flex justify-between items-start">
+          <div data-prop="Light" className="size-[30px] p-[5px] flex justify-start items-center overflow-hidden">
+            <div className="size-5 bg-black" />
+            <div className="w-[10.30px] h-[10.29px] bg-black" />
+            <div className="size-[2.60px] bg-black" />
+          </div>
+          <div className="size-[30px] p-[5px] flex justify-start items-center overflow-hidden">
+            <div className="flex-1 h-[13.33px] bg-black" />
+          </div>
+          <div data-prop="Light" className="size-[30px] p-[5px] bg-white rounded-[3px] flex justify-center items-center overflow-hidden">
+            <div className="flex-1 self-stretch bg-[#121212]" />
+          </div>
+        </div>
+      </div>
+      <div className="text-center justify-center text-[#121212] text-xs font-normal font-['Poppins'] leading-none">©2025 Shamanicca</div>
+    </div>
+  </div>
+</div>

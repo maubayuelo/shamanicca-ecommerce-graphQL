@@ -1,0 +1,142 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.paginator {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__list {
+    display: inline-flex;
+    align-items: stretch;
+    background: $white;
+    // Tailwind-like: outline 1px #dbdbdb, rounded-lg, subtle multi-layer shadow
+    border: 1px solid $gray-40; // #dbdbdb
+    border-radius: $spacing-10; // roughly rounded-lg
+    box-shadow:
+      0 3px 6px -3px rgba(0, 0, 0, 0.05),
+      0 2px 4px -2px rgba(0, 0, 0, 0.05),
+      0 1px 2px -1px rgba(0, 0, 0, 0.05),
+      0 1px 0 -1px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    padding: 0; // reset ul
+    margin: 0;
+    list-style: none;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    // separators between items
+    & + & {
+      border-left: 1px solid $gray-20;
+    }
+
+    a,
+    button,
+    span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2.5rem; // w-10
+      padding: 0.625rem 1rem; // py-2.5 px-4
+      background: transparent;
+      border: 0;
+      text-decoration: none;
+      color: $text-color; // ~#121212
+      // Let typography utilities control font-size/weight/line-height
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      cursor: pointer;
+      transition: background-color 120ms ease, color 120ms ease, opacity 120ms ease;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+
+    // Active/current page
+    &.is-active a,
+    &.is-active button,
+    a[aria-current="page"],
+    button[aria-current="page"] {
+      background: $gray-10; // subtle highlight similar to muted state
+    }
+
+    // Hover states
+    a:hover,
+    button:hover {
+      background: $gray-10;
+    }
+
+    &.is-ellipsis span {
+      cursor: default;
+      padding: 0 $spacing-15;
+      opacity: 0.8;
+    }
+
+    &.is-disabled a {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    // Navigation (prev/next) button style with inner outlined square icon box
+    &.is-nav a,
+    &.is-nav button {
+      padding: $spacing-10; // p-2.5
+      min-width: auto;
+      gap: $spacing-10;
+    }
+
+    &.is-nav .paginator__icon-box {
+      width: 20px; // size-5
+      height: 20px;
+      position: relative;
+      overflow: hidden;
+      outline: 1.25px solid $gray-90; // ~#5e5e5e
+      outline-offset: -0.62px;
+      border-radius: 2px;
+      flex: 0 0 auto;
+    }
+  }
+}
+
+// Tighter, more compact touch targets on small screens to prevent overflow
+@media (max-width: $breakpoint-phone) {
+  .paginator {
+    &__list {
+      // keep rounded corners clipping, but ensure content fits
+      // If still too tight in extreme cases, allow horizontal scroll instead of clipping
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    &__item {
+      a,
+      button,
+      span {
+        min-width: 2rem; // 32px
+        padding: 0.5rem 0.5rem; // 8px 8px
+      }
+    }
+  }
+}
+
+// Screen-reader only utility (if not defined elsewhere)
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important; /* added line */
+  border: 0 !important;
+}

@@ -1,0 +1,87 @@
+/* Simple navigation styles for header (desktop + mobile)
+   Keep these light-weight — suitable for the existing site's globals.
+*/
+
+.header__top_bar {
+  background: #f7f7f7;
+  color: #222;
+  padding: 8px 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.header__main .main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+}
+
+.header__logo img { height: 44px; }
+
+.header__nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.header__nav_item_wrapper { position: relative; }
+
+.header__nav_item {
+  color: #111;
+  text-decoration: none;
+  padding: 8px 6px;
+  display: inline-block;
+}
+
+.header__nav_item:hover,
+.header__nav_item:focus {
+  color: #0070f3;
+}
+
+.header__dropdown {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 6px 18px rgba(25,25,25,0.06);
+  padding: 10px;
+  min-width: 180px;
+  display: none;
+  z-index: 40;
+}
+
+.header__nav_item_wrapper:hover .header__dropdown,
+.header__nav_item_wrapper:focus-within .header__dropdown {
+  display: block;
+}
+
+.header__dropdown ul { list-style: none; margin: 0; padding: 0; }
+.header__dropdown_item { padding: 6px 0; }
+.header__dropdown_item a { color: #111; text-decoration: none; }
+.header__dropdown_item a:hover { color: #0070f3; }
+
+.header__actions { display: flex; gap: 8px; align-items: center; }
+.header__action_btn { background: transparent; border: none; cursor: pointer; }
+
+.header__mobile_toggle { display: none; background: transparent; border: none; font-size: 20px; }
+
+/* Mobile */
+@media (max-width: 900px) {
+  .header__nav { display: none; }
+  .header__mobile_toggle { display: inline-block; }
+
+  .header__mobile_menu { display: none; background: #fff; border-top: 1px solid #eee; }
+  .header__mobile_menu.is-open { display: block; }
+
+  .header__mobile_nav { padding: 12px 16px; }
+  .mobile__details { margin-bottom: 6px; border-bottom: 1px solid #f2f2f2; }
+  .mobile__summary { list-style: none; cursor: pointer; padding: 10px 0; display: flex; align-items: center; }
+  .mobile__link { color: #111; text-decoration: none; }
+
+  .mobile__subnav { list-style: none; padding-left: 12px; margin: 8px 0 12px; }
+  .mobile__subnav_item { padding: 6px 0; }
+  .mobile__subnav_item a { color: #333; text-decoration: none; }
+}

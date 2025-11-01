@@ -1,0 +1,276 @@
+
+@use "sass:map" as map;
+@use "./variables" as *;
+
+$color-text-base: $text-color;
+
+// Typography scale and weights
+// Use the family name; next/font in _app.tsx ensures the face is loaded
+$font-family-base: "Poppins", sans-serif;
+
+body {
+    font-family: $font-family-base;
+}
+
+$font-weights: (
+    medium: 400,
+    bold: 600,
+    extrabold: 900,
+);
+
+// Font sizes for Desktop, Tablet, Phone
+$font-sizes-desktop: (
+    xs: 12px,
+    sm: 14px,
+    md: 16px,
+    lg: 18px,
+    xl: 20px,
+    "2xl": 24px,
+    "3xl": 30px,
+    "4xl": 36px,
+    "5xl": 48px,
+);
+
+$font-sizes-tablet: (
+    xs: 12px,
+    sm: 14px,
+    md: 16px,
+    lg: 18px,
+    xl: 20px,
+    "2xl": 22px,
+    "3xl": 26px,
+    "4xl": 32px,
+    "5xl": 40px,
+);
+
+$font-sizes-phone: (
+    xs: 12px,
+    sm: 14px,
+    md: 16px,
+    lg: 18px,
+    xl: 20px,
+    "2xl": 22px,
+    "3xl": 24px,
+    "4xl": 28px,
+    "5xl": 32px,
+);
+
+$line-heights-desktop: (
+    xs: 18px,
+    sm: 20px,
+    md: 24px,
+    lg: 28px,
+    xl: 30px,
+    "2xl": 34px,
+    "3xl": 40px,
+    "4xl": 46px,
+    "5xl": 56px,
+);
+
+$line-heights-tablet: (
+    xs: 18px,
+    sm: 20px,
+    md: 24px,
+    lg: 26px,
+    xl: 28px,
+    "2xl": 32px,
+    "3xl": 36px,
+    "4xl": 40px,
+    "5xl": 44px,
+);
+
+$line-heights-phone: (
+    xs: 18px,
+    sm: 20px,
+    md: 24px,
+    lg: 26px,
+    xl: 28px,
+    "2xl": 32px,
+    "3xl": 36px,
+    "4xl": 40px,
+    "5xl": 44px,
+);
+
+// Responsive line-height mixin
+@mixin responsive-line-height($size) {
+    line-height: map.get($line-heights-desktop, $size);
+
+    @media (max-width: $breakpoint-desktop) {
+    line-height: map.get($line-heights-tablet, $size);
+    }
+    @media (max-width: $breakpoint-phone) {
+    line-height: map.get($line-heights-phone, $size);
+    }
+}
+
+// Responsive font-size mixin
+@mixin responsive-font-size($font_size) {
+    font-size: map.get($font-sizes-desktop, $font_size);
+
+    @media (max-width: $breakpoint-desktop) {
+    font-size: map.get($font-sizes-tablet, $font_size);
+    }
+    @media (max-width: $breakpoint-phone) {
+    font-size: map.get($font-sizes-phone, $font_size);
+    }
+}
+
+// Typography utility classes
+@mixin font-style($font_size, $weight, $line_height) {
+    font-family: $font-family-base;
+    @include responsive-font-size($font_size);
+    @include responsive-line-height($line_height);
+    font-weight: map.get($font-weights, $weight);
+}
+
+// Heading-specific mixin with antialiasing
+@mixin heading-style($font_size, $weight, $line_height) {
+    font-family: $font-family-base;
+    @include responsive-font-size($font_size);
+    @include responsive-line-height($line_height);
+    font-weight: map.get($font-weights, $weight);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+// Size-only classes (do not set weight here)
+.type-xs {
+    font-family: $font-family-base;
+    @include responsive-font-size(xs);
+    @include responsive-line-height(xs);
+}
+.type-sm {
+    font-family: $font-family-base;
+    @include responsive-font-size(sm);
+    @include responsive-line-height(sm);
+}
+.type-md {
+    font-family: $font-family-base;
+    @include responsive-font-size(md);
+    @include responsive-line-height(md);
+}
+.type-lg {
+    font-family: $font-family-base;
+    @include responsive-font-size(lg);
+    @include responsive-line-height(lg);
+}
+.type-xl {
+    font-family: $font-family-base;
+    @include responsive-font-size(xl);
+    @include responsive-line-height(xl);
+}
+.type-2xl {
+    font-family: $font-family-base;
+    @include responsive-font-size("2xl");
+    @include responsive-line-height("2xl");
+}
+.type-3xl {
+    font-family: $font-family-base;
+    @include responsive-font-size("3xl");
+    @include responsive-line-height("3xl");
+}
+.type-4xl {
+    font-family: $font-family-base;
+    @include responsive-font-size("4xl");
+    @include responsive-line-height("4xl");
+}
+.type-5xl {
+    font-family: $font-family-base;
+    @include responsive-font-size("5xl");
+    @include responsive-line-height("5xl");
+}
+
+// Paragraph size (size-only)
+.type-paragraph {
+    font-family: $font-family-base;
+    @include responsive-font-size(lg);
+    @include responsive-line-height(lg);
+}
+
+// Weight-only classes (do not set size/line-height here)
+.type-medium {
+    font-weight: map.get($font-weights, medium);
+}
+.type-bold {
+    font-weight: map.get($font-weights, bold);
+}
+.type-extrabold {
+    font-weight: map.get($font-weights, extrabold);
+}
+
+// Optional: enable antialiasing separately (so smoothing isn't mixed with size/weight)
+.type-antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.type-white {
+    color: $white;
+}
+.type-primary-color {
+    color: $primary-color;
+}
+
+.type-gray-80 {
+    color: $gray-80;
+}
+
+.type-gray-90 {
+    color: $gray-90;
+}
+
+.type-center {
+    text-align: center;
+}
+
+.type-uppercase{
+    text-transform: uppercase;
+}
+
+
+@mixin cta-text {
+    @include heading-style(md, extrabold, md);
+    color: $primary-color;
+    cursor: pointer;
+
+    @include media-breakpoint-up(lg) {
+        @include heading-style(lg, extrabold, lg);
+    }
+}
+
+ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 24px;
+    li {
+        margin-bottom: $spacing-10;
+        @include font-style(lg, medium, lg);
+        color: $color-text-base;
+    }
+}
+
+// Global heading antialiasing for improved text rendering
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+
+.badge {
+    padding: 3px 6px;
+    background: $primary-color-light;
+    border-radius: 6px;
+    width: fit-content;
+    
+    span {
+      color: $primary-color-dark;
+    }
+  }

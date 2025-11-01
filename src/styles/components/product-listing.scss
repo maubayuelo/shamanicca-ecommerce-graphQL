@@ -1,0 +1,105 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.section-featured-products {
+  display: flex;
+  flex-direction: column;
+  //gap: $spacing-30; // spacing between title, grid, and footer
+
+  .section-title {
+    color: $text-color; // typography handled via type-* classes
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr; // mobile
+    gap: $spacing-15; // mobile gap
+
+    @include media-tablet-up {
+      grid-template-columns: repeat(2, 1fr); // tablet
+      gap: $spacing-15;
+    }
+
+    @include media-desktop-up {
+      grid-template-columns: repeat(3, 1fr); // desktop
+      gap: $spacing-30;
+    }
+  }
+
+  .product-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    //gap: $spacing-15;
+    background: transparent;
+    padding-bottom: $spacing-15;
+  }
+
+  .image-wrap {
+    position: relative;
+    display: block; // ensure anchor takes width/height
+    width: 100%;
+    height: 345px; // mobile
+    overflow: hidden;
+    @include responsive-border-radius;
+
+    @include media-tablet-up {
+      height: 334.5px; // tablet height from Figma
+    }
+
+    @include media-desktop-up {
+      height: 440px; // desktop height from Figma
+    }
+
+    img {
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-badge {
+      position: absolute;
+      z-index: 1; // ensure above image
+      top: $spacing-15;
+      left: $spacing-15;
+      padding: 6px 8px; // approx text-sm padding
+      background: #eb5962;
+      color: $white; // text sizing via type-* class in markup
+      border-radius: $spacing-10;
+    }
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    //gap: $spacing-15;
+
+    .product-name {
+      color: $text-color; // sizing/weight via type-* classes in markup
+    }
+
+    .prices {
+      display: inline-flex;
+      gap: $spacing-15;
+      align-items: flex-start;
+
+      .price { color: $text-color; }
+      .price-compare { color: $text-color; text-decoration: line-through; opacity: 0.8; }
+    }
+  }
+
+  &__section-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    //padding-bottom: $spacing-30;
+    @include media-desktop-up {
+      //padding-bottom: $spacing-60; // desktop spacing
+    }
+  }
+}
