@@ -5,12 +5,12 @@ const id = (() => {
 
 // Use placehold.co for reliable placeholder images during development
 const IMG = {
-  hoodie: 'https://placehold.co/800x1000?text=Hoodie',
-  streetwear: 'https://placehold.co/800x1000?text=Streetwear',
-  fashion: 'https://placehold.co/800x1000?text=Fashion',
-  men: 'https://placehold.co/800x1000?text=Men+Fashion',
-  accessories: 'https://placehold.co/800x1000?text=Accessories',
-  women: 'https://placehold.co/800x1000?text=Women+Style',
+  hoodie: 'https://placehold.co/900x900?text=Hoodie',
+  streetwear: 'https://placehold.co/900x900?text=Streetwear',
+  fashion: 'https://placehold.co/900x900?text=Fashion',
+  men: 'https://placehold.co/900x900?text=Men+Fashion',
+  accessories: 'https://placehold.co/900x900?text=Accessories',
+  women: 'https://placehold.co/900x900?text=Women+Style',
 };
 
 export const FEATURED_PRODUCTS_MOCK = [
@@ -21,7 +21,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 249,
     regularPrice: 279,
     categories: ['Men', 'Featured Products'],
-  image: { sourceUrl: IMG.hoodie },
+    image: { sourceUrl: IMG.hoodie },
   },
   {
     id: id(),

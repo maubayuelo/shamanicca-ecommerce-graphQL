@@ -10,10 +10,11 @@ export const navigation = [
     type: 'collection',
     order: 1,
     children: [
-      { id: 'men-tshirts', label: 'T-Shirts', href: '/shop/men/t-shirts' },
-      { id: 'men-hoodies', label: 'Hoodies', href: '/shop/men/hoodies' },
-      { id: 'men-sweatshirts', label: 'Sweatshirts', href: '/shop/men/sweatshirts' },
-      { id: 'men-jackets', label: 'Jackets', href: '/shop/men/jackets' },
+      // Point subcategory links to the parent category route (no nested routes yet)
+      { id: 'men-tshirts', label: 'T-Shirts', href: '/shop/men' },
+      { id: 'men-hoodies', label: 'Hoodies', href: '/shop/men' },
+      { id: 'men-sweatshirts', label: 'Sweatshirts', href: '/shop/men' },
+      { id: 'men-jackets', label: 'Jackets', href: '/shop/men' },
     ],
   },
   {
@@ -23,10 +24,10 @@ export const navigation = [
     type: 'collection',
     order: 2,
     children: [
-      { id: 'women-tshirts', label: 'T-Shirts', href: '/shop/women/t-shirts' },
-      { id: 'women-hoodies', label: 'Hoodies', href: '/shop/women/hoodies' },
-      { id: 'women-sweatshirts', label: 'Sweatshirts', href: '/shop/women/sweatshirts' },
-      { id: 'women-jackets', label: 'Jackets', href: '/shop/women/jackets' },
+      { id: 'women-tshirts', label: 'T-Shirts', href: '/shop/women' },
+      { id: 'women-hoodies', label: 'Hoodies', href: '/shop/women' },
+      { id: 'women-sweatshirts', label: 'Sweatshirts', href: '/shop/women' },
+      { id: 'women-jackets', label: 'Jackets', href: '/shop/women' },
     ],
   },
   {
@@ -36,11 +37,11 @@ export const navigation = [
     type: 'collection',
     order: 3,
     children: [
-      { id: 'acc-caps', label: 'Caps', href: '/shop/accessories/caps' },
-      { id: 'acc-beanies', label: 'Beanies', href: '/shop/accessories/beanies' },
-      { id: 'acc-socks', label: 'Socks', href: '/shop/accessories/socks' },
-      { id: 'acc-bags', label: 'Bags', href: '/shop/accessories/bags' },
-      { id: 'acc-phonecases', label: 'Phone Cases', href: '/shop/accessories/phone-cases' },
+      { id: 'acc-caps', label: 'Caps', href: '/shop/accessories' },
+      { id: 'acc-beanies', label: 'Beanies', href: '/shop/accessories' },
+      { id: 'acc-socks', label: 'Socks', href: '/shop/accessories' },
+      { id: 'acc-bags', label: 'Bags', href: '/shop/accessories' },
+      { id: 'acc-phonecases', label: 'Phone Cases', href: '/shop/accessories' },
     ],
   },
   {
@@ -50,30 +51,44 @@ export const navigation = [
   type: 'collection',
   order: 4,
   children: [
-    { id: 'altar-mugs', label: 'Mugs', href: '/shop/mystical-home/mugs' },
-    { id: 'altar-waterbottles', label: 'Water Bottles', href: '/shop/mystical-home/water-bottles' },
-    { id: 'altar-wallart', label: 'Wall Art', href: '/shop/mystical-home/wall-art' },
-    { id: 'altar-stickers', label: 'Stickers', href: '/shop/mystical-home/stickers' },
-    { id: 'altar-tapestries', label: 'Altar Tapestries', href: '/shop/mystical-home/altar-tapestries' },
-    { id: 'mystic-talismans', label: 'Talismans', href: '/shop/mystical-home/talismans' },
-    { id: 'mystic-candles', label: 'Candles', href: '/shop/mystical-home/candles' }, 
-    { id: 'mystic-crystals', label: 'Crystals', href: '/shop/mystical-home/crystals' }
+    { id: 'altar-mugs', label: 'Mugs', href: '/shop/mystical-home' },
+    { id: 'altar-waterbottles', label: 'Water Bottles', href: '/shop/mystical-home' },
+    { id: 'altar-wallart', label: 'Wall Art', href: '/shop/mystical-home' },
+    { id: 'altar-stickers', label: 'Stickers', href: '/shop/mystical-home' },
+    { id: 'altar-tapestries', label: 'Altar Tapestries', href: '/shop/mystical-home' },
+    { id: 'mystic-talismans', label: 'Talismans', href: '/shop/mystical-home' },
+    { id: 'mystic-candles', label: 'Candles', href: '/shop/mystical-home' }, 
+    { id: 'mystic-crystals', label: 'Crystals', href: '/shop/mystical-home' }
   ]
 },
-  {
-    id: 'new',
-    label: 'New Arrivals',
-    href: '/shop/new-arrivals',
-    type: 'collection',
-    order: 5,
-  },
   {
     id: 'bestsellers',
     label: 'Best Sellers',
     href: '/shop/best-sellers',
     type: 'collection',
+    order: 5,
+  },
+  {
+    id: 'about',
+    label: 'About',
+    href: '/about',
+    type: 'collection',
     order: 6,
   },
+  {
+    id: 'blog',
+    label: 'Blog',
+    href: '/blog',
+    type: 'collection',
+    order: 7,
+  },
+  // {
+  //   id: 'new',
+  //   label: 'New Arrivals',
+  //   href: '/shop/new-arrivals',
+  //   type: 'collection',
+  //   order: 5,
+  // },
   // {
   //   id: 'limited',
   //   label: 'Limited Edition',

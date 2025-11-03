@@ -16,11 +16,17 @@ export default function Footer() {
             </form>
 
             <div className="social mt-xl-responsive mb-lg-responsive">
-              <div className="label type-sm">Catch updates following us on:</div>
+              <div className="label type-sm mb-sm-responsive">Catch updates following us on:</div>
               <div className="icons">
-                <div className="icon" aria-hidden />
-                <div className="icon" aria-hidden />
-                <div className="icon" aria-hidden />
+                <a className="icon" href="#" aria-label="Instagram">
+                  <img src="/images/icons/icon-social-ig.svg" alt="Instagram" width={30} height={30} />
+                </a>
+                <a className="icon" href="#" aria-label="YouTube">
+                  <img src="/images/icons/icon-social-yt.svg" alt="YouTube" width={30} height={30} />
+                </a>
+                <a className="icon" href="#" aria-label="TikTok">
+                  <img src="/images/icons/icon-social-tt.svg" alt="TikTok" width={30} height={30} />
+                </a>
               </div>
             </div>
 

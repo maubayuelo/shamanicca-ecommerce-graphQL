@@ -2,8 +2,8 @@
 @use "../mixins" as *;
 
 .site-footer {
-  //border-top: 1px solid $gray-40;
-  background: $gray-30;
+  border-top: 1px solid $gray-40;
+  //background: $gray-30;
 
   .main {
     padding-top: $spacing-30;
@@ -63,16 +63,22 @@
     }
 
     .icons {
-      margin-top: $spacing-30;
+      //margin-top: $spacing-30;
       display: flex;
       gap: $spacing-30;
     }
 
     .icon {
-      width: 60px;
-      height: 60px;
+      width: $spacing-45;
+      height: $spacing-45;
       border-radius: 6px;
-      background: $black;
+      background: $white;
+      //background: $black;
+      img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
   }
 }

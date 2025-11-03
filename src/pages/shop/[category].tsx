@@ -7,7 +7,8 @@ import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
 import { FEATURED_PRODUCTS_MOCK } from '../../utils/mockProducts';
 
-const CATEGORIES = ['women', 'men', 'accessories'] as const;
+// Add 'mystical-home' so the top-level navigation route works.
+const CATEGORIES = ['women', 'men', 'accessories', 'mystical-home'] as const;
 
 type Category = (typeof CATEGORIES)[number];
 
@@ -73,6 +74,16 @@ function pickProductsForCategory(category: Category): ProductListingProduct[] {
         return name.includes('hoodie') || name.includes('urban') || name.includes('street');
       case 'accessories':
         return name.includes('accessor');
+      case 'mystical-home':
+        return (
+          name.includes('mug') ||
+          name.includes('water bottle') || name.includes('bottle') ||
+          name.includes('wall art') || name.includes('poster') || name.includes('print') || name.includes('canvas') ||
+          name.includes('sticker') || name.includes('tapestry') ||
+          name.includes('talisman') || name.includes('pendant') || name.includes('necklace') || name.includes('amulet') ||
+          name.includes('candle') ||
+          name.includes('crystal')
+        );
     }
   });
   // Use full list so the grid can paginate when > pageSize

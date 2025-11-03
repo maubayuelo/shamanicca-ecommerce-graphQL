@@ -1,0 +1,210 @@
+// Product page styles – Tailwind-inspired using our SCSS tokens
+@use "../variables" as *;
+@use "../mixins" as *;
+@use "../typography" as *;
+
+.product-page {
+  width: 100%;
+}
+
+.product {
+  width: 100%;
+  margin: 0 auto;
+  padding-top: $spacing-30;
+  padding-bottom: $spacing-60;
+
+  @include media-desktop-up {
+    padding-top: $spacing-30;
+    padding-bottom: $spacing-60;
+  }
+
+  &__breadcrumb {
+    margin-bottom: $spacing-15;
+    color: $gray-80;
+    @include font-style(sm, bold, sm);
+
+    a {
+      color: $gray-80;
+      text-decoration: none;
+
+      &:hover { color: $black; }
+    }
+
+    .sep {
+      display: inline-block;
+      margin: 0 6px;
+      width: 5px; height: 13px;
+      border-left: 1.25px solid $gray-70;
+      transform: skewX(-15deg);
+      opacity: .8;
+    }
+
+    .current { color: $black; }
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-30;
+
+    @include media-desktop-up {
+      grid-template-columns: minmax(0, 630px) 1fr;
+      gap: $spacing-60;
+      align-items: start;
+    }
+  }
+
+  &__media {
+    @include card-base;
+    border-color: $gray-30;
+    padding: $spacing-15;
+    background: $white;
+  }
+
+  &__image-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    @include responsive-border-radius;
+    background: $gray-10;
+    min-height: 345px; // matches mobile mock height
+
+    @include media-desktop-up {
+      min-height: 480px;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .badge {
+      position: absolute;
+      left: $spacing-15;
+      top: $spacing-15;
+    }
+  }
+
+  // Badge variants to mimic Tailwind colors
+  .badge--sale {
+    background: #fee6e5;
+
+    span { color: #d5394a; }
+  }
+
+  &__details {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-30;
+    overflow: hidden;
+  }
+
+  &__title {
+    @include heading-style(5xl, extrabold, 5xl);
+    color: $black;
+
+    @include media-desktop-up {
+      @include heading-style(5xl, extrabold, 5xl);
+    }
+  }
+
+  &__price {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+
+    .current {
+      @include heading-style(3xl, extrabold, 3xl);
+      color: $black;
+    }
+    .regular {
+      @include heading-style(2xl, bold, 2xl);
+      color: $gray-70;
+      text-decoration: line-through;
+    }
+    .badge-small {
+      padding: 3px 8px;
+      border-radius: 8px;
+      background: $primary-color-light;
+      color: $primary-color-dark;
+      @include font-style(xs, bold, xs);
+    }
+  }
+
+  &__desc {
+    color: $black;
+    @include font-style(lg, medium, lg);
+
+    a {
+      color: $primary-color;
+      font-weight: map-get($font-weights, extrabold);
+      text-decoration: underline;
+    }
+  }
+
+  &__options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-30;
+
+    @include media-phone-up {
+      grid-template-columns: 180px 1fr;
+      gap: $spacing-30;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      @include font-style(sm, bold, sm);
+      color: $black;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      background: $white;
+      border: 1px solid $gray-40;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px -3px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05), 0 1px 2px -1px rgba(0,0,0,0.05);
+      outline: none;
+
+      &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, .1);
+      }
+    }
+
+    .qty-control {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+
+      button {
+        width: 36px; height: 36px;
+        border-radius: 8px;
+        border: 1px solid $gray-40;
+        background: $white;
+        cursor: pointer;
+      }
+
+      input {
+        width: 70px;
+        text-align: center;
+      }
+    }
+  }
+
+  &__cta {
+    width: 100%;
+  }
+
+  &__related {
+    margin-top: $spacing-30;
+  }
+  
+}

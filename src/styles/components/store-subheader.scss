@@ -13,6 +13,7 @@
 
   &__title {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -66,8 +67,8 @@
   }
 
   .toolbar-caret {
-    width: 20px; // size-5
-    height: 20px;
+    width: 15px; // size-5
+    height: 15px;
     position: relative;
     overflow: hidden;
 

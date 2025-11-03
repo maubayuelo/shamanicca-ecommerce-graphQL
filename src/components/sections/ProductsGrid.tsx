@@ -26,6 +26,16 @@ export type ProductsGridProps = {
    */
   displayingInHome?: boolean;
   /**
+   * Force showing/hiding the title independently of displayingInHome.
+   * Defaults to following displayingInHome when undefined.
+   */
+  showTitle?: boolean;
+  /**
+   * Force showing/hiding the footer CTA independently of displayingInHome.
+   * Defaults to following displayingInHome when undefined.
+   */
+  showCTA?: boolean;
+  /**
    * Items per page when pagination is active. Default: 6
    */
   pageSize?: number;
@@ -61,6 +71,8 @@ export default function ProductsGrid({
   allProductsHref = '/products',
   className = '',
   displayingInHome = true,
+  showTitle,
+  showCTA,
   pageSize = 6,
   currentPage,
   onPageChange,
@@ -84,9 +96,12 @@ export default function ProductsGrid({
     if (currentPage == null) setInternalPage(page);
   };
 
+  const shouldShowTitle = showTitle ?? displayingInHome;
+  const shouldShowCTA = showCTA ?? displayingInHome;
+
   return (
-    <section className={`section-featured-products main ${className}`}>
-      {displayingInHome && (
+    <section className={`section-featured-products main pb-lg-responsive ${className}`}>
+      {shouldShowTitle && (
         <h2 className="section-title type-4xl type-extrabold mt-lg-responsive mb-md-responsive">{title}</h2>
       )}
 
@@ -95,14 +110,14 @@ export default function ProductsGrid({
           <ProductTile key={p.id} product={p} />
         ))}
       </div>
-      {displayingInHome && (
+      {shouldShowCTA && (
         <div className="section-featured-products__section-footer mt-md-responsive mb-xl-responsive">
           <Link href={allProductsHref} className="btn btn-secondary btn-large m-0">Check All Products</Link>
         </div>
       )}
       {/* Section paginator */}
       {shouldPaginate && totalPages > 1 && (
-        <div className="section-paginator mt-md-responsive mb-xl-responsive">
+        <div className="section-paginator mt-md-responsive">
           <Paginator
             totalItems={totalItems}
             pageSize={pageSize}
@@ -117,7 +132,7 @@ export default function ProductsGrid({
 }
 
 function ProductTile({ product }: { product: FeaturedProduct }) {
-  const img = product?.image?.sourceUrl || 'https://placehold.co/800x1000?text=Product';
+  const img = product?.image?.sourceUrl || 'https://placehold.co/800x800?text=Product';
   const name = product?.name ?? '';
   const price = product?.price ?? undefined;
   const regularPrice = product?.regularPrice ?? undefined;
