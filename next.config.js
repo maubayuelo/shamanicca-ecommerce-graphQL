@@ -3,12 +3,14 @@ module.exports = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   images: {
-    domains: [
-      'your-cdn.com',
-      'wp-siteground-domain.com',
-      'source.unsplash.com',
-      'placehold.co'
+    remotePatterns: [
+      { protocol: 'https', hostname: 'your-cdn.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'wp-siteground-domain.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'source.unsplash.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'placehold.co', pathname: '/**' },
     ],
+    // Keep SVGs disabled for safety; we now request PNGs
+    dangerouslyAllowSVG: false,
   },
   env: {
     GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,

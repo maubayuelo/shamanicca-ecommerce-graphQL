@@ -25,7 +25,11 @@ type GetProductsData = {
 type GetProductsVars = { first?: number };
 
 export default function Home() {
-  const { data } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, { variables: { first: 12 } });
+  const skipQuery = !process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT && !process.env.GRAPHQL_ENDPOINT;
+  const { data } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, {
+    variables: { first: 12 },
+    skip: skipQuery,
+  });
   const products = data?.products?.nodes ?? [];
   const FEATURED_CATEGORY = 'Featured Products';
   // Choose products for Home: prefer API data (no categories in current query), otherwise mock filtered by Featured category.
@@ -60,14 +64,14 @@ export default function Home() {
                 title: 'Magic Accessories',
                 subtitle: 'Altar pads, Mose pads, collars, Printed art',
                 href: '/shop/accessories',
-                imageUrl: 'https://placehold.co/1000x800?text=Img1',
+                imageUrl: 'https://placehold.co/1000x800.png?text=Img1',
               },
               {
                 id: 'b2',
                 title: 'Manifestation Audibles',
                 subtitle: 'Guides Meditations, Subliminal audios',
                 href: '/shop/audios',
-                imageUrl: 'https://placehold.co/1000x800?text=Img2',
+                imageUrl: 'https://placehold.co/1000x800.png?text=Img2',
               },
             ]}
           />
@@ -82,28 +86,28 @@ export default function Home() {
                 title: 'Understanding the Wheel of the Year: Celebrating the Sabbats',
                 summary:
                   'Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.',
-                imageUrl: 'https://placehold.co/345x230',
+                imageUrl: 'https://placehold.co/345x230.png',
                 href: '/blog/wheel-of-the-year',
               },
               {
                 id: 'a2',
                 title: 'Protective Sigils 101: Designing Your Own',
                 summary: 'A beginner-friendly guide to creating and activating sigils for protection and intention setting.',
-                imageUrl: 'https://placehold.co/345x230',
+                imageUrl: 'https://placehold.co/345x230.png',
                 href: '/blog/protective-sigils',
               },
               {
                 id: 'a3',
                 title: 'Crystal Grids for Manifestation',
                 summary: 'How to choose stones, lay out your grid, and amplify your intentions effectively.',
-                imageUrl: 'https://placehold.co/345x230',
+                imageUrl: 'https://placehold.co/345x230.png',
                 href: '/blog/crystal-grids',
               },
               {
                 id: 'a4',
                 title: 'Lunar Magic: Working with the Moon Phases',
                 summary: 'Harness new moon intentions and full moon release rituals in your practice.',
-                imageUrl: 'https://placehold.co/345x230',
+                imageUrl: 'https://placehold.co/345x230.png',
                 href: '/blog/lunar-magic',
               },
               // {

@@ -133,7 +133,7 @@ export default function ProductsGrid({
 }
 
 function ProductTile({ product }: { product: FeaturedProduct }) {
-  const img = product?.image?.sourceUrl || 'https://placehold.co/800x800?text=Product';
+  const img = product?.image?.sourceUrl || 'https://placehold.co/800x800.png?text=Product';
   const name = product?.name ?? '';
   const price = product?.price ?? undefined;
   const regularPrice = product?.regularPrice ?? undefined;

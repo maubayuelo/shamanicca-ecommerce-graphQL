@@ -40,7 +40,7 @@ export default function HomeArticles({
 }
 
 function ArticleCard({ article }: { article: Article }) {
-  const img = article.imageUrl || 'https://placehold.co/345x230';
+  const img = article.imageUrl || 'https://placehold.co/345x230.png';
   return (
     <article className="article-card">
       <a href={article.href || '#'} className="thumb" aria-label={`Read ${article.title}`}>

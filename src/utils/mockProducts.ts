@@ -3,14 +3,14 @@ const id = (() => {
   return () => (n++).toString();
 })();
 
-// Use placehold.co for reliable placeholder images during development
+// Use placehold.co PNGs to avoid SVG blocks by Next/Image
 const IMG = {
-  hoodie: 'https://placehold.co/900x900?text=Hoodie',
-  streetwear: 'https://placehold.co/900x900?text=Streetwear',
-  fashion: 'https://placehold.co/900x900?text=Fashion',
-  men: 'https://placehold.co/900x900?text=Men+Fashion',
-  accessories: 'https://placehold.co/900x900?text=Accessories',
-  women: 'https://placehold.co/900x900?text=Women+Style',
+  hoodie: 'https://placehold.co/900x900.png?text=Hoodie',
+  streetwear: 'https://placehold.co/900x900.png?text=Streetwear',
+  fashion: 'https://placehold.co/900x900.png?text=Fashion',
+  men: 'https://placehold.co/900x900.png?text=Men+Fashion',
+  accessories: 'https://placehold.co/900x900.png?text=Accessories',
+  women: 'https://placehold.co/900x900.png?text=Women+Style',
 };
 
 export const FEATURED_PRODUCTS_MOCK = [
