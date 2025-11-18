@@ -9,7 +9,7 @@ export default function Footer() {
             <h3 className="footer-heading type-md type-extrabold type-uppercase m-0">Get The Good Stuff</h3>
             <p className="footer-text type-md">
               We’re not into spam. Just: product drops and juicy updates.
-              Hit subscribe and save – your inbox will thank you. 😉
+              Hit subscribe and save – your inbox will thank you.
             </p>
 
             <form className="newsletter-form mt-15" onSubmit={(e) => e.preventDefault()}>
