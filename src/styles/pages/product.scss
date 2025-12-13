@@ -2,6 +2,7 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 @use "../typography" as *;
+@use "sass:map";
 
 .product-page {
   width: 100%;

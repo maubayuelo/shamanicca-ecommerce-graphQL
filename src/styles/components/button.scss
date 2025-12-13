@@ -2,6 +2,7 @@
 // Import variables for consistency
 @use "../variables" as *;
 @use "../typography" as *;
+@use "sass:map";
 
 a {
     color: $black;
