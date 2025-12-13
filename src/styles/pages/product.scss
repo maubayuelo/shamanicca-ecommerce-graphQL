@@ -18,29 +18,7 @@
     padding-bottom: $spacing-60;
   }
 
-  &__breadcrumb {
-    margin-bottom: $spacing-15;
-    color: $gray-80;
-    @include font-style(sm, bold, sm);
-
-    a {
-      color: $gray-80;
-      text-decoration: none;
-
-      &:hover { color: $black; }
-    }
-
-    .sep {
-      display: inline-block;
-      margin: 0 6px;
-      width: 5px; height: 13px;
-      border-left: 1.25px solid $gray-70;
-      transform: skewX(-15deg);
-      opacity: .8;
-    }
-
-    .current { color: $black; }
-  }
+  
 
   &__content {
     display: grid;
@@ -86,12 +64,7 @@
     }
   }
 
-  // Badge variants to mimic Tailwind colors
-  .badge--sale {
-    background: #fee6e5;
 
-    span { color: #d5394a; }
-  }
 
   &__details {
     display: flex;
@@ -128,7 +101,7 @@
       border-radius: 8px;
       background: $primary-color-light;
       color: $primary-color-dark;
-      @include font-style(xs, bold, xs);
+      @include font-style(xs, medium, xs);
     }
   }
 

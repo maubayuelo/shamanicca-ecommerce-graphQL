@@ -5,7 +5,7 @@ import Footer from '../components/organisms/Footer';
 import Hero from '../components/sections/Hero';
 import ProductsGrid, { type FeaturedProduct } from '../components/sections/ProductsGrid';
 import HomeBanners from '../components/sections/HomeBanners';
-import HomeArticles from '../components/sections/HomeArticles';
+import BlogGrid from '../components/sections/BlogGrid';
 import { FEATURED_PRODUCTS_MOCK } from '../utils/mockProducts';
 import { GET_PRODUCTS } from '../lib/graphql/queries';
 
@@ -79,8 +79,10 @@ export default function Home() {
           
 
           {/* Blog Articles */}
-          <HomeArticles
-            articles={[
+          <div className="main">
+            <BlogGrid
+            title="Blog Articles"
+            items={[
               {
                 id: 'a1',
                 title: 'Understanding the Wheel of the Year: Celebrating the Sabbats',
@@ -125,7 +127,10 @@ export default function Home() {
               //   href: '/blog/altars-sacred-space',
               // },
             ]}
+            ctaHref="/blog"
+            ctaLabel="Check Shamanicca’s Blog Posts"
           />
+          </div>
           <Footer />
         </main>
       </div>

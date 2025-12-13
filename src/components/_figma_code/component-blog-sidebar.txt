@@ -1,0 +1,104 @@
+Mobile , tablet Desktop View:
+
+<div style={{width: 435, flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+  <div style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+    <div style={{alignSelf: 'stretch', color: 'black', fontSize: 30, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 36, wordWrap: 'break-word'}}>TOP READS</div>
+    <div data-prop="1x6-sm" style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+      <div data-prop="Row-x1-sm" style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+        <div data-prop="sm" style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+          <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+            <img style={{width: 180, height: 180, borderRadius: 15}} src="https://placehold.co/180x180" />
+            <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 6, display: 'inline-flex'}}>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-sm" style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+        <div data-prop="sm" style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+          <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+            <img style={{width: 180, height: 180, borderRadius: 15}} src="https://placehold.co/180x180" />
+            <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 6, display: 'inline-flex'}}>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-sm" style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+        <div data-prop="sm" style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+          <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+            <img style={{width: 180, height: 180, borderRadius: 15}} src="https://placehold.co/180x180" />
+            <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 6, display: 'inline-flex'}}>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-prop="Desktop-sm" style={{alignSelf: 'stretch', paddingRight: 15, background: 'white', overflow: 'hidden', borderRadius: 15, outline: '1px #7C7C7C solid', outlineOffset: '-1px', justifyContent: 'flex-start', alignItems: 'center', gap: 15, display: 'inline-flex'}}>
+    <img style={{width: 180, height: 180, padding: 30}} src="https://placehold.co/180x180" />
+    <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'inline-flex'}}>
+      <div style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 3, display: 'flex'}}>
+        <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Intentioned Apparel</div>
+        <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Wear your protection. Embody your abundance.</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" style={{alignSelf: 'stretch', paddingLeft: 20, paddingRight: 20, paddingTop: 14, paddingBottom: 14, background: '#705AF8', overflow: 'hidden', borderRadius: 8, justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
+        <div style={{color: 'white', fontSize: 14, fontFamily: 'Poppins', fontWeight: '700', lineHeight: 20, wordWrap: 'break-word'}}>SHOP NOW!</div>
+      </div>
+    </div>
+  </div>
+  <div style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+    <div style={{alignSelf: 'stretch', color: 'black', fontSize: 30, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 36, wordWrap: 'break-word'}}>MAGICAL PRACTICES</div>
+    <div data-prop="1x6-sm" style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+      <div data-prop="Row-x1-sm" style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+        <div data-prop="sm" style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+          <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+            <img style={{width: 180, height: 180, borderRadius: 15}} src="https://placehold.co/180x180" />
+            <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 6, display: 'inline-flex'}}>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-sm" style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+        <div data-prop="sm" style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+          <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+            <img style={{width: 180, height: 180, borderRadius: 15}} src="https://placehold.co/180x180" />
+            <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 6, display: 'inline-flex'}}>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-prop="Row-x1-sm" style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 30, display: 'inline-flex'}}>
+        <div data-prop="sm" style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+          <div style={{flex: '1 1 0', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'flex'}}>
+            <img style={{width: 180, height: 180, borderRadius: 15}} src="https://placehold.co/180x180" />
+            <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 6, display: 'inline-flex'}}>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Understanding the Wheel of the Year: Celebrating the Sabbats</div>
+              <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div data-prop="Desktop-sm" style={{alignSelf: 'stretch', paddingRight: 15, background: 'white', overflow: 'hidden', borderRadius: 15, outline: '1px #7C7C7C solid', outlineOffset: '-1px', justifyContent: 'flex-start', alignItems: 'center', gap: 15, display: 'inline-flex'}}>
+    <img style={{width: 180, height: 180, padding: 30}} src="https://placehold.co/180x180" />
+    <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'inline-flex'}}>
+      <div style={{alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 3, display: 'flex'}}>
+        <div style={{alignSelf: 'stretch', color: 'black', fontSize: 18, fontFamily: 'Poppins', fontWeight: '900', lineHeight: 28, wordWrap: 'break-word'}}>Intentioned Apparel</div>
+        <div style={{alignSelf: 'stretch', color: 'black', fontSize: 14, fontFamily: 'Poppins', fontWeight: '400', lineHeight: 20, wordWrap: 'break-word'}}>Wear your protection. Embody your abundance.</div>
+      </div>
+      <div data-dropdown="Off" data-icon-left="false" data-icon-right="false" data-size="lg" data-state="Default" data-text="On" data-type="Primary" style={{alignSelf: 'stretch', paddingLeft: 20, paddingRight: 20, paddingTop: 14, paddingBottom: 14, background: '#705AF8', overflow: 'hidden', borderRadius: 8, justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
+        <div style={{color: 'white', fontSize: 14, fontFamily: 'Poppins', fontWeight: '700', lineHeight: 20, wordWrap: 'break-word'}}>SHOP NOW!</div>
+      </div>
+    </div>
+  </div>
+</div>

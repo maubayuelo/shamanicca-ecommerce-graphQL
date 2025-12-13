@@ -1,0 +1,30 @@
+// Unified Button System - Simplified and consistent design system
+// Import variables for consistency
+@use "../variables" as *;
+@use "../typography" as *;
+
+
+.breadcrumb {
+    margin-bottom: $spacing-15;
+    color: $gray-80;
+    @include font-style(sm, bold, sm);
+    //background-color: red;;
+
+    a {
+      color: $gray-80;
+      text-decoration: none;
+
+      &:hover { color: $black; }
+    }
+
+    .sep {
+      display: inline-block;
+      margin: 0 6px;
+      width: 5px; height: 13px;
+      border-left: 1.25px solid $gray-70;
+      transform: skewX(-15deg);
+      opacity: .8;
+    }
+
+    .current { color: $black; }
+  }

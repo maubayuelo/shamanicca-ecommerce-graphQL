@@ -11,6 +11,9 @@
 @use "./components/home-articles" as *;
 @use "./components/store-subheader" as *;
 @use "./components/paginator" as *;
+@use "./components/product-img-gallery" as *;
+@use "./components/breadcrumb" as *;
+@use "./components/blog" as *;
 @use "./forms" as *;
 
 // Global SCSS (custom variables)
@@ -43,6 +46,29 @@ body {
             padding-right: $spacing-30;
             width: calc(100% - #{$spacing-60});
             max-width: $breakpoint-desktop-lg;
+        }
+    }
+    .main-condensed {
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        padding-left: $spacing-15;
+        padding-right: $spacing-15;
+        width: calc(100% - #{$spacing-30});
+        max-width: 100%; // Mobile-first: full width
+
+        @include media-desktop-up {
+            padding-left: $spacing-30;
+            padding-right: $spacing-30;
+            width: calc(100% - #{$spacing-60});
+            max-width: 660px;
+            
+            //max-width: $breakpoint-desktop-lg;
+        }
+    }
+    a  {
+        img{
+            //opacity: 30%;
         }
     }
 }

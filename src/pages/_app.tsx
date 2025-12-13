@@ -4,6 +4,7 @@ import client from '../lib/graphql/apolloClient';
 import '../styles/globals.scss';
 import '../styles/components/header.scss';
 import '../styles/pages/product.scss';
+import '../styles/pages/about.scss';
 import { Poppins } from 'next/font/google';
 
 // Load Poppins font globally using next/font (pages router)

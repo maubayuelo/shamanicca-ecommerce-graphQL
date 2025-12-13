@@ -30,7 +30,7 @@ const norm = (s: string) => s.toLowerCase();
 
 // Keyword lists to identify subcategories — tweak freely as your catalog evolves
 // Keyed by navigation child id from navigation.ts
-const SUBCATEGORY_KEYWORDS: Record<string, string[]> = {
+export const SUBCATEGORY_KEYWORDS: Record<string, string[]> = {
   // Men/Women apparel
   'men-tshirts': ['tee', 't-shirt', 'tshirt', 'shirt', 'pocket tee'],
   'men-hoodies': ['hoodie', 'hooded'],
@@ -132,3 +132,8 @@ export function getSubcategoryBadges(
 }
 
 export default getSubcategoryBadges;
+
+// Re-export helpers for external filtering usage
+export function getKeywordsForSubcategory(id: string): string[] {
+  return SUBCATEGORY_KEYWORDS[id] || [];
+}

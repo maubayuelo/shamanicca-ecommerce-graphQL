@@ -21,13 +21,13 @@ export default function Footer() {
               <div className="label type-sm mb-sm-responsive">Catch updates following us on:</div>
               <div className="icons">
                 <a className="icon" href="#" aria-label="Instagram">
-                  <Image src="/images/icons/icon-social-ig.svg" alt="Instagram" width={30} height={30} />
+                  <Image src="/images/icon-social-ig.svg" alt="Instagram" width={30} height={30} />
                 </a>
                 <a className="icon" href="#" aria-label="YouTube">
-                  <Image src="/images/icons/icon-social-yt.svg" alt="YouTube" width={30} height={30} />
+                  <Image src="/images/icon-social-yt.svg" alt="YouTube" width={30} height={30} />
                 </a>
                 <a className="icon" href="#" aria-label="TikTok">
-                  <Image src="/images/icons/icon-social-tt.svg" alt="TikTok" width={30} height={30} />
+                  <Image src="/images/icon-social-tt.svg" alt="TikTok" width={30} height={30} />
                 </a>
               </div>
             </div>

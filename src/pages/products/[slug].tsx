@@ -7,6 +7,8 @@ import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
 import ProductsGrid from '../../components/sections/ProductsGrid';
 import ProductImageGallery from '../../components/molecules/ProductImageGallery';
+import Breadcrumb from '../../components/molecules/Breadcrumb';
+import { getSubcategoryBadges } from '../../utils/productSubcategories';
 
 export default function ProductPage() {
   const router = useRouter();
@@ -29,6 +31,17 @@ export default function ProductPage() {
     return FEATURED_PRODUCTS_MOCK.filter((p) => p.slug !== product?.slug).slice(0, 4);
   }, [product?.slug]);
 
+  const topCategory = product?.categories?.[0];
+  const subcategoryBadge = React.useMemo(() => {
+    if (!product) return undefined;
+    const badges = getSubcategoryBadges({ name: product.name, slug: product.slug, categories: product.categories }, 1);
+    return badges[0];
+  }, [product]);
+
+  const categoryHref = topCategory
+    ? `/shop/${topCategory.toLowerCase().replace(/\s+/g, '-')}`
+    : undefined;
+
   return (
     <>
       <Head>
@@ -37,13 +50,17 @@ export default function ProductPage() {
       <Header />
       <main className="main product-page" role="main">
         <div className="product">
-          <nav className="product__breadcrumb" aria-label="Breadcrumb">
-            <Link href="/">Home</Link>
-            <span className="sep" aria-hidden="true" />
-            <span>{product?.categories?.[0] || 'Collection'}</span>
-            <span className="sep" aria-hidden="true" />
-            <span className="current">{title}</span>
-          </nav>
+          <Breadcrumb
+            className="breadcrumb"
+            linkLast
+            items={[
+              { label: 'Home', href: '/' },
+              topCategory && categoryHref
+                ? { label: topCategory, href: categoryHref }
+                : { label: 'Collection' },
+              ...(subcategoryBadge ? [{ label: subcategoryBadge.label, href: subcategoryBadge.href }] : []),
+            ]}
+          />
 
           <div className="product__content">
             <ProductImageGallery title={title} isOnSale={!!isOnSale} className="product__media" />

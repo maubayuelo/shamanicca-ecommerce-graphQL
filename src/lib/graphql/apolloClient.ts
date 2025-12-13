@@ -1,7 +1,13 @@
 import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
+const endpoint =
+  process.env.NEXT_PUBLIC_GRAPHQL_URL ||
+  process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
+  process.env.GRAPHQL_ENDPOINT ||
+  'https://your-wp-site.com/graphql';
+
 const httpLink = new HttpLink({
-  uri: process.env.GRAPHQL_ENDPOINT || 'https://your-wp-site.com/graphql',
+  uri: endpoint,
   credentials: 'same-origin',
 });
 

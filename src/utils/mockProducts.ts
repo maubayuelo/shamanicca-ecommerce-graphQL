@@ -21,6 +21,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 249,
     regularPrice: 279,
     categories: ['Men', 'Featured Products'],
+    bestSeller: true,
     image: { sourceUrl: IMG.hoodie },
   },
   {
@@ -30,6 +31,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 199,
     regularPrice: 219,
     categories: ['Women', 'Featured Products'],
+    bestSeller: true,
     image: { sourceUrl: IMG.streetwear },
   },
   {
@@ -48,6 +50,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 229,
     regularPrice: 269,
     categories: ['Men', 'Featured Products'],
+    bestSeller: true,
   image: { sourceUrl: IMG.men },
   },
   {
@@ -57,6 +60,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 89,
     regularPrice: 99,
     categories: ['Accessories', 'Featured Products'],
+  bestSeller: true,
   image: { sourceUrl: IMG.accessories },
   },
   {
@@ -66,6 +70,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 159,
     regularPrice: 179,
     categories: ['Women', 'Featured Products'],
+  bestSeller: true,
   image: { sourceUrl: IMG.women },
   },
   // — Mysticism-themed additions aligned with navigation (Men / Women / Accessories / Mystical Home)
@@ -103,6 +108,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 279,
     regularPrice: 319,
   categories: ['Men', 'Featured Products'],
+  bestSeller: true,
   image: { sourceUrl: IMG.men },
   },
   {
@@ -185,6 +191,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 39,
     regularPrice: 49,
     categories: ['Accessories', 'Featured Products'],
+    bestSeller: true,
     image: { sourceUrl: IMG.accessories },
   },
   {
@@ -230,6 +237,7 @@ export const FEATURED_PRODUCTS_MOCK = [
     price: 189,
     regularPrice: 209,
     categories: ['Men', 'Featured Products'],
+    bestSeller: true,
     image: { sourceUrl: IMG.men },
   },
   {

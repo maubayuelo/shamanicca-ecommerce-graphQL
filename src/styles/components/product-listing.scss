@@ -67,7 +67,7 @@
       top: $spacing-15;
       left: $spacing-15;
       padding: 6px 8px; // approx text-sm padding
-      background: #eb5962;
+      background: $highlighted-color;
       color: $white; // text sizing via type-* class in markup
       border-radius: $spacing-10;
     }

@@ -134,7 +134,13 @@ export default function Header() {
                       <ul className="">
                         {item.children.map((child) => (
                           <li key={child.id} className="header__dropdown_item">
-                            <Link href={child.href} className="type-md type-bold">
+                            <Link
+                              href={{
+                                pathname: '/shop/[category]',
+                                query: { category: item.id, sub: child.id },
+                              }}
+                              className="type-md type-bold"
+                            >
                               {child.label}
                             </Link>
                           </li>
@@ -192,7 +198,14 @@ export default function Header() {
                 <ul className="mobile__subnav">
                   {item.children.map((child) => (
                     <li key={child.id} className="mobile__subnav_item">
-                      <Link href={child.href}>{child.label}</Link>
+                      <Link
+                        href={{
+                          pathname: '/shop/[category]',
+                          query: { category: item.id, sub: child.id },
+                        }}
+                      >
+                        {child.label}
+                      </Link>
                     </li>
                   ))}
                 </ul>

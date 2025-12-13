@@ -2,7 +2,11 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-.about-hero-section {
+.page{
+
+    
+    
+    .page-hero-section {
     @include flex-column;
     gap: $spacing-10;
 
@@ -15,74 +19,42 @@
 
     @include media-desktop-up {
         gap: $spacing-60;
-    }
+    }    
 }
+img {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: $spacing-15;
+      @include media-tablet-up {
+            border-radius: $spacing-30;
+        }
 
-.about-profile-image {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    align-self: center;
 
-    @include media-tablet-up {
-        width: 210px;
-        height: 210px;
-        align-self: flex-start;
+      &.page-profile-image {
+        width: 180px;
+        height: 180px;
+        align-self: center;
+
+        @include media-tablet-up {
+            width: 210px;
+            height: 210px;
+            align-self: flex-start;
+        }
+
+        @include media-desktop-up {
+            width: 450px;
+            height: 450px;
+        }
+    }
     }
 
-    @include media-desktop-up {
-        width: 450px;
-        height: 450px;
-    }
-}
+    
 
-.about-content-wrapper {
+.page-content-wrapper {
     @include flex-column;
     gap: $spacing-30;
     flex: 1;
 }
-
-.about-section {
-    @include flex-column;
-    gap: $spacing-10;
-}
-
-.about-linkedin-link {
-    @include flex-center;
-    gap: 3px;
-    align-self: flex-start;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-        opacity: 0.8;
-    }
-}
-
-.about-linkedin-icon {
-    width: 16px;
-    height: 16px;
-    position: relative;
-    overflow: hidden;
-
-    @include media-tablet-up {
-        width: 18px;
-        height: 18px;
-    }
-
-    @include media-desktop-up {
-        width: 20px;
-        height: 20px;
-    }
-
-    &::after {
-        content: "";
-        position: absolute;
-        width: 60%;
-        height: 60%;
-        left: 20%;
-        top: 20%;
-        outline: 2px $primary-color solid;
-        outline-offset: -1px;
-    }
 }

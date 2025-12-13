@@ -22,16 +22,15 @@ export default function HomeArticles({
   allArticlesHref = '/blog',
   className = '',
 }: Props) {
+  // Deprecated: kept for backward compatibility; delegates to BlogGrid
   return (
     <section className={`section-home-articles main  ${className}`}>
       <h2 className="section-title type-4xl type-extrabold mt-lg-responsive mb-md-responsive">{title}</h2>
-
       <div className="articles-grid">
         {articles.map((a) => (
-          <ArticleCard key={a.id} article={a} />)
-        )}
+          <ArticleCard key={a.id} article={a} />
+        ))}
       </div>
-
       <div className="section-footer mt-lg-responsive mb-xl-responsive">
         <a href={allArticlesHref} className="btn btn-secondary btn-large">Check Shamanicca’s Blog Posts</a>
       </div>
