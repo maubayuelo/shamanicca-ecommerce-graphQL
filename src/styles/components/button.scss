@@ -17,7 +17,7 @@ a {
 // Base button styles - shared by all button types
 .btn {
     //@include font-style(sm, bold, sm);
-    font-weight: map-get($font-weights, extrabold);
+    font-weight: map.get($font-weights, extrabold);
     display: inline-flex;
     justify-content: center;
     align-items: center;

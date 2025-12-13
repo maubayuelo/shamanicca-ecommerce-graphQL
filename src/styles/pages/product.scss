@@ -111,7 +111,7 @@
 
     a {
       color: $primary-color;
-      font-weight: map-get($font-weights, extrabold);
+      font-weight: map.get($font-weights, extrabold);
       text-decoration: underline;
     }
   }
