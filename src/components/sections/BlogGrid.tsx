@@ -53,7 +53,7 @@ function BlogGridCard({ item }: { item: BlogGridItem }) {
         <Image src={img} alt="" width={345} height={230} loading="lazy" />
       </a>
       <div className="blog-grid__info">
-        <h3 className="type-2xl type-extrabold m-0"><a href={item.href || '#'}>{item.title}</a></h3>
+        <h3 className="type-xl type-extrabold m-0"><a href={item.href || '#'}>{item.title}</a></h3>
         {item.summary && <p className="type-md m-0">{item.summary}</p>}
       </div>
     </article>

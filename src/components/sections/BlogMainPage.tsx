@@ -50,10 +50,12 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={mainArticle.imageUrl || 'https://placehold.co/915x531.png'} alt="" />
               </a>
-              <h1 className="type-3xl type-extrabold m-0">
-                <a href={mainArticle.href || '#'} style={{ textDecoration: 'none', color: 'inherit' }}>{mainArticle.title}</a>
-              </h1>
-              {mainArticle.summary && <p className="type-md m-0">{mainArticle.summary}</p>}
+              <div className="blog-main-article__body">
+                <h1 className="type-2xl type-extrabold m-0">
+                  <a href={mainArticle.href || '#'} style={{ textDecoration: 'none', color: 'inherit' }}>{mainArticle.title}</a>
+                </h1>
+                {mainArticle.summary && <p className="type-md m-0">{mainArticle.summary}</p>}
+              </div>
             </section>
           )}
 
@@ -97,8 +99,8 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
         {/* Sidebar with titles, posts, and banners */}
         <BlogSidebar
           sections={[
-            { title: 'TOP READS', items: remaining.slice(0, 3) },
-            { title: 'Recent', items: remaining.slice(3,6) },
+            { title: 'Top Reads', items: remaining.slice(0, 3) },
+            { title: 'Mysticysm 101', items: remaining.slice(3,6) },
           ]}
           banners={sampleBanners} 
           

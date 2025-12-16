@@ -17,7 +17,6 @@ export default function BlogPage() {
         <main className="flex-1 container mx-auto px-4 py-8">
           <Header />
           <BlogMainPage posts={getAllPosts()} />
-          
           <Footer />
         </main>
       </div>

@@ -28,7 +28,7 @@
             align-items: center;
             justify-content: space-between;
             padding: $spacing-10; 
-            @include media-desktop-up {
+            @media (min-width: 1280px){
                 padding: 0 0;
             }
         }
@@ -44,7 +44,7 @@
     }
 
     &__nav{
-        display: flex;
+        display: none; // default hidden on small screens
         height: 100%;
 
         &_item{
@@ -70,9 +70,11 @@
         }
     }
 
-    // responsive: hide nav on small screens (assumes mobile menu elsewhere)
-    @media (max-width: 768px){
-        &__nav{ display: none; }
+    // Show desktop nav starting at 1280px
+    @media (min-width: 1280px){
+        &__nav{ display: flex; }
+        &__mobile_toggle { display: none; }
+        &__mobile_menu { display: none; }
     }
 
     hr{
@@ -82,7 +84,8 @@
     }
 
     &__container{
-            height: -webkit-fill-available;
+            //height: -webkit-fill-available;
+            height: fit-content;
     }
 
     &__nav_item_wrapper {
@@ -217,23 +220,15 @@
         display: none;
     }
 
-    @media (max-width: 900px) {
-        &__nav {
-            display: none;
-        }
-
-        &__mobile_toggle {
-            display: inline-block;
-        }
-
+    // Mobile/tablet menu below 1280px
+    @media (max-width: 1279px) {
+        &__nav { display: none; }
+        &__mobile_toggle { display: inline-block; }
         &__mobile_menu {
             display: none;
             background: #fff;
             //border-top: 1px solid #eee;
-
-            &.is-open {
-                display: block;
-            }
+            &.is-open { display: block; }
         }
 
         &__mobile_nav {
