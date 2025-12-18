@@ -48,10 +48,9 @@ export default function ProductPage() {
         <title>{title} — Shamanicca</title>
       </Head>
       <Header />
-      <main className="main product-page" role="main">
-        <div className="product">
-          <Breadcrumb
-            className="breadcrumb"
+      <main className="product-page" role="main">
+        <Breadcrumb
+            className="main breadcrumb pt-sm-responsive pb-sm-responsive"
             linkLast
             items={[
               { label: 'Home', href: '/' },
@@ -61,7 +60,7 @@ export default function ProductPage() {
               ...(subcategoryBadge ? [{ label: subcategoryBadge.label, href: subcategoryBadge.href }] : []),
             ]}
           />
-
+        <div className="main product">
           <div className="product__content">
             <ProductImageGallery title={title} isOnSale={!!isOnSale} className="product__media" />
 
@@ -139,19 +138,19 @@ export default function ProductPage() {
               <button className="btn btn-primary btn-large product__cta">ADD TO BAG</button>
             </div>
           </div>
-
-          <ProductsGrid
-            title="You might also like"
-            products={related.slice(0, 3)}
-            displayingInHome={false}
-            pageSize={3}
-            showTitle
-            showCTA={false}
-            className="product__related"
-          />
         </div>
+          <ProductsGrid
+              title="You might also like"
+              products={related.slice(0, 3)}
+              displayingInHome={false}
+              pageSize={3}
+              showTitle
+              showCTA={false}
+              className="product__related pb-lg-responsive"
+            />
+        <Footer />
       </main>
-      <Footer />
+      
     </>
   );
 }

@@ -159,7 +159,7 @@ export default function ProductImageGallery({
         {/* Navigation arrows (desktop priority) */}
         <button
           type="button"
-          className="nav nav--prev"
+          className="nav nav--prev type-extrabold type-xl-responsive"
           onClick={goPrev}
           aria-label="Previous image"
           disabled={active === 0}
@@ -168,7 +168,7 @@ export default function ProductImageGallery({
         </button>
         <button
           type="button"
-          className="nav nav--next"
+          className="nav nav--next type-extrabold type-xl-responsive"
           onClick={goNext}
           aria-label="Next image"
           disabled={active === imgs.length - 1}

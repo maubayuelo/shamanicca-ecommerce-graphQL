@@ -23,7 +23,7 @@ export default function Breadcrumb({
   linkLast = false,
 }: BreadcrumbProps) {
   return (
-    <nav className={className ?? 'breadcrumb'} aria-label={ariaLabel}>
+    <nav className={className ?? 'breadcrumb '} aria-label={ariaLabel}>
       {items.map((item, idx) => {
         const isLast = idx === items.length - 1;
         const shouldLink = item.href && (!isLast || linkLast);

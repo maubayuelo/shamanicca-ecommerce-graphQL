@@ -40,11 +40,12 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
           <BlogHeader
             title="Mindfulness, Wicca, White Magic, Alchemy & Shamanism Blog"
             subtitle=""
+            className="mb-lg-responsive"
           />
 
           {/* Main Article */}
           {mainArticle && (
-            <section className="blog-main-article">
+            <section className="blog-main-article mb-lg-responsive">
               <a href={mainArticle.href || '#'} className="blog-main-article__thumb" aria-label={`Read ${mainArticle.title}`}>
                 {/* large image, rely on CSS height */}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -61,12 +62,16 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
 
           {/* Block 1 (no section title or CTA) */}
           {block1.length > 0 && (
-            <BlogGrid items={block1} />
+            <BlogGrid
+            items={block1}
+            className='mb-lg-responsive'
+            />
           )}
 
           {/* Banner 1 */}
           <BlogBanner
             title="Intentioned Apparel"
+            className='mb-lg-responsive'
             subtitle="Wear your protection. Embody your abundance."
             ctaLabel="SHOP NOW!"
             href="/shop/apparel"
@@ -75,12 +80,15 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
 
           {/* Block 2 */}
           {block2.length > 0 && (
-            <BlogGrid items={block2} />
+            <BlogGrid items={block2} 
+            className='mb-lg-responsive'
+            />
           )}
 
           {/* Banner 2 */}
           <BlogBanner
             title="Manifestation Audibles"
+            className='mb-lg-responsive'
             subtitle="Guided meditations and subliminal audios."
             ctaLabel="LISTEN"
             href="/shop/audios"

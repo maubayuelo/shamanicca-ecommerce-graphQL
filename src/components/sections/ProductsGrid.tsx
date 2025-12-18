@@ -101,7 +101,7 @@ export default function ProductsGrid({
   const shouldShowCTA = showCTA ?? displayingInHome;
 
   return (
-    <section className={`section-featured-products main pb-lg-responsive ${className}`}>
+    <section className={`main section-featured-products pb-0 ${className}`}>
       {shouldShowTitle && (
         <h2 className="section-title type-4xl type-extrabold mt-lg-responsive mb-md-responsive">{title}</h2>
       )}
@@ -120,6 +120,7 @@ export default function ProductsGrid({
       {shouldPaginate && totalPages > 1 && (
         <div className="section-paginator mt-md-responsive">
           <Paginator
+            className='pb-lg-responsive'
             totalItems={totalItems}
             pageSize={pageSize}
             currentPage={activePage}

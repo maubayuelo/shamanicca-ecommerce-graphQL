@@ -24,7 +24,7 @@
 		scroll-snap-align: start;
 	}
 
-	.gallery__image-wrapper { position: relative; }
+	.gallery__image-wrapper { position: relative; @include responsive-border-radius; overflow: hidden; }
 
 	.image-button {
 		padding: 0;
@@ -67,9 +67,9 @@
 		overflow-x: auto; padding-bottom: 4px;
 	}
 	.thumb {
-		border: 2px solid transparent; border-radius: 6px; padding: 0; background: none; cursor: pointer;
+		border: 2px solid transparent; border-radius: 9px; padding: 0; background: none; cursor: pointer;
 		&.is-active { border-color: $black; }
-		img { width: 64px; height: 64px; object-fit: cover; border-radius: 4px; display: block; }
+		img { width: 64px; height: 64px; object-fit: cover;  display: block; border-radius: 9px;}
 	}
 
 	// Modal

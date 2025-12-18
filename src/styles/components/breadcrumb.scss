@@ -5,7 +5,9 @@
 
 
 .breadcrumb {
-    margin-bottom: $spacing-15;
+    flex-direction: row;
+    justify-content: flex-start;
+    //margin-bottom: $spacing-15;
     color: $gray-80;
     @include font-style(sm, bold, sm);
     //background-color: red;;

@@ -33,7 +33,7 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
             <div className="blog-sidebar__list">
               {section.items.map((item) => (
                 <article key={item.id} className="blog-sidebar__row">
-                  <a href={item.href || '#'} className="blog-sidebar__thumb" aria-label={`Read ${item.title}`}>
+                  <a href={item.href || '#'} className="blog-sidebar__thumb rounded-30" aria-label={`Read ${item.title}`}>
                     <Image src={item.imageUrl || 'https://placehold.co/180x180.png'} alt="" width={180} height={180} loading="lazy" />
                   </a>
                   <div className="blog-sidebar__info">
@@ -48,7 +48,7 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
           {/* Insert first banner in the middle between sections */}
           {idx === Math.floor(sections.length / 2) - 1 && banners[0] && (
             <a key={`bnr-middle`} href={banners[0].href || '#'} className="blog-sidebar__banner">
-              <div className="blog-sidebar__banner-image">
+              <div className="blog-sidebar__banner-image rounded-30">
                 <Image src={banners[0].imageUrl} alt={banners[0].title || ''} width={180} height={180} />
               </div>
               <div className="blog-sidebar__banner-body">

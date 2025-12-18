@@ -49,7 +49,7 @@ function BlogGridCard({ item }: { item: BlogGridItem }) {
   const img = item.imageUrl || 'https://placehold.co/345x230.png';
   return (
     <article className="blog-grid__item">
-      <a href={item.href || '#'} className="blog-grid__thumb" aria-label={`Read ${item.title}`}>
+      <a href={item.href || '#'} className="blog-grid__thumb rounded-30" aria-label={`Read ${item.title}`}>
         <Image src={img} alt="" width={345} height={230} loading="lazy" />
       </a>
       <div className="blog-grid__info">

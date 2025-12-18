@@ -11,12 +11,12 @@
 .product {
   width: 100%;
   margin: 0 auto;
-  padding-top: $spacing-30;
-  padding-bottom: $spacing-60;
+  //padding-top: $spacing-30;
+  //padding-bottom: $spacing-60;
 
   @include media-desktop-up {
-    padding-top: $spacing-30;
-    padding-bottom: $spacing-60;
+    //padding-top: $spacing-30;
+    //padding-bottom: $spacing-60;
   }
 
   
@@ -34,10 +34,10 @@
   }
 
   &__media {
-    @include card-base;
-    border-color: $gray-30;
-    padding: $spacing-15;
-    background: $white;
+    //@include card-base;
+    //border-color: $gray-30;
+    //padding: $spacing-15;
+    //background: $white;
   }
 
   &__image-wrapper {

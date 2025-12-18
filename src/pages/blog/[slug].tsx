@@ -35,7 +35,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
           <Header />
 
           <div className="main">
-            <div className="blog-layout mt-lg-responsive">
+            <div className="blog-layout mt-lg-responsive mb-xl-responsive">
               <div className="blog-content">
                 <Breadcrumb
                   items={[
@@ -45,14 +45,14 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
                   ]}
                 />
 
-                <h1 className="type-4xl type-extrabold mb-10">{post.title}</h1>
+                <h1 className="type-5xl type-extrabold mt-xs-responsive mb-xs-responsive">{post.title}</h1>
                 {post.category && (
                   <div className="type-sm mb-15">
                     Category: <a href={`/blog/category/${encodeURIComponent(post.category)}`}>{post.category}</a>
                   </div>
                 )}
 
-                <article className="mb-60">
+                <article className="">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {post.imageUrl && (
                     <Image
@@ -60,14 +60,18 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
                       alt=""
                       width={915}
                       height={531}
-                      className="mb-15 rounded-30"
+                      className="mb-xxs-responsive rounded-30"
                       sizes="(min-width: 1280px) 915px, 100vw"
                       style={{ width: '100%', height: 'auto' }}
                       priority={false}
                     />
                   )}
                   {post.content && (
-                    <p className="type-paragraph type-medium type-gray-90">{post.content}</p>
+                    <>
+                    <p className="type-paragraph type-medium">{post.content}</p>
+                    <p className="type-paragraph type-medium">{post.content}</p>
+                    <p className="type-paragraph type-medium">{post.content}</p>
+                    </>
                     
                   )}
                 </article>
