@@ -14,7 +14,7 @@ type Props = {
  */
 export default function StoreSubHeader({ categoryTitle, subCategoryTitle, onFilterClick, onSortClick }: Props) {
   return (
-    <header className="store-subheader main">
+    <header className="store-subheader main pb-sm-responsive">
       <div className="store-subheader__title">
         <h1 className="type-3xl type-bold md:type-4xl lg:type-5xl m-0">{categoryTitle}</h1>
         {subCategoryTitle && (

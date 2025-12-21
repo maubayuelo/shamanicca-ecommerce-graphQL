@@ -38,7 +38,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
           <div className="main">
             <div className="blog-layout mt-lg-responsive mb-xl-responsive">
               <div className="blog-content">
-                
+
                 <Breadcrumb
                   items={[
                     { label: 'Home', href: '/' },
@@ -96,7 +96,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
 
                   <iframe
                     className="post-video mt-md-responsive"
-                    src="https://www.youtube.com/embed/7xJw6eBEJQs?si=MtQTF1dWnaKp70UL"
+                    src="https://www.youtube.com/embed/BhBFiESIA8E?si=MtQTF1dWnaKp70UL"
                     title="YouTube video player"
                     frameBorder={0}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -106,7 +106,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
 
                   {post.content && (
                     <>
-                    <p className="type- type-medium">{post.content}</p>
+                    <p className="type-italic type-sm">{post.content}</p>
                     </>
                     
                   )}
@@ -135,7 +135,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections }: Pa
                   )}
                   {post.content && (
                     <>
-                    <p className="type-sm type-medium">{post.content}</p>
+                    <p className="type-italic type-sm">{post.content}</p>
                     </>
                     
                   )}

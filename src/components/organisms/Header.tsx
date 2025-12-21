@@ -1,6 +1,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState, useRef, useEffect } from 'react';
 import navigation from '../../utils/navigation';
 
@@ -22,6 +23,7 @@ export default function Header() {
   const bodyOverflowRef = useRef<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const nav = navigation;
+  const router = useRouter();
 
   // Lock body scroll when mobile menu is open. Restore original overflow on close/unmount.
   useEffect(() => {
@@ -108,6 +110,20 @@ export default function Header() {
   const closeSearchOnBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.currentTarget === e.target) setSearchOpen(false);
   };
+
+  // Close mobile menu and search when navigating to another route
+  useEffect(() => {
+    const handleRoute = () => {
+      setMobileOpen(false);
+      setSearchOpen(false);
+    };
+    router.events.on('routeChangeStart', handleRoute);
+    router.events.on('routeChangeComplete', handleRoute);
+    return () => {
+      router.events.off('routeChangeStart', handleRoute);
+      router.events.off('routeChangeComplete', handleRoute);
+    };
+  }, [router.events]);
 
   return (
     <>

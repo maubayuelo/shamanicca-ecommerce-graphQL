@@ -49,9 +49,9 @@ export default function ProductPage() {
       </Head>
       <Header />
       <main className="product-page" role="main">
-        <Breadcrumb
-            className="main breadcrumb pt-sm-responsive pb-sm-responsive"
-            linkLast
+        <div className='main'>
+          <Breadcrumb
+            className="breadcrumb type-xs pt-sm-responsive pb-sm-responsive"
             items={[
               { label: 'Home', href: '/' },
               topCategory && categoryHref
@@ -60,11 +60,13 @@ export default function ProductPage() {
               ...(subcategoryBadge ? [{ label: subcategoryBadge.label, href: subcategoryBadge.href }] : []),
             ]}
           />
+        </div>
         <div className="main product">
           <div className="product__content">
             <ProductImageGallery title={title} isOnSale={!!isOnSale} className="product__media" />
 
             <div className="product__details">
+              
               <h1 className="product__title mt-lg-responsive mb-0 type-5xl">{title}</h1>
 
               <div className="product__price" aria-live="polite">
