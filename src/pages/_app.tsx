@@ -5,7 +5,9 @@ import '../styles/globals.scss';
 import '../styles/components/header.scss';
 import '../styles/pages/product.scss';
 import '../styles/pages/about.scss';
+import '../styles/pages/cart.scss';
 import { Poppins } from 'next/font/google';
+import { CartProvider } from '../lib/context/cart';
 
 // Load Poppins font globally using next/font (pages router)
 const poppins = Poppins({
@@ -36,9 +38,11 @@ export default function App({ Component, pageProps }: AppProps) {
   // Wrap app with ApolloProvider so hooks like useQuery have access to the client
   return (
     <ApolloProvider client={client}>
-      <div className={poppins.className}>
-        <Component {...pageProps} />
-      </div>
+      <CartProvider>
+        <div className={poppins.className}>
+          <Component {...pageProps} />
+        </div>
+      </CartProvider>
     </ApolloProvider>
   );
 }

@@ -49,7 +49,7 @@ body {
         padding-right: $spacing-15;
         width: calc(100% - #{$spacing-30});
         max-width: 100%; // Mobile-first: full width
-
+        flex-direction: column;
         @include media-desktop-up {
             padding-left: $spacing-30;
             padding-right: $spacing-30;

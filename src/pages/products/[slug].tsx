@@ -9,6 +9,7 @@ import ProductsGrid from '../../components/sections/ProductsGrid';
 import ProductImageGallery from '../../components/molecules/ProductImageGallery';
 import Breadcrumb from '../../components/molecules/Breadcrumb';
 import { getSubcategoryBadges } from '../../utils/productSubcategories';
+import { useCart } from '../../lib/context/cart';
 
 export default function ProductPage() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function ProductPage() {
 
   const [size, setSize] = React.useState<string>('');
   const [qty, setQty] = React.useState<number>(1);
+  const { addItem: addToCart } = useCart();
 
   const related = React.useMemo(() => {
     return FEATURED_PRODUCTS_MOCK.filter((p) => p.slug !== product?.slug).slice(0, 4);
@@ -137,7 +139,31 @@ export default function ProductPage() {
                 </div>
               </div>
 
-              <button className="btn btn-primary btn-large product__cta">ADD TO BAG</button>
+              <button
+                className="btn btn-primary btn-large product__cta"
+                onClick={() => {
+                  if (!product) return;
+                  // Require size for apparel; allow empty otherwise
+                  if (!size) {
+                    alert('Please select a size');
+                    return;
+                  }
+                  addToCart({
+                    product: {
+                      id: String(product.id),
+                      name: product.name,
+                      slug: product.slug,
+                      price: product.price,
+                      image: product.image ?? null,
+                    },
+                    qty,
+                    options: { size },
+                  });
+                  router.push('/cart');
+                }}
+              >
+                ADD TO BAG
+              </button>
             </div>
           </div>
         </div>

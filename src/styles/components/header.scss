@@ -22,16 +22,14 @@
     }
 
     &__main{
-        .main{
-            //background-color: pink;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: $spacing-10; 
+            //flex-direction: column;
             @media (min-width: 1280px){
                 padding: 0 0;
             }
-        }
     }
     &__logo{
         display: flex;
@@ -208,6 +206,28 @@
         height: 24px;
         width: 24px;
 
+    }
+
+    &__action_cart {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        text-decoration: none;
+    }
+    &__cart_badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 0px;
+        border-radius: 9px;
+        background: $primary-color;
+        color: $white;
+        font-size: 11px;
+        line-height: 18px;
+        text-align: center;
+        //font-weight: 700;
     }
 
     &__mobile_toggle {

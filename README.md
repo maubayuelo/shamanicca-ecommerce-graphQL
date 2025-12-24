@@ -17,7 +17,7 @@ Next.js + TypeScript storefront for Shamanicca. This app renders the public shop
 
 - Node.js 18.18+ (or 20+) and a package manager (npm, pnpm, or yarn)
 - A running GraphQL endpoint for products/content
-- Stripe keys if you plan to test checkout locally
+- WordPress (WPGraphQL or REST) endpoint for products/content
 
 ## Quick start
 
@@ -39,13 +39,12 @@ Create a `.env.local` (gitignored) using `.env.example` as a reference.
 
 Public (exposed in the browser, prefixed with NEXT_PUBLIC_):
 - `NEXT_PUBLIC_GRAPHQL_URL` – GraphQL API endpoint for read operations
-- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` – Stripe publishable key for client-side
 - `NEXT_PUBLIC_SITE_URL` – Base site URL (e.g., http://localhost:3000)
 - `NEXT_PUBLIC_GA_MEASUREMENT_ID` – Google Analytics GA4 ID
 - `NEXT_PUBLIC_GA_ENABLED` – Enable/disable GA collection (`true`/`false`)
 
 Server-side only (never exposed to client):
-- `STRIPE_SECRET_KEY` – Stripe secret key for server actions/webhooks
+– Stripe and Printful variables removed (checkout will be handled via WordPress/WooCommerce)
 
 SMTP (optional, for emails):
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`
@@ -98,6 +97,18 @@ Notable files:
 
 Recommended VS Code extensions:
 - ESLint, Prettier (optional), GraphQL syntax highlighting
+
+## Cart & Checkout
+
+- Cart state uses Zustand with localStorage persistence (key: `shamanicca-cart`).
+- Cart icon in the header shows the item count and links to the Cart page.
+- The Cart page lists items with quantity controls and subtotal.
+- Checkout is handled via WordPress/WooCommerce; button is disabled until the redirect URL is integrated.
+
+## WordPress Integration
+
+- Use WPGraphQL or REST to load products and content.
+- Home uses GraphQL data if available; otherwise falls back to mock products.
 
 ## Deployment (Vercel)
 

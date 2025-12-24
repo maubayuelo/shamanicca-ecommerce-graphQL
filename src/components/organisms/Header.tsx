@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useState, useRef, useEffect } from 'react';
 import { useBodyClass } from '../../utils/dom';
 import navigation from '../../utils/navigation';
+import { useCart } from '../../lib/context/cart';
 
 /**
  * Header component that renders the site logo, navigation, action buttons and a responsive mobile menu.
@@ -22,8 +23,11 @@ export default function Header() {
   const headerRef = useRef<HTMLElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const lastHeaderHeightRef = useRef<number>(0);
   const nav = navigation;
   const router = useRouter();
+  const { items, hydrated: cartHydrated } = useCart();
+  const cartCount = items.reduce((acc, i) => acc + i.qty, 0);
 
   // Unified: toggle a marker class on body when overlays are open (no inline styles)
   useBodyClass('no-scroll', mobileOpen || searchOpen);
@@ -64,8 +68,11 @@ export default function Header() {
     if (typeof window === 'undefined') return;
     const updateHeaderHeight = () => {
       const h = headerRef.current?.offsetHeight ?? 0;
-      // Expose as CSS var with sensible fallback in CSS
-      document.documentElement.style.setProperty('--header-height', `${h}px`);
+      // Only update CSS var when value actually changes to avoid observer loops
+      if (h !== lastHeaderHeightRef.current) {
+        lastHeaderHeightRef.current = h;
+        document.documentElement.style.setProperty('--header-height', `${h}px`);
+      }
     };
     // initial and on resize
     updateHeaderHeight();
@@ -95,16 +102,18 @@ export default function Header() {
   // Close mobile menu and search when navigating to another route
   useEffect(() => {
     const handleRoute = () => {
-      setMobileOpen(false);
-      setSearchOpen(false);
+      // Only update when needed to avoid redundant state changes
+      setMobileOpen((prev) => (prev ? false : prev));
+      setSearchOpen((prev) => (prev ? false : prev));
     };
-    router.events.on('routeChangeStart', handleRoute);
+    // Only react after navigation completes to minimize duplicate updates
     router.events.on('routeChangeComplete', handleRoute);
     return () => {
-      router.events.off('routeChangeStart', handleRoute);
       router.events.off('routeChangeComplete', handleRoute);
     };
-  }, [router.events]);
+    // Subscribe once; Next.js router.events is stable, avoid ref changes causing re-subscribe loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
@@ -113,8 +122,10 @@ export default function Header() {
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
       </div>
 
-      <div className="header__main">
-        <div className="main">
+      <div className="main"> <div className="header__main">
+        
+
+          
           <Link href="/" className="header__logo">
             <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="header__logo" priority />
           </Link>
@@ -153,15 +164,18 @@ export default function Header() {
             <button aria-label="search" className="header__action_btn" onClick={toggleSearch}>
               <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="header__action_icon" />
             </button>
-            <button aria-label="WishList" className="header__action_btn">
+            {/* <button aria-label="WishList" className="header__action_btn">
               <Image src="/images/icon-heart.svg" alt="WishList" width={24} height={24} className="header__action_icon" />
             </button>
             <button aria-label="account" className="header__action_btn">
               <Image src="/images/icon-avatar.svg" alt="Account" width={24} height={24} className="header__action_icon" />
-            </button>
-            <button aria-label="cart" className="header__action_btn">
+            </button> */}
+            <Link href="/cart" aria-label="cart" className="header__action_btn header__action_cart">
               <Image src="/images/icon-shopping-bag.svg" alt="Cart" width={24} height={24} className="header__action_icon" />
-            </button>
+              {cartHydrated && cartCount > 0 && (
+                <span className="header__cart_badge type-bold" aria-label={`Cart items: ${cartCount}`}>{cartCount}</span>
+              )}
+            </Link>
             <button
               aria-label="Toggle mobile menu"
               className="header__mobile_toggle"
@@ -176,6 +190,8 @@ export default function Header() {
               />
             </button>
           </div>
+
+
         </div>
       </div>
 

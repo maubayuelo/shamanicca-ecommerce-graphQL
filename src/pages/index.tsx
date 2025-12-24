@@ -8,6 +8,7 @@ import HomeBanners from '../components/sections/HomeBanners';
 import BlogGrid from '../components/sections/BlogGrid';
 import { FEATURED_PRODUCTS_MOCK } from '../utils/mockProducts';
 import { GET_PRODUCTS } from '../lib/graphql/queries';
+// WordPress/GraphQL supplies product data; remove Printful fallback
 
 type ProductFromApi = {
   id: string;
@@ -31,6 +32,7 @@ export default function Home() {
     skip: skipQuery,
   });
   const products = data?.products?.nodes ?? [];
+  // Removed Printful fallback: rely on GraphQL (WPGraphQL) or mock data.
   const FEATURED_CATEGORY = 'Featured Products';
   // Choose products for Home: prefer API data (no categories in current query), otherwise mock filtered by Featured category.
   type FeaturedMock = FeaturedProduct & { categories?: string[] };

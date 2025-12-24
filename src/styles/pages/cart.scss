@@ -1,0 +1,118 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+.cart-page {
+  .cart__loading,
+  .cart__empty {
+    padding: $spacing-30 0;
+  }
+
+  .cart__layout {
+    display: grid;
+    gap: $spacing-30;
+    grid-template-columns: 1fr;
+
+    @media (min-width: 1024px) {
+      grid-template-columns: 2fr 1fr;
+      align-items: start;
+    }
+  }
+
+  .cart__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: $spacing-15;
+  }
+
+  .cart__item {
+    display: grid;
+    grid-template-columns: 96px 1fr auto;
+    gap: $spacing-15;
+    align-items: center;
+    padding: $spacing-15;
+    border: 1px solid $gray-40;
+    border-radius: $spacing-10;
+    background: $white;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 96px 1fr;
+    }
+  }
+
+  .cart__thumb {
+    width: 96px;
+    height: 96px;
+    border-radius: $spacing-10;
+    overflow: hidden;
+    background: $gray-10;
+
+    .cart__thumb_placeholder {
+      width: 100%;
+      height: 100%;
+      background: $gray-10;
+    }
+  }
+
+  .cart__info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-5;
+
+    .product-name { color: $black; text-decoration: none; }
+    .prices { display: inline-flex; gap: $spacing-10; }
+    .price { color: $black; }
+    .cart__opt { color: $gray-70; }
+  }
+
+  .cart__controls {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-10;
+    align-items: flex-end;
+
+    @media (max-width: 768px) {
+      grid-column: 1 / -1;
+      align-items: flex-start;
+    }
+  }
+
+  .cart__qty {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-10;
+  }
+
+  .cart__qty_btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-10;
+    border: 1px solid $gray-40;
+    border-radius: $spacing-10;
+    background-color: $white;
+  }
+
+  .cart__qty_input {
+    width: 88px;
+    text-align: center;
+  }
+
+  .cart__actions { display: inline-flex; justify-content: flex-end; }
+
+  .cart__summary {
+    position: sticky;
+    top: $spacing-30;
+    padding: $spacing-20;
+    border: 1px solid $gray-40;
+    border-radius: $spacing-10;
+    background: $white;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-15;
+
+    .cart__row { display: flex; justify-content: space-between; align-items: baseline; }
+    .btn-primary { width: 100%; }
+  }
+}
