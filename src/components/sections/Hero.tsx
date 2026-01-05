@@ -34,6 +34,12 @@ export default function Hero() {
           priority
           sizes="100vw"
           style={{ objectFit: 'cover' }}
+          unoptimized
+          onError={(e) => {
+            if (process.env.NODE_ENV !== 'production') return;
+            // eslint-disable-next-line no-console
+            console.error('Hero image failed to load', e);
+          }}
         />
       </div>
     
