@@ -27,7 +27,14 @@ export default function Hero() {
         
       </div>
       <div className="bg-image">
-        <Image src="/images/hero-image.png" alt="Shamanicca Collection" fill priority style={{ objectFit: 'cover' }} />
+        <Image
+          src="/images/hero-image.png"
+          alt="Shamanicca Collection"
+          fill
+          priority
+          sizes="100vw"
+          style={{ objectFit: 'cover' }}
+        />
       </div>
     
     </section>
