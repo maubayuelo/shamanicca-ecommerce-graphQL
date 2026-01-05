@@ -4,7 +4,7 @@ const endpoint =
   process.env.NEXT_PUBLIC_GRAPHQL_URL ||
   process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT ||
   process.env.GRAPHQL_ENDPOINT ||
-  'https://your-wp-site.com/graphql';
+  'https://master.shamanicca.com/graphql';
 
 const httpLink = new HttpLink({
   uri: endpoint,
