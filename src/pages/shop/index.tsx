@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import ProductListing, { type ProductListingProduct } from '../../components/sections/ProductListing';
 import ProductsGrid from '../../components/sections/ProductsGrid';
@@ -45,7 +45,7 @@ export default function ShopPage({ products }: Props) {
   const listingTitle = subTitle ? `${categoryTitle} — ${subTitle}` : categoryTitle;
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>{listingTitle} — Shamanicca</title>
       </Head>
@@ -72,7 +72,7 @@ export default function ShopPage({ products }: Props) {
           <Footer />
         </main>
       </div>
-    </>
+    </Fragment>
   );
 }
 

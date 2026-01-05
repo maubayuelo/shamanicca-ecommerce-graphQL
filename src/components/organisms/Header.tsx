@@ -2,9 +2,10 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, Fragment } from 'react';
 import { useBodyClass } from '../../utils/dom';
 import navigation from '../../utils/navigation';
+import { decodeEntities } from '../../utils/html';
 import { useCart } from '../../lib/context/cart';
 
 /**
@@ -25,6 +26,7 @@ export default function Header() {
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const lastHeaderHeightRef = useRef<number>(0);
   const nav = navigation;
+  const [blogChildren, setBlogChildren] = useState<Array<{ id: string; label: string; href: string }>>([]);
   const router = useRouter();
   const { items, hydrated: cartHydrated } = useCart();
   const cartCount = items.reduce((acc, i) => acc + i.qty, 0);
@@ -115,8 +117,34 @@ export default function Header() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Fetch blog categories via local API and attach them under the Blog nav item
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/blog/categories');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const cats = await res.json();
+        const topLevel = cats.filter((c: any) => c.parent === 0);
+        const children = topLevel.map((c) => ({
+          id: `blog-${c.slug}`,
+          label: decodeEntities(c.name),
+          href: `/blog/category/${c.slug}`,
+        }));
+        if (mounted) setBlogChildren(children);
+      } catch {
+        // silently ignore fetch errors; nav will remain without blog children
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
+  const computedNav = nav.map((item) =>
+    item.id === 'blog' ? { ...item, children: blogChildren } : item,
+  );
+
   return (
-    <>
+    <Fragment>
     <header ref={headerRef} className="header header__sticky">
       <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
@@ -131,7 +159,7 @@ export default function Header() {
           </Link>
           <div className="header__container">
             <nav className="header__nav" aria-label="Main navigation">
-              {nav.map((item) => (
+              {computedNav.map((item) => (
                 <div key={item.id} className="header__nav_item_wrapper">
                   <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold`}>
                     {item.label}
@@ -143,10 +171,14 @@ export default function Header() {
                         {item.children.map((child) => (
                           <li key={child.id} className="header__dropdown_item">
                             <Link
-                              href={{
-                                pathname: '/shop/[category]',
-                                query: { category: item.id, sub: child.id },
-                              }}
+                              href={
+                                item.id === 'blog' && (child as any).href
+                                  ? (child as any).href
+                                  : {
+                                      pathname: '/shop/[category]',
+                                      query: { category: item.id, sub: child.id },
+                                    }
+                              }
                               className="type-md type-bold"
                             >
                               {child.label}
@@ -199,7 +231,7 @@ export default function Header() {
 
       <div className={`header__mobile_menu ${mobileOpen ? 'is-open' : ''}`}>
         <nav ref={mobileNavRef} className="header__mobile_nav pb-sm-responsive" aria-label="Mobile navigation">
-          {nav.map((item) => (
+              {computedNav.map((item) => (
             <details key={item.id} className="mobile__details" onToggle={handleDetailsToggle}>
               <summary className="mobile__summary">
                 <Link href={item.href} className={`mobile__link ${item.children ? 'has-submenu' : ''} type-bold`}>
@@ -212,10 +244,14 @@ export default function Header() {
                   {item.children.map((child) => (
                     <li key={child.id} className="mobile__subnav_item">
                       <Link
-                        href={{
-                          pathname: '/shop/[category]',
-                          query: { category: item.id, sub: child.id },
-                        }}
+                        href={
+                          item.id === 'blog' && (child as any).href
+                            ? (child as any).href
+                            : {
+                                pathname: '/shop/[category]',
+                                query: { category: item.id, sub: child.id },
+                              }
+                        }
                       >
                         {child.label}
                       </Link>
@@ -273,6 +309,6 @@ export default function Header() {
         </div>
       </div>
     </div>
-    </>
+    </Fragment>
   );
 }

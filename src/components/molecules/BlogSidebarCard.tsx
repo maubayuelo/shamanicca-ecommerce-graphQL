@@ -7,6 +7,7 @@ export type BlogSidebarCardProps = {
 };
 
 export default function BlogSidebarCard({ item }: BlogSidebarCardProps) {
+  const summaryText = item.summary ? (item.summary.length > 57 ? item.summary.slice(0, 56).trimEnd() + '…' : item.summary) : undefined;
   return (
     <article className="blog-sidebar__row">
       <a href={item.href || '#'} className="blog-sidebar__thumb rounded-30" aria-label={`Read ${item.title}`}>
@@ -14,7 +15,7 @@ export default function BlogSidebarCard({ item }: BlogSidebarCardProps) {
       </a>
       <div className="blog-sidebar__info">
         <h3 className="type-xl type-extrabold m-0"><a href={item.href || '#'}>{item.title}</a></h3>
-        {item.summary && <p className="type-md m-0">{item.summary}</p>}
+        {summaryText && <p className="type-md m-0">{summaryText}</p>}
       </div>
     </article>
   );

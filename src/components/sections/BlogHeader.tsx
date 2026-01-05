@@ -1,4 +1,5 @@
 import React from 'react';
+import { decodeEntities } from '../../utils/html';
 
 type BlogHeaderProps = {
   title: string;
@@ -11,7 +12,7 @@ export default function BlogHeader({ title, subtitle, className = '' }: BlogHead
     <div className={`blog-header ${className}`}>
       <div className="blog-header__title type-xl type-bold">{title}</div>
       {subtitle && (
-        <div className="blog-header__subtitle type-lg">{subtitle}</div>
+        <div className="blog-header__subtitle type-lg">{decodeEntities(subtitle)}</div>
       )}
     </div>
   );

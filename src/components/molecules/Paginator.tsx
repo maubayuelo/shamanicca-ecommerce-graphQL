@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { Fragment } from 'react';
 import Image from 'next/image';
 
 export type PaginatorProps = {
@@ -96,10 +96,10 @@ export default function Paginator({
           }
           const isActive = item.page === page;
           const content = (
-            <>
+            <Fragment>
               <span className="sr-only">Page </span>
               <span className="type-lg type-extrabold">{item.page}</span>
-            </>
+            </Fragment>
           );
           return (
             <li key={item.page} className={`paginator__item mb-0${isActive ? ' is-active' : ''}`} aria-current={isActive ? 'page' : undefined}>

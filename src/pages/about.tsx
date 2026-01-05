@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Head from 'next/head';
 import Header from '../components/organisms/Header';
 import Footer from '../components/organisms/Footer';
@@ -7,7 +8,7 @@ import Breadcrumb from '../components/molecules/Breadcrumb';
 
 export default function AboutPage() {
   return (
-    <>
+    <Fragment>
       <Head>
         <title>About — Shamanicca</title>
       </Head>
@@ -65,6 +66,6 @@ export default function AboutPage() {
         </main>
         <Footer />
       </div>
-    </>
+    </Fragment>
   );
 }

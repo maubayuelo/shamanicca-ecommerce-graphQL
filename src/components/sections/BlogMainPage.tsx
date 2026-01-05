@@ -86,8 +86,7 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
           {block2.length > 0 && (
             <BlogGrid items={block2} 
             className='mb-lg-responsive'
-            ctaHref="/blog"
-            ctaLabel="Check All Blog Posts"
+            ctaHref="/blog/all" ctaLabel="See All Posts"
             />
           )}
 

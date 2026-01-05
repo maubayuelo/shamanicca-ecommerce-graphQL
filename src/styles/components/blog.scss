@@ -24,16 +24,40 @@
 
   @media (min-width: 1280px) {
     display: grid;
-    grid-template-columns: 1fr 435px;
+    grid-template-columns: 1fr 450px;
     gap: $spacing-60;
+  }
+  @media (min-width: 1440px) {
+        display: grid;
+        grid-template-columns: 1fr 450px;
+        gap: $spacing-60;
   }
 }
 
-.blog-content {
-  display: flex;
-  flex-direction: column;
-  //gap: $spacing-30;
+.post-body{
+    display: flex;
+    flex-direction: column;
 }
+
+.post-content{
+    width: 100%;
+    
+    @media (min-width: 1440px) {
+        max-width: 700px;
+    display: block;
+    margin: 0 auto;
+  }
+  ul, p{
+    margin-top: 0;
+    //margin-bottom: 0;
+  }
+
+  h2, h3{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
 
 .blog-sidebar {
   display: none;
@@ -140,14 +164,12 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: $spacing-15;
+  // gap: $spacing-15;
   border: 1px solid $gray-70;
   @include responsive-border-radius;
   overflow: hidden;
   gap: 0;
-  @include media-tablet-up {
-      gap: $spacing-15;
-    }
+  
 
   &.is-affilliated {
     background: $gray-10;
@@ -206,11 +228,11 @@
   @include media-tablet-up {
     flex-direction: row;
     align-items: center;
-    gap: $spacing-30;
+    gap: $spacing-15;
     padding-right: 15px;
 
     &__image {
-      width: 210px;
+      width: 150px;
       height: 150px;
       flex-shrink: 0;
     }
@@ -219,6 +241,17 @@
     }
     
   }
+
+  @include media-desktop-lg-up {
+    &__image {
+      width: 210px;
+      height: 150px;
+      flex-shrink: 0;
+    }
+    gap: $spacing-30;
+  }
+
+  
 }
 
 .blog-main-article {

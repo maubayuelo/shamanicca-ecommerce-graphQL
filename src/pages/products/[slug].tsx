@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
-import React from 'react';
+import React, { Fragment } from 'react';
 import { FEATURED_PRODUCTS_MOCK } from '../../utils/mockProducts';
 import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
@@ -45,7 +45,7 @@ export default function ProductPage() {
     : undefined;
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>{title} — Shamanicca</title>
       </Head>
@@ -179,6 +179,6 @@ export default function ProductPage() {
         <Footer />
       </main>
       
-    </>
+    </Fragment>
   );
 }

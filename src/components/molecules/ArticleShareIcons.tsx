@@ -73,8 +73,8 @@ export default function ArticleShareIcons({ articleTitle, articleUrl, className 
   return (
     <div className={`article-share-icons ${className}`}>
       <ul className="inline-flex items-center gap-3 m-0 p-0 list-none">
-        <li>
-          <span className="type-sm type-extrabold type-uppercase">Sharing is Love:</span>
+        <li className="type-sm type-extrabold type-uppercase type-lineheight-xs">
+          Sharing<br/>is <span className='type-primary-color'>Love</span>
         </li>
         {links.map((link, idx) => (
           <li key={`share-${idx}`}>

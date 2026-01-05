@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +13,7 @@ export default function CartPage() {
   // TODO: Integrate WordPress/WooCommerce checkout URL and redirect.
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>Cart — Shamanicca</title>
       </Head>
@@ -99,6 +100,6 @@ export default function CartPage() {
         </div>
         <Footer />
       </main>
-    </>
+    </Fragment>
   );
 }

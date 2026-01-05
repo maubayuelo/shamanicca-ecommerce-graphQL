@@ -25,7 +25,8 @@ export default function BlogGrid({
   ctaLabel,
 }: BlogGridProps) {
   return (
-    <section className={`blog-grid ${className}`}>
+     <div className="main">
+      <section className={`blog-grid ${className}`}>
       {title && (
         <h2 className="blog-grid__title type-4xl type-extrabold mt-lg-responsive mb-md-responsive">{title}</h2>
       )}
@@ -41,12 +42,15 @@ export default function BlogGrid({
           <a href={ctaHref} className="btn btn-secondary btn-large">{ctaLabel}</a>
         </div>
       )}
-    </section>
+      </section>
+    </div>
+    
   );
 }
 
 function BlogGridCard({ item }: { item: BlogGridItem }) {
   const img = item.imageUrl || 'https://placehold.co/345x230.png';
+  const summaryText = item.summary ? (item.summary.length > 57 ? item.summary.slice(0, 56).trimEnd() + '…' : item.summary) : undefined;
   return (
     <article className="blog-grid__item">
       <a href={item.href || '#'} className="blog-grid__thumb rounded-30" aria-label={`Read ${item.title}`}>
@@ -54,7 +58,7 @@ function BlogGridCard({ item }: { item: BlogGridItem }) {
       </a>
       <div className="blog-grid__info">
         <h3 className="type-xl type-extrabold m-0"><a href={item.href || '#'}>{item.title}</a></h3>
-        {item.summary && <p className="type-md m-0">{item.summary}</p>}
+        {summaryText && <p className="type-md m-0">{summaryText}</p>}
       </div>
     </article>
   );

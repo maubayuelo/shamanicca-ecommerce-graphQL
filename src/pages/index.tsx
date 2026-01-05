@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+import type { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useQuery } from '@apollo/client/react';
 import Header from '../components/organisms/Header';
@@ -5,9 +7,12 @@ import Footer from '../components/organisms/Footer';
 import Hero from '../components/sections/Hero';
 import ProductsGrid, { type FeaturedProduct } from '../components/sections/ProductsGrid';
 import HomeBanners from '../components/sections/HomeBanners';
-import BlogGrid from '../components/sections/BlogGrid';
+import BlogGrid, { type BlogGridItem } from '../components/sections/BlogGrid';
 import { FEATURED_PRODUCTS_MOCK } from '../utils/mockProducts';
-import { GET_PRODUCTS } from '../lib/graphql/queries';
+import client from '../lib/graphql/apolloClient';
+import { GET_PRODUCTS, GET_BLOG_POSTS } from '../lib/graphql/queries';
+import { pickImage } from '../lib/graphql/utils';
+import { cleanExcerpt, decodeEntities } from '../utils/html';
 // WordPress/GraphQL supplies product data; remove Printful fallback
 
 type ProductFromApi = {
@@ -25,7 +30,12 @@ type GetProductsData = {
 
 type GetProductsVars = { first?: number };
 
-export default function Home() {
+type PageProps = {
+  hero: null;
+  blogItems: BlogGridItem[];
+};
+
+export default function Home({ hero, blogItems }: PageProps) {
   const skipQuery = !process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT && !process.env.GRAPHQL_ENDPOINT;
   const { data } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, {
     variables: { first: 12 },
@@ -43,7 +53,7 @@ export default function Home() {
         || MOCK.slice(0, 6));
 
   return (
-    <>
+    <Fragment>
       <Head>
         <title>Shamanicca — Shop & Audio</title>
         <meta name="description" content="Digital audio and merch" />
@@ -80,62 +90,33 @@ export default function Home() {
 
           
 
-          {/* Blog Articles */}
-          <div className="main">
-            <BlogGrid
+          {/* Blog Articles (from WordPress) */}
+          <BlogGrid
             title="Blog Articles"
-            items={[
-              {
-                id: 'a1',
-                title: 'Understanding the Wheel of the Year: Celebrating the Sabbats',
-                summary:
-                  'Pagan holidays, or Sabbats, that mark the turning of the seasons. Learn their history, symbolism, and how to celebrate each one.',
-                imageUrl: 'https://placehold.co/345x230.png',
-                href: '/blog/wheel-of-the-year',
-              },
-              {
-                id: 'a2',
-                title: 'Protective Sigils 101: Designing Your Own',
-                summary: 'A beginner-friendly guide to creating and activating sigils for protection and intention setting.',
-                imageUrl: 'https://placehold.co/345x230.png',
-                href: '/blog/protective-sigils',
-              },
-              {
-                id: 'a3',
-                title: 'Crystal Grids for Manifestation',
-                summary: 'How to choose stones, lay out your grid, and amplify your intentions effectively.',
-                imageUrl: 'https://placehold.co/345x230.png',
-                href: '/blog/crystal-grids',
-              },
-              {
-                id: 'a4',
-                title: 'Lunar Magic: Working with the Moon Phases',
-                summary: 'Harness new moon intentions and full moon release rituals in your practice.',
-                imageUrl: 'https://placehold.co/345x230.png',
-                href: '/blog/lunar-magic',
-              },
-              // {
-              //   id: 'a5',
-              //   title: 'Herbal Allies: Witch’s Pantry Essentials',
-              //   summary: 'Start your apothecary with common herbs and their magical correspondences.',
-              //   imageUrl: 'https://placehold.co/345x230',
-              //   href: '/blog/herbal-allies',
-              // },
-              // {
-              //   id: 'a6',
-              //   title: 'Altars: Building a Sacred Space at Home',
-              //   summary: 'Ideas and inspiration for creating meaningful, intentional altar spaces.',
-              //   imageUrl: 'https://placehold.co/345x230',
-              //   href: '/blog/altars-sacred-space',
-              // },
-            ]}
+            items={blogItems}
             ctaHref="/blog"
             ctaLabel="Check Shamanicca’s Blog Posts"
           />
-          </div>
+
           <Footer />
         </main>
       </div>
-    </>
+    </Fragment>
   );
 }
+
+export const getStaticProps: GetStaticProps<PageProps> = async () => {
+  try {
+    const { data } = await client.query({ query: GET_BLOG_POSTS, variables: { first: 4 } });
+    const blogItems: BlogGridItem[] = (data.posts?.nodes || []).map((n: any) => ({
+      id: n.databaseId,
+      title: decodeEntities(n.title || ''),
+      summary: cleanExcerpt(n.excerpt || ''),
+      imageUrl: pickImage(n, 'medium') || null,
+      href: `/blog/${n.slug}`,
+    }));
+    return { props: { hero: null, blogItems }, revalidate: 300 };
+  } catch {
+    return { props: { hero: null, blogItems: [] }, revalidate: 60 };
+  }
+};

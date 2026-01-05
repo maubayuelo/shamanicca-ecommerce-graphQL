@@ -150,7 +150,7 @@ $line-heights-phone: (
     @include responsive-font-size(md);
     @include responsive-line-height(md);
 }
-.type-lg {
+.type-lg, .type-paragraph, p {
     font-family: $font-family-base;
     @include responsive-font-size(lg);
     @include responsive-line-height(lg);
@@ -160,17 +160,17 @@ $line-heights-phone: (
     @include responsive-font-size(xl);
     @include responsive-line-height(xl);
 }
-.type-2xl {
+.type-2xl, h3  {
     font-family: $font-family-base;
     @include responsive-font-size("2xl");
     @include responsive-line-height("2xl");
 }
-.type-3xl {
+.type-3xl{
     font-family: $font-family-base;
     @include responsive-font-size("3xl");
     @include responsive-line-height("3xl");
 }
-.type-4xl {
+.type-4xl, h2 {
     font-family: $font-family-base;
     @include responsive-font-size("4xl");
     @include responsive-line-height("4xl");
@@ -179,13 +179,6 @@ $line-heights-phone: (
     font-family: $font-family-base;
     @include responsive-font-size("5xl");
     @include responsive-line-height("5xl");
-}
-
-// Paragraph size (size-only)
-.type-paragraph {
-    font-family: $font-family-base;
-    @include responsive-font-size(lg);
-    @include responsive-line-height(lg);
 }
 
 // Weight-only classes (do not set size/line-height here)
@@ -200,6 +193,9 @@ $line-heights-phone: (
 }
 .type-italic {
     font-style: italic;
+}
+.type-lineheight-xs {
+    line-height: 15px;
 }
 
 // Optional: enable antialiasing separately (so smoothing isn't mixed with size/weight)
@@ -244,8 +240,8 @@ $line-heights-phone: (
 }
 
 ul {
-    margin-top: 0;
-    margin-bottom: 0;
+    //margin-top: 0;
+    //margin-bottom: 0;
     padding-left: 24px;
     li {
         margin-bottom: $spacing-10;

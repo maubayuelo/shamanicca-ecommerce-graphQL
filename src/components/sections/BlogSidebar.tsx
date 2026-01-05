@@ -42,7 +42,7 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
               />
             )}
 
-            <h3 className="type-3xl type-extrabold type-uppercase mt-0">{section.title}</h3>
+            <h3 className="type-3xl type-extrabold type-uppercase mt-0 mb-0">{section.title}</h3>
             <div className="blog-sidebar__list">
               {section.items.map((item) => (
                 <BlogSidebarCard key={item.id} item={item} />

@@ -6,8 +6,10 @@ module.exports = {
     remotePatterns: [
       { protocol: 'https', hostname: 'your-cdn.com', pathname: '/**' },
       { protocol: 'https', hostname: 'wp-siteground-domain.com', pathname: '/**' },
+      { protocol: 'https', hostname: 'master.shamanicca.com', pathname: '/**' },
       { protocol: 'https', hostname: 'source.unsplash.com', pathname: '/**' },
       { protocol: 'https', hostname: 'placehold.co', pathname: '/**' },
+      { protocol: 'https', hostname: 'cms.shamanicca.com', pathname: '/**' },
     ],
     // Keep SVGs disabled for safety; we now request PNGs
     dangerouslyAllowSVG: false,
