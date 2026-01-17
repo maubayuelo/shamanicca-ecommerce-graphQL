@@ -7,11 +7,15 @@ export const GET_PRODUCTS = gql`
         id
         name
         slug
-        price
         shortDescription
         image {
           sourceUrl
         }
+        ... on SimpleProduct { price regularPrice }
+        ... on VariableProduct { price regularPrice }
+        ... on ExternalProduct { price regularPrice }
+        ... on GroupProduct { price regularPrice }
+        ... on ProductWithPricing { price regularPrice }
       }
     }
   }

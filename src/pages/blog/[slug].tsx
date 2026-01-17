@@ -14,6 +14,23 @@ import { GET_POST_BY_SLUG, GET_BLOG_POSTS, GET_POST_SLUGS, GET_CATEGORIES } from
 import { pickImage } from '../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
 
+async function fetchAcfBySlug(slug: string): Promise<Record<string, unknown> | null> {
+  try {
+    const base = (process.env.WORDPRESS_API_URL || 'https://master.shamanicca.com/wp-json').replace(/\/$/, '');
+    const url = `${base}/wp/v2/posts?slug=${encodeURIComponent(slug)}&_fields=acf`;
+    const res = await fetch(url, { headers: { accept: 'application/json' } });
+    if (!res.ok) return null;
+    const arr = await res.json();
+    if (Array.isArray(arr) && arr.length > 0 && arr[0] && typeof arr[0] === 'object') {
+      const acf = (arr[0] as any).acf;
+      return acf && typeof acf === 'object' ? acf : null;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function extractIframeSrc(html: string): string | undefined {
   const m = html.match(/src=["']([^"']+)["']/i);
   return m ? m[1] : undefined;
@@ -336,6 +353,12 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
       acf: null,
     } as any;
 
+    // Fetch ACF via REST (WP JSON) for video fields without breaking GraphQL builds
+    const acf = await fetchAcfBySlug(slug);
+    if (acf) {
+      post.acf = acf;
+    }
+
     return {
       props: {
         post,
@@ -347,6 +370,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
       revalidate: 300,
     };
   } catch {
-    return { notFound: true, revalidate: 60 };
+    // On error, avoid hard 404; serve a soft fallback so pages don't disappear
+    return { notFound: false, props: { post: null as any, relatedPosts: [], sidebarSections: [] }, revalidate: 60 } as any;
   }
 };

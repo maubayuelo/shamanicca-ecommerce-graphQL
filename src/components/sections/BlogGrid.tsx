@@ -38,7 +38,7 @@ export default function BlogGrid({
       </div>
 
       {ctaHref && ctaLabel && (
-        <div className="blog-grid__footer mt-lg-responsive mb-lg-responsive">
+        <div className="blog-grid__footer mt-lg-responsive mb-xl-responsive">
           <a href={ctaHref} className="btn btn-secondary btn-large">{ctaLabel}</a>
         </div>
       )}

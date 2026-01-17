@@ -2,18 +2,14 @@
 @use "../mixins" as *;
 
 .section-home-banners {
-  background-color: aqua;
   display: grid;
-  flex-direction: row;
+  flex-direction: column;
   grid-template-columns: 1fr;
   gap: $spacing-30;
-  //padding-top: $spacing-15;
-  //padding-bottom: $spacing-15;
 
   @include media-tablet-up {
     grid-template-columns: repeat(2, 1fr);
     column-gap: $spacing-30;
-    padding-left: 0;
     flex-direction: row; // inert on grid, retained if layout mode changes
   }
 
@@ -43,13 +39,11 @@
 
     @include media-desktop-up {
       min-height: 270px;
-      // gap: $spacing-90;
       padding: $spacing-30;
+      width: calc(100% - $spacing-60);
     }
     @include media-desktop-lg-up {
       min-height: 300px;
-      // gap: $spacing-90;
-      padding: $spacing-60;
     }
 
     

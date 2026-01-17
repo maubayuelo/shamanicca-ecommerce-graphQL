@@ -23,8 +23,7 @@ type Props = {
 export default function HomeBanners({ banners, className = '' }: Props) {
   return (
     <div className='main'>
-         <div  className='section-home-banners'>
-          <section className={`section-home-banners main ${className}`}>
+          <section className={`section-home-banners ${className}`}>
           {banners.map((b) => (
             <a
               key={b.id}
@@ -50,7 +49,6 @@ export default function HomeBanners({ banners, className = '' }: Props) {
             </a>
           ))}
         </section>
-         </div>
     </div>
     
   );

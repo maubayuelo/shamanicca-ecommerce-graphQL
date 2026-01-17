@@ -13,6 +13,7 @@ import client from '../lib/graphql/apolloClient';
 import { GET_PRODUCTS, GET_BLOG_POSTS } from '../lib/graphql/queries';
 import { pickImage } from '../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../utils/html';
+import { fetchWooProductsREST } from '../lib/api/woocommerce';
 // WordPress/GraphQL supplies product data; remove Printful fallback
 
 type ProductFromApi = {
@@ -20,6 +21,7 @@ type ProductFromApi = {
   name: string;
   slug?: string;
   price?: string | number | null;
+  regularPrice?: string | number | null;
   shortDescription?: string | null;
   image?: { sourceUrl?: string | null } | null;
 };
@@ -33,15 +35,22 @@ type GetProductsVars = { first?: number };
 type PageProps = {
   hero: null;
   blogItems: BlogGridItem[];
+  products: FeaturedProduct[];
 };
 
-export default function Home({ hero, blogItems }: PageProps) {
-  const skipQuery = !process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT && !process.env.GRAPHQL_ENDPOINT;
-  const { data } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, {
+type GetBlogPostsData = {
+  posts?: { nodes?: any[] };
+};
+
+export default function Home({ hero, blogItems, products: productsSSR }: PageProps) {
+  // Always query WPGraphQL for products; apolloClient has a default endpoint.
+  const skipQuery = false;
+  const { data, loading, error } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, {
     variables: { first: 12 },
     skip: skipQuery,
   });
-  const products = data?.products?.nodes ?? [];
+  // Prefer client data; fallback to SSR props; finally mock
+  const products = data?.products?.nodes ?? productsSSR ?? [];
   // Removed Printful fallback: rely on GraphQL (WPGraphQL) or mock data.
   const FEATURED_CATEGORY = 'Featured Products';
   // Choose products for Home: prefer API data (no categories in current query), otherwise mock filtered by Featured category.
@@ -107,7 +116,24 @@ export default function Home({ hero, blogItems }: PageProps) {
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
   try {
-    const { data } = await client.query({ query: GET_BLOG_POSTS, variables: { first: 4 } });
+    // Fetch products server-side so Home has initial data
+    let productsSSR: FeaturedProduct[] = [];
+    try {
+      const productsResp = await client.query<GetProductsData, GetProductsVars>({ query: GET_PRODUCTS, variables: { first: 12 } });
+      productsSSR = (productsResp.data.products?.nodes ?? []) as unknown as FeaturedProduct[];
+    } catch {
+      productsSSR = [];
+    }
+    // If GraphQL doesn't expose products, fallback to Woo REST when configured
+    if (!productsSSR || productsSSR.length === 0) {
+      try {
+        const restProducts = await fetchWooProductsREST(12);
+        productsSSR = restProducts;
+      } catch {
+        // ignore
+      }
+    }
+    const { data } = await client.query<GetBlogPostsData>({ query: GET_BLOG_POSTS, variables: { first: 4 } });
     const blogItems: BlogGridItem[] = (data.posts?.nodes || []).map((n: any) => ({
       id: n.databaseId,
       title: decodeEntities(n.title || ''),
@@ -115,8 +141,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
       imageUrl: pickImage(n, 'medium') || null,
       href: `/blog/${n.slug}`,
     }));
-    return { props: { hero: null, blogItems }, revalidate: 300 };
+    return { props: { hero: null, blogItems, products: productsSSR }, revalidate: 300 };
   } catch {
-    return { props: { hero: null, blogItems: [] }, revalidate: 60 };
+    return { props: { hero: null, blogItems: [], products: [] }, revalidate: 60 };
   }
 };
