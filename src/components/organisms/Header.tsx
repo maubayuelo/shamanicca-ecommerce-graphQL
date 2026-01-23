@@ -2,11 +2,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState, useRef, useEffect, Fragment } from 'react';
+import { useState, useRef, useEffect, Fragment, useMemo } from 'react';
 import { useBodyClass } from '../../utils/dom';
 import navigation from '../../utils/navigation';
 import { decodeEntities } from '../../utils/html';
 import { useCart } from '../../lib/context/cart';
+import React from 'react';
 
 /**
  * Header component that renders the site logo, navigation, action buttons and a responsive mobile menu.
@@ -27,6 +28,7 @@ export default function Header() {
   const lastHeaderHeightRef = useRef<number>(0);
   const nav = navigation;
   const [blogChildren, setBlogChildren] = useState<Array<{ id: string; label: string; href: string }>>([]);
+  const [shopCategories, setShopCategories] = useState<Array<{ id: string; label: string; href: string; children?: Array<{ id: string; label: string; href: string }> }>>([]);
   const router = useRouter();
   const { items, hydrated: cartHydrated } = useCart();
   const cartCount = items.reduce((acc, i) => acc + i.qty, 0);
@@ -125,7 +127,8 @@ export default function Header() {
         const res = await fetch('/api/blog/categories');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const cats = await res.json();
-        const topLevel = cats.filter((c: any) => c.parent === 0);
+        // Filter out 'uncategorized' and get top-level categories
+        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized');
         const children = topLevel.map((c) => ({
           id: `blog-${c.slug}`,
           label: decodeEntities(c.name),
@@ -139,9 +142,82 @@ export default function Header() {
     return () => { mounted = false; };
   }, []);
 
-  const computedNav = nav.map((item) =>
-    item.id === 'blog' ? { ...item, children: blogChildren } : item,
-  );
+  // Fetch WooCommerce product categories and build shop navigation
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch('/api/shop/categories');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const cats = await res.json();
+        
+        // Get top-level categories (no parent) and filter out 'uncategorized'
+        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized');
+        // Sort top-level by menuOrder
+        topLevel.sort((a: any, b: any) => (a.menuOrder || 0) - (b.menuOrder || 0));
+        
+        // Build navigation structure with children
+        const navItems = topLevel.map((c: any) => {
+          const children = cats
+            .filter((child: any) => child.parent === c.id)
+            .map((child: any) => ({
+              id: child.slug,
+              label: decodeEntities(child.name),
+              href: `/shop/${child.slug}`,
+              menuOrder: child.menuOrder || 0,
+            }));
+          
+          // Sort children by menuOrder
+          children.sort((a: any, b: any) => a.menuOrder - b.menuOrder);
+          
+          return {
+            id: c.slug,
+            label: decodeEntities(c.name),
+            href: `/shop/${c.slug}`,
+            children: children.length > 0 ? children : undefined,
+          };
+        });
+        
+        if (mounted) setShopCategories(navItems);
+      } catch {
+        // silently ignore fetch errors; will use hardcoded nav as fallback
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
+  // Build navigation: Women, Men, Accessories, Sacred Objects, Best Sellers, Blog, About
+  const computedNav = React.useMemo(() => {
+    // If we have shop categories from CMS, replace hardcoded shop categories
+    if (shopCategories.length > 0) {
+      // Get static items (bestsellers, blog, about)
+      const bestSellers = nav.find(item => item.id === 'bestsellers');
+      const blog = nav.find(item => item.id === 'blog');
+      const about = nav.find(item => item.id === 'about');
+      
+      // Check if Best Sellers already exists in shop categories from WordPress
+      const hasBestSellersInShop = shopCategories.some(cat => 
+        cat.id === 'best-sellers' || cat.id === 'bestsellers'
+      );
+      
+      // Build final navigation: Shop categories → Best Sellers → Blog → About
+      const finalNav = [
+        ...shopCategories,
+      ];
+      
+      // Only add bestSellers from static nav if it doesn't exist in shop categories
+      if (bestSellers && !hasBestSellersInShop) finalNav.push(bestSellers);
+      if (blog) finalNav.push({ ...blog, children: blogChildren });
+      if (about) finalNav.push(about);
+      
+      return finalNav;
+    }
+    
+    // Fallback to hardcoded navigation with blog children
+    return nav.map((item) =>
+      item.id === 'blog' ? { ...item, children: blogChildren } : item,
+    );
+  }, [shopCategories, blogChildren, nav]);
 
   return (
     <Fragment>
@@ -174,10 +250,7 @@ export default function Header() {
                               href={
                                 item.id === 'blog' && (child as any).href
                                   ? (child as any).href
-                                  : {
-                                      pathname: '/shop/[category]',
-                                      query: { category: item.id, sub: child.id },
-                                    }
+                                  : `/shop/${child.id}`
                               }
                               className="type-md type-bold"
                             >
@@ -247,10 +320,7 @@ export default function Header() {
                         href={
                           item.id === 'blog' && (child as any).href
                             ? (child as any).href
-                            : {
-                                pathname: '/shop/[category]',
-                                query: { category: item.id, sub: child.id },
-                              }
+                            : `/shop/${child.id}`
                         }
                       >
                         {child.label}

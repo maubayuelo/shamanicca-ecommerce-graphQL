@@ -10,6 +10,8 @@ import Footer from '../../components/organisms/Footer';
 import { FEATURED_PRODUCTS_MOCK } from '../../utils/mockProducts';
 import { SUBCATEGORY_KEYWORDS } from '../../utils/productSubcategories';
 import navigation from '../../utils/navigation';
+import client from '../../lib/graphql/apolloClient';
+import { GET_PRODUCTS_BY_CATEGORY, GET_PRODUCT_CATEGORIES } from '../../lib/graphql/queries';
 
 // Add 'mystical-home' so the top-level navigation route works, plus 'best-sellers'.
 const CATEGORIES = ['women', 'men', 'accessories', 'mystical-home', 'best-sellers'] as const;
@@ -74,29 +76,60 @@ export default function CategoryPage({ category, products }: Props) {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = CATEGORIES.map((category) => ({ params: { category } }));
-  return { paths, fallback: false };
+  return { paths, fallback: 'blocking' };
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const category = String(params?.category || '').toLowerCase() as Category;
-  if (!CATEGORIES.includes(category)) {
-    return { notFound: true };
+  
+  try {
+    // Try to fetch products from WordPress/WooCommerce
+    const { data } = await client.query({
+      query: GET_PRODUCTS_BY_CATEGORY,
+      variables: { category, first: 100 },
+    });
+
+    const products = (data?.products?.nodes || []).map((p: any) => ({
+      id: p.databaseId || p.id,
+      name: p.name,
+      slug: p.slug,
+      image: p.image?.sourceUrl ? { sourceUrl: p.image.sourceUrl } : null,
+      price: p.price || '',
+      regularPrice: p.regularPrice || '',
+    }));
+
+    return {
+      props: {
+        category,
+        products,
+      },
+      revalidate: 60,
+    };
+  } catch (error) {
+    console.error(`Error fetching products for category ${category}:`, error);
+    
+    // Fallback to mock products if WordPress fetch fails
+    const products = pickProductsForCategory(category);
+    
+    return {
+      props: {
+        category,
+        products,
+      },
+      revalidate: 60,
+    };
   }
-
-  // Simple mock mapping: filter by name keywords; if none, just take a sample
-  const products = pickProductsForCategory(category);
-
-  return {
-    props: {
-      category,
-      products,
-    },
-    revalidate: 60, // safe revalidate for when hooked to API
-  };
 };
 
 function toTitle(category: string) {
-  return category.charAt(0).toUpperCase() + category.slice(1);
+  // Handle special cases
+  if (category === 'best-sellers') return 'Best Sellers';
+  
+  // Replace hyphens with spaces and capitalize each word
+  return category
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function pickProductsForCategory(category: Category): ProductListingProduct[] {
@@ -126,9 +159,8 @@ function pickProductsForCategory(category: Category): ProductListingProduct[] {
         );
     }
   });
-  // Use full list so the grid can paginate when > pageSize
-  const list = byKeyword.length ? byKeyword : all;
-  return normalize(list);
+  // Return the filtered list, even if empty (don't fall back to all products)
+  return normalize(byKeyword);
 }
 
 function normalize(list: any[]): ProductListingProduct[] {

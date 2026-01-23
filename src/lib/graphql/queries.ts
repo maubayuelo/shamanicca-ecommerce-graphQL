@@ -21,6 +21,109 @@ export const GET_PRODUCTS = gql`
   }
 `;
 
+// WooCommerce: products by category slug
+export const GET_PRODUCTS_BY_CATEGORY = gql`
+  query GetProductsByCategory($category: String!, $first: Int = 100) {
+    products(first: $first, where: { category: $category }) {
+      nodes {
+        id
+        databaseId
+        name
+        slug
+        shortDescription
+        image {
+          sourceUrl
+        }
+        ... on SimpleProduct { price regularPrice }
+        ... on VariableProduct { price regularPrice }
+        ... on ExternalProduct { price regularPrice }
+        ... on GroupProduct { price regularPrice }
+        ... on ProductWithPricing { price regularPrice }
+      }
+    }
+  }
+`;
+
+// WooCommerce: single product by slug
+export const GET_PRODUCT_BY_SLUG = gql`
+  query GetProductBySlug($slug: ID!) {
+    product(id: $slug, idType: SLUG) {
+      id
+      databaseId
+      name
+      slug
+      description
+      shortDescription
+      image {
+        sourceUrl
+        mediaDetails {
+          sizes {
+            sourceUrl
+            name
+          }
+        }
+      }
+      galleryImages {
+        nodes {
+          sourceUrl
+          mediaDetails {
+            sizes {
+              sourceUrl
+              name
+            }
+          }
+        }
+      }
+      productCategories {
+        nodes {
+          name
+          slug
+        }
+      }
+      ... on SimpleProduct {
+        price
+        regularPrice
+        onSale
+      }
+      ... on VariableProduct {
+        price
+        regularPrice
+        onSale
+        attributes {
+          nodes {
+            name
+            options
+          }
+        }
+        variations {
+          nodes {
+            name
+            price
+            stockStatus
+            attributes {
+              nodes {
+                name
+                value
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// WooCommerce: get product slugs for static generation
+export const GET_PRODUCT_SLUGS = gql`
+  query GetProductSlugs($first: Int = 100) {
+    products(first: $first) {
+      nodes {
+        slug
+      }
+    }
+  }
+`;
+
 // Blog: posts list with cursor pagination
 export const GET_BLOG_POSTS = gql`
   query GetBlogPosts($first: Int = 15, $after: String) {
@@ -236,6 +339,23 @@ export const GET_POSTS_BY_CATEGORY_ID_WITH_TOTAL = gql`
         excerpt(format: RENDERED)
         featuredImage { node { sourceUrl mediaDetails { sizes { name sourceUrl } } } }
         categories { nodes { databaseId name slug } }
+      }
+    }
+  }
+`;
+
+// WooCommerce: product categories
+export const GET_PRODUCT_CATEGORIES = gql`
+  query GetProductCategories($first: Int = 100) {
+    productCategories(first: $first, where: { hideEmpty: false }) {
+      nodes {
+        databaseId
+        name
+        slug
+        description
+        count
+        parentDatabaseId
+        menuOrder
       }
     }
   }
