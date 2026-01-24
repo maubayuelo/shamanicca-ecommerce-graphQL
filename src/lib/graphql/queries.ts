@@ -360,3 +360,24 @@ export const GET_PRODUCT_CATEGORIES = gql`
     }
   }
 `;
+
+// Fetch home page banners from ACF
+export const GET_HOME_BANNERS = gql`
+  query GetHomeBanners {
+    page(id: "home", idType: URI) {
+      homePageBanners {
+        homeBanners {
+          bannerImage {
+            node {
+              mediaItemUrl
+              sourceUrl
+            }
+          }
+          bannerTitle
+          bannerSubtitle
+          bannerHref
+        }
+      }
+    }
+  }
+`;

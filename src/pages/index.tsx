@@ -10,7 +10,7 @@ import HomeBanners from '../components/sections/HomeBanners';
 import BlogGrid, { type BlogGridItem } from '../components/sections/BlogGrid';
 import { FEATURED_PRODUCTS_MOCK } from '../utils/mockProducts';
 import client from '../lib/graphql/apolloClient';
-import { GET_PRODUCTS, GET_BLOG_POSTS } from '../lib/graphql/queries';
+import { GET_PRODUCTS, GET_BLOG_POSTS, GET_HOME_BANNERS } from '../lib/graphql/queries';
 import { pickImage } from '../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../utils/html';
 import { fetchWooProductsREST } from '../lib/api/woocommerce';
@@ -36,13 +36,27 @@ type PageProps = {
   hero: null;
   blogItems: BlogGridItem[];
   products: FeaturedProduct[];
+  banners: Array<{ id: string; title: string; subtitle?: string; href?: string; imageUrl?: string }>;
 };
 
 type GetBlogPostsData = {
   posts?: { nodes?: any[] };
 };
 
-export default function Home({ hero, blogItems, products: productsSSR }: PageProps) {
+type GetHomeBannersData = {
+  page?: {
+    homePageBanners?: {
+      homeBanners?: Array<{
+        bannerImage?: { node?: { sourceUrl?: string } };
+        bannerTitle?: string;
+        bannerSubtitle?: string;
+        bannerHref?: string;
+      }>;
+    };
+  };
+};
+
+export default function Home({ hero, blogItems, products: productsSSR, banners }: PageProps) {
   // Always query WPGraphQL for products; apolloClient has a default endpoint.
   const skipQuery = false;
   const { data, loading, error } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, {
@@ -78,24 +92,9 @@ export default function Home({ hero, blogItems, products: productsSSR }: PagePro
 
 
           {/* Banners */}
-          <HomeBanners
-            banners={[
-              {
-                id: 'b1',
-                title: 'Magic Accessories',
-                subtitle: 'Altar pads, Mose pads, collars, Printed art',
-                href: '/shop/accessories',
-                imageUrl: 'https://placehold.co/1000x800.png?text=Img1',
-              },
-              {
-                id: 'b2',
-                title: 'Manifestation Audibles',
-                subtitle: 'Guides Meditations, Subliminal audios',
-                href: '/shop/audios',
-                imageUrl: 'https://placehold.co/1000x800.png?text=Img2',
-              },
-            ]}
-          />
+          {banners && banners.length >= 2 && (
+            <HomeBanners banners={banners.slice(0, 2) as [any, any]} />
+          )}
 
           
 
@@ -141,8 +140,27 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
       imageUrl: pickImage(n, 'medium') || null,
       href: `/blog/${n.slug}`,
     }));
-    return { props: { hero: null, blogItems, products: productsSSR }, revalidate: 300 };
+    
+    // Fetch home banners from ACF
+    let banners: Array<{ id: string; title: string; subtitle?: string; href?: string; imageUrl?: string }> = [];
+    try {
+      const bannersResp = await client.query<GetHomeBannersData>({ query: GET_HOME_BANNERS });
+      const rawBanners = bannersResp.data.page?.homePageBanners?.homeBanners || [];
+      banners = rawBanners.map((b: any, idx: number) => ({
+        id: `banner-${idx}`,
+        title: b.bannerTitle || '',
+        subtitle: b.bannerSubtitle || null,
+        href: b.bannerHref || null,
+        imageUrl: b.bannerImage?.node?.sourceUrl || b.bannerImage?.node?.mediaItemUrl || null,
+      }));
+    } catch (error) {
+      // Fallback to empty banners if query fails
+      console.error('[getStaticProps] Banners fetch error:', error);
+      banners = [];
+    }
+    
+    return { props: { hero: null, blogItems, products: productsSSR, banners }, revalidate: 300 };
   } catch {
-    return { props: { hero: null, blogItems: [], products: [] }, revalidate: 60 };
+    return { props: { hero: null, blogItems: [], products: [], banners: [] }, revalidate: 60 };
   }
 };

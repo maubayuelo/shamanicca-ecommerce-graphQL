@@ -19,6 +19,7 @@ export type ProductsGridProps = {
   title?: string;
   products: FeaturedProduct[];
   allProductsHref?: string;
+  bestSellersHref?: string;
   className?: string;
   /**
    * When true, indicates the component is displayed on the Home page.
@@ -69,7 +70,7 @@ export type ProductsGridProps = {
 export default function ProductsGrid({
   title = 'Featured Products',
   products,
-  allProductsHref = '/products',
+  bestSellersHref = '/shop/best-sellers',
   className = '',
   displayingInHome = true,
   showTitle,
@@ -113,7 +114,7 @@ export default function ProductsGrid({
       </div>
       {shouldShowCTA && (
         <div className="section-featured-products__section-footer mt-md-responsive mb-sm-responsive">
-          <Link href={allProductsHref} className="btn btn-secondary btn-large m-0">Check All Products</Link>
+          <Link href={bestSellersHref} className="btn btn-secondary btn-large m-0">Check Best Sellers!</Link>
         </div>
       )}
       {/* Section paginator */}

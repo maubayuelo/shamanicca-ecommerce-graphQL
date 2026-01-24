@@ -88,12 +88,20 @@ export default function ProductImageGallery({
     const viewport = viewportRef.current;
     if (!viewport) return;
     const clamped = Math.min(Math.max(0, idx), imgs.length - 1);
+    setActive(clamped); // Update state immediately
     const slide = slideRefs.current[clamped];
     if (slide) slide.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
   };
 
-  const goPrev = () => scrollToIndex(active - 1);
-  const goNext = () => scrollToIndex(active + 1);
+  const goPrev = () => {
+    const newIndex = Math.max(0, active - 1);
+    scrollToIndex(newIndex);
+  };
+  
+  const goNext = () => {
+    const newIndex = Math.min(imgs.length - 1, active + 1);
+    scrollToIndex(newIndex);
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowLeft') {
