@@ -133,9 +133,10 @@ type PageProps = {
   sidebarSections: { title: string; items: BlogGridItem[] }[];
   categoryName?: string;
   categorySlug?: string;
+  categories?: { name: string; slug: string }[];
 };
 
-export default function BlogPostPage({ post, relatedPosts, sidebarSections, categoryName, categorySlug }: PageProps) {
+export default function BlogPostPage({ post, relatedPosts, sidebarSections, categoryName, categorySlug, categories = [] }: PageProps) {
   const banners = [
     {
       imageUrl: 'https://placehold.co/270x270.png',
@@ -169,10 +170,15 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                   items={[
                     { label: 'Home', href: '/' },
                     { label: 'Blog', href: '/blog' },
-                    ...(categoryName && categorySlug
-                      ? [{ label: decodeEntities(categoryName), href: `/blog/category/${categorySlug}` }]
-                      : []),
+                    ...((categories && categories.length > 0)
+                      ? categories.map(c => ({ label: decodeEntities(c.name), href: `/blog/category/${c.slug}` }))
+                      : (categoryName && categorySlug
+                          ? [{ label: decodeEntities(categoryName), href: `/blog/category/${categorySlug}` }]
+                          : []
+                        )
+                    ),
                   ]}
+                  linkLast={true}
                 />
 
                 <h1 className="type-5xl type-extrabold mt-xs-responsive mb-0">{decodeEntities(post.title?.rendered ?? '')}</h1>
@@ -183,11 +189,15 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                   </p>
                 )}
 
-                {categoryName && categorySlug && (
+                {(categories && categories.length > 0) ? (
+                  <p className="type-sm mt-sm-responsive mb-sm-responsive">
+                    Category: <a className='type-bold' href={`/blog/category/${categories[0].slug}`}>{decodeEntities(categories[0].name)}</a>
+                  </p>
+                ) : (categoryName && categorySlug) ? (
                   <p className="type-sm mt-sm-responsive mb-sm-responsive">
                     Category: <a className='type-bold' href={`/blog/category/${categorySlug}`}>{decodeEntities(categoryName)}</a>
                   </p>
-                )}
+                ) : null}
 
                 <ArticleShareIcons articleTitle={decodeEntities(post.title?.rendered ?? '')} articleUrl={`/blog/${post.slug}`} className="mt-xs-responsive  mb-md-responsive" />
 
@@ -302,19 +312,19 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const res = await client.query({ query: GET_POST_SLUGS, variables: { first: 50 } });
-  const paths = (res.data.posts.nodes || []).map((p: any) => ({ params: { slug: p.slug } }));
+  const res = await client.query<{ posts: { nodes: Array<{ slug: string }> } }>({ query: GET_POST_SLUGS, variables: { first: 50 } });
+  const paths = (res.data.posts.nodes || []).map((p) => ({ params: { slug: p.slug } }));
   return { paths, fallback: 'blocking' };
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
+  const slug = ctx.params?.slug as string;
   try {
-    const slug = ctx.params?.slug as string;
-    const { data } = await client.query({ query: GET_POST_BY_SLUG, variables: { slug } });
+    const { data } = await client.query<{ postBy: any }>({ query: GET_POST_BY_SLUG, variables: { slug } });
     const postNode = data.postBy;
     if (!postNode) return { notFound: true, revalidate: 60 };
 
-    const recent = await client.query({ query: GET_BLOG_POSTS, variables: { first: 20 } });
+    const recent = await client.query<{ posts: { nodes: any[] } }>({ query: GET_BLOG_POSTS, variables: { first: 20 } });
 
     const toGridItem = (n: any): BlogGridItem => ({
       id: n.databaseId,
@@ -339,6 +349,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
       categoryName = primaryCategory.name;
       categorySlug = primaryCategory.slug;
     }
+
+    const categories = (postNode.categories?.nodes || []).map((c: any) => ({ name: c.name, slug: c.slug }));
 
     const post: MinimalPost = {
       id: postNode.databaseId,
@@ -366,11 +378,13 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
         sidebarSections,
         categoryName,
         categorySlug,
+        categories,
       },
       revalidate: 300,
     };
-  } catch {
-    // On error, avoid hard 404; serve a soft fallback so pages don't disappear
-    return { notFound: false, props: { post: null as any, relatedPosts: [], sidebarSections: [] }, revalidate: 60 } as any;
+  } catch (error) {
+    console.error(`Error fetching blog post [${slug}]:`, error);
+    // Return 404 for non-existent posts from WP backend
+    return { notFound: true, revalidate: 60 };
   }
 };

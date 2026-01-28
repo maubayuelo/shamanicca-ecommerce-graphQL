@@ -3,45 +3,33 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import React, { Fragment, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import ProductListing, { type ProductListingProduct } from '../../components/sections/ProductListing';
-import ProductsGrid from '../../components/sections/ProductsGrid';
 import StoreSubHeader from '../../components/sections/StoreSubHeader';
 import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
-import { FEATURED_PRODUCTS_MOCK } from '../../utils/mockProducts';
-import { SUBCATEGORY_KEYWORDS } from '../../utils/productSubcategories';
-import navigation from '../../utils/navigation';
+// Removed SUBCATEGORY_KEYWORDS; rely on WP data only
+// Removed static navigation; humanize subcategory labels directly
 import client from '../../lib/graphql/apolloClient';
 import { GET_PRODUCTS_BY_CATEGORY, GET_PRODUCT_CATEGORIES } from '../../lib/graphql/queries';
 
-// Add 'mystical-home' so the top-level navigation route works, plus 'best-sellers'.
-const CATEGORIES = ['women', 'men', 'accessories', 'mystical-home', 'best-sellers'] as const;
-
-type Category = (typeof CATEGORIES)[number];
-
 type Props = {
-  category: Category;
+  category: string;
+  categoryName: string;
   products: ProductListingProduct[];
 };
 
-export default function CategoryPage({ category, products }: Props) {
+export default function CategoryPage({ category, categoryName, products }: Props) {
   const router = useRouter();
-  const title = toTitle(category);
+  const title = categoryName;
   const subParam = typeof router.query.sub === 'string' ? router.query.sub : undefined;
 
   const filteredProducts = useMemo(() => {
-    if (!subParam) return products;
-    const keywords = SUBCATEGORY_KEYWORDS[subParam];
-    if (!keywords || !keywords.length) return products;
-    const normKeywords = keywords.map((k) => k.toLowerCase());
-    return products.filter((p) => {
-      const hay = `${p.name} ${p.slug}`.toLowerCase();
-      return normKeywords.some((kw) => hay.includes(kw));
-    });
-  }, [products, subParam]);
+    // No local keyword filtering; subcategory filtering should be handled via category routes
+    return products;
+  }, [products]);
 
   const subTitle = subParam ? toSubLabel(subParam) : undefined;
-
   const listingTitle = subTitle ? `${title} — ${subTitle}` : title;
+
   return (
     <Fragment>
       <Head>
@@ -51,22 +39,11 @@ export default function CategoryPage({ category, products }: Props) {
         <main className="flex-1 container mx-auto px-4 py-8">
           <Header />
           <StoreSubHeader categoryTitle={title} subCategoryTitle={subTitle} />
-          {category === 'best-sellers' ? (
-            <ProductsGrid
-              title={title}
-              products={filteredProducts}
-              displayingInHome={false}
-              showCTA={false}
-              showTitle={false}
-              allProductsHref={`/shop/${category}`}
-            />
-          ) : (
-            <ProductListing
-              title={subTitle ? `${title} — ${subTitle}` : title}
-              products={filteredProducts}
-              allProductsHref={`/shop/${category}`}
-            />
-          )}
+          <ProductListing
+            title={listingTitle}
+            products={filteredProducts}
+            allProductsHref={`/shop/${category}`}
+          />
           <Footer />
         </main>
       </div>
@@ -75,21 +52,54 @@ export default function CategoryPage({ category, products }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = CATEGORIES.map((category) => ({ params: { category } }));
-  return { paths, fallback: 'blocking' };
+  try {
+    // Fetch actual product categories from WooCommerce
+    const { data } = await client.query<any>({
+      query: GET_PRODUCT_CATEGORIES,
+      variables: { first: 100 },
+    });
+
+    const paths = ((data as any)?.productCategories?.nodes || [])
+      .map((cat: any) => ({ params: { category: cat.slug } }));
+
+    return {
+      paths,
+      fallback: 'blocking', // Generate pages on-demand for new categories
+    };
+  } catch (error) {
+    console.error('Error fetching product category slugs:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const category = String(params?.category || '').toLowerCase() as Category;
-  
+  const category = String(params?.category || '').toLowerCase();
+
   try {
-    // Try to fetch products from WordPress/WooCommerce
-    const { data } = await client.query({
+    // Fetch all product categories to validate the requested category exists
+    const { data: categoriesData } = await client.query<any>({
+      query: GET_PRODUCT_CATEGORIES,
+      variables: { first: 100 },
+    });
+
+    const categoryNode = ((categoriesData as any)?.productCategories?.nodes || [])
+      .find((cat: any) => cat.slug.toLowerCase() === category);
+
+    // If category doesn't exist in WP backend, return 404
+    if (!categoryNode) {
+      return { notFound: true, revalidate: 60 };
+    }
+
+    // Fetch products in this category
+    const { data: productsData } = await client.query<any>({
       query: GET_PRODUCTS_BY_CATEGORY,
       variables: { category, first: 100 },
     });
 
-    const products = (data?.products?.nodes || []).map((p: any) => ({
+    const products = ((productsData as any)?.products?.nodes || []).map((p: any) => ({
       id: p.databaseId || p.id,
       name: p.name,
       slug: p.slug,
@@ -101,89 +111,24 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
     return {
       props: {
         category,
+        categoryName: categoryNode.name,
         products,
       },
-      revalidate: 60,
+      revalidate: 300,
     };
   } catch (error) {
-    console.error(`Error fetching products for category ${category}:`, error);
-    
-    // Fallback to mock products if WordPress fetch fails
-    const products = pickProductsForCategory(category);
-    
+    console.error(`Error fetching product category [${category}]:`, error);
+    // Return 404 on error - category data must come from WP backend
     return {
-      props: {
-        category,
-        products,
-      },
+      notFound: true,
       revalidate: 60,
     };
   }
 };
 
-function toTitle(category: string) {
-  // Handle special cases
-  if (category === 'best-sellers') return 'Best Sellers';
-  
-  // Replace hyphens with spaces and capitalize each word
-  return category
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-function pickProductsForCategory(category: Category): ProductListingProduct[] {
-  const all = FEATURED_PRODUCTS_MOCK;
-  if (category === 'best-sellers') {
-    const best = all.filter((p: any) => p.bestSeller === true);
-    return normalize(best);
-  }
-  const byKeyword = all.filter((p) => {
-    const name = (p.name || '').toLowerCase();
-    switch (category) {
-      case 'women':
-        return name.includes('women') || name.includes('darlin') || name.includes('veil');
-      case 'men':
-        return name.includes('hoodie') || name.includes('urban') || name.includes('street');
-      case 'accessories':
-        return name.includes('accessor');
-      case 'mystical-home':
-        return (
-          name.includes('mug') ||
-          name.includes('water bottle') || name.includes('bottle') ||
-          name.includes('wall art') || name.includes('poster') || name.includes('print') || name.includes('canvas') ||
-          name.includes('sticker') || name.includes('tapestry') ||
-          name.includes('talisman') || name.includes('pendant') || name.includes('necklace') || name.includes('amulet') ||
-          name.includes('candle') ||
-          name.includes('crystal')
-        );
-    }
-  });
-  // Return the filtered list, even if empty (don't fall back to all products)
-  return normalize(byKeyword);
-}
-
-function normalize(list: any[]): ProductListingProduct[] {
-  return list.map((p) => ({
-    id: p.id,
-    name: p.name,
-    slug: p.slug,
-    image: p.image,
-    price: p.price,
-    regularPrice: p.regularPrice,
-  }));
-}
-
 function toSubLabel(subId: string): string {
-  for (const parent of navigation) {
-    if (!Array.isArray(parent.children)) continue;
-    const found = parent.children.find((c) => c.id === subId);
-    if (found) return found.label;
-  }
-  // Fallback: humanize slug portion
   return subId
     .split('-')
-    .filter((p) => !['men','women','acc','altar','mystic'].includes(p))
     .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
     .join(' ');
 }

@@ -8,7 +8,6 @@ import Hero from '../components/sections/Hero';
 import ProductsGrid, { type FeaturedProduct } from '../components/sections/ProductsGrid';
 import HomeBanners from '../components/sections/HomeBanners';
 import BlogGrid, { type BlogGridItem } from '../components/sections/BlogGrid';
-import { FEATURED_PRODUCTS_MOCK } from '../utils/mockProducts';
 import client from '../lib/graphql/apolloClient';
 import { GET_PRODUCTS, GET_BLOG_POSTS, GET_HOME_BANNERS } from '../lib/graphql/queries';
 import { pickImage } from '../lib/graphql/utils';
@@ -63,17 +62,9 @@ export default function Home({ hero, blogItems, products: productsSSR, banners }
     variables: { first: 12 },
     skip: skipQuery,
   });
-  // Prefer client data; fallback to SSR props; finally mock
+  // Prefer client data; fallback to SSR props; do not use local mocks
   const products = data?.products?.nodes ?? productsSSR ?? [];
-  // Removed Printful fallback: rely on GraphQL (WPGraphQL) or mock data.
-  const FEATURED_CATEGORY = 'Featured Products';
-  // Choose products for Home: prefer API data (no categories in current query), otherwise mock filtered by Featured category.
-  type FeaturedMock = FeaturedProduct & { categories?: string[] };
-  const MOCK: FeaturedMock[] = FEATURED_PRODUCTS_MOCK as unknown as FeaturedMock[];
-  const displayProducts: FeaturedProduct[] = products.length > 0
-    ? (products as FeaturedProduct[]).slice(0, 6)
-    : (MOCK.filter((p) => Array.isArray(p.categories) && p.categories!.includes(FEATURED_CATEGORY)).slice(0, 6)
-        || MOCK.slice(0, 6));
+  const displayProducts: FeaturedProduct[] = (products as FeaturedProduct[]).slice(0, 6);
 
   return (
     <Fragment>

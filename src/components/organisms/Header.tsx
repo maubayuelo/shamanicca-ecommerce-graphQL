@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState, useRef, useEffect, Fragment, useMemo } from 'react';
 import { useBodyClass } from '../../utils/dom';
-import navigation from '../../utils/navigation';
 import { decodeEntities } from '../../utils/html';
 import { useCart } from '../../lib/context/cart';
 import React from 'react';
@@ -26,7 +25,11 @@ export default function Header() {
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const lastHeaderHeightRef = useRef<number>(0);
-  const nav = navigation;
+  // Static non-shop items; avoid importing navigation.ts
+  const staticItems = [
+    { id: 'blog', label: 'Blog', href: '/blog' },
+    { id: 'about', label: 'About', href: '/about' },
+  ];
   const [blogChildren, setBlogChildren] = useState<Array<{ id: string; label: string; href: string }>>([]);
   const [shopCategories, setShopCategories] = useState<Array<{ id: string; label: string; href: string; children?: Array<{ id: string; label: string; href: string }> }>>([]);
   const router = useRouter();
@@ -188,36 +191,20 @@ export default function Header() {
 
   // Build navigation: Women, Men, Accessories, Sacred Objects, Best Sellers, Blog, About
   const computedNav = React.useMemo(() => {
-    // If we have shop categories from CMS, replace hardcoded shop categories
+    // If we have shop categories from CMS, compose with static Blog/About
     if (shopCategories.length > 0) {
-      // Get static items (bestsellers, blog, about)
-      const bestSellers = nav.find(item => item.id === 'bestsellers');
-      const blog = nav.find(item => item.id === 'blog');
-      const about = nav.find(item => item.id === 'about');
-      
-      // Check if Best Sellers already exists in shop categories from WordPress
-      const hasBestSellersInShop = shopCategories.some(cat => 
-        cat.id === 'best-sellers' || cat.id === 'bestsellers'
-      );
-      
-      // Build final navigation: Shop categories → Best Sellers → Blog → About
-      const finalNav = [
-        ...shopCategories,
-      ];
-      
-      // Only add bestSellers from static nav if it doesn't exist in shop categories
-      if (bestSellers && !hasBestSellersInShop) finalNav.push(bestSellers);
+      const blog = staticItems.find(i => i.id === 'blog');
+      const about = staticItems.find(i => i.id === 'about');
+      const finalNav: Array<any> = [...shopCategories];
       if (blog) finalNav.push({ ...blog, children: blogChildren });
-      if (about) finalNav.push(about);
-      
+      if (about) finalNav.push(about as any);
       return finalNav;
     }
-    
-    // Fallback to hardcoded navigation with blog children
-    return nav.map((item) =>
+    // Fallback minimal nav
+    return staticItems.map((item) =>
       item.id === 'blog' ? { ...item, children: blogChildren } : item,
     );
-  }, [shopCategories, blogChildren, nav]);
+  }, [shopCategories, blogChildren]);
 
   return (
     <Fragment>

@@ -3,13 +3,12 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
-import { FEATURED_PRODUCTS_MOCK } from '../../utils/mockProducts';
 import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
 import ProductsGrid from '../../components/sections/ProductsGrid';
 import ProductImageGallery from '../../components/molecules/ProductImageGallery';
 import Breadcrumb from '../../components/molecules/Breadcrumb';
-import { getSubcategoryBadges } from '../../utils/productSubcategories';
+import { productRequiresSizing } from '../../utils/productSizing';
 import { useCart } from '../../lib/context/cart';
 import client from '../../lib/graphql/apolloClient';
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCT_SLUGS, GET_PRODUCTS } from '../../lib/graphql/queries';
@@ -55,14 +54,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
 
   // Use product from props (fetched server-side)
   const product = productProp;
-
-  // Fallback to mock data if no product from CMS (for development)
-  const mockProduct = React.useMemo(() => {
-    if (!slug || product) return undefined;
-    return FEATURED_PRODUCTS_MOCK.find((p) => p.slug === slug || String(p.id) === slug);
-  }, [slug, product]);
-
-  const displayProduct = product || mockProduct;
+  const displayProduct = product;
 
   const title = displayProduct?.name || 'Product';
   const price = displayProduct?.price ? parseFloat(String(displayProduct.price).replace(/[^0-9.]/g, '')) : 0;
@@ -73,42 +65,38 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
 
   const [size, setSize] = React.useState<string>('');
   const [qty, setQty] = React.useState<number>(1);
+  const [sizeError, setSizeError] = React.useState<string>('');
   const { addItem: addToCart } = useCart();
 
-  // Use related products from props or fallback to mock
+  // Use related products from WP props
   const related = React.useMemo(() => {
-    if (relatedProducts && relatedProducts.length > 0) {
-      // Convert to FeaturedProduct format
-      return relatedProducts.map(p => ({
-        ...p,
-        image: p.image ? { sourceUrl: p.image } : null,
-      }));
-    }
-    return FEATURED_PRODUCTS_MOCK.filter((p) => p.slug !== displayProduct?.slug).slice(0, 4);
-  }, [relatedProducts, displayProduct?.slug]);
+    return (relatedProducts || []).map(p => ({
+      ...p,
+      image: p.image ? { sourceUrl: p.image } : null,
+    }));
+  }, [relatedProducts]);
 
-  // Extract categories from CMS data
+  // Extract categories and slugs from CMS data
+  const categoryNodes = product?.productCategories?.nodes || [];
   const categories = React.useMemo(() => {
-    if (product?.productCategories?.nodes) {
-      return product.productCategories.nodes.map(cat => cat.name);
-    }
-    return (mockProduct as any)?.categories || [];
-  }, [product, mockProduct]);
+    return categoryNodes.map(cat => cat.name);
+  }, [categoryNodes]);
 
   const topCategory = categories[0];
+  const topCategorySlug = categoryNodes[0]?.slug;
   const subcategoryBadge = React.useMemo(() => {
-    if (!displayProduct) return undefined;
-    const badges = getSubcategoryBadges({ 
-      name: displayProduct.name, 
-      slug: displayProduct.slug, 
-      categories 
-    }, 1);
-    return badges[0];
-  }, [displayProduct, categories]);
+    if (!categoryNodes || categoryNodes.length === 0) return undefined;
+    const sub = categoryNodes.find((n, idx) => idx !== 0 && n.slug !== topCategorySlug);
+    if (!sub) return undefined;
+    let subSlug = sub.slug || '';
+    const parentSlug = topCategorySlug || '';
+    if (parentSlug && subSlug && !subSlug.includes(parentSlug)) {
+      subSlug = `${subSlug}-${parentSlug}`;
+    }
+    return { label: sub.name, href: `/shop/${subSlug}` };
+  }, [categoryNodes, topCategorySlug]);
 
-  const categoryHref = topCategory
-    ? `/shop/${topCategory.toLowerCase().replace(/\s+/g, '-')}`
-    : undefined;
+  const categoryHref = topCategorySlug ? `/shop/${topCategorySlug}` : undefined;
 
   // Build images array for gallery
   const images = React.useMemo(() => {
@@ -138,21 +126,17 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
       });
     }
     
-    // Fallback to mock product image
-    if (galleryImages.length === 0 && (mockProduct as any)?.image) {
-      galleryImages.push({
-        src: (mockProduct as any).image,
-        alt: displayProduct.name,
-        thumb: (mockProduct as any).image,
-      });
-    }
-    
     return galleryImages.length > 0 ? galleryImages : undefined;
-  }, [displayProduct, product, mockProduct]);
+  }, [displayProduct, product]);
 
   // Extract available sizes from product variations
+  const shouldRequireSize = React.useMemo(() => {
+    if (!displayProduct) return false;
+    return productRequiresSizing(displayProduct.name);
+  }, [displayProduct]);
+
   const availableSizes = React.useMemo(() => {
-    if (!product) return ['XS', 'S', 'M', 'L', 'XL']; // Default sizes for mock data
+    if (!shouldRequireSize || !product) return [];
     
     const variableProduct = product as any;
     if (variableProduct.variations?.nodes) {
@@ -179,8 +163,8 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
       }
     }
     
-    return ['XS', 'S', 'M', 'L', 'XL']; // Default fallback
-  }, [product]);
+    return [];
+  }, [product, shouldRequireSize]);
 
   // Get product description
   const description = React.useMemo(() => {
@@ -190,16 +174,15 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     if (product?.shortDescription) {
       return decodeEntities(product.shortDescription);
     }
-    // Fallback description
-    return `This ${displayProduct?.name || 'product'} is crafted with care and designed to bring positivity and protection. For size assistance, check our size chart.`;
-  }, [product, displayProduct]);
+    return '';
+  }, [product]);
 
   // Auto-select size if only one option is available
   React.useEffect(() => {
-    if (availableSizes.length === 1 && !size) {
+    if (shouldRequireSize && availableSizes.length === 1 && !size) {
       setSize(availableSizes[0]);
     }
-  }, [availableSizes, size]);
+  }, [availableSizes, size, shouldRequireSize]);
 
   return (
     <Fragment>
@@ -242,14 +225,19 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               
 
               <div className="product__options">
-                {availableSizes.length > 1 && (
-                  <div className="field">
+                {shouldRequireSize && availableSizes.length > 0 && (
+                  <div className={`field ${sizeError ? 'field--error' : ''}`}>
                     <label htmlFor="size">Size</label>
                     <select
                       id="size"
                       value={size}
-                      onChange={(e) => setSize(e.target.value)}
+                      onChange={(e) => {
+                        setSize(e.target.value);
+                        setSizeError('');
+                      }}
                       aria-label="Select size"
+                      aria-invalid={!!sizeError}
+                      aria-describedby={sizeError ? 'size-error' : undefined}
                     >
                       <option value="" disabled>
                         Select size
@@ -260,6 +248,16 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                         </option>
                       ))}
                     </select>
+                    {sizeError && (
+                      <span id="size-error" className="field-error" style={{ 
+                        color: '#991b1b',
+                        fontSize: '0.875rem',
+                        marginTop: '0.5rem',
+                        display: 'block'
+                      }}>
+                        {sizeError}
+                      </span>
+                    )}
                   </div>
                 )}
 
@@ -295,24 +293,22 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               <button
                 className="btn btn-primary btn-large product__cta"
                 onClick={() => {
-                  if (!displayProduct) return;
-                  // Only require size if there are multiple sizes
-                  if (availableSizes.length > 1 && !size) {
-                    alert('Please select a size');
+                  if (!product) return;
+                  // Only require size if the product requires sizing
+                  if (shouldRequireSize && !size) {
+                    setSizeError('Please select a size');
                     return;
                   }
                   addToCart({
                     product: {
-                      id: String(displayProduct.id),
-                      name: displayProduct.name,
-                      slug: displayProduct.slug,
+                      id: String(product.id),
+                      name: product.name,
+                      slug: product.slug,
                       price: price,
-                      image: typeof displayProduct.image === 'string' 
-                        ? { sourceUrl: displayProduct.image }
-                        : displayProduct.image,
+                      image: product.image,
                     },
                     qty,
-                    options: { size },
+                    options: { size: shouldRequireSize ? size : undefined },
                   });
                   router.push('/cart');
                 }}
