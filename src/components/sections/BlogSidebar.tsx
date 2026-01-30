@@ -31,17 +31,6 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
         <React.Fragment key={`secfrag-${idx}`}>
           {/* Section */}
           <div className="blog-sidebar__section">
-            {idx === Math.floor(sections.length / 2) - 1 && banners[0] && (
-              <BlogBannerSidebar
-                className="mt-sm-responsive mb-sm-responsive"
-                imageUrl={banners[0].imageUrl}
-                title={banners[0].title}
-                subtitle={banners[0].subtitle}
-                ctaLabel={banners[0].ctaLabel}
-                href={banners[0].href}
-              />
-            )}
-
             <h3 className="type-3xl type-extrabold type-uppercase mt-0 mb-0">{section.title}</h3>
             <div className="blog-sidebar__list">
               {section.items.map((item) => (
@@ -49,7 +38,7 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
               ))}
             </div>
 
-            {idx === Math.floor(sections.length / 2) - 1 && banners[0] && (
+            {idx === 0 && banners[0] && (
               <BlogBannerSidebar
                 className="mt-sm-responsive"
                 imageUrl={banners[0].imageUrl}
@@ -57,7 +46,6 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
                 subtitle={banners[0].subtitle}
                 ctaLabel={banners[0].ctaLabel}
                 href={banners[0].href}
-                isAffilliated={true}
               />
             )}
           </div>
@@ -68,6 +56,16 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
           
         </React.Fragment>
       ))}
+      {((banners && banners.length > 0) && (banners[1] || banners[0])) && (
+        <BlogBannerSidebar
+          className=""
+          imageUrl={(banners[1] || banners[0]).imageUrl}
+          title={(banners[1] || banners[0]).title}
+          subtitle={(banners[1] || banners[0]).subtitle}
+          ctaLabel={(banners[1] || banners[0]).ctaLabel}
+          href={(banners[1] || banners[0]).href}
+        />
+      )}
     </aside>
   );
 }

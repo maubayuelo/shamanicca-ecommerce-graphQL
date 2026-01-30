@@ -96,8 +96,8 @@ export default function BlogMainPage({ posts }: BlogMainPageProps) {
         {/* Sidebar with titles, posts, and banners */}
         <BlogSidebar
           sections={[
-            { title: 'Top Reads', items: remaining.slice(0, 3) },
-            { title: 'Discover More', items: remaining.slice(3,6) },
+            { title: 'Top Reads', items: block1.slice(0, 3) },
+            { title: 'Mystic Tools', items: block1.slice(3, 6) },
           ]}
           banners={sampleBanners} 
           

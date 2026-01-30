@@ -57,7 +57,7 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
 
   const sidebarSections = [
     { title: 'Top Reads', items: items.slice(0, 3) },
-    { title: 'Discover More', items: items.slice(3, 6) },
+    { title: 'Mystic Tools', items: items.slice(3, 6) },
   ];
 
   return (

@@ -25,7 +25,17 @@ type PageProps = {
 export default function AllPostsPage({ items, currentPage, totalItems }: PageProps) {
   const sidebarSections = [
     { title: 'Top Reads', items: items.slice(0, 3) },
-    { title: 'Discover More', items: items.slice(3, 6) },
+    { title: 'Mystic Tools', items: items.slice(3, 6) },
+  ];
+
+  const sampleBanners = [
+    {
+      imageUrl: 'https://placehold.co/270x270.png',
+      title: 'Intentioned Apparel',
+      subtitle: 'Wear your protection. Embody your abundance.',
+      ctaLabel: 'SHOP NOW!',
+      href: '/shop',
+    },
   ];
 
   const hrefBuilder = (page: number) => {
@@ -56,7 +66,7 @@ export default function AllPostsPage({ items, currentPage, totalItems }: PagePro
                   hrefBuilder={hrefBuilder}
                 />
               </div>
-              <BlogSidebar sections={sidebarSections} banners={[]} />
+              <BlogSidebar sections={sidebarSections} banners={sampleBanners} />
             </div>
           </div>
           <Footer />
