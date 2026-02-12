@@ -171,8 +171,10 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                     { label: 'Home', href: '/' },
                     { label: 'Blog', href: '/blog' },
                     ...((categories && categories.length > 0)
-                      ? categories.map(c => ({ label: decodeEntities(c.name), href: `/blog/category/${c.slug}` }))
-                      : (categoryName && categorySlug
+                      ? categories
+                          .filter(c => c.slug !== 'top-reads')
+                          .map(c => ({ label: decodeEntities(c.name), href: `/blog/category/${c.slug}` }))
+                      : (categoryName && categorySlug && categorySlug !== 'top-reads'
                           ? [{ label: decodeEntities(categoryName), href: `/blog/category/${categorySlug}` }]
                           : []
                         )
@@ -339,7 +341,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
     const relatedPosts = others.slice(0, 6);
     const sidebarSections = [
       { title: 'Top Reads', items: others.slice(0, 3) },
-      { title: 'Discover More', items: others.slice(3, 6) },
+      { title: 'Mystic Tools', items: others.slice(3, 6) },
     ];
 
     let categoryName: string | undefined;

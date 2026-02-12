@@ -25,8 +25,7 @@ export default function BlogGrid({
   ctaLabel,
 }: BlogGridProps) {
   return (
-     <div className="main">
-      <section className={`blog-grid ${className}`}>
+     <section className={`blog-grid ${className}`}>
       {title && (
         <h2 className="blog-grid__title type-4xl type-extrabold mt-lg-responsive mb-md-responsive">{title}</h2>
       )}
@@ -43,7 +42,6 @@ export default function BlogGrid({
         </div>
       )}
       </section>
-    </div>
     
   );
 }

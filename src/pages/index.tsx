@@ -90,12 +90,14 @@ export default function Home({ hero, blogItems, products: productsSSR, banners }
           
 
           {/* Blog Articles (from WordPress) */}
-          <BlogGrid
-            title="Blog Articles"
-            items={blogItems}
-            ctaHref="/blog"
-            ctaLabel="Check Shamanicca’s Blog Posts"
-          />
+          <div className="main">
+            <BlogGrid
+              title="Blog Articles"
+              items={blogItems}
+              ctaHref="/blog"
+              ctaLabel="Check Shamanicca’s Blog Posts"
+            />
+          </div>
 
           <Footer />
         </main>

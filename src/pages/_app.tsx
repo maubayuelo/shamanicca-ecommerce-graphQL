@@ -8,6 +8,7 @@ import '../styles/pages/about.scss';
 import '../styles/pages/cart.scss';
 import { Poppins } from 'next/font/google';
 import { CartProvider } from '../lib/context/cart';
+import GoTop from '../components/atoms/GoTop';
 
 // Load Poppins font globally using next/font (pages router)
 const poppins = Poppins({
@@ -41,6 +42,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <CartProvider>
         <div className={poppins.className}>
           <Component {...pageProps} />
+          {/* Global Go-To-Top floating button */}
+          <GoTop />
         </div>
       </CartProvider>
     </ApolloProvider>

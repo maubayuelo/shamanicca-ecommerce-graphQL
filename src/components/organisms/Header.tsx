@@ -131,7 +131,7 @@ export default function Header() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const cats = await res.json();
         // Filter out 'uncategorized' and get top-level categories
-        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized');
+        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized' && c.slug !== 'top-reads');
         const children = topLevel.map((c) => ({
           id: `blog-${c.slug}`,
           label: decodeEntities(c.name),

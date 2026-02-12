@@ -15,7 +15,10 @@ export default function BlogCategoryPage({ category, posts }: BlogCategoryPagePr
           items={[
             { label: 'Home', href: '/' },
             { label: 'Blog', href: '/blog' },
-            { label: category },
+            ...(category && category.trim().toLowerCase() !== 'top reads'
+              ? [{ label: category }]
+              : []
+            ),
           ]}
         />
 

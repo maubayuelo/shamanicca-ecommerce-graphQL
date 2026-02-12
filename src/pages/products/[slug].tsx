@@ -201,6 +201,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                 : { label: 'Collection' },
               ...(subcategoryBadge ? [{ label: subcategoryBadge.label, href: subcategoryBadge.href }] : []),
             ]}
+            linkLast={true}
           />
         </div>
         <div className="main product">

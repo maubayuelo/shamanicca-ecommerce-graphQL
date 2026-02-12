@@ -1,0 +1,46 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// Floating "Go to Top" button leveraging existing .btn styles
+.go-top {
+  position: fixed;
+  right: $spacing-10;
+  bottom: $spacing-10;
+  width: 36px;
+  height: 36px;
+  padding: 0; // icon-only
+  border-radius: 50%;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  z-index: 1000;
+
+  @include media-desktop-up {
+    right: $spacing-30;
+    bottom: $spacing-30;
+  }
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  img {
+    width: 18px;
+    height: 18px;
+    filter: invert(100%);
+  }
+
+  &:hover {
+    background-color: $primary-color-dark;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-color-light;
+    outline-offset: 2px;
+  }
+}
