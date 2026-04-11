@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import Head from 'next/head';
+import SeoHead from '../../components/atoms/SeoHead';
 import Link from 'next/link';
 import React, { Fragment } from 'react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
@@ -184,11 +184,39 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     }
   }, [availableSizes, size, shouldRequireSize]);
 
+  const productSchema = displayProduct
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: title,
+        description: displayProduct.shortDescription
+          ? displayProduct.shortDescription.replace(/<[^>]+>/g, '')
+          : undefined,
+        image: displayProduct.image?.sourceUrl ?? undefined,
+        offers: {
+          '@type': 'Offer',
+          priceCurrency: 'USD',
+          price: price.toFixed(2),
+          availability: 'https://schema.org/InStock',
+          url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/products/${displayProduct.slug}`,
+        },
+      }
+    : undefined;
+
   return (
     <Fragment>
-      <Head>
-        <title>{title} — Shamanicca</title>
-      </Head>
+      <SeoHead
+        title={`${title} — Shamanicca`}
+        description={
+          displayProduct?.shortDescription
+            ? displayProduct.shortDescription.replace(/<[^>]+>/g, '').slice(0, 160)
+            : `Shop ${title} at Shamanicca — intentioned mystical style.`
+        }
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/products/${displayProduct?.slug ?? ''}`}
+        ogImage={displayProduct?.image?.sourceUrl ?? null}
+        ogType="product"
+        jsonLd={productSchema}
+      />
       <Header />
       <main className="product-page" role="main">
         <div className='main'>
@@ -302,7 +330,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                   }
                   addToCart({
                     product: {
-                      id: String(product.id),
+                      id: String(product.databaseId ?? product.id),
                       name: product.name,
                       slug: product.slug,
                       price: price,

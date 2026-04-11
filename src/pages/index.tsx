@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import type { GetStaticProps } from 'next';
-import Head from 'next/head';
+import SeoHead from '../components/atoms/SeoHead';
 import { useQuery } from '@apollo/client/react';
 import Header from '../components/organisms/Header';
 import Footer from '../components/organisms/Footer';
@@ -68,10 +68,11 @@ export default function Home({ hero, blogItems, products: productsSSR, banners }
 
   return (
     <Fragment>
-      <Head>
-        <title>Shamanicca — Shop & Audio</title>
-        <meta name="description" content="Digital audio and merch" />
-      </Head>
+      <SeoHead
+        title="Shamanicca — Intentioned Mystical Style"
+        description="Shop ethically made apparel, sacred objects, and accessories. Discover intentional fashion with a mystical edge."
+        ogType="website"
+      />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 container mx-auto px-4 py-8">
           <Header />

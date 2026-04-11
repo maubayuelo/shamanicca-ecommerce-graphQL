@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import Head from 'next/head';
+import SeoHead from '../../components/atoms/SeoHead';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
@@ -153,11 +153,36 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
     return cap && cap.trim().length > 0 ? cleanExcerpt(cap) : null;
   })();
 
+  const postTitle = decodeEntities(post.title?.rendered ?? '');
+  const postExcerpt = cleanExcerpt(post.excerpt?.rendered ?? '').slice(0, 160);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com';
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: postTitle,
+    description: postExcerpt || undefined,
+    image: post.featuredImage ?? undefined,
+    datePublished: post.date,
+    publisher: {
+      '@type': 'Organization',
+      name: 'Shamanicca',
+      url: siteUrl,
+    },
+    url: `${siteUrl}/blog/${post.slug}`,
+  };
+
   return (
     <Fragment>
-      <Head>
-        <title>{decodeEntities(post.title?.rendered ?? '')} — Shamanicca</title>
-      </Head>
+      <SeoHead
+        title={`${postTitle} — Shamanicca`}
+        description={postExcerpt || `Read ${postTitle} on the Shamanicca blog.`}
+        canonical={`${siteUrl}/blog/${post.slug}`}
+        ogImage={post.featuredImage ?? null}
+        ogType="article"
+        publishedAt={post.date}
+        jsonLd={articleSchema}
+      />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 container mx-auto px-4 py-8">
           <Header />

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,7 +10,25 @@ import { useCart } from '../lib/context/cart';
 export default function CartPage() {
   const { items, removeItem, updateQty, hydrated: hasHydrated } = useCart();
   const subtotal = hasHydrated ? items.reduce((acc, i) => acc + i.qty * (i.product.price ?? 0), 0) : 0;
-  // TODO: Integrate WordPress/WooCommerce checkout URL and redirect.
+  const wcBaseUrl = (process.env.NEXT_PUBLIC_WC_STORE_URL || '').replace(/\/$/, '');
+
+  // Build a cart-handoff URL: WordPress reads ?next_cart= and populates the WC cart before
+  // redirecting to /checkout/. Falls back to a plain checkout URL if no base URL is set.
+  const checkoutUrl = React.useMemo(() => {
+    if (!wcBaseUrl || !hasHydrated || items.length === 0) {
+      const fallback = process.env.NEXT_PUBLIC_WP_CHECKOUT_URL || `${wcBaseUrl}/checkout/`;
+      return fallback || null;
+    }
+    const payload = items.map((i) => ({
+      product_id: parseInt(i.product.id, 10),
+      quantity: i.qty,
+      ...(i.options?.size ? { size: i.options.size } : {}),
+    }));
+    const encoded = btoa(JSON.stringify(payload));
+    return `${wcBaseUrl}/?next_cart=${encoded}`;
+  }, [wcBaseUrl, items, hasHydrated]);
+
+  const hasCheckoutUrl = Boolean(checkoutUrl);
 
   return (
     <Fragment>
@@ -75,7 +93,7 @@ export default function CartPage() {
                           onClick={() => updateQty(i.key, i.qty + 1)}
                           aria-label="Increase quantity"
                         >
-                          <Image src="/images/icon-cross.svg" alt="Plus" width={16} height={16} />
+                          +
                         </button>
                       </div>
                       <div className="cart__actions">
@@ -91,9 +109,15 @@ export default function CartPage() {
                   <span className="type-bold">${subtotal.toFixed(2)}</span>
                 </div>
                 <p className="type-sm">Taxes and shipping calculated at checkout.</p>
-                <button className="btn btn-primary btn-large" disabled>
-                  Checkout (via WordPress) – coming soon
-                </button>
+                {hasCheckoutUrl ? (
+                  <a className="btn btn-primary btn-large" href={checkoutUrl}>
+                    Checkout
+                  </a>
+                ) : (
+                  <button className="btn btn-primary btn-large" disabled>
+                    Checkout unavailable
+                  </button>
+                )}
               </aside>
             </div>
           )}

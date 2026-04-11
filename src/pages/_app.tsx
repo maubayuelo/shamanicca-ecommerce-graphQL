@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app';
+import Script from 'next/script';
 import { ApolloProvider } from '@apollo/client/react';
 import client from '../lib/graphql/apolloClient';
 import '../styles/globals.scss';
@@ -10,39 +11,37 @@ import { Poppins } from 'next/font/google';
 import { CartProvider } from '../lib/context/cart';
 import GoTop from '../components/atoms/GoTop';
 
-// Load Poppins font globally using next/font (pages router)
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '600', '900'],
   display: 'swap',
 });
 
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const GA_ENABLED = process.env.NEXT_PUBLIC_GA_ENABLED === 'true' && Boolean(GA_ID);
+
 export default function App({ Component, pageProps }: AppProps) {
-  // Debug: log component identity to help diagnose invalid element errors
-  try {
-    // eslint-disable-next-line no-console
-    console.log('[_app] Rendering Component:', Component && (Component.displayName || Component.name || typeof Component));
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error('[_app] Error logging Component:', err);
-  }
-
-  // Extra debug: check Apollo imports
-  try {
-    // eslint-disable-next-line no-console
-    console.log('[_app] ApolloProvider type:', typeof ApolloProvider, 'client type:', typeof client);
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error('[_app] Error logging Apollo types:', e);
-  }
-
-  // Wrap app with ApolloProvider so hooks like useQuery have access to the client
   return (
     <ApolloProvider client={client}>
       <CartProvider>
         <div className={poppins.className}>
+          {GA_ENABLED && (
+            <>
+              <Script
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+                strategy="afterInteractive"
+              />
+              <Script id="ga-init" strategy="afterInteractive">
+                {`
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GA_ID}', { page_path: window.location.pathname });
+                `}
+              </Script>
+            </>
+          )}
           <Component {...pageProps} />
-          {/* Global Go-To-Top floating button */}
           <GoTop />
         </div>
       </CartProvider>

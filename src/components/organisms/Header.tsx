@@ -206,11 +206,24 @@ export default function Header() {
     );
   }, [shopCategories, blogChildren]);
 
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const q = (form.elements.namedItem('q') as HTMLInputElement)?.value.trim();
+    const scope = (form.querySelector<HTMLInputElement>('input[name="scope"]:checked'))?.value ?? 'shop';
+    if (!q) return;
+    setSearchOpen(false);
+    router.push(`/search?q=${encodeURIComponent(q)}&scope=${scope}`);
+  };
+
   return (
     <Fragment>
     <header ref={headerRef} className="header header__sticky">
-      <div className="header__top_bar">
+      {/* <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
+      </div> */}
+      <div className="header__top_bar">
+        Get early access to new drops + future offers — <a className='type-bold type-white type-underline type-link' href="/newsletter">join the newsletter</a>.
       </div>
 
       <div className="main"> <div className="header__main">
@@ -332,7 +345,7 @@ export default function Header() {
     >
       <div className="header__search_inner" role="document">
         <h2 id="header-search-title" className="visually-hidden">Site search</h2>
-        <form className="header__search_form form--condensed" role="search" aria-label="Site search">
+        <form className="header__search_form form--condensed" role="search" aria-label="Site search" onSubmit={handleSearchSubmit}>
           <div className="header__search_field">
             <label htmlFor="global-search" className="visually-hidden">Search</label>
             <input

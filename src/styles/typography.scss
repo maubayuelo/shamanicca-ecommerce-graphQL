@@ -227,14 +227,17 @@ $line-heights-phone: (
 .type-uppercase{
     text-transform: uppercase;
 }
+.type-underline {
+    text-decoration: underline;
+}
 
 
-@mixin cta-text {
+@mixin type-link {
     @include heading-style(md, extrabold, md);
     color: $primary-color;
     cursor: pointer;
 
-    @include media-breakpoint-up(lg) {
+    @media (min-width: $breakpoint-desktop) {
         @include heading-style(lg, extrabold, lg);
     }
 }

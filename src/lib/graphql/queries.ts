@@ -124,6 +124,29 @@ export const GET_PRODUCT_SLUGS = gql`
   }
 `;
 
+// WooCommerce: search products by keyword
+export const SEARCH_PRODUCTS = gql`
+  query SearchProducts($search: String!, $first: Int = 9) {
+    products(first: $first, where: { search: $search }) {
+      nodes {
+        id
+        databaseId
+        name
+        slug
+        shortDescription
+        image {
+          sourceUrl
+        }
+        ... on SimpleProduct { price regularPrice }
+        ... on VariableProduct { price regularPrice }
+        ... on ExternalProduct { price regularPrice }
+        ... on GroupProduct { price regularPrice }
+        ... on ProductWithPricing { price regularPrice }
+      }
+    }
+  }
+`;
+
 // Blog: posts list with cursor pagination
 export const GET_BLOG_POSTS = gql`
   query GetBlogPosts($first: Int = 15, $after: String) {
