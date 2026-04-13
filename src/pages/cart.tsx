@@ -1,40 +1,57 @@
-import React, { Fragment } from 'react';
-import Head from 'next/head';
+import React, { Fragment, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Header from '../components/organisms/Header';
 import Footer from '../components/organisms/Footer';
+import SeoHead from '../components/atoms/SeoHead';
 import { useCart } from '../lib/context/cart';
-// Checkout handled via WordPress; Stripe removed
 
 export default function CartPage() {
   const { items, removeItem, updateQty, hydrated: hasHydrated } = useCart();
-  const subtotal = hasHydrated ? items.reduce((acc, i) => acc + i.qty * (i.product.price ?? 0), 0) : 0;
-  const wcBaseUrl = (process.env.NEXT_PUBLIC_WC_STORE_URL || 'https://master.shamanicca.com').replace(/\/$/, '');
+  const subtotal = hasHydrated
+    ? items.reduce((acc, i) => acc + i.qty * (i.product.price ?? 0), 0)
+    : 0;
 
-  // Build a cart-handoff URL: WordPress reads ?next_cart= and populates the WC cart before
-  // redirecting to /checkout/. Falls back to a plain checkout URL if no base URL is set.
-  const checkoutUrl = React.useMemo(() => {
-    if (!wcBaseUrl || !hasHydrated || items.length === 0) {
-      const fallback = process.env.NEXT_PUBLIC_WP_CHECKOUT_URL || `${wcBaseUrl}/checkout/`;
-      return fallback || null;
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState('');
+
+  const handleCheckout = async () => {
+    if (!hasHydrated || items.length === 0) return;
+    setCheckoutLoading(true);
+    setCheckoutError('');
+
+    try {
+      const payload = items.map((i) => ({
+        product_id: parseInt(i.product.id, 10),
+        quantity: i.qty,
+      }));
+
+      const res = await fetch('/api/checkout/create-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: payload }),
+      });
+
+      if (!res.ok) throw new Error(`API error ${res.status}`);
+
+      const { url, error } = await res.json();
+
+      if (error || !url) throw new Error(error || 'No checkout URL returned');
+
+      // Navigate to WooCommerce checkout with the cart session token.
+      // This is a hard navigation (not Next.js router) so the browser
+      // lands on the external WordPress domain.
+      window.location.href = url;
+    } catch (err) {
+      console.error('[cart] checkout error:', err);
+      setCheckoutError('Could not start checkout. Please try again.');
+      setCheckoutLoading(false);
     }
-    const payload = items.map((i) => ({
-      product_id: parseInt(i.product.id, 10),
-      quantity: i.qty,
-      ...(i.options?.size ? { size: i.options.size } : {}),
-    }));
-    const encoded = btoa(JSON.stringify(payload));
-    return `${wcBaseUrl}/?next_cart=${encoded}`;
-  }, [wcBaseUrl, items, hasHydrated]);
-
-  const hasCheckoutUrl = Boolean(checkoutUrl);
+  };
 
   return (
     <Fragment>
-      <Head>
-        <title>Cart — Shamanicca</title>
-      </Head>
+      <SeoHead title="Cart — Shamanicca" description="Review your bag before checkout." />
       <Header />
       <main className="cart-page" role="main">
         <div className="main pb-lg-responsive pt-lg-responsive">
@@ -44,7 +61,9 @@ export default function CartPage() {
           ) : items.length === 0 ? (
             <div className="cart__empty">
               <p>Your bag is empty.</p>
-              <Link href="/" className="btn btn-secondary mt-sm-responsive">Continue shopping</Link>
+              <Link href="/" className="btn btn-secondary mt-sm-responsive">
+                Continue shopping
+              </Link>
             </div>
           ) : (
             <div className="cart__layout">
@@ -53,18 +72,30 @@ export default function CartPage() {
                   <li key={i.key} className="cart__item">
                     <div className="cart__thumb">
                       {i.product.image?.sourceUrl ? (
-                        <Image src={i.product.image.sourceUrl} alt={i.product.name} width={96} height={96} />
+                        <Image
+                          src={i.product.image.sourceUrl}
+                          alt={i.product.name}
+                          width={96}
+                          height={96}
+                        />
                       ) : (
                         <div className="cart__thumb_placeholder" aria-hidden />
                       )}
                     </div>
                     <div className="cart__info">
-                      <Link href={`/products/${i.product.slug}`} className="product-name type-bold">
+                      <Link
+                        href={`/products/${i.product.slug}`}
+                        className="product-name type-bold"
+                      >
                         {i.product.name}
                       </Link>
-                      {i.options?.size && <div className="cart__opt">Size: {i.options.size}</div>}
+                      {i.options?.size && (
+                        <div className="cart__opt">Size: {i.options.size}</div>
+                      )}
                       <div className="prices">
-                        <span className="price type-bold">${i.product.price.toFixed(2)}</span>
+                        <span className="price type-bold">
+                          ${i.product.price.toFixed(2)}
+                        </span>
                       </div>
                     </div>
                     <div className="cart__controls">
@@ -75,7 +106,12 @@ export default function CartPage() {
                           aria-label="Decrease quantity"
                           disabled={i.qty <= 1}
                         >
-                          <Image src="/images/icon-minus.svg" alt="Minus" width={16} height={16} />
+                          <Image
+                            src="/images/icon-minus.svg"
+                            alt="Minus"
+                            width={16}
+                            height={16}
+                          />
                         </button>
 
                         <input
@@ -84,7 +120,9 @@ export default function CartPage() {
                           type="number"
                           min={1}
                           value={i.qty}
-                          onChange={(e) => updateQty(i.key, Math.max(1, Number(e.target.value) || 1))}
+                          onChange={(e) =>
+                            updateQty(i.key, Math.max(1, Number(e.target.value) || 1))
+                          }
                           aria-label={`Quantity for ${i.product.name}`}
                         />
 
@@ -97,27 +135,38 @@ export default function CartPage() {
                         </button>
                       </div>
                       <div className="cart__actions">
-                        <button className="btn btn-link p-0 mt-sm-responsive" onClick={() => removeItem(i.key)}>Remove</button>
+                        <button
+                          className="btn btn-link p-0 mt-sm-responsive"
+                          onClick={() => removeItem(i.key)}
+                        >
+                          Remove
+                        </button>
                       </div>
                     </div>
                   </li>
                 ))}
               </ul>
+
               <aside className="cart__summary">
                 <div className="cart__row">
                   <span>Subtotal</span>
                   <span className="type-bold">${subtotal.toFixed(2)}</span>
                 </div>
                 <p className="type-sm">Taxes and shipping calculated at checkout.</p>
-                {hasCheckoutUrl ? (
-                  <a className="btn btn-primary btn-large" href={checkoutUrl}>
-                    Checkout
-                  </a>
-                ) : (
-                  <button className="btn btn-primary btn-large" disabled>
-                    Checkout unavailable
-                  </button>
+
+                {checkoutError && (
+                  <p className="type-sm" style={{ color: '#991b1b' }} role="alert">
+                    {checkoutError}
+                  </p>
                 )}
+
+                <button
+                  className="btn btn-primary btn-large"
+                  onClick={handleCheckout}
+                  disabled={checkoutLoading || !hasHydrated || items.length === 0}
+                >
+                  {checkoutLoading ? 'Redirecting…' : 'Checkout'}
+                </button>
               </aside>
             </div>
           )}
