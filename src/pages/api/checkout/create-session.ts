@@ -99,8 +99,24 @@ export default async function handler(
     }
   }
 
-  const checkoutUrl = cartToken
-    ? `${WC_BASE}/checkout/?woocommerce-session=${encodeURIComponent(cartToken)}`
+  // Extract the session key from the Cart-Token JWT payload.
+  // WooCommerce's classic session handler expects the raw customer ID
+  // (e.g. "t_abc123") via ?woocommerce-session=, not the full JWT.
+  let sessionKey: string | null = null;
+  if (cartToken) {
+    try {
+      const payload = JSON.parse(
+        Buffer.from(cartToken.split('.')[1], 'base64').toString('utf8'),
+      );
+      sessionKey = payload.user_id ?? null;
+    } catch {
+      // fall back to full token below
+    }
+  }
+
+  const sessionParam = sessionKey ?? cartToken;
+  const checkoutUrl = sessionParam
+    ? `${WC_BASE}/checkout/?woocommerce-session=${encodeURIComponent(sessionParam)}`
     : `${WC_BASE}/checkout/`;
 
   return res.status(200).json({ url: checkoutUrl });
