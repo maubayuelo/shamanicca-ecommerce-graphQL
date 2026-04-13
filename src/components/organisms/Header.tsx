@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useState, useRef, useEffect, Fragment, useMemo } from 'react';
+import { useState, useRef, useEffect, Fragment } from 'react';
 import { useBodyClass } from '../../utils/dom';
 import { decodeEntities } from '../../utils/html';
 import { useCart } from '../../lib/context/cart';
@@ -21,6 +21,8 @@ import React from 'react';
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  // Track which mobile nav item has its submenu open (by item id); null = all closed
+  const [mobileExpandedId, setMobileExpandedId] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement | null>(null);
   const mobileNavRef = useRef<HTMLElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
@@ -48,17 +50,9 @@ export default function Header() {
     }
   }, [searchOpen]);
 
-  // Ensure only one <details> in the mobile nav is expanded at a time.
-  // When a details element is opened, close all sibling details elements.
-  const handleDetailsToggle = (e: React.SyntheticEvent<HTMLDetailsElement>) => {
-    const el = e.currentTarget as HTMLDetailsElement;
-    if (!el.open) return; // only act when it's being opened
-    const container = mobileNavRef.current;
-    if (!container) return;
-    const detailsList = Array.from(container.querySelectorAll('details')) as HTMLDetailsElement[];
-    detailsList.forEach((d) => {
-      if (d !== el) d.open = false;
-    });
+  // Toggle a mobile submenu: opens the clicked one, closes any other open one
+  const toggleMobileSubmenu = (id: string) => {
+    setMobileExpandedId((prev) => (prev === id ? null : id));
   };
 
   // Close search on Escape key
@@ -112,6 +106,7 @@ export default function Header() {
       // Only update when needed to avoid redundant state changes
       setMobileOpen((prev) => (prev ? false : prev));
       setSearchOpen((prev) => (prev ? false : prev));
+      setMobileExpandedId(null);
     };
     // Only react after navigation completes to minimize duplicate updates
     router.events.on('routeChangeComplete', handleRoute);
@@ -304,33 +299,47 @@ export default function Header() {
 
       <div className={`header__mobile_menu ${mobileOpen ? 'is-open' : ''}`}>
         <nav ref={mobileNavRef} className="header__mobile_nav pb-sm-responsive" aria-label="Mobile navigation">
-              {computedNav.map((item) => (
-            <details key={item.id} className="mobile__details" onToggle={handleDetailsToggle}>
-              <summary className="mobile__summary">
-                <Link href={item.href} className={`mobile__link ${item.children ? 'has-submenu' : ''} type-bold`}>
-                  {item.label}
-                </Link>
-              </summary>
-
-              {item.children && (
-                <ul className="mobile__subnav">
-                  {item.children.map((child) => (
-                    <li key={child.id} className="mobile__subnav_item">
-                      <Link
-                        href={
-                          item.id === 'blog' && (child as any).href
-                            ? (child as any).href
-                            : `/shop/${child.id}`
-                        }
-                      >
-                        {child.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </details>
-          ))}
+          {computedNav.map((item) => {
+            const hasChildren = item.children && item.children.length > 0;
+            const isExpanded = mobileExpandedId === item.id;
+            return (
+              <div key={item.id} className="mobile__item">
+                <div className="mobile__row">
+                  <Link
+                    href={item.href}
+                    className="mobile__link type-bold"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                  {hasChildren && (
+                    <button
+                      className="mobile__toggle"
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${item.label} menu`}
+                      onClick={() => toggleMobileSubmenu(item.id)}
+                    >
+                      {isExpanded ? '−' : '+'}
+                    </button>
+                  )}
+                </div>
+                {hasChildren && isExpanded && (
+                  <ul className="mobile__subnav">
+                    {item.children!.map((child: any) => (
+                      <li key={child.id} className="mobile__subnav_item">
+                        <Link
+                          href={item.id === 'blog' && child.href ? child.href : `/shop/${child.id}`}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
     </header>

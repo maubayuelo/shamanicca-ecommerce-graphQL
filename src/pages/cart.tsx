@@ -10,7 +10,7 @@ import { useCart } from '../lib/context/cart';
 export default function CartPage() {
   const { items, removeItem, updateQty, hydrated: hasHydrated } = useCart();
   const subtotal = hasHydrated ? items.reduce((acc, i) => acc + i.qty * (i.product.price ?? 0), 0) : 0;
-  const wcBaseUrl = (process.env.NEXT_PUBLIC_WC_STORE_URL || '').replace(/\/$/, '');
+  const wcBaseUrl = (process.env.NEXT_PUBLIC_WC_STORE_URL || 'https://master.shamanicca.com').replace(/\/$/, '');
 
   // Build a cart-handoff URL: WordPress reads ?next_cart= and populates the WC cart before
   // redirecting to /checkout/. Falls back to a plain checkout URL if no base URL is set.

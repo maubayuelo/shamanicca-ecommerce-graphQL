@@ -8,7 +8,6 @@ import Footer from '../../components/organisms/Footer';
 import ProductsGrid from '../../components/sections/ProductsGrid';
 import ProductImageGallery from '../../components/molecules/ProductImageGallery';
 import Breadcrumb from '../../components/molecules/Breadcrumb';
-import { productRequiresSizing } from '../../utils/productSizing';
 import { useCart } from '../../lib/context/cart';
 import client from '../../lib/graphql/apolloClient';
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCT_SLUGS, GET_PRODUCTS } from '../../lib/graphql/queries';
@@ -29,7 +28,11 @@ type ProductData = {
     }> | null;
   } | null;
   productCategories?: {
-    nodes?: Array<{ name: string; slug: string }> | null;
+    nodes?: Array<{
+      name: string;
+      slug: string;
+      parent?: { node?: { name: string; slug: string } | null } | null;
+    }> | null;
   } | null;
   price?: string | null;
   regularPrice?: string | null;
@@ -50,7 +53,6 @@ type PageProps = {
 
 export default function ProductPage({ product: productProp, relatedProducts }: PageProps) {
   const router = useRouter();
-  const { slug } = router.query as { slug?: string };
 
   // Use product from props (fetched server-side)
   const product = productProp;
@@ -76,27 +78,48 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     }));
   }, [relatedProducts]);
 
-  // Extract categories and slugs from CMS data
+  // Build a 2-level breadcrumb from WooCommerce productCategories.
+  // Each node now includes its parent, so we can correctly determine the hierarchy:
+  //   root category (no parent)  →  leaf category (has parent)
+  // If WooCommerce returns only leaf nodes (parent is omitted from response), we fall
+  // back to using the first node's own parent field directly.
   const categoryNodes = product?.productCategories?.nodes || [];
-  const categories = React.useMemo(() => {
-    return categoryNodes.map(cat => cat.name);
-  }, [categoryNodes]);
 
-  const topCategory = categories[0];
-  const topCategorySlug = categoryNodes[0]?.slug;
-  const subcategoryBadge = React.useMemo(() => {
-    if (!categoryNodes || categoryNodes.length === 0) return undefined;
-    const sub = categoryNodes.find((n, idx) => idx !== 0 && n.slug !== topCategorySlug);
-    if (!sub) return undefined;
-    let subSlug = sub.slug || '';
-    const parentSlug = topCategorySlug || '';
-    if (parentSlug && subSlug && !subSlug.includes(parentSlug)) {
-      subSlug = `${subSlug}-${parentSlug}`;
+  const { breadcrumbParent, breadcrumbLeaf } = React.useMemo(() => {
+    if (categoryNodes.length === 0) return { breadcrumbParent: null, breadcrumbLeaf: null };
+
+    // Separate nodes that have a WC parent from those that don't
+    const roots = categoryNodes.filter((n) => !n.parent?.node);
+    const leaves = categoryNodes.filter((n) => !!n.parent?.node);
+
+    if (leaves.length > 0) {
+      // Use the first leaf and its declared parent
+      const leaf = leaves[0];
+      const parentNode = leaf.parent!.node!;
+      // Prefer the matching root node if it was also returned; otherwise use the parent embedded in the leaf
+      const root = roots.find((r) => r.slug === parentNode.slug) ?? parentNode;
+      return {
+        breadcrumbParent: { label: root.name, href: `/shop/${root.slug}` },
+        breadcrumbLeaf: { label: leaf.name, href: `/shop/${leaf.slug}` },
+      };
     }
-    return { label: sub.name, href: `/shop/${subSlug}` };
-  }, [categoryNodes, topCategorySlug]);
 
-  const categoryHref = topCategorySlug ? `/shop/${topCategorySlug}` : undefined;
+    // No leaves found — all nodes are roots (flat structure or single category)
+    // Deduplicate by name, then show at most two levels
+    const unique = roots.filter(
+      (n, idx, arr) => arr.findIndex((x) => x.name === n.name) === idx,
+    );
+    if (unique.length === 1) {
+      return {
+        breadcrumbParent: { label: unique[0].name, href: `/shop/${unique[0].slug}` },
+        breadcrumbLeaf: null,
+      };
+    }
+    return {
+      breadcrumbParent: { label: unique[0].name, href: `/shop/${unique[0].slug}` },
+      breadcrumbLeaf: { label: unique[1].name, href: `/shop/${unique[1].slug}` },
+    };
+  }, [categoryNodes]);
 
   // Build images array for gallery
   const images = React.useMemo(() => {
@@ -129,17 +152,14 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     return galleryImages.length > 0 ? galleryImages : undefined;
   }, [displayProduct, product]);
 
-  // Extract available sizes from product variations
-  const shouldRequireSize = React.useMemo(() => {
-    if (!displayProduct) return false;
-    return productRequiresSizing(displayProduct.name);
-  }, [displayProduct]);
-
+  // Always derive available sizes from GraphQL data first.
+  // productRequiresSizing() is kept only as a secondary hint (see productSizing.ts).
   const availableSizes = React.useMemo(() => {
-    if (!shouldRequireSize || !product) return [];
-    
+    if (!product) return [];
     const variableProduct = product as any;
-    if (variableProduct.variations?.nodes) {
+
+    // Priority 1: variations (VariableProduct from WooCommerce)
+    if (variableProduct.variations?.nodes?.length) {
       const sizeSet = new Set<string>();
       variableProduct.variations.nodes.forEach((variation: any) => {
         variation.attributes?.nodes?.forEach((attr: any) => {
@@ -148,23 +168,23 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
           }
         });
       });
-      if (sizeSet.size > 0) {
-        return Array.from(sizeSet).sort();
-      }
+      if (sizeSet.size > 0) return Array.from(sizeSet).sort();
     }
-    
-    // Check attributes for size options
-    if (variableProduct.attributes?.nodes) {
+
+    // Priority 2: product-level attributes (e.g. pa_size on a VariableProduct)
+    if (variableProduct.attributes?.nodes?.length) {
       const sizeAttr = variableProduct.attributes.nodes.find(
-        (attr: any) => attr.name?.toLowerCase().includes('size')
+        (attr: any) => attr.name?.toLowerCase().includes('size'),
       );
-      if (sizeAttr?.options && sizeAttr.options.length > 0) {
-        return sizeAttr.options;
-      }
+      if (sizeAttr?.options?.length) return sizeAttr.options;
     }
-    
+
     return [];
-  }, [product, shouldRequireSize]);
+  }, [product]);
+
+  // A size selector is shown and required whenever the product actually has size data.
+  // The keyword fallback is intentionally NOT used to gate this — we trust the CMS.
+  const hasSizeOptions = availableSizes.length > 0;
 
   // Get product description
   const description = React.useMemo(() => {
@@ -177,12 +197,12 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     return '';
   }, [product]);
 
-  // Auto-select size if only one option is available
+  // Auto-select size when there is only one option
   React.useEffect(() => {
-    if (shouldRequireSize && availableSizes.length === 1 && !size) {
+    if (hasSizeOptions && availableSizes.length === 1 && !size) {
       setSize(availableSizes[0]);
     }
-  }, [availableSizes, size, shouldRequireSize]);
+  }, [availableSizes, hasSizeOptions, size]);
 
   const productSchema = displayProduct
     ? {
@@ -224,10 +244,8 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
             className="breadcrumb type-xs pt-sm-responsive pb-sm-responsive"
             items={[
               { label: 'Home', href: '/' },
-              topCategory && categoryHref
-                ? { label: topCategory, href: categoryHref }
-                : { label: 'Collection' },
-              ...(subcategoryBadge ? [{ label: subcategoryBadge.label, href: subcategoryBadge.href }] : []),
+              breadcrumbParent ?? { label: 'Collection' },
+              ...(breadcrumbLeaf ? [breadcrumbLeaf] : []),
             ]}
             linkLast={true}
           />
@@ -254,7 +272,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               
 
               <div className="product__options">
-                {shouldRequireSize && availableSizes.length > 0 && (
+                {hasSizeOptions && (
                   <div className={`field ${sizeError ? 'field--error' : ''}`}>
                     <label htmlFor="size">Size</label>
                     <select
@@ -323,8 +341,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                 className="btn btn-primary btn-large product__cta"
                 onClick={() => {
                   if (!product) return;
-                  // Only require size if the product requires sizing
-                  if (shouldRequireSize && !size) {
+                  if (hasSizeOptions && !size) {
                     setSizeError('Please select a size');
                     return;
                   }
@@ -337,7 +354,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                       image: product.image,
                     },
                     qty,
-                    options: { size: shouldRequireSize ? size : undefined },
+                    options: { size: hasSizeOptions ? size : undefined },
                   });
                   router.push('/cart');
                 }}

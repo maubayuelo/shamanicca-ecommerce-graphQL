@@ -246,9 +246,22 @@
         &__mobile_toggle { display: inline-block; }
         &__mobile_menu {
             display: none;
-            background: #fff;
-            //border-top: 1px solid #eee;
-            &.is-open { display: block; }
+
+            &.is-open {
+                display: block;
+                // Detach from the sticky header so the list can scroll independently
+                position: fixed;
+                top: var(--header-height, 64px);
+                left: 0;
+                right: 0;
+                // Fill from just below the header to the bottom of the viewport
+                height: calc(100dvh - var(--header-height, 64px));
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch; // smooth momentum scroll on iOS
+                background: #fff;
+                z-index: 999; // just below the header (z-index: 1000)
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
         }
 
         &__mobile_nav {
@@ -257,72 +270,45 @@
             border-bottom: 1px solid $black;
         }
 
-        .mobile__details {
-            padding-left: $spacing-15;
-            //margin-bottom: 6px;
-            //border-bottom: 1px solid #f2f2f2;
-        .mobile__summary {
-            list-style: none;
-            cursor: pointer;
-            padding: $spacing-15 0;
+        /* Each nav entry: label link + optional +/- toggle button */
+        .mobile__item {
+            border-bottom: 1px solid $gray-30;
+        }
+
+        .mobile__row {
             display: flex;
             align-items: center;
-            //background-color: cyan;;
-            
-        }
-        
-        &[open] {
-            background-color: $gray-30;
+            justify-content: space-between;
+            padding: $spacing-15 $spacing-15;
         }
 
         .mobile__link {
             color: $black;
             text-decoration: none;
-            //width: 100%;
-            display: flex;
-            align-items: center;
-            align-content: center;
-            flex-wrap: nowrap;
-            flex-direction: row;
-            justify-content: flex-start;
-            &.has-submenu::after {
-                content: "";
-                display: block;
-                //margin-left: 9px;
-                width: $spacing-15;
-                height: $spacing-15;
-                /* use the SVG as a mask so the element's background-color becomes the icon color */
-                background-color: currentColor;
-                mask-image: url('/images/icon-cross.svg');
-                mask-repeat: no-repeat;
-                mask-position: center;
-                mask-size: contain;
+            flex: 1;
+        }
 
-                position: absolute;
-                right: $spacing-15;
-                pointer-events: none;
+        /* +/− chevron button — only visible when item has children */
+        .mobile__toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.25rem;
+            line-height: 1;
+            padding: 0 $spacing-5;
+            color: $black;
+            flex-shrink: 0;
 
-                &:hover::after,
-                &--hover::after{
-                    /* change the background-color only; the mask is already applied on the base pseudo-element */
-                    background-color: $primary-color;
-                }
-                
+            &:hover {
+                color: $primary-color;
             }
-
-        } /* close .mobile__link */
-
-        /* NOTE: anchors do not receive the [open] attribute. Instead target the parent <details>[open] */
-        /* when the details element is open, override the mask to show a minus icon */
-        &[open] .mobile__link.has-submenu::after {
-            mask-image: url('/images/icon-minus.svg');
         }
 
         .mobile__subnav {
             list-style: none;
-            padding-left: 12px;
-            padding-bottom: $spacing-15;
+            padding: 0 $spacing-15 $spacing-15 $spacing-30;
             margin: 0;
+            background-color: $gray-10;
         }
 
         .mobile__subnav_item {
@@ -331,8 +317,11 @@
             a {
                 color: #333;
                 text-decoration: none;
+
+                &:hover {
+                    color: $primary-color;
+                }
             }
-        }
         }
 
         
