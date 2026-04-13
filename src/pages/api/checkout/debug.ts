@@ -25,8 +25,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
     results.store_api_status = r.status;
     results.store_api_ok = r.ok;
-    const text = await r.text();
-    try { results.store_api_body = JSON.parse(text); } catch { results.store_api_body = text.slice(0, 300); }
+    // Suppress full route listing — just confirm it's reachable
+    results.store_api_body = '(suppressed)';
   } catch (err: any) {
     results.store_api_error = err?.message ?? String(err);
   }
