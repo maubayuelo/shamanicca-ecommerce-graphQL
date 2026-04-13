@@ -7,43 +7,51 @@ const WC_BASE = (
 /**
  * Temporary diagnostic endpoint.
  * GET /api/checkout/debug
- * Tests whether the WooCommerce Store API is reachable from the Vercel server
- * and whether a cart session can be created.
+ * Tests whether the WooCommerce Store API is reachable, whether a nonce
+ * can be obtained, and whether cart items can be added with that nonce.
  *
  * REMOVE THIS FILE before going to production.
  */
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
   const results: Record<string, unknown> = {
     wc_base: WC_BASE,
     timestamp: new Date().toISOString(),
   };
 
-  // 1. Test plain GET on the Store API root
+  let cartToken: string | null = null;
+  let nonce: string | null = null;
+
+  // 1. GET /cart to initialize session and retrieve Cart-Token + Nonce
   try {
-    const r = await fetch(`${WC_BASE}/wp-json/wc/store/v1`, {
+    const r = await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart`, {
       headers: { 'Content-Type': 'application/json' },
     });
-    results.store_api_status = r.status;
-    results.store_api_ok = r.ok;
-    // Suppress full route listing — just confirm it's reachable
-    results.store_api_body = '(suppressed)';
-  } catch (err: any) {
-    results.store_api_error = err?.message ?? String(err);
+    results.cart_init_status = r.status;
+    results.cart_init_ok = r.ok;
+    cartToken = r.headers.get('Cart-Token');
+    nonce = r.headers.get('Nonce');
+    results.cart_token_from_init = cartToken ? 'present' : 'missing';
+    results.nonce_from_init = nonce ? 'present' : 'missing';
+  } catch (err: unknown) {
+    results.cart_init_error = err instanceof Error ? err.message : String(err);
   }
 
-  // 2. Try adding a known product (use product_id 1 as a probe — will likely 404 but confirms routing)
+  // 2. Try adding a known product using the nonce (product_id 1 will likely 404 but confirms nonce flow)
   try {
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (cartToken) headers['Cart-Token'] = cartToken;
+    if (nonce) headers['Nonce'] = nonce;
+
     const r = await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart/add-item`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({ id: 1, quantity: 1 }),
     });
     results.add_item_status = r.status;
-    results.cart_token = r.headers.get('Cart-Token');
     const text = await r.text();
     try { results.add_item_body = JSON.parse(text); } catch { results.add_item_body = text.slice(0, 300); }
-  } catch (err: any) {
-    results.add_item_error = err?.message ?? String(err);
+  } catch (err: unknown) {
+    results.add_item_error = err instanceof Error ? err.message : String(err);
   }
 
   // 3. Test a plain fetch of /checkout/ to see what status/redirect it returns
@@ -51,8 +59,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const r = await fetch(`${WC_BASE}/checkout/`, { redirect: 'manual' });
     results.checkout_status = r.status;
     results.checkout_location = r.headers.get('location');
-  } catch (err: any) {
-    results.checkout_fetch_error = err?.message ?? String(err);
+  } catch (err: unknown) {
+    results.checkout_fetch_error = err instanceof Error ? err.message : String(err);
   }
 
   return res.status(200).json(results);

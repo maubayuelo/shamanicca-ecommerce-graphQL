@@ -17,20 +17,23 @@ type CartItem = {
 
 type HandlerResponse = { url: string } | { error: string };
 
-function buildHeaders(cartToken?: string | null): Record<string, string> {
+function buildHeaders(cartToken?: string | null, nonce?: string | null): Record<string, string> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
 
-  // Embed HTTP Basic Auth for password-protected staging sites
   if (HTTP_AUTH_USER && HTTP_AUTH_PASS) {
     const encoded = Buffer.from(`${HTTP_AUTH_USER}:${HTTP_AUTH_PASS}`).toString('base64');
     headers['Authorization'] = `Basic ${encoded}`;
   }
 
-  // Maintain the same WC cart session across multiple add-item calls
   if (cartToken) {
     headers['Cart-Token'] = cartToken;
+  }
+
+  // WooCommerce Store API requires a Nonce header on all cart-modifying requests
+  if (nonce) {
+    headers['Nonce'] = nonce;
   }
 
   return headers;
@@ -52,14 +55,30 @@ export default async function handler(
   }
 
   let cartToken: string | null = null;
+  let nonce: string | null = null;
 
+  // Step 1: Initialize cart session to get Cart-Token + Nonce.
+  // GET /cart creates a fresh session and returns both headers,
+  // which are required for all subsequent cart-modifying requests.
+  try {
+    const initRes = await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart`, {
+      method: 'GET',
+      headers: buildHeaders(),
+    });
+    cartToken = initRes.headers.get('Cart-Token');
+    nonce = initRes.headers.get('Nonce');
+  } catch (err) {
+    console.error('[checkout/create-session] cart init error:', err);
+  }
+
+  // Step 2: Add each item to the cart session using the token + nonce.
   for (const item of items) {
     if (!item.product_id || item.quantity < 1) continue;
 
     try {
       const response = await fetch(`${WC_BASE}/wp-json/wc/store/v1/cart/add-item`, {
         method: 'POST',
-        headers: buildHeaders(cartToken),
+        headers: buildHeaders(cartToken, nonce),
         body: JSON.stringify({
           id: item.product_id,
           quantity: item.quantity,
@@ -67,11 +86,9 @@ export default async function handler(
         }),
       });
 
-      // WooCommerce Store API returns the Cart-Token on the first response;
-      // subsequent requests reuse it via the request header.
-      if (!cartToken) {
-        cartToken = response.headers.get('Cart-Token');
-      }
+      // Refresh cart token from response if the server rotates it
+      const updatedToken = response.headers.get('Cart-Token');
+      if (updatedToken) cartToken = updatedToken;
 
       if (!response.ok) {
         const body = await response.text();
@@ -79,13 +96,9 @@ export default async function handler(
       }
     } catch (err) {
       console.error(`[checkout/create-session] fetch error for product ${item.product_id}:`, err);
-      // Continue — still try remaining items
     }
   }
 
-  // ?woocommerce-session=<token> is the official WooCommerce headless cart-restore
-  // parameter (WooCommerce 6.2+ / Blocks). Falls back to plain checkout if we
-  // couldn't obtain a token.
   const checkoutUrl = cartToken
     ? `${WC_BASE}/checkout/?woocommerce-session=${encodeURIComponent(cartToken)}`
     : `${WC_BASE}/checkout/`;
