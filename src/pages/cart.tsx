@@ -15,38 +15,17 @@ export default function CartPage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState('');
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!hasHydrated || items.length === 0) return;
     setCheckoutLoading(true);
     setCheckoutError('');
 
-    try {
-      const payload = items.map((i) => ({
-        product_id: parseInt(i.product.id, 10),
-        quantity: i.qty,
-      }));
+    const WC_BASE = (process.env.NEXT_PUBLIC_WC_STORE_URL || 'https://master.shamanicca.com').replace(/\/$/, '');
+    const itemsParam = items
+      .map((i) => `${parseInt(i.product.id, 10)}:${i.qty}`)
+      .join(',');
 
-      const res = await fetch('/api/checkout/create-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: payload }),
-      });
-
-      if (!res.ok) throw new Error(`API error ${res.status}`);
-
-      const { url, error } = await res.json();
-
-      if (error || !url) throw new Error(error || 'No checkout URL returned');
-
-      // Navigate to WooCommerce checkout with the cart session token.
-      // This is a hard navigation (not Next.js router) so the browser
-      // lands on the external WordPress domain.
-      window.location.href = url;
-    } catch (err) {
-      console.error('[cart] checkout error:', err);
-      setCheckoutError('Could not start checkout. Please try again.');
-      setCheckoutLoading(false);
-    }
+    window.location.href = `${WC_BASE}/?headless_checkout=1&items=${itemsParam}`;
   };
 
   return (
