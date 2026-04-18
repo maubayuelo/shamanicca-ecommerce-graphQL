@@ -90,6 +90,7 @@ export const GET_PRODUCT_BY_SLUG = gql`
         price
         regularPrice
         onSale
+        stockStatus
       }
       ... on VariableProduct {
         price

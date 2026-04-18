@@ -152,38 +152,55 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     return galleryImages.length > 0 ? galleryImages : undefined;
   }, [displayProduct, product]);
 
-  // Always derive available sizes from GraphQL data first.
-  // productRequiresSizing() is kept only as a secondary hint (see productSizing.ts).
-  const availableSizes = React.useMemo(() => {
-    if (!product) return [];
-    const variableProduct = product as any;
+  // Derive available sizes (IN_STOCK only, uppercase) and detect full out-of-stock.
+  const { availableSizes, isProductOutOfStock } = React.useMemo(() => {
+    if (!product) return { availableSizes: [], isProductOutOfStock: false };
+    const p = product as any;
 
-    // Priority 1: variations (VariableProduct from WooCommerce)
-    if (variableProduct.variations?.nodes?.length) {
-      const sizeSet = new Set<string>();
-      variableProduct.variations.nodes.forEach((variation: any) => {
+    // Priority 1: variations — filter to IN_STOCK, normalize to uppercase
+    if (p.variations?.nodes?.length) {
+      const allSizes: string[] = [];
+      const inStockSizes: string[] = [];
+      p.variations.nodes.forEach((variation: any) => {
         variation.attributes?.nodes?.forEach((attr: any) => {
           if (attr.name?.toLowerCase().includes('size') && attr.value) {
-            sizeSet.add(attr.value);
+            const s = attr.value.toUpperCase();
+            if (!allSizes.includes(s)) allSizes.push(s);
+            if (variation.stockStatus === 'IN_STOCK' && !inStockSizes.includes(s)) {
+              inStockSizes.push(s);
+            }
           }
         });
       });
-      if (sizeSet.size > 0) return Array.from(sizeSet).sort();
+      if (allSizes.length > 0) {
+        return {
+          availableSizes: inStockSizes.sort(),
+          isProductOutOfStock: inStockSizes.length === 0,
+        };
+      }
     }
 
-    // Priority 2: product-level attributes (e.g. pa_size on a VariableProduct)
-    if (variableProduct.attributes?.nodes?.length) {
-      const sizeAttr = variableProduct.attributes.nodes.find(
+    // Priority 2: product-level attributes (no per-size stock — assume available)
+    if (p.attributes?.nodes?.length) {
+      const sizeAttr = p.attributes.nodes.find(
         (attr: any) => attr.name?.toLowerCase().includes('size'),
       );
-      if (sizeAttr?.options?.length) return sizeAttr.options;
+      if (sizeAttr?.options?.length) {
+        return {
+          availableSizes: sizeAttr.options.map((s: string) => s.toUpperCase()),
+          isProductOutOfStock: false,
+        };
+      }
     }
 
-    return [];
+    // Simple product — use product-level stockStatus
+    return {
+      availableSizes: [],
+      isProductOutOfStock: !!(p.stockStatus && p.stockStatus !== 'IN_STOCK'),
+    };
   }, [product]);
 
-  // A size selector is shown and required whenever the product actually has size data.
-  // The keyword fallback is intentionally NOT used to gate this — we trust the CMS.
+  // A size selector is shown and required whenever the product has in-stock size options.
   const hasSizeOptions = availableSizes.length > 0;
 
   // Get product description
@@ -289,7 +306,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                       <option value="" disabled>
                         Select size
                       </option>
-                      {availableSizes.map((sizeOption) => (
+                      {availableSizes.map((sizeOption: string) => (
                         <option key={sizeOption} value={sizeOption}>
                           {sizeOption}
                         </option>
@@ -337,30 +354,36 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                 </div>
               </div>
 
-              <button
-                className="btn btn-primary btn-large product__cta"
-                onClick={() => {
-                  if (!product) return;
-                  if (hasSizeOptions && !size) {
-                    setSizeError('Please select a size');
-                    return;
-                  }
-                  addToCart({
-                    product: {
-                      id: String(product.databaseId ?? product.id),
-                      name: product.name,
-                      slug: product.slug,
-                      price: price,
-                      image: product.image,
-                    },
-                    qty,
-                    options: { size: hasSizeOptions ? size : undefined },
-                  });
-                  router.push('/cart');
-                }}
-              >
-                ADD TO BAG
-              </button>
+              {isProductOutOfStock ? (
+                <button className="btn btn-primary btn-large product__cta" disabled>
+                  Out of Stock
+                </button>
+              ) : (
+                <button
+                  className="btn btn-primary btn-large product__cta"
+                  onClick={() => {
+                    if (!product) return;
+                    if (hasSizeOptions && !size) {
+                      setSizeError('Please select a size');
+                      return;
+                    }
+                    addToCart({
+                      product: {
+                        id: String(product.databaseId ?? product.id),
+                        name: product.name,
+                        slug: product.slug,
+                        price: price,
+                        image: product.image,
+                      },
+                      qty,
+                      options: { size: hasSizeOptions ? size : undefined },
+                    });
+                    router.push('/cart');
+                  }}
+                >
+                  ADD TO BAG
+                </button>
+              )}
 
               <div 
                 className="product__desc" 
