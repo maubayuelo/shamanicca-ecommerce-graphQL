@@ -1,0 +1,61 @@
+@use "../variables" as *;
+
+.cookie-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-20;
+  padding: $spacing-15 $spacing-30;
+  background: $white;
+  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+
+  &__text {
+    margin: 0;
+    font-size: 13px;
+    color: $gray-90;
+    line-height: 1.5;
+  }
+
+  &__link {
+    color: $primary-color;
+    text-decoration: underline;
+
+    &:hover {
+      color: $primary-color-dark;
+    }
+  }
+
+  &__btn {
+    flex-shrink: 0;
+    padding: 8px 22px;
+    border: none;
+    border-radius: 999px;
+    background: $primary-color;
+    color: $white;
+    font-family: $font-family;
+    font-size: 13px;
+    font-weight: $font-weight-bold;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: $primary-color-dark;
+    }
+  }
+
+  @media (max-width: $breakpoint-phone) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-10;
+    padding: $spacing-15 $spacing-20;
+
+    &__btn {
+      align-self: flex-end;
+    }
+  }
+}

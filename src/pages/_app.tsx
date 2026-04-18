@@ -10,6 +10,7 @@ import '../styles/pages/cart.scss';
 import { Poppins } from 'next/font/google';
 import { CartProvider } from '../lib/context/cart';
 import GoTop from '../components/atoms/GoTop';
+import CookieConsent from '../components/atoms/CookieConsent';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -43,6 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
           )}
           <Component {...pageProps} />
           <GoTop />
+          <CookieConsent />
         </div>
       </CartProvider>
     </ApolloProvider>

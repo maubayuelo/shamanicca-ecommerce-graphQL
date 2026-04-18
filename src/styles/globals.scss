@@ -19,6 +19,7 @@
 @use "./components/product-sort" as *;
 @use "./components/product-filter" as *;
 @use "./forms" as *;
+@use "./components/cookie-consent" as *;
 
 // Global SCSS (custom variables)
 :root {
@@ -76,10 +77,8 @@ body {
             //max-width: $breakpoint-desktop-lg;
         }
     }
-    a  {
-        img{
-            //opacity: 30%;
-        }
+    a img {
+        // opacity: 30%;
     }
 }
 
