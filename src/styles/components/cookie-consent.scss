@@ -1,61 +1,105 @@
 @use "../variables" as *;
 
+@keyframes cookie-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .cookie-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 9999;
+  z-index: 9000;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: $spacing-20;
+
   padding: $spacing-15 $spacing-30;
   background: $white;
-  box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid $gray-30;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.06);
+
+  animation: cookie-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   &__text {
     margin: 0;
     font-size: 13px;
     color: $gray-90;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   &__link {
     color: $primary-color;
     text-decoration: underline;
+    text-underline-offset: 2px;
 
     &:hover {
       color: $primary-color-dark;
     }
   }
 
-  &__btn {
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-10;
     flex-shrink: 0;
-    padding: 8px 22px;
-    border: none;
+  }
+
+  &__btn {
+    padding: 8px 20px;
     border-radius: 999px;
-    background: $primary-color;
-    color: $white;
     font-family: $font-family;
     font-size: 13px;
     font-weight: $font-weight-bold;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+      transform 0.1s ease;
+    white-space: nowrap;
 
-    &:hover {
-      background: $primary-color-dark;
+    &:active {
+      transform: scale(0.97);
+    }
+
+    &--ghost {
+      background: transparent;
+      border: 1px solid $gray-40;
+      color: $gray-90;
+
+      &:hover {
+        background: $gray-10;
+        border-color: $gray-50;
+      }
+    }
+
+    &--primary {
+      background: $primary-color;
+      border: 1px solid transparent;
+      color: $white;
+
+      &:hover {
+        background: $primary-color-dark;
+      }
     }
   }
 
   @media (max-width: $breakpoint-phone) {
     flex-direction: column;
     align-items: flex-start;
-    gap: $spacing-10;
-    padding: $spacing-15 $spacing-20;
+    gap: $spacing-15;
+    padding: $spacing-20;
 
-    &__btn {
-      align-self: flex-end;
+    &__actions {
+      width: 100%;
+      justify-content: flex-end;
     }
   }
 }
