@@ -22,7 +22,10 @@ export default function CartPage() {
 
     const WC_BASE = (process.env.NEXT_PUBLIC_WC_STORE_URL || 'https://master.shamanicca.com').replace(/\/$/, '');
     const itemsParam = items
-      .map((i) => `${parseInt(i.product.id, 10)}:${i.qty}`)
+      .map((i) => {
+        const base = `${parseInt(i.product.id, 10)}:${i.qty}`;
+        return i.options?.size ? `${base}:${i.options.size}` : base;
+      })
       .join(',');
 
     window.location.href = `${WC_BASE}/?headless_checkout=1&items=${itemsParam}`;
