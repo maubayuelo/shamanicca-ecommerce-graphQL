@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import type { GetStaticProps } from 'next';
-import Head from 'next/head';
+import SeoHead from '../components/atoms/SeoHead';
 import Header from '../components/organisms/Header';
 import Footer from '../components/organisms/Footer';
 import BlogMainPage from '../components/sections/BlogMainPage';
@@ -27,9 +27,12 @@ export default function BlogPage({ posts }: PageProps) {
   
   return (
     <Fragment>
-      <Head>
-        <title>Blog — Shamanicca</title>
-      </Head>
+      <SeoHead
+        title="Journal — Shamanicca"
+        description="Explore the Shamanicca journal — articles on mindfulness, shamanism, intentional living, and sacred style."
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/blog`}
+        ogType="website"
+      />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 container mx-auto px-4 py-8">
           <Header />

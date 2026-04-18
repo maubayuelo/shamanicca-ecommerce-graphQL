@@ -1,4 +1,4 @@
-import Head from 'next/head';
+import SeoHead from '../../components/atoms/SeoHead';
 import { GetStaticProps } from 'next';
 import React, { Fragment, useMemo } from 'react';
 import { useRouter } from 'next/router';
@@ -31,9 +31,12 @@ export default function ShopPage({ products }: Props) {
 
   return (
     <Fragment>
-      <Head>
-        <title>{listingTitle} — Shamanicca</title>
-      </Head>
+      <SeoHead
+        title={listingTitle}
+        description="Shop all collections at Shamanicca — sacred style, intentional clothing, and spiritual objects for the modern mystic."
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/shop`}
+        ogType="website"
+      />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 container mx-auto px-4 py-8">
           <Header />

@@ -33,7 +33,7 @@ export default function CartPage() {
 
   return (
     <Fragment>
-      <SeoHead title="Cart — Shamanicca" description="Review your bag before checkout." />
+      <SeoHead title="Cart — Shamanicca" description="Review your bag before checkout." noRobots />
       <Header />
       <main className="cart-page" role="main">
         <div className="main pb-lg-responsive pt-lg-responsive">

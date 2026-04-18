@@ -19,6 +19,8 @@ type SeoHeadProps = {
   modifiedAt?: string;
   /** Serialised JSON-LD object(s). Pass a single object or an array. */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  /** Prevent indexing — adds noindex,nofollow robots meta. */
+  noRobots?: boolean;
 };
 
 export default function SeoHead({
@@ -30,6 +32,7 @@ export default function SeoHead({
   publishedAt,
   modifiedAt,
   jsonLd,
+  noRobots = false,
 }: SeoHeadProps) {
   const fullTitle = title.includes(SITE_NAME) ? title : `${title} — ${SITE_NAME}`;
   const canonicalUrl = canonical ?? BASE_URL;
@@ -45,6 +48,7 @@ export default function SeoHead({
     <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
+      {noRobots && <meta name="robots" content="noindex,nofollow" />}
       <link rel="canonical" href={canonicalUrl} />
 
       {/* Open Graph */}

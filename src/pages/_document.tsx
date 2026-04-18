@@ -15,6 +15,27 @@ export default class MyDocument extends Document {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#ffffff" />
           {/* Font loaded via next/font; no external font links required */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'Organization',
+                  name: 'Shamanicca',
+                  url: 'https://shamanicca.com',
+                  logo: 'https://shamanicca.com/images/shamanicca-logo.svg',
+                  contactPoint: { '@type': 'ContactPoint', email: 'contact@shamanicca.com', contactType: 'customer support' },
+                },
+                {
+                  '@context': 'https://schema.org',
+                  '@type': 'WebSite',
+                  name: 'Shamanicca',
+                  url: 'https://shamanicca.com',
+                },
+              ]),
+            }}
+          />
         </Head>
         <body>
           <Main />

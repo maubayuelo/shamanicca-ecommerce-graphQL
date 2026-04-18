@@ -221,6 +221,8 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
     }
   }, [availableSizes, hasSizeOptions, size]);
 
+  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com';
+
   const productSchema = displayProduct
     ? {
         '@context': 'https://schema.org',
@@ -234,11 +236,30 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
           '@type': 'Offer',
           priceCurrency: 'USD',
           price: price.toFixed(2),
-          availability: 'https://schema.org/InStock',
-          url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/products/${displayProduct.slug}`,
+          availability: isProductOutOfStock
+            ? 'https://schema.org/OutOfStock'
+            : 'https://schema.org/InStock',
+          url: `${SITE_URL}/products/${displayProduct.slug}`,
         },
       }
     : undefined;
+
+  const breadcrumbSchema = React.useMemo(() => {
+    const items: Record<string, unknown>[] = [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: 'Shop', item: `${SITE_URL}/shop` },
+    ];
+    if (breadcrumbParent) {
+      items.push({ '@type': 'ListItem', position: 3, name: breadcrumbParent.label, item: `${SITE_URL}${breadcrumbParent.href}` });
+    }
+    if (breadcrumbLeaf) {
+      items.push({ '@type': 'ListItem', position: items.length + 1, name: breadcrumbLeaf.label, item: `${SITE_URL}${breadcrumbLeaf.href}` });
+    }
+    if (displayProduct) {
+      items.push({ '@type': 'ListItem', position: items.length + 1, name: title });
+    }
+    return { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items };
+  }, [breadcrumbParent, breadcrumbLeaf, displayProduct, title, SITE_URL]);
 
   return (
     <Fragment>
@@ -252,7 +273,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/products/${displayProduct?.slug ?? ''}`}
         ogImage={displayProduct?.image?.sourceUrl ?? null}
         ogType="product"
-        jsonLd={productSchema}
+        jsonLd={[...(productSchema ? [productSchema] : []), breadcrumbSchema]}
       />
       <Header />
       <main className="product-page" role="main">
