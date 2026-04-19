@@ -20,6 +20,7 @@
 @use "./components/product-filter" as *;
 @use "./forms" as *;
 @use "./components/cookie-consent" as *;
+@use "./components/announcement-banner" as *;
 
 // Global SCSS (custom variables)
 :root {

@@ -217,9 +217,7 @@ export default function Header() {
       {/* <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
       </div> */}
-      <div className="header__top_bar">
-        New drops &amp; offers → <a className='type-bold type-white type-underline type-link' href="/newsletter">Join the list</a>
-      </div>
+
 
       <div className="main"> <div className="header__main">
         

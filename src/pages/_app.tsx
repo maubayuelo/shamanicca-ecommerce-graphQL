@@ -12,6 +12,7 @@ import { CartProvider } from '../lib/context/cart';
 import { CookieConsentProvider } from '../lib/context/cookieConsent';
 import GoTop from '../components/atoms/GoTop';
 import CookieConsent from '../components/atoms/CookieConsent';
+import AnnouncementBanner from '../components/atoms/AnnouncementBanner';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Script>
               </>
             )}
+            <AnnouncementBanner />
             <Component {...pageProps} />
             <GoTop />
             <CookieConsent />
