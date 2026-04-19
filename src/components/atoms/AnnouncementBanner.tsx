@@ -3,23 +3,22 @@ import Link from 'next/link';
 
 type BannerData = {
   banner_text: string;
-  banner_cta_label: string;
-  banner_cta_url: string;
-  banner_enabled: boolean;
+  banner_cta_label?: string;
+  banner_cta_url?: string;
+  banner_enabled?: boolean;
 };
-
-const WP_BASE = (process.env.NEXT_PUBLIC_WP_BASE_URL || '').replace(/\/$/, '');
 
 export default function AnnouncementBanner() {
   const [banner, setBanner] = useState<BannerData | null>(null);
 
   useEffect(() => {
-    if (!WP_BASE) return;
-    fetch(`${WP_BASE}/wp-json/acf/v3/options/options`)
+    fetch('/api/cms/announcement')
       .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        const group: BannerData | undefined = data?.acf?.top_novelties_banner;
-        if (group?.banner_enabled) setBanner(group);
+      .then((json) => {
+        const group: BannerData | undefined = json?.banner;
+        if (group?.banner_text && group?.banner_enabled !== false) {
+          setBanner(group);
+        }
       })
       .catch(() => null);
   }, []);

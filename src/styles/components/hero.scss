@@ -1,5 +1,8 @@
 .hero {
     background-color: rgb(0, 0, 0);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     color: white;
     display: flex;
     flex-direction: column;
@@ -67,14 +70,4 @@
         // background is set dynamically via inline style from overlay_opacity
     }
 
-    .bg-image {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        z-index: 0;
-    }
 }

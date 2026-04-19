@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 type AcfImage = string | { url?: string; sizes?: Record<string, string> } | null | undefined;
 
@@ -65,9 +64,12 @@ export default function Hero() {
     : { background: 'transparent' };
 
   const bgUrl = resolveBgUrl(data.background_image);
+  const bgStyle: React.CSSProperties = {
+    backgroundImage: `url(${bgUrl || '/images/hero-image.png'})`,
+  };
 
   return (
-    <section className="hero">
+    <section className="hero" style={bgStyle}>
       <div className="layer" style={overlayStyle} />
 
       <div className="main">
@@ -95,18 +97,6 @@ export default function Hero() {
             )}
           </div>
         )}
-      </div>
-
-      <div className="bg-image">
-        <Image
-          src={bgUrl || '/images/hero-image.png'}
-          alt={data.hero_title || 'Shamanicca Collection'}
-          fill
-          priority
-          sizes="100vw"
-          style={{ objectFit: 'cover' }}
-          unoptimized
-        />
       </div>
     </section>
   );
