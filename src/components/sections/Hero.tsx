@@ -16,22 +16,14 @@ type HeroData = {
   hero_enabled?: boolean;
 };
 
-const WP_BASE = (process.env.NEXT_PUBLIC_WP_BASE_URL || '').replace(/\/$/, '');
-// Slug of the WordPress page that holds the Home Page Banners field group.
-const HOME_SLUG = process.env.NEXT_PUBLIC_WP_HOME_SLUG || 'home';
-
 export default function Hero() {
   const [data, setData] = useState<HeroData | null>(null);
 
   useEffect(() => {
-    if (!WP_BASE) return;
-    // Field group "Home Page Banners" is attached to the Home page (not Options).
-    // Fetch the page by slug via the standard WP REST API — ACF fields are
-    // included in the response when ACF to REST API plugin is active.
-    fetch(`${WP_BASE}/wp-json/wp/v2/pages?slug=${HOME_SLUG}&_fields=acf`)
+    fetch('/api/cms/hero')
       .then((r) => (r.ok ? r.json() : null))
       .then((json) => {
-        const hero: HeroData | undefined = Array.isArray(json) ? json[0]?.acf?.hero : undefined;
+        const hero: HeroData | undefined = json?.hero;
         if (hero && hero.hero_enabled !== false) setData(hero);
       })
       .catch(() => null);
