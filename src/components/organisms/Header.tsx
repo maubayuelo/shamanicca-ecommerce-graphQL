@@ -68,17 +68,21 @@ export default function Header() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const updateHeaderHeight = () => {
-      const h = headerRef.current?.offsetHeight ?? 0;
-      // Only update CSS var when value actually changes to avoid observer loops
-      if (h !== lastHeaderHeightRef.current) {
-        lastHeaderHeightRef.current = h;
-        document.documentElement.style.setProperty('--header-height', `${h}px`);
+      // Use getBoundingClientRect().bottom so the search panel always opens
+      // directly below the header's visual bottom, even when the announcement
+      // banner (rendered above the header in _app.tsx) is visible.
+      const bottom = headerRef.current?.getBoundingClientRect().bottom ?? 0;
+      if (bottom !== lastHeaderHeightRef.current) {
+        lastHeaderHeightRef.current = bottom;
+        document.documentElement.style.setProperty('--header-height', `${bottom}px`);
       }
     };
-    // initial and on resize
+    // initial, on resize, and on scroll (sticky state changes the bottom position)
     updateHeaderHeight();
     const onResize = () => updateHeaderHeight();
+    const onScroll = () => updateHeaderHeight();
     window.addEventListener('resize', onResize);
+    window.addEventListener('scroll', onScroll, { passive: true });
     let ro: ResizeObserver | undefined;
     if ('ResizeObserver' in window && headerRef.current) {
       ro = new ResizeObserver(() => updateHeaderHeight());
@@ -86,6 +90,7 @@ export default function Header() {
     }
     return () => {
       window.removeEventListener('resize', onResize);
+      window.removeEventListener('scroll', onScroll);
       ro?.disconnect();
     };
   }, []);
@@ -150,7 +155,7 @@ export default function Header() {
         const cats = await res.json();
         
         // Get top-level categories (no parent) and filter out 'uncategorized'
-        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized');
+        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized' && c.slug !== 'best-sellers');
         // Sort top-level by menuOrder
         topLevel.sort((a: any, b: any) => (a.menuOrder || 0) - (b.menuOrder || 0));
         
