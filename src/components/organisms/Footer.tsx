@@ -47,7 +47,7 @@ export default function Footer() {
               <li className="type-md"><Link href="/about">About Us</Link></li>
               <li className="type-md"><Link href="/returns-exchanges">Returns &amp; Exchanges</Link></li>
               <li className="type-md"><Link href="/size-chart">Size Chart</Link></li>
-              <li className="type-md"><Link href="/faqs">FAQs</Link></li>
+              <li className="type-md"><Link href="/faq">FAQs</Link></li>
               <li className="type-md"><Link href="/contact">Contact Us</Link></li>
             </ul>
           </div>
@@ -56,7 +56,7 @@ export default function Footer() {
             <h4 className="footer-heading type-md type-extrabold type-uppercase m-0">Customer Service</h4>
             <ul className="mt-md-responsive">
               <li className="type-md"><Link href="/search">Search</Link></li>
-              <li className="type-md"><Link href="/faqs">FAQ</Link></li>
+              <li className="type-md"><Link href="/faq">FAQ</Link></li>
               <li className="type-md"><Link href="/contact">Contact Us</Link></li>
               <li className="type-md"><Link href="/privacy-policy">Privacy Policy</Link></li>
               <li className="type-md"><Link href="/terms-and-conditions">Terms &amp; Conditions</Link></li>

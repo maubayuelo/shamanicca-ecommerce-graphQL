@@ -6,13 +6,13 @@ import SeoHead from '../components/atoms/SeoHead';
 import Breadcrumb from '../components/molecules/Breadcrumb';
 import { getWPPage, type WPPage } from '../lib/getWPPage';
 
-type Props = { page: WPPage | null };
+type Props = { page: WPPage };
 
 export default function AboutPage({ page }: Props) {
   return (
     <Fragment>
       <SeoHead
-        title={page ? page.title.rendered : 'About'}
+        title={page.title.rendered}
         description="Learn about Shamanicca — intentioned mystical style, ethically made."
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/about`}
       />
@@ -24,12 +24,10 @@ export default function AboutPage({ page }: Props) {
               ariaLabel="Breadcrumb"
               items={[
                 { label: 'Home', href: '/' },
-                { label: page?.title.rendered || 'About' },
+                { label: page.title.rendered },
               ]}
             />
-            {page ? (
-              <>
-                <h1
+            <h1
                   className="type-5xl type-extrabold type-center"
                   dangerouslySetInnerHTML={{ __html: page.title.rendered }}
                 />
@@ -37,13 +35,6 @@ export default function AboutPage({ page }: Props) {
                   className="wp-content page-content-wrapper"
                   dangerouslySetInnerHTML={{ __html: page.content.rendered }}
                 />
-              </>
-            ) : (
-              <div className="wp-content">
-                <h1 className="type-5xl type-extrabold">Page not found</h1>
-                <p className="type-md">We could not find this page. <a href="/">Return home</a>.</p>
-              </div>
-            )}
           </div>
         </section>
       </main>
@@ -54,5 +45,6 @@ export default function AboutPage({ page }: Props) {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const page = await getWPPage('about');
+  if (!page) return { notFound: true };
   return { props: { page }, revalidate: 60 };
 };

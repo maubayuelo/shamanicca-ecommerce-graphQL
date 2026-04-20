@@ -6,13 +6,13 @@ import SeoHead from '../components/atoms/SeoHead';
 import Breadcrumb from '../components/molecules/Breadcrumb';
 import { getWPPage, type WPPage } from '../lib/getWPPage';
 
-type Props = { page: WPPage | null };
+type Props = { page: WPPage };
 
 export default function ContactPage({ page }: Props) {
   return (
     <Fragment>
       <SeoHead
-        title={page ? page.title.rendered : 'Contact Us'}
+        title={page.title.rendered}
         description="Get in touch with the Shamanicca team."
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/contact`}
       />
@@ -22,19 +22,10 @@ export default function ContactPage({ page }: Props) {
           <div className="page mt-md-responsive mb-lg-responsive">
             <Breadcrumb
               ariaLabel="Breadcrumb"
-              items={[{ label: 'Home', href: '/' }, { label: page?.title.rendered || 'Contact Us' }]}
+              items={[{ label: 'Home', href: '/' }, { label: page.title.rendered }]}
             />
-            {page ? (
-              <>
-                <h1 className="type-5xl type-extrabold" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
+            <h1 className="type-5xl type-extrabold" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
                 <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
-              </>
-            ) : (
-              <div className="wp-content">
-                <h1 className="type-5xl type-extrabold">Page not found</h1>
-                <p className="type-md">We could not find this page. <a href="/">Return home</a>.</p>
-              </div>
-            )}
           </div>
         </section>
       </main>
@@ -45,5 +36,6 @@ export default function ContactPage({ page }: Props) {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const page = await getWPPage('contact');
+  if (!page) return { notFound: true };
   return { props: { page }, revalidate: 60 };
 };
