@@ -36,6 +36,6 @@ export default function ReturnsExchangesPage({ page }: Props) {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const page = await getWPPage('returns-exchanges');
-  if (!page) return { notFound: true };
+  if (!page) return { notFound: true, revalidate: 60 };
   return { props: { page }, revalidate: 60 };
 };

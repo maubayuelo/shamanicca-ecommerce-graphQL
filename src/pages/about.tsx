@@ -45,6 +45,6 @@ export default function AboutPage({ page }: Props) {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const page = await getWPPage('about');
-  if (!page) return { notFound: true };
+  if (!page) return { notFound: true, revalidate: 60 };
   return { props: { page }, revalidate: 60 };
 };
