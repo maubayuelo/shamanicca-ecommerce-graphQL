@@ -8,13 +8,14 @@ import { getWPPage, type WPPage } from '../lib/getWPPage';
 
 type Props = { page: WPPage | null };
 
-export default function AboutPage({ page }: Props) {
+export default function TermsAndConditionsPage({ page }: Props) {
   return (
     <Fragment>
       <SeoHead
-        title={page ? page.title.rendered : 'About'}
-        description="Learn about Shamanicca — intentioned mystical style, ethically made."
-        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/about`}
+        title={page ? page.title.rendered : 'Terms & Conditions'}
+        description="Shamanicca terms and conditions."
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/terms-and-conditions`}
+        noRobots
       />
       <Header />
       <main>
@@ -22,21 +23,12 @@ export default function AboutPage({ page }: Props) {
           <div className="page mt-md-responsive mb-lg-responsive">
             <Breadcrumb
               ariaLabel="Breadcrumb"
-              items={[
-                { label: 'Home', href: '/' },
-                { label: page?.title.rendered || 'About' },
-              ]}
+              items={[{ label: 'Home', href: '/' }, { label: page?.title.rendered || 'Terms & Conditions' }]}
             />
             {page ? (
               <>
-                <h1
-                  className="type-5xl type-extrabold type-center"
-                  dangerouslySetInnerHTML={{ __html: page.title.rendered }}
-                />
-                <div
-                  className="wp-content page-content-wrapper"
-                  dangerouslySetInnerHTML={{ __html: page.content.rendered }}
-                />
+                <h1 className="type-5xl type-extrabold" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
+                <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
               </>
             ) : (
               <div className="wp-content">
@@ -53,6 +45,6 @@ export default function AboutPage({ page }: Props) {
 }
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const page = await getWPPage('about');
+  const page = await getWPPage('terms-and-conditions');
   return { props: { page }, revalidate: 60 };
 };

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -8,7 +9,7 @@ export default function Footer() {
           <div className="footer-col">
             <h3 className="footer-heading type-md type-extrabold type-uppercase m-0">Get The Good Stuff</h3>
             <p className="footer-text type-md">
-              We’re not into spam. Just: product drops and juicy updates.
+              We're not into spam. Just: product drops and juicy updates.
               Hit subscribe and save – your inbox will thank you.
             </p>
 
@@ -31,7 +32,6 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-
           </div>
 
           <div className="footer-col">
@@ -44,32 +44,26 @@ export default function Footer() {
           <div className="footer-col">
             <h4 className="footer-heading type-md type-extrabold type-uppercase m-0">Explore</h4>
             <ul className="mt-md-responsive">
-              <li className="type-md">About Us</li>
-              <li className="type-md">Giving Back</li>
-              <li className="type-md">Returns & Exchanges</li>
-              <li className="type-md">Size Chart</li>
-              <li className="type-md">Visual Size Guide</li>
-              <li className="type-md">Prana Points</li>
-              <li className="type-md">FAQs</li>
-              <li className="type-md">Contact Us</li>
+              <li className="type-md"><Link href="/about">About Us</Link></li>
+              <li className="type-md"><Link href="/returns-exchanges">Returns &amp; Exchanges</Link></li>
+              <li className="type-md"><Link href="/size-chart">Size Chart</Link></li>
+              <li className="type-md"><Link href="/faqs">FAQs</Link></li>
+              <li className="type-md"><Link href="/contact">Contact Us</Link></li>
             </ul>
           </div>
 
           <div className="footer-col">
             <h4 className="footer-heading type-md type-extrabold type-uppercase m-0">Customer Service</h4>
             <ul className="mt-md-responsive">
-              <li className="type-md">Search</li>
-              <li className="type-md">Returns & Exchanges</li>
-              <li className="type-md">Help Center / FAQ</li>
-              <li className="type-md">Contact Us</li>
-              <li className="type-md">Privacy Policy</li>
-              <li className="type-md">Terms & Conditions</li>
+              <li className="type-md"><Link href="/search">Search</Link></li>
+              <li className="type-md"><Link href="/faqs">FAQ</Link></li>
+              <li className="type-md"><Link href="/contact">Contact Us</Link></li>
+              <li className="type-md"><Link href="/privacy-policy">Privacy Policy</Link></li>
+              <li className="type-md"><Link href="/terms-and-conditions">Terms &amp; Conditions</Link></li>
             </ul>
             <div className="copyright mt-lg-responsive type-md">©{new Date().getFullYear()} Shamanicca</div>
           </div>
         </div>
-
-        
       </div>
     </footer>
   );

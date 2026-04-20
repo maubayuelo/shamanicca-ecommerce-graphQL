@@ -1,9 +1,14 @@
+import type { GetStaticProps } from 'next';
 import { Fragment, useState } from 'react';
 import Header from '../components/organisms/Header';
 import Footer from '../components/organisms/Footer';
 import SeoHead from '../components/atoms/SeoHead';
+import Breadcrumb from '../components/molecules/Breadcrumb';
+import { getWPPage, type WPPage } from '../lib/getWPPage';
 
-export default function NewsletterPage() {
+type Props = { page: WPPage | null };
+
+export default function NewsletterPage({ page }: Props) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -15,30 +20,40 @@ export default function NewsletterPage() {
       return;
     }
     setError('');
-    // TODO: wire to your email provider (Klaviyo, Mailchimp, ConvertKit, etc.)
     setSubmitted(true);
   };
 
   return (
     <Fragment>
       <SeoHead
-        title="Join the Newsletter — Shamanicca"
-        description="Get early access to new drops, exclusive offers, and intentional living inspiration. No spam, ever."
+        title={page ? page.title.rendered : 'Newsletter'}
+        description="Get early access to new drops, exclusive offers, and intentional living inspiration."
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/newsletter`}
       />
       <Header />
-      <main role="main">
-        <div className="main pt-lg-responsive pb-lg-responsive">
-          <div className="newsletter-page">
-            <h1 className="type-4xl mt-0 mb-sm-responsive">Get The Good Stuff</h1>
-            <p className="type-md type-gray-80 mb-md-responsive">
-              Early access to new drops, exclusive offers, and intentional living inspiration.
-              <br />No spam. Unsubscribe any time.
-            </p>
+      <main>
+        <section className="main-condensed content">
+          <div className="page mt-md-responsive mb-lg-responsive">
+            <Breadcrumb
+              ariaLabel="Breadcrumb"
+              items={[{ label: 'Home', href: '/' }, { label: page?.title.rendered || 'Newsletter' }]}
+            />
+            {page && (
+              <>
+                <h1
+                  className="type-4xl type-extrabold mt-0 mb-sm-responsive"
+                  dangerouslySetInnerHTML={{ __html: page.title.rendered }}
+                />
+                <div
+                  className="wp-content type-md type-gray-80 mb-md-responsive"
+                  dangerouslySetInnerHTML={{ __html: page.content.rendered }}
+                />
+              </>
+            )}
 
             {submitted ? (
               <div className="newsletter-success" role="alert">
-                <p className="type-md type-bold">You're in! ✓</p>
+                <p className="type-md type-bold">You&apos;re in! ✓</p>
                 <p className="type-md">Welcome to the Shamanicca community. Check your inbox for a confirmation.</p>
               </div>
             ) : (
@@ -70,9 +85,14 @@ export default function NewsletterPage() {
               </form>
             )}
           </div>
-        </div>
-        <Footer />
+        </section>
       </main>
+      <Footer />
     </Fragment>
   );
 }
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const page = await getWPPage('newsletter');
+  return { props: { page }, revalidate: 60 };
+};
