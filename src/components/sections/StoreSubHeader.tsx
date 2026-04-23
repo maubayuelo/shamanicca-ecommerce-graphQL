@@ -23,7 +23,7 @@ export default function StoreSubHeader({ categoryTitle, subCategoryTitle }: Prop
 
       <div className="store-subheader__toolbar">
         {/* Filter button hidden temporarily */}
-        <div className="store-subheader__right">
+        <div className="store-subheader__right" style={{ marginLeft: 'auto' }}>
           <ProductSortDropdown className="store-subheader__sort" />
         </div>
       </div>
