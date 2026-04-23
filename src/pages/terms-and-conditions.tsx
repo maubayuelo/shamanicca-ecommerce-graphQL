@@ -25,7 +25,7 @@ export default function TermsAndConditionsPage({ page }: Props) {
               ariaLabel="Breadcrumb"
               items={[{ label: 'Home', href: '/' }, { label: page.title.rendered }]}
             />
-            <h1 className="type-5xl type-extrabold" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
+            <h1 className="type-5xl type-extrabold type-center" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
                 <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
           </div>
         </section>

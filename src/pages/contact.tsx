@@ -77,11 +77,11 @@ export default function ContactPage({ page }: Props) {
 
             {page ? (
               <>
-                <h1 className="type-5xl type-extrabold" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
+                <h1 className="type-5xl type-extrabold type-center" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
                 <div className="wp-content mb-md-responsive" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
               </>
             ) : (
-              <h1 className="type-5xl type-extrabold">Contact Us</h1>
+              <h1 className="type-5xl type-extrabold type-center">Contact Us</h1>
             )}
 
             {submitted ? (

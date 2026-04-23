@@ -73,8 +73,9 @@ export default function SearchPage() {
       />
       <Header />
       <main role="main">
-        <div className="main pt-lg-responsive pb-lg-responsive">
-          <h1 className="type-4xl mt-0 mb-sm-responsive">
+        <section className="main-condensed content">
+          <div className="page mt-md-responsive mb-lg-responsive">
+          <h1 className="type-5xl type-extrabold type-center mt-0 mb-sm-responsive">
             {rawQ ? <>Results for <em>&ldquo;{rawQ}&rdquo;</em></> : 'Search'}
           </h1>
 
@@ -129,6 +130,7 @@ export default function SearchPage() {
               : <BlogGrid items={blogItems} />
           )}
         </div>
+        </section>
         <Footer />
       </main>
     </Fragment>

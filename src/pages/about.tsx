@@ -32,7 +32,7 @@ export default function AboutPage({ page }: Props) {
                   dangerouslySetInnerHTML={{ __html: page.title.rendered }}
                 />
                 <div
-                  className="wp-content page-content-wrapper"
+                  className="wp-content"
                   dangerouslySetInnerHTML={{ __html: page.content.rendered }}
                 />
           </div>
