@@ -21,13 +21,13 @@ export default function Footer() {
             <div className="social mt-xl-responsive mb-lg-responsive">
               <div className="label type-sm mb-sm-responsive">Catch updates following us on:</div>
               <div className="icons">
-                <a className="icon" href="#" aria-label="Instagram">
+                <a className="icon" href="https://instagram.com/shamaniccatv" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                   <Image src="/images/icon-social-ig.svg" alt="Instagram" width={30} height={30} />
                 </a>
-                <a className="icon" href="#" aria-label="YouTube">
+                <a className="icon" href="https://www.youtube.com/@shamanicca" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                   <Image src="/images/icon-social-yt.svg" alt="YouTube" width={30} height={30} />
                 </a>
-                <a className="icon" href="#" aria-label="TikTok">
+                <a className="icon" href="https://www.tiktok.com/@shamaniccatv" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                   <Image src="/images/icon-social-tt.svg" alt="TikTok" width={30} height={30} />
                 </a>
               </div>
@@ -48,7 +48,6 @@ export default function Footer() {
               <li className="type-md"><Link href="/returns-exchanges">Returns &amp; Exchanges</Link></li>
               <li className="type-md"><Link href="/size-chart">Size Chart</Link></li>
               <li className="type-md"><Link href="/faq">FAQs</Link></li>
-              <li className="type-md"><Link href="/contact">Contact Us</Link></li>
             </ul>
           </div>
 
