@@ -187,3 +187,14 @@
 .header__search_radio { @include radio-item; color: $white; }
 .header__search_radio input { accent-color: $primary-color; margin: 0; }
 
+// Search page overrides: form reuses header search classes but sits on a white background
+.search-page__form {
+	.header__search_radio { color: $black; }
+	.header__search_submit {
+		&:hover,
+		&:active {
+			border-color: $primary-color;
+		}
+	}
+}
+

@@ -13,6 +13,7 @@ export async function getWPPage(slug: string): Promise<WPPage | null> {
   try {
     const res = await fetch(
       `${WP_BASE}/wp-json/wp/v2/pages?slug=${slug}&_fields=slug,title,content,excerpt`,
+      { headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' } },
     );
     if (!res.ok) return null;
     const pages: WPPage[] = await res.json();

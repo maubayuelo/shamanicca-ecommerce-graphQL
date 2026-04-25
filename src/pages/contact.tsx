@@ -6,8 +6,16 @@ import SeoHead from '../components/atoms/SeoHead';
 import Breadcrumb from '../components/molecules/Breadcrumb';
 import { getWPPage, type WPPage } from '../lib/getWPPage';
 
-type Props = { page: WPPage | null };
+const SUBJECTS = [
+  'Order Support',
+  'Returns & Exchanges',
+  'Sizing Help',
+  'Wholesale & Collaboration',
+  'Press & Media',
+  'Other',
+];
 
+type Props = { page: WPPage | null };
 type FormState = { name: string; email: string; subject: string; message: string };
 type FieldError = Partial<FormState>;
 
@@ -23,12 +31,12 @@ export default function ContactPage({ page }: Props) {
     if (!form.name.trim()) e.name = 'Name is required.';
     if (!form.email.trim()) e.email = 'Email is required.';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email.';
-    if (!form.subject.trim()) e.subject = 'Subject is required.';
+    if (!form.subject) e.subject = 'Please select a subject.';
     if (!form.message.trim()) e.message = 'Message is required.';
     return e;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -62,7 +70,7 @@ export default function ContactPage({ page }: Props) {
   return (
     <Fragment>
       <SeoHead
-        title={page ? page.title.rendered : 'Contact Us'}
+        title="Contact Us — Shamanicca"
         description="Get in touch with the Shamanicca team."
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/contact`}
       />
@@ -78,7 +86,9 @@ export default function ContactPage({ page }: Props) {
             {page ? (
               <>
                 <h1 className="type-5xl type-extrabold type-center" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
-                <div className="wp-content mb-md-responsive" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
+                {page.content.rendered && (
+                  <div className="wp-content mb-md-responsive" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />
+                )}
               </>
             ) : (
               <h1 className="type-5xl type-extrabold type-center">Contact Us</h1>
@@ -86,48 +96,100 @@ export default function ContactPage({ page }: Props) {
 
             {submitted ? (
               <div className="contact-success" role="alert">
-                <p className="type-lg type-bold">Message sent!</p>
+                <div className="contact-success__icon">&#10003;</div>
+                <p className="type-lg type-bold m-0">Message sent!</p>
                 <p className="type-md">Thanks for reaching out — we&apos;ll get back to you shortly.</p>
               </div>
             ) : (
               <form className="contact-form" onSubmit={handleSubmit} noValidate>
                 {serverError && (
-                  <p className="field-error type-sm mb-sm-responsive" role="alert">{serverError}</p>
+                  <p className="contact-form__server-error type-sm" role="alert">{serverError}</p>
                 )}
 
-                <div className={`field${errors.name ? ' field--error' : ''}`}>
-                  <label htmlFor="contact-name" className="field-label type-sm type-bold">Name</label>
-                  <input id="contact-name" className="form-control type-md" type="text" name="name"
-                    value={form.name} onChange={handleChange} autoComplete="name"
-                    aria-invalid={!!errors.name} aria-describedby={errors.name ? 'err-name' : undefined} />
-                  {errors.name && <span id="err-name" className="field-error type-sm" role="alert">{errors.name}</span>}
+                <div className="contact-form__row">
+                  <div className={`form-field${errors.name ? ' form-field--error' : ''}`}>
+                    <label htmlFor="c-name" className="form-field__label">
+                      Name <span className="form-field__required" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="c-name"
+                      className="form-field__control"
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      autoComplete="name"
+                      placeholder="Your name"
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? 'err-name' : undefined}
+                    />
+                    {errors.name && <span id="err-name" className="contact-form__field-error type-sm" role="alert">{errors.name}</span>}
+                  </div>
+
+                  <div className={`form-field${errors.email ? ' form-field--error' : ''}`}>
+                    <label htmlFor="c-email" className="form-field__label">
+                      Email <span className="form-field__required" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="c-email"
+                      className="form-field__control"
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      autoComplete="email"
+                      placeholder="your@email.com"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? 'err-email' : undefined}
+                    />
+                    {errors.email && <span id="err-email" className="contact-form__field-error type-sm" role="alert">{errors.email}</span>}
+                  </div>
                 </div>
 
-                <div className={`field${errors.email ? ' field--error' : ''}`}>
-                  <label htmlFor="contact-email" className="field-label type-sm type-bold">Email</label>
-                  <input id="contact-email" className="form-control type-md" type="email" name="email"
-                    value={form.email} onChange={handleChange} autoComplete="email"
-                    aria-invalid={!!errors.email} aria-describedby={errors.email ? 'err-email' : undefined} />
-                  {errors.email && <span id="err-email" className="field-error type-sm" role="alert">{errors.email}</span>}
+                <div className={`form-field${errors.subject ? ' form-field--error' : ''}`}>
+                  <label htmlFor="c-subject" className="form-field__label">
+                    Subject <span className="form-field__required" aria-hidden="true">*</span>
+                  </label>
+                  <select
+                    id="c-subject"
+                    className="form-field__control form-field__select"
+                    name="subject"
+                    value={form.subject}
+                    onChange={handleChange}
+                    aria-invalid={!!errors.subject}
+                    aria-describedby={errors.subject ? 'err-subject' : undefined}
+                  >
+                    <option value="" disabled>Select a topic…</option>
+                    {SUBJECTS.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                  {errors.subject && <span id="err-subject" className="contact-form__field-error type-sm" role="alert">{errors.subject}</span>}
                 </div>
 
-                <div className={`field${errors.subject ? ' field--error' : ''}`}>
-                  <label htmlFor="contact-subject" className="field-label type-sm type-bold">Subject</label>
-                  <input id="contact-subject" className="form-control type-md" type="text" name="subject"
-                    value={form.subject} onChange={handleChange}
-                    aria-invalid={!!errors.subject} aria-describedby={errors.subject ? 'err-subject' : undefined} />
-                  {errors.subject && <span id="err-subject" className="field-error type-sm" role="alert">{errors.subject}</span>}
+                <div className={`form-field${errors.message ? ' form-field--error' : ''}`}>
+                  <label htmlFor="c-message" className="form-field__label">
+                    Message <span className="form-field__required" aria-hidden="true">*</span>
+                  </label>
+                  <textarea
+                    id="c-message"
+                    className="form-field__control"
+                    name="message"
+                    rows={6}
+                    value={form.message}
+                    onChange={handleChange}
+                    placeholder="Tell us how we can help…"
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? 'err-message' : undefined}
+                  />
+                  {errors.message && <span id="err-message" className="contact-form__field-error type-sm" role="alert">{errors.message}</span>}
                 </div>
 
-                <div className={`field${errors.message ? ' field--error' : ''}`}>
-                  <label htmlFor="contact-message" className="field-label type-sm type-bold">Message</label>
-                  <textarea id="contact-message" className="form-control type-md" name="message" rows={6}
-                    value={form.message} onChange={handleChange}
-                    aria-invalid={!!errors.message} aria-describedby={errors.message ? 'err-message' : undefined} />
-                  {errors.message && <span id="err-message" className="field-error type-sm" role="alert">{errors.message}</span>}
-                </div>
-
-                <button type="submit" className="btn btn-primary btn-large mt-sm-responsive" disabled={loading}>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-large contact-form__submit"
+                  disabled={loading}
+                >
                   {loading ? 'Sending…' : 'Send Message'}
                 </button>
               </form>

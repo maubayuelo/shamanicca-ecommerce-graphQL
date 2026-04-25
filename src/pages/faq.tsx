@@ -5,6 +5,7 @@ import Footer from '../components/organisms/Footer';
 import SeoHead from '../components/atoms/SeoHead';
 import Breadcrumb from '../components/molecules/Breadcrumb';
 import { getWPPage, type WPPage } from '../lib/getWPPage';
+import { decodeEntities } from '../utils/html';
 
 type Props = { page: WPPage };
 
@@ -12,7 +13,7 @@ export default function FaqPage({ page }: Props) {
   return (
     <Fragment>
       <SeoHead
-        title={page.title.rendered}
+        title={decodeEntities(page.title.rendered)}
         description="Frequently asked questions about Shamanicca products, shipping, and more."
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/faq`}
       />
@@ -22,7 +23,7 @@ export default function FaqPage({ page }: Props) {
           <div className="page mt-md-responsive mb-lg-responsive">
             <Breadcrumb
               ariaLabel="Breadcrumb"
-              items={[{ label: 'Home', href: '/' }, { label: page.title.rendered }]}
+              items={[{ label: 'Home', href: '/' }, { label: decodeEntities(page.title.rendered) }]}
             />
             <h1 className="type-5xl type-extrabold type-center" dangerouslySetInnerHTML={{ __html: page.title.rendered }} />
             <div className="wp-content" dangerouslySetInnerHTML={{ __html: page.content.rendered }} />

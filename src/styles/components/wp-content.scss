@@ -1,0 +1,91 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+// Styles for HTML content rendered from WordPress (page.content.rendered)
+.wp-content {
+  color: $black;
+  line-height: 1.75;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: $font-weight-bold;
+    line-height: 1.3;
+    margin-top: $spacing-45;
+    margin-bottom: $spacing-15;
+
+    &:first-child { margin-top: 0; }
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.1rem; }
+
+  p {
+    margin-top: 0;
+    margin-bottom: $spacing-20;
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  ul, ol {
+    padding-left: $spacing-30;
+    margin-top: 0;
+    margin-bottom: $spacing-20;
+
+    li {
+      margin-bottom: $spacing-10;
+    }
+  }
+
+  ul { list-style: disc; }
+  ol { list-style: decimal; }
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+
+    &:hover { color: $primary-color-dark; }
+  }
+
+  strong, b { font-weight: $font-weight-bold; }
+  em, i { font-style: italic; }
+
+  hr {
+    border: none;
+    border-top: 1px solid $gray-30;
+    margin: $spacing-45 0;
+  }
+
+  blockquote {
+    border-left: 3px solid $primary-color;
+    margin: $spacing-30 0;
+    padding: $spacing-15 $spacing-20;
+    background: $gray-10;
+    font-style: italic;
+    color: $gray-90;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: $spacing-10;
+    margin: $spacing-20 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: $spacing-20;
+
+    th, td {
+      padding: $spacing-10 $spacing-15;
+      border: 1px solid $gray-30;
+      text-align: left;
+    }
+
+    th {
+      background: $gray-10;
+      font-weight: $font-weight-bold;
+    }
+  }
+}

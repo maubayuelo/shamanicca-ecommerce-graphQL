@@ -5,6 +5,7 @@ import Footer from '../components/organisms/Footer';
 import SeoHead from '../components/atoms/SeoHead';
 import Breadcrumb from '../components/molecules/Breadcrumb';
 import { getWPPage, type WPPage } from '../lib/getWPPage';
+import { decodeEntities } from '../utils/html';
 
 type Props = { page: WPPage };
 

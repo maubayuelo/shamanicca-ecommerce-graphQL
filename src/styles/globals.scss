@@ -21,6 +21,9 @@
 @use "./forms" as *;
 @use "./components/cookie-consent" as *;
 @use "./components/announcement-banner" as *;
+@use "./components/wp-content" as *;
+@use "./components/form-field" as *;
+@use "./components/contact-form" as *;
 
 // Global SCSS (custom variables)
 :root {
