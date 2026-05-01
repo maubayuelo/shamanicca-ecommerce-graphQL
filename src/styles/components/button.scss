@@ -101,6 +101,20 @@ a {
     text-decoration: none;
 }
 
+// Muted grey button for low-priority actions (e.g. cart remove)
+.btn-muted {
+    background-color: #e5e5e5;
+    color: #666666;
+    font-weight: map.get($font-weights, medium);
+    border: none;
+
+    &:hover {
+        background-color: #d0d0d0;
+        color: #444444;
+        text-decoration: none;
+    }
+}
+
 // Size variants
 .btn-small {
     padding: $spacing-5 $spacing-10;

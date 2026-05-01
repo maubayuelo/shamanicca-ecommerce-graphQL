@@ -5,15 +5,16 @@ import Header from '../../../components/organisms/Header';
 import Footer from '../../../components/organisms/Footer';
 import BlogHeader from '../../../components/sections/BlogHeader';
 import BlogGrid, { type BlogGridItem } from '../../../components/sections/BlogGrid';
-import BlogBanner from '../../../components/sections/BlogBanner';
+import InContentBanner from '../../../components/sections/InContentBanner';
 import BlogSidebar from '../../../components/sections/BlogSidebar';
 import Paginator from '../../../components/molecules/Paginator';
+import { useBanners } from '../../../hooks/useBanners';
 import client from '../../../lib/graphql/apolloClient';
-import { GET_CATEGORY_BY_SLUG, GET_CHILD_CATEGORIES, GET_POSTS_BY_CATEGORY_ID_WITH_TOTAL, GET_CATEGORY_POSTS_CURSOR } from '../../../lib/graphql/queries';
+import { GET_CATEGORY_BY_SLUG, GET_POSTS_BY_CATEGORY_ID_WITH_TOTAL, GET_CATEGORY_POSTS_CURSOR } from '../../../lib/graphql/queries';
 import { pickImage } from '../../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../../utils/html';
 
-const PAGE_SIZE = 9; // paginator every 9 posts
+const PAGE_SIZE = 12;
 
 type PageProps = {
   slug: string;
@@ -22,42 +23,37 @@ type PageProps = {
   items: BlogGridItem[];
   currentPage: number;
   totalItems: number;
+  topReads: BlogGridItem[];
+  magicalPractices: BlogGridItem[];
+  categoryId: number;
 };
 
-export default function BlogCategoryPage({ slug, name, description, items, currentPage, totalItems }: PageProps) {
+export default function BlogCategoryPage({ slug, name, description, items, currentPage, totalItems, topReads, magicalPractices, categoryId }: PageProps) {
+  const { banner } = useBanners(categoryId);
 
-  // Page slice
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const end = start + PAGE_SIZE;
-  const pageItems = items.slice(start, end);
+  // getServerSideProps already returns only the current page's items
+  const firstBlock = items.slice(0, 6);
+  const secondBlock = items.slice(6);
 
-  // Interleave banner after every 6 items within the page
-  const firstBlock = pageItems.slice(0, 6);
-  const secondBlock = pageItems.slice(6);
-
-  const subtitleText = (() => {
-    const s = cleanExcerpt(description);
-    return s; // do not truncate subtitle
-  })();
+  const subtitleText = cleanExcerpt(description);
 
   const hrefBuilder = (page: number) => {
     const base = `/blog/category/${encodeURIComponent(slug)}`;
     return page === 1 ? base : `${base}?page=${page}`;
   };
 
-  const sampleBanners = [
-    {
-      imageUrl: 'https://placehold.co/270x270.png',
-      title: 'Intentioned Apparel',
-      subtitle: 'Wear your protection. Embody your abundance.',
-      ctaLabel: 'SHOP NOW!',
-      href: '/shop',
-    },
-  ];
+  const sidebarBanners = banner ? [{
+    imageUrl: banner.banner_image,
+    title: banner.banner_headline,
+    subtitle: banner.banner_subtext,
+    ctaLabel: banner.banner_cta_label,
+    href: banner.banner_cta_url,
+    isAffilliated: banner.banner_type === 'affiliate',
+  }] : [];
 
   const sidebarSections = [
-    { title: 'Top Reads', items: items.slice(0, 3) },
-    { title: 'Mystic Tools', items: items.slice(3, 6) },
+    { title: 'Top Reads', items: topReads },
+    { title: 'Magical Practices', items: magicalPractices },
   ];
 
   return (
@@ -78,32 +74,29 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
                   <BlogGrid items={firstBlock} className="mb-lg-responsive" />
                 )}
 
-                {/* Banner after 6 items */}
-                <BlogBanner
-                  title="Intentioned Apparel"
-                  subtitle="Wear your protection. Embody your abundance."
-                  ctaLabel="SHOP NOW!"
-                  href="/shop/apparel"
-                  imageUrl="https://placehold.co/270x180"
-                  className="mb-lg-responsive"
-                />
+                {/* ACF banner after 6 items */}
+                {banner && (
+                  <InContentBanner banner={banner} />
+                )}
 
-                {/* Block 2 (remaining up to 9 per page) */}
+                {/* Block 2 (remaining up to 12 per page) */}
                 {secondBlock.length > 0 && (
                   <BlogGrid items={secondBlock} className="mb-lg-responsive" />
                 )}
 
-                {/* Paginator */}
-                <Paginator
-                  className="mt-lg-responsive"
-                  currentPage={currentPage}
-                  totalItems={totalItems}
-                  pageSize={PAGE_SIZE}
-                  hrefBuilder={hrefBuilder}
-                />
+                {/* Paginator — only when there is more than one page */}
+                {totalItems > PAGE_SIZE && (
+                  <Paginator
+                    className="mt-lg-responsive"
+                    currentPage={currentPage}
+                    totalItems={totalItems}
+                    pageSize={PAGE_SIZE}
+                    hrefBuilder={hrefBuilder}
+                  />
+                )}
               </div>
 
-              <BlogSidebar sections={sidebarSections} banners={sampleBanners} />
+              <BlogSidebar sections={sidebarSections} banners={sidebarBanners} />
             </div>
           </div>
           <Footer />
@@ -120,34 +113,56 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
     const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
     const offset = (currentPage - 1) * PAGE_SIZE;
 
+    type CursorData = { category: { posts: { nodes: any[] } } };
+    const toGridItem = (n: any): BlogGridItem => ({
+      id: n.databaseId,
+      title: decodeEntities(n.title || ''),
+      summary: cleanExcerpt(n.excerpt || ''),
+      imageUrl: pickImage(n, 'thumbnail') || null,
+      imageUrlMedium: pickImage(n, 'medium') || null,
+      href: `/blog/${n.slug}`,
+    });
+
+    // Sidebar: always Top Reads + Magical Practices
+    let topReads: BlogGridItem[] = [];
+    let magicalPractices: BlogGridItem[] = [];
     try {
-      // Prefer cursor-based category.posts which we verified returns items on the SiteGround endpoint
-      const catRes = await client.query({ query: GET_CATEGORY_BY_SLUG, variables: { slug } });
+      const [topRes, magRes] = await Promise.all([
+        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3 }, fetchPolicy: 'no-cache' }),
+        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3 }, fetchPolicy: 'no-cache' }),
+      ]);
+      topReads = (topRes.data.category?.posts?.nodes || []).map(toGridItem);
+      magicalPractices = (magRes.data.category?.posts?.nodes || []).map(toGridItem);
+    } catch { /* sidebar stays empty */ }
+
+    try {
+      const catRes = await client.query<{ category: { name: string; description: string; count: number; databaseId: number } }>({ query: GET_CATEGORY_BY_SLUG, variables: { slug } });
       const cat = catRes.data.category;
       if (!cat) return { notFound: true };
 
-      // Walk pages to the requested page using cursors
+      type CursorPageData = { category: { posts: { nodes: any[]; pageInfo: { endCursor: string; hasNextPage: boolean } } } };
+      // Walk pages to requested page using cursors
       let after: string | undefined = undefined;
       if (currentPage > 1) {
-        // fetch head to initialize cursor
-        const head = await client.query({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
+        const head = await client.query<CursorPageData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
         after = head.data.category?.posts?.pageInfo?.endCursor;
         for (let i = 2; i < currentPage; i++) {
-          const pageRes = await client.query({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
+          const pageRes = await client.query<CursorPageData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
           after = pageRes.data.category?.posts?.pageInfo?.endCursor;
           const hasNext = pageRes.data.category?.posts?.pageInfo?.hasNextPage;
           if (!hasNext) break;
         }
       }
 
-      const { data } = await client.query({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
+      const { data } = await client.query<CursorPageData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
       const catNode = data.category;
       if (!catNode) return { notFound: true };
       const items: BlogGridItem[] = (catNode.posts?.nodes || []).map((n: any) => ({
         id: n.databaseId,
         title: decodeEntities(n.title || ''),
         summary: cleanExcerpt(n.excerpt || ''),
-        imageUrl: pickImage(n, 'medium') || null,
+        imageUrl: pickImage(n, 'thumbnail') || null,
+        imageUrlMedium: pickImage(n, 'medium') || null,
         href: `/blog/${n.slug}`,
       }));
 
@@ -159,15 +174,18 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
           items,
           currentPage,
           totalItems: Number(cat.count) || items.length || 0,
+          topReads,
+          magicalPractices,
+          categoryId: cat.databaseId,
         },
       };
     } catch {
-      // As a last resort, try taxQuery with includeChildren
+      // Last resort: try taxQuery with includeChildren
       try {
-        const catRes = await client.query({ query: GET_CATEGORY_BY_SLUG, variables: { slug } });
+        const catRes = await client.query<{ category: { name: string; description: string; count: number; databaseId: number } }>({ query: GET_CATEGORY_BY_SLUG, variables: { slug } });
         const cat = catRes.data.category;
         if (!cat) return { notFound: true };
-        const taxRes = await client.query({
+        const taxRes = await client.query<{ posts: { nodes: any[]; pageInfo: { offsetPagination: { total: number } } } }>({
           query: GET_POSTS_BY_CATEGORY_ID_WITH_TOTAL,
           variables: { categoryId: [cat.databaseId], size: PAGE_SIZE, offset },
         });
@@ -175,7 +193,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
           id: n.databaseId,
           title: decodeEntities(n.title || ''),
           summary: cleanExcerpt(n.excerpt || ''),
-          imageUrl: pickImage(n, 'medium') || null,
+          imageUrl: pickImage(n, 'thumbnail') || null,
+          imageUrlMedium: pickImage(n, 'medium') || null,
           href: `/blog/${n.slug}`,
         }));
         return {
@@ -186,6 +205,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
             items,
             currentPage,
             totalItems: taxRes.data.posts?.pageInfo?.offsetPagination?.total ?? Number(cat.count) ?? items.length ?? 0,
+            topReads,
+            magicalPractices,
+            categoryId: cat.databaseId,
           },
         };
       } catch {

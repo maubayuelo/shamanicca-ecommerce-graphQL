@@ -7,12 +7,17 @@ export type BlogMainArticleProps = {
 };
 
 export default function BlogMainArticle({ item, className = '' }: BlogMainArticleProps) {
+  const mediumSrc = item.imageUrlMedium || item.imageUrl || 'https://placehold.co/350x233.png';
+  const largeSrc = item.imageUrlLarge || mediumSrc;
+
   return (
     <section className={`blog-main-article mb-lg-responsive ${className}`}>
       <a href={item.href || '#'} className="blog-main-article__thumb" aria-label={`Read ${item.title}`}>
-        {/* large image, rely on CSS height */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={item.imageUrl || 'https://placehold.co/915x531.png'} alt="" />
+        <picture>
+          <source media="(min-width: 1024px)" srcSet={largeSrc} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={mediumSrc} alt="" />
+        </picture>
       </a>
       <div className="blog-main-article__body">
         <h1 className="type-2xl type-extrabold m-0">

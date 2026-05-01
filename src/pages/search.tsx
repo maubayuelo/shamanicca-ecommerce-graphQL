@@ -59,7 +59,8 @@ export default function SearchPage() {
     id: p.databaseId,
     title: decodeEntities(p.title || ''),
     summary: cleanExcerpt(p.excerpt || '').slice(0, 120),
-    imageUrl: pickImage(p, 'medium') || null,
+    imageUrl: pickImage(p, 'thumbnail') || null,
+    imageUrlMedium: pickImage(p, 'medium') || null,
     href: `/blog/${p.slug}`,
   }));
 

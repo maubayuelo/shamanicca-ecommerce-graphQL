@@ -5,104 +5,90 @@ import BlogHeader from './BlogHeader';
 import BlogBanner from './BlogBanner';
 import BlogSidebar from './BlogSidebar';
 import BlogMainArticle from './BlogMainArticle';
+import { useBanners } from '../../hooks/useBanners';
 
 type BlogMainPageProps = {
   posts: BlogGridItem[];
+  topReads?: BlogGridItem[];
+  magicalPractices?: BlogGridItem[];
 };
 
-export default function BlogMainPage({ posts }: BlogMainPageProps) {
-  // Derive layout pieces: first item as main article, then 3 blocks, banners in-between
+export default function BlogMainPage({ posts, topReads = [], magicalPractices = [] }: BlogMainPageProps) {
+  const { banner } = useBanners(null);
+
   const mainArticle = posts[0];
   const remaining = posts.slice(1);
   const block1 = remaining.slice(0, 6);
   const block2 = remaining.slice(6, 10);
-  const block3 = remaining.slice(10, 14);
 
-
-
-  const sampleBanners = [
-    {
-      imageUrl: 'https://placehold.co/270x270.png',
-      title: 'Intentioned Apparel',
-      subtitle: 'Wear your protection. Embody your abundance.',
-      ctaLabel: 'SHOP NOW!',
-      href: '/shop',
-    },
-  ];
-
-
+  const sidebarBanners = banner ? [{
+    imageUrl: banner.banner_image,
+    title: banner.banner_headline,
+    subtitle: banner.banner_subtext,
+    ctaLabel: banner.banner_cta_label,
+    href: banner.banner_cta_url,
+    isAffilliated: banner.banner_type === 'affiliate',
+  }] : [];
 
   return (
     <div className="main">
       <div className="blog-layout mt-lg-responsive">
         <div className="blog-content">
-        
-          {/* Blog Header (SEO helper) */}
+
           <BlogHeader
             title="Mindfulness, Wicca, White Magic, Alchemy & Shamanism Blog"
             subtitle=""
             className="mb-lg-responsive"
           />
 
-          {/* Main Article */}
           {mainArticle && (
             <BlogMainArticle item={mainArticle} />
           )}
 
-          
+          {banner && (
+            <BlogBanner
+              title={banner.banner_headline}
+              subtitle={banner.banner_subtext}
+              ctaLabel={banner.banner_cta_label}
+              href={banner.banner_cta_url}
+              imageUrl={banner.banner_image}
+              imageUrlMedium={banner.banner_image_medium}
+              imageUrlLarge={banner.banner_image_large}
+              isAffilliated={banner.banner_type === 'affiliate'}
+            />
+          )}
 
-          {/* Banner 1 */}
-          <BlogBanner
-            title="Intentioned Apparel"
-            className='mb-lg-responsive'
-            subtitle="Wear your protection. Embody your abundance."
-            ctaLabel="SHOP NOW!"
-            href="/shop/apparel"
-            imageUrl="https://placehold.co/270x180"
-          />
-
-          {/* Block 1 (no section title or CTA) */}
           {block1.length > 0 && (
-            <BlogGrid
-            items={block1}
-            className='mb-lg-responsive'
+            <BlogGrid items={block1} className="mb-lg-responsive" />
+          )}
+
+          {banner && (
+            <BlogBanner
+              title={banner.banner_headline}
+              subtitle={banner.banner_subtext}
+              ctaLabel={banner.banner_cta_label}
+              href={banner.banner_cta_url}
+              imageUrl={banner.banner_image}
+              imageUrlMedium={banner.banner_image_medium}
+              imageUrlLarge={banner.banner_image_large}
+              isAffilliated={banner.banner_type === 'affiliate'}
             />
           )}
 
-          
-
-          {/* Banner 2 */}
-          <BlogBanner
-            title="Manifestation Audibles"
-            className='mb-lg-responsive'
-            subtitle="Guided meditations and subliminal audios."
-            ctaLabel="LISTEN"
-            href="/shop/audios"
-            imageUrl="https://placehold.co/270x180"
-            isAffilliated={true}
-          />
-
-          {/* Block 2 */}
           {block2.length > 0 && (
-            <BlogGrid items={block2} 
-            className=''
-            ctaHref="/blog/all" ctaLabel="See All Posts"
-            />
+            <BlogGrid items={block2} ctaHref="/blog/all" ctaLabel="See All Posts" />
           )}
 
-          
         </div>
 
-        {/* Sidebar with titles, posts, and banners */}
         <BlogSidebar
           sections={[
-            { title: 'Top Reads', items: block1.slice(0, 3) },
-            { title: 'Mystic Tools', items: block1.slice(3, 6) },
+            { title: 'Top Reads', items: topReads.length > 0 ? topReads : block1.slice(0, 3) },
+            { title: 'Magical Practices', items: magicalPractices.length > 0 ? magicalPractices : block1.slice(3, 6) },
           ]}
-          banners={sampleBanners} 
-          
+          banners={sidebarBanners}
         />
-       
+
       </div>
     </div>
   );

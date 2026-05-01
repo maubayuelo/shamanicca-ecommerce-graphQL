@@ -124,6 +124,14 @@
     .field {
       display: grid;
       gap: 8px;
+      align-content: start;
+    }
+
+    .field-error {
+      font-size: 0.875rem;
+      color: #991b1b;
+      min-height: 1.25rem; // always reserves space — prevents row height shift
+      display: block;
     }
 
     label {

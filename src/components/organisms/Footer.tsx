@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import NewsletterForm from '../molecules/NewsletterForm';
 
 export default function Footer() {
   return (
@@ -13,10 +14,7 @@ export default function Footer() {
               Hit subscribe and save – your inbox will thank you.
             </p>
 
-            <form className="newsletter-form mt-15" onSubmit={(e) => e.preventDefault()}>
-              <input className="type-sm" aria-label="email" placeholder="Your Email" type="email" name="email" />
-              <button className="newsletter-submit type-sm type-extrabold type-uppercase" type="submit">Send</button>
-            </form>
+            <NewsletterForm className="mt-15" />
 
             <div className="social mt-xl-responsive mb-lg-responsive">
               <div className="label type-sm mb-sm-responsive">Catch updates following us on:</div>

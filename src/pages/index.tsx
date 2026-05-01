@@ -131,7 +131,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
       id: n.databaseId,
       title: decodeEntities(n.title || ''),
       summary: cleanExcerpt(n.excerpt || ''),
-      imageUrl: pickImage(n, 'medium') || null,
+      imageUrl: pickImage(n, 'thumbnail') || null,
+      imageUrlMedium: pickImage(n, 'medium') || null,
       href: `/blog/${n.slug}`,
     }));
     

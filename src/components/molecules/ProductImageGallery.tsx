@@ -7,7 +7,7 @@ type GalleryImage = {
   // Optional additional <source> entries for <picture>
   sources?: Array<{
     srcSet: string;
-    type: string;
+    type?: string;
     media?: string;
   }>;
 };
@@ -148,7 +148,7 @@ export default function ProductImageGallery({
                 >
                   <picture>
                     {img.sources?.map((s, idx) => (
-                      <source key={idx} srcSet={s.srcSet} type={s.type} media={s.media} />
+                      <source key={idx} srcSet={s.srcSet} {...(s.type ? { type: s.type } : {})} media={s.media} />
                     ))}
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img

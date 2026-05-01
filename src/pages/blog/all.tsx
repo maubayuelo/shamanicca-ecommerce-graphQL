@@ -8,7 +8,6 @@ import BlogGrid, { type BlogGridItem } from '../../components/sections/BlogGrid'
 import BlogSidebar from '../../components/sections/BlogSidebar';
 import Paginator from '../../components/molecules/Paginator';
 import client from '../../lib/graphql/apolloClient';
-import { gql } from '@apollo/client';
 import { GET_ALL_POSTS_WITH_TOTAL, GET_ALL_POSTS_CURSOR } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
@@ -25,7 +24,7 @@ type PageProps = {
 export default function AllPostsPage({ items, currentPage, totalItems }: PageProps) {
   const sidebarSections = [
     { title: 'Top Reads', items: items.slice(0, 3) },
-    { title: 'Mystic Tools', items: items.slice(3, 6) },
+    { title: 'Magical Practices', items: items.slice(3, 6) },
   ];
 
   const sampleBanners = [
@@ -83,7 +82,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
   const offset = Math.max(0, OFFSET_BASE + (currentPage - 1) * PAGE_SIZE);
   // Prefer offsetPagination if available; otherwise use cursor-based iteration
   try {
-    const { data } = await client.query({
+    const { data } = await client.query<{ posts: { nodes: any[]; pageInfo: { offsetPagination: { total: number } } } }>({
       query: GET_ALL_POSTS_WITH_TOTAL,
       variables: { size: PAGE_SIZE, offset },
     });
@@ -92,7 +91,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
       id: n.databaseId,
       title: decodeEntities(n.title || ''),
       summary: cleanExcerpt(n.excerpt || ''),
-      imageUrl: pickImage(n, 'medium') || null,
+      imageUrl: pickImage(n, 'thumbnail') || null,
+      imageUrlMedium: pickImage(n, 'medium') || null,
       href: `/blog/${n.slug}`,
     }));
 
@@ -102,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
     // Cursor-based: iterate to the requested page
     let after: string | undefined = undefined;
     for (let i = 1; i < currentPage; i++) {
-      const pageRes = await client.query({ query: GET_ALL_POSTS_CURSOR, variables: { first: PAGE_SIZE, after } });
+      const pageRes = await client.query<{ posts: { pageInfo: { endCursor: string; hasNextPage: boolean } } }>({ query: GET_ALL_POSTS_CURSOR, variables: { first: PAGE_SIZE, after } });
       after = pageRes.data.posts?.pageInfo?.endCursor;
       const hasNext = pageRes.data.posts?.pageInfo?.hasNextPage;
       if (!hasNext && i < currentPage) {
@@ -110,12 +110,13 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
         break;
       }
     }
-    const { data } = await client.query({ query: GET_ALL_POSTS_CURSOR, variables: { first: PAGE_SIZE, after } });
+    const { data } = await client.query<{ posts: { nodes: any[]; pageInfo: { hasNextPage: boolean } } }>({ query: GET_ALL_POSTS_CURSOR, variables: { first: PAGE_SIZE, after } });
     const items: BlogGridItem[] = (data.posts?.nodes || []).map((n: any) => ({
       id: n.databaseId,
       title: decodeEntities(n.title || ''),
       summary: cleanExcerpt(n.excerpt || ''),
-      imageUrl: pickImage(n, 'medium') || null,
+      imageUrl: pickImage(n, 'thumbnail') || null,
+      imageUrlMedium: pickImage(n, 'medium') || null,
       href: `/blog/${n.slug}`,
     }));
     // Without total support, approximate: if there's a next page, assume more items, otherwise end here

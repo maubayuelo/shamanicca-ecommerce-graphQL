@@ -30,9 +30,7 @@ export default function BlogPostPage({ title, content, category, relatedPosts = 
           {content}
         </article>
 
-        {relatedPosts.length > 0 && (
-          <BlogGrid title="Related Posts" items={relatedPosts} />
-        )}
+        <BlogGrid title="Related Posts" items={relatedPosts} emptyMessage="Posts not loaded" />
       </div>
     </div>
   );

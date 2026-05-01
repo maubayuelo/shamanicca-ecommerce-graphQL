@@ -7,11 +7,13 @@ export type BlogBannerProps = {
   ctaLabel?: string;
   href?: string;
   imageUrl: string;
+  imageUrlMedium?: string | null;
+  imageUrlLarge?: string | null;
   className?: string;
   isAffilliated?: boolean;
 };
 
-export default function BlogBanner({ title, subtitle, ctaLabel, href = '#', imageUrl, className = '', isAffilliated = false }: BlogBannerProps) {
+export default function BlogBanner({ title, subtitle, ctaLabel, href = '#', imageUrl, imageUrlMedium, imageUrlLarge, className = '', isAffilliated = false }: BlogBannerProps) {
   return (
     <a
       href={href}
@@ -20,8 +22,14 @@ export default function BlogBanner({ title, subtitle, ctaLabel, href = '#', imag
       rel={isAffilliated ? 'noopener noreferrer' : undefined}
     >
       <div className="blog-banner__image">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={imageUrl} alt={title} />
+        <picture>
+          {/* Tablet+ (≥601px): image is 150–210px wide — medium is sufficient */}
+          {imageUrlMedium && (
+            <source media="(min-width: 601px)" srcSet={imageUrlMedium} />
+          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={imageUrlLarge || imageUrl} alt={title} />
+        </picture>
       </div>
       <div className="blog-banner__body">
         <div className="blog-banner__title type-2xl type-extrabold">{title}</div>

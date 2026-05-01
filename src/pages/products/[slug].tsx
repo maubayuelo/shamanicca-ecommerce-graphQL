@@ -1,6 +1,5 @@
 import { useRouter } from 'next/router';
 import SeoHead from '../../components/atoms/SeoHead';
-import Link from 'next/link';
 import React, { Fragment } from 'react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
 import Header from '../../components/organisms/Header';
@@ -12,6 +11,7 @@ import { useCart } from '../../lib/context/cart';
 import client from '../../lib/graphql/apolloClient';
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCT_SLUGS, GET_PRODUCTS } from '../../lib/graphql/queries';
 import { decodeEntities } from '../../utils/html';
+import { pickSize } from '../../lib/graphql/utils';
 
 type ProductData = {
   id: string;
@@ -20,7 +20,10 @@ type ProductData = {
   slug: string;
   description?: string | null;
   shortDescription?: string | null;
-  image?: { sourceUrl?: string | null } | null;
+  image?: {
+    sourceUrl?: string | null;
+    mediaDetails?: { sizes?: Array<{ name?: string | null; sourceUrl?: string | null }> | null } | null;
+  } | null;
   galleryImages?: {
     nodes?: Array<{
       sourceUrl?: string | null;
@@ -124,31 +127,54 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
   // Build images array for gallery
   const images = React.useMemo(() => {
     if (!displayProduct) return undefined;
-    
-    const galleryImages: Array<{ src: string; alt?: string; thumb?: string }> = [];
-    
+
+    type WPSizes = Array<{ name?: string | null; sourceUrl?: string | null }> | null | undefined;
+
+    // Best large src for desktop/tablet — tries WC and WP size names in descending quality
+    const bestLarge = (sizes: WPSizes, fallback: string): string =>
+      pickSize(sizes, 'woocommerce_single', null) ||
+      pickSize(sizes, 'large', null) ||
+      pickSize(sizes, 'medium_large', null) ||
+      fallback;
+
+    // Best medium src for mobile
+    const bestMedium = (sizes: WPSizes, fallback: string): string =>
+      pickSize(sizes, 'woocommerce_thumbnail', null) ||
+      pickSize(sizes, 'medium', null) ||
+      fallback;
+
+    const galleryImages: Array<{ src: string; alt?: string; thumb?: string; sources?: Array<{ srcSet: string; media?: string }> }> = [];
+
     // Add main image
     if (product?.image?.sourceUrl) {
+      const sizes = product.image.mediaDetails?.sizes;
+      const large = bestLarge(sizes, product.image.sourceUrl);
+      const medium = bestMedium(sizes, product.image.sourceUrl);
       galleryImages.push({
-        src: product.image.sourceUrl,
+        src: large,
         alt: displayProduct.name,
-        thumb: product.image.sourceUrl,
+        thumb: pickSize(sizes, 'thumbnail', product.image.sourceUrl)!,
+        sources: [{ srcSet: medium, media: '(max-width: 600px)' }],
       });
     }
-    
+
     // Add gallery images
     if (product?.galleryImages?.nodes) {
       product.galleryImages.nodes.forEach((img) => {
         if (img?.sourceUrl) {
+          const sizes = img.mediaDetails?.sizes;
+          const large = bestLarge(sizes, img.sourceUrl);
+          const medium = bestMedium(sizes, img.sourceUrl);
           galleryImages.push({
-            src: img.sourceUrl,
+            src: large,
             alt: displayProduct.name,
-            thumb: img.sourceUrl,
+            thumb: pickSize(sizes, 'thumbnail', img.sourceUrl)!,
+            sources: [{ srcSet: medium, media: '(max-width: 600px)' }],
           });
         }
       });
     }
-    
+
     return galleryImages.length > 0 ? galleryImages : undefined;
   }, [displayProduct, product]);
 
@@ -333,16 +359,9 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                         </option>
                       ))}
                     </select>
-                    {sizeError && (
-                      <span id="size-error" className="field-error" style={{ 
-                        color: '#991b1b',
-                        fontSize: '0.875rem',
-                        marginTop: '0.5rem',
-                        display: 'block'
-                      }}>
-                        {sizeError}
-                      </span>
-                    )}
+                    <span id="size-error" className="field-error" aria-live="polite">
+                      {sizeError}
+                    </span>
                   </div>
                 )}
 

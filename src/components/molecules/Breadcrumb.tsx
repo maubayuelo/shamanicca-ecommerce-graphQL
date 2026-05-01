@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
+import { decodeEntities } from '../../utils/html';
 
 export type BreadcrumbItem = {
   label: string;
@@ -27,10 +28,11 @@ export default function Breadcrumb({
       {items.map((item, idx) => {
         const isLast = idx === items.length - 1;
         const shouldLink = item.href && (!isLast || linkLast);
+        const label = decodeEntities(item.label);
         const node = shouldLink ? (
-          <Link href={item.href} aria-label={item.ariaLabel ?? item.label}>{item.label}</Link>
+          <Link href={item.href} aria-label={item.ariaLabel ?? label}>{label}</Link>
         ) : (
-          <span aria-current={isLast ? 'page' : undefined}>{item.label}</span>
+          <span aria-current={isLast ? 'page' : undefined}>{label}</span>
         );
 
         return (

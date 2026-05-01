@@ -113,10 +113,10 @@
 
 // Mappings for existing components so no JSX changes are required
 
-// Footer newsletter input + button
-.site-footer .newsletter-form { @include form-inline; }
-.site-footer .newsletter-form input[type="email"] { @include input-group-left; }
-.site-footer .newsletter-form .newsletter-submit { @include input-group-right-button; }
+// Newsletter form — shared styles (footer + standalone page)
+.newsletter-form { @include form-inline; }
+.newsletter-form input[type="email"] { @include input-group-left; }
+.newsletter-form .newsletter-submit { @include input-group-right-button; }
 
 // Header search input + submit
 .header__search_form {
@@ -151,9 +151,9 @@
 	.form-control { @include control-condensed-padding; }
 	.btn, .btn--primary { @include button-condensed-padding; }
 
-	// Footer newsletter mapping
-	.site-footer .newsletter-form input[type="email"] { @include control-condensed-padding; }
-	.site-footer .newsletter-form .newsletter-submit { @include input-group-right-button-condensed; }
+	// Newsletter form mapping
+	.newsletter-form input[type="email"] { @include control-condensed-padding; }
+	.newsletter-form .newsletter-submit { @include input-group-right-button-condensed; }
 
 	// Header search mapping
 	.header__search_field input[type="text"] { @include control-condensed-padding; }
@@ -190,6 +190,7 @@
 // Search page overrides: form reuses header search classes but sits on a white background
 .search-page__form {
 	.header__search_radio { color: $black; }
+	.header__search_scope { margin-top: $spacing-15; }
 	.header__search_submit {
 		&:hover,
 		&:active {

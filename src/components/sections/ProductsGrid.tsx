@@ -7,7 +7,10 @@ export type FeaturedProduct = {
   id: string | number;
   name: string;
   slug?: string;
-  image?: { sourceUrl?: string } | null;
+  image?: {
+    sourceUrl?: string;
+    mediaDetails?: { sizes?: Array<{ name?: string | null; sourceUrl?: string | null }> | null } | null;
+  } | null;
   price?: string | number | null;
   regularPrice?: string | number | null; // if present and > price, show SALE + strikethrough
   shortDescription?: string | null;
@@ -135,7 +138,16 @@ export default function ProductsGrid({
 }
 
 function ProductTile({ product }: { product: FeaturedProduct }) {
-  const img = product?.image?.sourceUrl || 'https://placehold.co/800x800.png?text=Product';
+  const sizes = product?.image?.mediaDetails?.sizes;
+  const findSize = (name: string) => sizes?.find((s) => s.name === name)?.sourceUrl;
+  const img =
+    findSize('large') ||
+    findSize('medium_large') ||
+    findSize('woocommerce_single') ||
+    findSize('woocommerce_thumbnail') ||
+    findSize('medium') ||
+    product?.image?.sourceUrl ||
+    'https://placehold.co/800x800.png?text=Product';
   const name = product?.name ?? '';
   const price = product?.price ?? undefined;
   const regularPrice = product?.regularPrice ?? undefined;
@@ -146,7 +158,7 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
     <article className="product-tile">
       <Link href={href} aria-label={`View ${name}`} className="image-wrap">
         {onSale && <div className="product-badge type-sm type-bold">SALE</div>}
-        <Image src={img} alt={name} width={800} height={800} loading="lazy" />
+        <Image src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
       </Link>
       <div className="info">
         <h3 className="product-name type-lg type-bold mt-sm-responsive  mb-xs-responsive">

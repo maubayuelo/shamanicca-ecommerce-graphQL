@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import BlogBannerSidebar from './BlogBannerSidebar';
 import BlogSidebarCard from '../molecules/BlogSidebarCard';
 
@@ -16,6 +15,7 @@ type SidebarBanner = {
   subtitle?: string;
   ctaLabel?: string;
   href?: string;
+  isAffilliated?: boolean;
 };
 
 type BlogSidebarProps = {
@@ -40,32 +40,18 @@ export default function BlogSidebar({ sections = [], banners = [], className = '
 
             {idx === 0 && banners[0] && (
               <BlogBannerSidebar
-                className="mt-sm-responsive"
+                className=""
                 imageUrl={banners[0].imageUrl}
                 title={banners[0].title}
                 subtitle={banners[0].subtitle}
                 ctaLabel={banners[0].ctaLabel}
                 href={banners[0].href}
+                isAffilliated={banners[0].isAffilliated}
               />
             )}
           </div>
-
-
-        
-
-          
         </React.Fragment>
       ))}
-      {((banners && banners.length > 0) && (banners[1] || banners[0])) && (
-        <BlogBannerSidebar
-          className=""
-          imageUrl={(banners[1] || banners[0]).imageUrl}
-          title={(banners[1] || banners[0]).title}
-          subtitle={(banners[1] || banners[0]).subtitle}
-          ctaLabel={(banners[1] || banners[0]).ctaLabel}
-          href={(banners[1] || banners[0]).href}
-        />
-      )}
     </aside>
   );
 }

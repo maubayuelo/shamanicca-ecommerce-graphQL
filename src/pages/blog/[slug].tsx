@@ -7,10 +7,11 @@ import Image from 'next/image';
 import Breadcrumb from '../../components/molecules/Breadcrumb';
 import BlogGrid, { type BlogGridItem } from '../../components/sections/BlogGrid';
 import BlogSidebar from '../../components/sections/BlogSidebar';
-import BlogBanner from '../../components/sections/BlogBanner';
 import ArticleShareIcons from '../../components/molecules/ArticleShareIcons';
+import InContentBanner from '../../components/sections/InContentBanner';
+import { useBanners } from '../../hooks/useBanners';
 import client from '../../lib/graphql/apolloClient';
-import { GET_POST_BY_SLUG, GET_BLOG_POSTS, GET_POST_SLUGS, GET_CATEGORIES } from '../../lib/graphql/queries';
+import { GET_POST_BY_SLUG, GET_POST_SLUGS, GET_CATEGORY_POSTS_CURSOR } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
 
@@ -31,56 +32,7 @@ async function fetchAcfBySlug(slug: string): Promise<Record<string, unknown> | n
   }
 }
 
-function extractIframeSrc(html: string): string | undefined {
-  const m = html.match(/src=["']([^"']+)["']/i);
-  return m ? m[1] : undefined;
-}
 
-function toYouTubeEmbed(url: string): string | undefined {
-  try {
-    const u = new URL(url);
-    if (u.hostname.includes('youtu.be')) {
-      const id = u.pathname.split('/').filter(Boolean)[0];
-      if (id) return `https://www.youtube.com/embed/${id}`;
-    }
-    if (u.hostname.includes('youtube.com')) {
-      if (u.pathname === '/watch') {
-        const id = u.searchParams.get('v');
-        if (id) return `https://www.youtube.com/embed/${id}`;
-      }
-      if (u.pathname.startsWith('/shorts/')) {
-        const id = u.pathname.split('/').filter(Boolean)[1];
-        if (id) return `https://www.youtube.com/embed/${id}`;
-      }
-    }
-  } catch {}
-  return undefined;
-}
-
-function toVimeoEmbed(url: string): string | undefined {
-  try {
-    const u = new URL(url);
-    if (u.hostname.includes('vimeo.com')) {
-      const id = u.pathname.split('/').filter(Boolean)[0];
-      if (id) return `https://player.vimeo.com/video/${id}`;
-    }
-  } catch {}
-  return undefined;
-}
-
-function normalizeVideoUrl(input: string): string | undefined {
-  if (!input) return undefined;
-  const trimmed = input.trim();
-  if (trimmed.startsWith('<')) {
-    const src = extractIframeSrc(trimmed);
-    return src || undefined;
-  }
-  const yt = toYouTubeEmbed(trimmed);
-  if (yt) return yt;
-  const vimeo = toVimeoEmbed(trimmed);
-  if (vimeo) return vimeo;
-  return trimmed;
-}
 
 function extractFeaturedVideoUrl(acf?: Record<string, unknown>): string | undefined {
   if (!acf) return undefined;
@@ -136,17 +88,30 @@ type PageProps = {
   categories?: { name: string; slug: string }[];
 };
 
+function splitAtParagraph(html: string, count: number): [string, string] {
+  let pos = 0;
+  let found = 0;
+  while (found < count) {
+    const end = html.indexOf('</p>', pos);
+    if (end === -1) break;
+    pos = end + 4;
+    found++;
+  }
+  return [html.slice(0, pos), html.slice(pos)];
+}
+
 export default function BlogPostPage({ post, relatedPosts, sidebarSections, categoryName, categorySlug, categories = [] }: PageProps) {
-  const banners = [
-    {
-      imageUrl: 'https://placehold.co/270x270.png',
-      title: 'Intentioned Apparel',
-      subtitle: 'Wear your protection. Embody your abundance.',
-      ctaLabel: 'SHOP NOW!',
-      href: '/shop',
-      isAffilliated: true,
-    },
-  ];
+  const primaryCategoryId = (post.categories as number[] | undefined)?.[0] ?? null;
+  const { banner } = useBanners(primaryCategoryId);
+
+  const sidebarBanners = banner ? [{
+    imageUrl: banner.banner_image,
+    title: banner.banner_headline,
+    subtitle: banner.banner_subtext,
+    ctaLabel: banner.banner_cta_label,
+    href: banner.banner_cta_url,
+    isAffilliated: banner.banner_type === 'affiliate',
+  }] : [];
 
   const featuredCaption = (() => {
     const cap = post._embedded?.['wp:featuredmedia']?.[0]?.caption?.rendered;
@@ -277,57 +242,30 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
 
                   
 
-                  {banners[0] && (
-                    <BlogBanner
-                        title={banners[0].title}
-                        subtitle={banners[0].subtitle}
-                        ctaLabel={banners[0].ctaLabel}
-                        href={banners[0].href}
-                        imageUrl={banners[0].imageUrl}
-                        isAffilliated={banners[0].isAffilliated}
-                      />
-                  )}
+                  {post.content?.rendered && (() => {
+                    const html = post.content.rendered;
+                    const [part1, rest] = splitAtParagraph(html, 3);
+                    return (
+                      <div className="post-content pt-sm-responsive pb-sm-responsive">
+                        <div dangerouslySetInnerHTML={{ __html: part1 }} />
+                        {banner && <InContentBanner banner={banner} />}
+                        <div dangerouslySetInnerHTML={{ __html: rest }} />
+                        {banner && <InContentBanner banner={banner} />}
+                      </div>
+                    );
+                  })()}
 
-                  {post.content?.rendered && (
-                    <Fragment>
-                    <div className="post-content pt-sm-responsive pb-sm-responsive" dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
-                    </Fragment>
-                  )}
-
-                  {/* Insert banner component here */}
-                  {banners[0] && (
-                    <div className="my-sm-responsive">
-                      <BlogBanner
-                        title={banners[0].title}
-                        subtitle={banners[0].subtitle}
-                        ctaLabel={banners[0].ctaLabel}
-                        href={banners[0].href}
-                        imageUrl={banners[0].imageUrl}
-                        isAffilliated={banners[0].isAffilliated}
-                      />
-                    </div>
-                  )}
-                  
                 </article>
 
-                {relatedPosts.length > 0 && (
-                  <BlogGrid title="Related Posts" className='mb-lg-responsive' items={relatedPosts} />
+                {relatedPosts.length > 0 ? (
+                  <BlogGrid title="Related Posts" className='mb-lg-responsive' items={relatedPosts} emptyMessage="Posts not loaded" />
+                ) : (
+                  <p className="type-md mb-lg-responsive">Posts not loaded</p>
                 )}
-
-                {banners[0] && (
-                    <BlogBanner
-                        title={banners[0].title}
-                        subtitle={banners[0].subtitle}
-                        ctaLabel={banners[0].ctaLabel}
-                        href={banners[0].href}
-                        imageUrl={banners[0].imageUrl}
-                        isAffilliated={banners[0].isAffilliated}
-                      />
-                  )}
 
               </div>
 
-              <BlogSidebar sections={sidebarSections} banners={banners} />
+              <BlogSidebar sections={sidebarSections} banners={sidebarBanners} />
             </div>
           </div>
 
@@ -351,23 +289,14 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
     const postNode = data.postBy;
     if (!postNode) return { notFound: true, revalidate: 60 };
 
-    const recent = await client.query<{ posts: { nodes: any[] } }>({ query: GET_BLOG_POSTS, variables: { first: 20 } });
-
     const toGridItem = (n: any): BlogGridItem => ({
       id: n.databaseId,
       title: decodeEntities(n.title || ''),
       summary: cleanExcerpt(n.excerpt || ''),
-      imageUrl: pickImage(n, 'medium') || undefined,
+      imageUrl: pickImage(n, 'thumbnail') || undefined,
+      imageUrlMedium: pickImage(n, 'medium') || undefined,
       href: `/blog/${n.slug}`,
     });
-    const others = (recent.data.posts.nodes || [])
-      .filter((n: any) => n.slug !== slug)
-      .map(toGridItem);
-    const relatedPosts = others.slice(0, 6);
-    const sidebarSections = [
-      { title: 'Top Reads', items: others.slice(0, 3) },
-      { title: 'Mystic Tools', items: others.slice(3, 6) },
-    ];
 
     let categoryName: string | undefined;
     let categorySlug: string | undefined;
@@ -376,6 +305,41 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
       categoryName = primaryCategory.name;
       categorySlug = primaryCategory.slug;
     }
+
+    type CursorData = { category: { posts: { nodes: any[] } } };
+
+    // Related posts: same category as the current post
+    let relatedPosts: BlogGridItem[] = [];
+    if (categorySlug) {
+      try {
+        const res = await client.query<CursorData>({
+          query: GET_CATEGORY_POSTS_CURSOR,
+          variables: { slug: categorySlug, first: 5 },
+          fetchPolicy: 'no-cache',
+        });
+        relatedPosts = (res.data.category?.posts?.nodes || [])
+          .filter((n: any) => n.slug !== slug)
+          .map(toGridItem)
+          .slice(0, 4);
+      } catch { /* stays empty — UI shows "Posts not loaded" */ }
+    }
+
+    // Sidebar: always Top Reads + Magical Practices categories
+    let topReadsPosts: BlogGridItem[] = [];
+    let magicalPracticesPosts: BlogGridItem[] = [];
+    try {
+      const [topRes, magRes] = await Promise.all([
+        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3 }, fetchPolicy: 'no-cache' }),
+        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3 }, fetchPolicy: 'no-cache' }),
+      ]);
+      topReadsPosts = (topRes.data.category?.posts?.nodes || []).map(toGridItem);
+      magicalPracticesPosts = (magRes.data.category?.posts?.nodes || []).map(toGridItem);
+    } catch { /* sidebar stays empty */ }
+
+    const sidebarSections = [
+      { title: 'Top Reads', items: topReadsPosts },
+      { title: 'Magical Practices', items: magicalPracticesPosts },
+    ];
 
     const categories = (postNode.categories?.nodes || []).map((c: any) => ({ name: c.name, slug: c.slug }));
 
