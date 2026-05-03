@@ -50,9 +50,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = React.useState<CartItem[]>(() => readInitialItems());
   const [hydrated, setHydrated] = React.useState(false);
 
-  // Mark hydration complete after first client render
+  // Mark hydration complete after first client render.
+  // Also detect the cross-domain cookie set by WooCommerce on successful order
+  // completion and clear the cart so purchased items don't persist on the React site.
   React.useEffect(() => {
     setHydrated(true);
+    if (document.cookie.split(';').some((c) => c.trim().startsWith('shamanicca_order_complete='))) {
+      setItems([]);
+      // Delete the flag cookie across all possible domain scopes
+      const expire = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+      document.cookie = `shamanicca_order_complete=; ${expire}`;
+      document.cookie = `shamanicca_order_complete=; ${expire}; domain=.shamanicca.com`;
+    }
   }, []);
 
   // Persist items to localStorage when they change
