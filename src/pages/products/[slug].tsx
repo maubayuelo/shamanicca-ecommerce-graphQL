@@ -6,6 +6,7 @@ import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
 import ProductsGrid from '../../components/sections/ProductsGrid';
 import ProductImageGallery from '../../components/molecules/ProductImageGallery';
+import ProductStickyBar from '../../components/molecules/ProductStickyBar';
 import Breadcrumb from '../../components/molecules/Breadcrumb';
 import { useCart } from '../../lib/context/cart';
 import client from '../../lib/graphql/apolloClient';
@@ -71,7 +72,21 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
   const [size, setSize] = React.useState<string>('');
   const [qty, setQty] = React.useState<number>(1);
   const [sizeError, setSizeError] = React.useState<string>('');
+  const [showStickyBar, setShowStickyBar] = React.useState(false);
+  const ctaRef = React.useRef<HTMLButtonElement>(null);
   const { addItem: addToCart } = useCart();
+
+  // Show sticky bar when the main CTA scrolls out of view
+  React.useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // Use related products from WP props
   const related = React.useMemo(() => {
@@ -143,7 +158,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
       pickSize(sizes, 'medium', null) ||
       fallback;
 
-    const galleryImages: Array<{ src: string; alt?: string; thumb?: string; sources?: Array<{ srcSet: string; media?: string }> }> = [];
+    const galleryImages: Array<{ src: string; fullSrc?: string; alt?: string; thumb?: string; sources?: Array<{ srcSet: string; media?: string }> }> = [];
 
     // Add main image
     if (product?.image?.sourceUrl) {
@@ -152,6 +167,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
       const medium = bestMedium(sizes, product.image.sourceUrl);
       galleryImages.push({
         src: large,
+        fullSrc: pickSize(sizes, 'large', product.image.sourceUrl) ?? product.image.sourceUrl,
         alt: displayProduct.name,
         thumb: pickSize(sizes, 'thumbnail', product.image.sourceUrl)!,
         sources: [{ srcSet: medium, media: '(max-width: 600px)' }],
@@ -167,6 +183,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
           const medium = bestMedium(sizes, img.sourceUrl);
           galleryImages.push({
             src: large,
+            fullSrc: pickSize(sizes, 'large', img.sourceUrl) ?? img.sourceUrl,
             alt: displayProduct.name,
             thumb: pickSize(sizes, 'thumbnail', img.sourceUrl)!,
             sources: [{ srcSet: medium, media: '(max-width: 600px)' }],
@@ -395,11 +412,12 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               </div>
 
               {isProductOutOfStock ? (
-                <button className="btn btn-primary btn-large product__cta" disabled>
+                <button ref={ctaRef} className="btn btn-primary btn-large product__cta" disabled>
                   Out of Stock
                 </button>
               ) : (
                 <button
+                  ref={ctaRef}
                   className="btn btn-primary btn-large product__cta"
                   onClick={() => {
                     if (!product) return;
@@ -444,7 +462,35 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
             />
         <Footer />
       </main>
-      
+
+      <ProductStickyBar
+        name={title}
+        price={price}
+        regularPrice={isOnSale ? regularPrice : undefined}
+        isOnSale={isOnSale}
+        isOutOfStock={isProductOutOfStock}
+        visible={showStickyBar}
+        onAddToBag={() => {
+          if (!product) return;
+          if (hasSizeOptions && !size) {
+            setSizeError('Please select a size');
+            ctaRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+          }
+          addToCart({
+            product: {
+              id: String(product.databaseId ?? product.id),
+              name: product.name,
+              slug: product.slug,
+              price,
+              image: product.image,
+            },
+            qty,
+            options: { size: hasSizeOptions ? size : undefined },
+          });
+          router.push('/cart');
+        }}
+      />
     </Fragment>
   );
 }

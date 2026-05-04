@@ -4,6 +4,7 @@ type GalleryImage = {
   src: string;
   alt?: string;
   thumb?: string;
+  fullSrc?: string; // original upload URL — used only in the zoom modal
   // Optional additional <source> entries for <picture>
   sources?: Array<{
     srcSet: string;
@@ -213,13 +214,11 @@ export default function ProductImageGallery({
           <div className="modal__content pt-md-responsive">
             <button className="modal__close" onClick={() => setModalOpen(false)} aria-label="Close">✕</button>
             <div className="modal__image">
-              <picture>
-                {imgs[active].sources?.map((s, idx) => (
-                  <source key={idx} srcSet={s.srcSet} type={s.type} media={s.media} />
-                ))}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={imgs[active].src} alt={imgs[active].alt || title} />
-              </picture>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imgs[active].fullSrc || imgs[active].src}
+                alt={imgs[active].alt || title}
+              />
             </div>
             <div className="modal__thumbs">
               {imgs.map((img, i) => (

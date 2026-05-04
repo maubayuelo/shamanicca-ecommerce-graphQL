@@ -15,7 +15,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { name, email, subject, message } = req.body ?? {};
+  const { name, email, subject, message, website } = req.body ?? {};
+
+  // Honeypot: bots fill hidden fields, humans don't
+  if (website) return res.status(200).json({ ok: true });
 
   if (!name?.trim() || !email?.trim() || !subject?.trim() || !message?.trim()) {
     return res.status(400).json({ error: 'All fields are required.' });
@@ -32,10 +35,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(200).json({ ok: true });
   }
 
+  const fromAddress = process.env.RESEND_FROM || 'Shamanicca Contact <onboarding@resend.dev>';
+  const toAddress = process.env.CONTACT_EMAIL || 'maubayuelo@gmail.com';
+
   try {
     await resend.emails.send({
-      from: 'Shamanicca Contact <noreply@shamanicca.com>',
-      to: 'contact@shamanicca.com',
+      from: fromAddress,
+      to: toAddress,
       replyTo: email,
       subject: `[${subject}] Message from ${name}`,
       html: `

@@ -74,7 +74,7 @@ export default function SearchPage() {
       />
       <Header />
       <main role="main">
-        <div className="main pt-lg-responsive pb-lg-responsive">
+        <div className="main pt-lg-responsive pb-md-responsive">
           <h1 className="type-4xl mt-0 mb-sm-responsive">
             {rawQ ? <>Results for <em>&ldquo;{rawQ}&rdquo;</em></> : 'Search'}
           </h1>
@@ -116,20 +116,23 @@ export default function SearchPage() {
             <p className="type-md type-gray-80">Searching…</p>
           )}
 
-          {/* Shop results */}
-          {rawQ && scope === 'shop' && !productsLoading && (
-            products.length === 0
-              ? <p className="type-md type-gray-80">No products found for &ldquo;{rawQ}&rdquo;.</p>
-              : <ProductsGrid products={products} displayingInHome={false} showTitle={false} showCTA={false} />
+          {/* Empty states stay inside the header .main */}
+          {rawQ && scope === 'shop' && !productsLoading && products.length === 0 && (
+            <p className="type-md type-gray-80">No products found for &ldquo;{rawQ}&rdquo;.</p>
           )}
-
-          {/* Blog results */}
-          {rawQ && scope === 'blog' && !postsLoading && (
-            blogItems.length === 0
-              ? <p className="type-md type-gray-80">No articles found for &ldquo;{rawQ}&rdquo;.</p>
-              : <BlogGrid items={blogItems} />
+          {rawQ && scope === 'blog' && !postsLoading && blogItems.length === 0 && (
+            <p className="type-md type-gray-80">No articles found for &ldquo;{rawQ}&rdquo;.</p>
           )}
         </div>
+
+        {/* Results grids — each manages its own .main container width */}
+        {rawQ && scope === 'shop' && !productsLoading && products.length > 0 && (
+          <ProductsGrid products={products} displayingInHome={false} showTitle={false} showCTA={false} />
+        )}
+        {rawQ && scope === 'blog' && !postsLoading && blogItems.length > 0 && (
+          <BlogGrid items={blogItems} className="main pb-lg-responsive" />
+        )}
+
         <Footer />
       </main>
     </Fragment>

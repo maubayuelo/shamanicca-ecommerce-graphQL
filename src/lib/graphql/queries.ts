@@ -10,6 +10,7 @@ export const GET_PRODUCTS = gql`
         shortDescription
         image {
           sourceUrl
+          mediaDetails { sizes { name sourceUrl } }
         }
         ... on SimpleProduct { price regularPrice }
         ... on VariableProduct { price regularPrice }
@@ -33,6 +34,7 @@ export const GET_PRODUCTS_BY_CATEGORY = gql`
         shortDescription
         image {
           sourceUrl
+          mediaDetails { sizes { name sourceUrl } }
         }
         ... on SimpleProduct { price regularPrice }
         ... on VariableProduct { price regularPrice }
@@ -143,6 +145,7 @@ export const SEARCH_PRODUCTS = gql`
         shortDescription
         image {
           sourceUrl
+          mediaDetails { sizes { name sourceUrl } }
         }
         ... on SimpleProduct { price regularPrice }
         ... on VariableProduct { price regularPrice }
@@ -342,6 +345,24 @@ export const GET_CHILD_CATEGORIES = gql`
   query GetChildCategories($parentId: Int!, $first: Int = 100) {
     categories(first: $first, where: { parent: $parentId, hideEmpty: false }) {
       nodes { databaseId name slug }
+    }
+  }
+`;
+
+// Sidebar: fetch N latest posts by category database ID (reliable alternative to slug filter)
+export const GET_SIDEBAR_POSTS_BY_CATEGORY_ID = gql`
+  query GetSidebarPostsByCategoryId($categoryId: Int!, $first: Int = 3) {
+    posts(
+      first: $first
+      where: { categoryId: $categoryId, orderby: { field: DATE, order: DESC } }
+    ) {
+      nodes {
+        databaseId
+        slug
+        title(format: RENDERED)
+        excerpt(format: RENDERED)
+        featuredImage { node { sourceUrl mediaDetails { sizes { name sourceUrl } } } }
+      }
     }
   }
 `;

@@ -118,7 +118,7 @@ export default function CartPage() {
                       </div>
                       <div className="cart__actions">
                         <button
-                          className="btn btn-link p-0 mt-sm-responsive"
+                          className="btn btn-muted btn-small mt-sm-responsive"
                           onClick={() => removeItem(i.key)}
                         >
                           Remove

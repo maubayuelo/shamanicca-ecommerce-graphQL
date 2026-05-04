@@ -1,0 +1,100 @@
+@use "../variables" as *;
+@use "../mixins" as *;
+
+@keyframes sticky-bar-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-sticky-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 8000; // below cookie bar (9000) so cookie bar stays on top
+
+  background: $white;
+  border-top: 1px solid $gray-30;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.08);
+
+  animation: sticky-bar-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-20;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    padding: $spacing-15 $spacing-15;
+
+    @include media-desktop-up {
+      padding: $spacing-15 $spacing-30;
+    }
+
+    @media (min-width: $breakpoint-desktop-lg) {
+      max-width: $breakpoint-desktop-lg;
+    }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0; // allow text truncation
+  }
+
+  &__name {
+    color: $black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 340px;
+  }
+
+  &__price {
+    display: flex;
+    align-items: center;
+    gap: $spacing-10;
+
+    &--compare {
+      color: $gray-60;
+      text-decoration: line-through;
+    }
+
+    &--current {
+      color: $black;
+    }
+  }
+
+  // Compact on mobile: name + price side by side, full-width button below
+  @media (max-width: $breakpoint-phone) {
+    &__inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: $spacing-10;
+    }
+
+    &__info {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__name {
+      max-width: 60%;
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

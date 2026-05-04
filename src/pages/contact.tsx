@@ -16,11 +16,11 @@ const SUBJECTS = [
 ];
 
 type Props = { page: WPPage | null };
-type FormState = { name: string; email: string; subject: string; message: string };
-type FieldError = Partial<FormState>;
+type FormState = { name: string; email: string; subject: string; message: string; website: string };
+type FieldError = Partial<Omit<FormState, 'website'>>;
 
 export default function ContactPage({ page }: Props) {
-  const [form, setForm] = useState<FormState>({ name: '', email: '', subject: '', message: '' });
+  const [form, setForm] = useState<FormState>({ name: '', email: '', subject: '', message: '', website: '' });
   const [errors, setErrors] = useState<FieldError>({});
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState('');
@@ -102,6 +102,17 @@ export default function ContactPage({ page }: Props) {
               </div>
             ) : (
               <form className="contact-form" onSubmit={handleSubmit} noValidate>
+                {/* Honeypot — hidden from real users, bots fill it */}
+                <input
+                  type="text"
+                  name="website"
+                  value={form.website}
+                  onChange={handleChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
+                />
                 {serverError && (
                   <p className="contact-form__server-error type-sm" role="alert">{serverError}</p>
                 )}

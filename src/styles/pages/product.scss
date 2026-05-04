@@ -26,9 +26,13 @@
     //gap: $spacing-30;
 
     @include media-desktop-up {
-      grid-template-columns: minmax(0, 720px) 1fr;
+      grid-template-columns: 44% 1fr;
       gap: $spacing-60;
       align-items: start;
+    }
+
+    @media (min-width: $breakpoint-desktop-lg) {
+      grid-template-columns: minmax(0, 720px) 1fr;
     }
   }
 

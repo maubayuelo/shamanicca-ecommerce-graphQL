@@ -39,7 +39,7 @@
     position: relative;
     display: block; // ensure anchor takes width/height
     width: 100%;
-    height: 345px; // mobile
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     @include responsive-border-radius;
     &::after {
@@ -50,14 +50,6 @@
       box-shadow: inset 0 0 0 1px #e0e0e0;
       z-index: 1;
       pointer-events: none;
-    }
-
-    @include media-tablet-up {
-      height: 334.5px; // tablet height from Figma
-    }
-
-    @include media-desktop-up {
-      height: 440px; // desktop height from Figma
     }
 
     img {
