@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 import Paginator from '../molecules/Paginator';
+import { useWishlist } from '../../lib/context/wishlist';
 
 export type FeaturedProduct = {
   id: string | number;
@@ -154,12 +155,24 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
   const onSale = price != null && regularPrice != null && String(regularPrice) !== String(price);
   const href = `/products/${product?.slug || product?.id}`;
 
+  const { toggle, isWishlisted, hydrated } = useWishlist();
+  const wishlisted = hydrated && isWishlisted(String(product.id));
+  const priceNum = price != null ? Number(price) : 0;
+  const regularPriceNum = regularPrice != null ? Number(regularPrice) : undefined;
+
   return (
     <article className="product-tile">
       <Link href={href} aria-label={`View ${name}`} className="image-wrap">
         {onSale && <div className="product-badge type-sm type-bold">SALE</div>}
         <Image src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
       </Link>
+      <button
+        className={`btn-wishlist${wishlisted ? ' is-wishlisted' : ''}`}
+        onClick={() => toggle({ id: String(product.id), name, slug: product.slug || String(product.id), price: priceNum, regularPrice: regularPriceNum, image: img })}
+        aria-label={wishlisted ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}
+      >
+        <Image src={wishlisted ? '/images/icon-heart-full.svg' : '/images/icon-heart.svg'} alt="" width={18} height={18} aria-hidden />
+      </button>
       <div className="info">
         <h3 className="product-name type-lg type-bold mt-sm-responsive  mb-xs-responsive">
           <Link href={href} aria-label={`View ${name}`}>{name}</Link>

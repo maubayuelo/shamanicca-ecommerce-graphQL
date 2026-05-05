@@ -25,6 +25,7 @@
 @use "./components/wp-content" as *;
 @use "./components/form-field" as *;
 @use "./components/contact-form" as *;
+@use "./components/newsletter-modal" as *;
 
 // Global SCSS (custom variables)
 :root {

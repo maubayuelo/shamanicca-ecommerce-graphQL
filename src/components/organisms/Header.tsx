@@ -6,6 +6,7 @@ import { useState, useRef, useEffect, Fragment } from 'react';
 import { useBodyClass } from '../../utils/dom';
 import { decodeEntities } from '../../utils/html';
 import { useCart } from '../../lib/context/cart';
+import { useWishlist } from '../../lib/context/wishlist';
 import React from 'react';
 
 /**
@@ -37,6 +38,8 @@ export default function Header() {
   const router = useRouter();
   const { items, hydrated: cartHydrated } = useCart();
   const cartCount = items.reduce((acc, i) => acc + i.qty, 0);
+  const { items: wishlistItems, hydrated: wishlistHydrated } = useWishlist();
+  const wishlistCount = wishlistItems.length;
 
   // Unified: toggle a marker class on body when overlays are open (no inline styles)
   useBodyClass('no-scroll', mobileOpen || searchOpen);
@@ -267,12 +270,12 @@ export default function Header() {
             <button aria-label="search" className="header__action_btn" onClick={toggleSearch}>
               <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="header__action_icon" />
             </button>
-            {/* <button aria-label="WishList" className="header__action_btn">
-              <Image src="/images/icon-heart.svg" alt="WishList" width={24} height={24} className="header__action_icon" />
-            </button>
-            <button aria-label="account" className="header__action_btn">
-              <Image src="/images/icon-avatar.svg" alt="Account" width={24} height={24} className="header__action_icon" />
-            </button> */}
+            <Link href="/wishlist" aria-label="Wishlist" className="header__action_btn header__action_cart">
+              <Image src="/images/icon-heart.svg" alt="Wishlist" width={24} height={24} className="header__action_icon" />
+              {wishlistHydrated && wishlistCount > 0 && (
+                <span className="header__cart_badge type-bold" aria-label={`Wishlist items: ${wishlistCount}`}>{wishlistCount}</span>
+              )}
+            </Link>
             <Link href="/cart" aria-label="cart" className="header__action_btn header__action_cart">
               <Image src="/images/icon-shopping-bag.svg" alt="Cart" width={24} height={24} className="header__action_icon" />
               {cartHydrated && cartCount > 0 && (

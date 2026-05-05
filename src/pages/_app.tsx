@@ -7,12 +7,15 @@ import '../styles/components/header.scss';
 import '../styles/pages/product.scss';
 import '../styles/pages/about.scss';
 import '../styles/pages/cart.scss';
+import '../styles/pages/wishlist.scss';
 import { Poppins } from 'next/font/google';
 import { CartProvider } from '../lib/context/cart';
+import { WishlistProvider } from '../lib/context/wishlist';
 import { CookieConsentProvider } from '../lib/context/cookieConsent';
 import GoTop from '../components/atoms/GoTop';
 import CookieConsent from '../components/atoms/CookieConsent';
 import AnnouncementBanner from '../components/atoms/AnnouncementBanner';
+import NewsletterModal from '../components/molecules/NewsletterModal';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -27,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <CartProvider>
+        <WishlistProvider>
         <CookieConsentProvider>
           <div className={poppins.className}>
             {GA_ENABLED && (
@@ -66,8 +70,10 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
             <GoTop />
             <CookieConsent />
+            <NewsletterModal />
           </div>
         </CookieConsentProvider>
+        </WishlistProvider>
       </CartProvider>
     </ApolloProvider>
   );

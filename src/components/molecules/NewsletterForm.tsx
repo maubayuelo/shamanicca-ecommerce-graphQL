@@ -5,24 +5,42 @@ type Props = { className?: string };
 
 export default function NewsletterForm({ className = '' }: Props) {
   const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
       setError('Please enter a valid email address.');
       return;
     }
     setError('');
-    setSubmitted(true);
+    setStatus('loading');
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong. Please try again.');
+        setStatus('error');
+      } else {
+        setStatus('success');
+      }
+    } catch {
+      setError('Network error. Please try again.');
+      setStatus('error');
+    }
   };
 
-  if (submitted) {
+  if (status === 'success') {
     return (
       <div className={`newsletter-success ${className}`} role="alert">
         <p className="type-md type-bold">You&apos;re in! ✓</p>
-        <p className="type-md">Welcome to the Shamanicca community. Check your inbox for a confirmation.</p>
+        <p className="type-md">Welcome to the Shamanicca community. Check your inbox soon.</p>
       </div>
     );
   }
@@ -42,9 +60,14 @@ export default function NewsletterForm({ className = '' }: Props) {
           className="type-sm"
           autoComplete="email"
           required
+          disabled={status === 'loading'}
         />
-        <button type="submit" className="newsletter-submit type-sm type-extrabold type-uppercase">
-          Send
+        <button
+          type="submit"
+          className="newsletter-submit type-sm type-extrabold type-uppercase"
+          disabled={status === 'loading'}
+        >
+          {status === 'loading' ? '...' : 'Send'}
         </button>
       </form>
       {error && (
