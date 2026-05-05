@@ -157,8 +157,12 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
 
   const { toggle, isWishlisted, hydrated } = useWishlist();
   const wishlisted = hydrated && isWishlisted(String(product.id));
-  const priceNum = price != null ? Number(price) : 0;
-  const regularPriceNum = regularPrice != null ? Number(regularPrice) : undefined;
+  const parsePrice = (v: unknown) => {
+    const n = parseFloat(String(v ?? '').replace(/[^0-9.]/g, ''));
+    return Number.isFinite(n) ? n : 0;
+  };
+  const priceNum = parsePrice(price);
+  const regularPriceNum = regularPrice != null ? parsePrice(regularPrice) : undefined;
 
   return (
     <article className="product-tile">

@@ -56,12 +56,14 @@ export default function WishlistPage() {
                       {item.name}
                     </Link>
                     <div className="wishlist-tile__price">
-                      {item.regularPrice && item.regularPrice > item.price && (
+                      {item.regularPrice && Number.isFinite(item.regularPrice) && item.regularPrice > item.price && (
                         <span className="type-md type-gray-60" style={{ textDecoration: 'line-through' }}>
                           ${item.regularPrice.toFixed(2)}
                         </span>
                       )}
-                      <span className="type-md type-bold">${item.price.toFixed(2)}</span>
+                      {Number.isFinite(item.price) && item.price > 0 && (
+                        <span className="type-md type-bold">${item.price.toFixed(2)}</span>
+                      )}
                     </div>
                   </div>
 
