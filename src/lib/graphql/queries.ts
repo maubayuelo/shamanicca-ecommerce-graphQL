@@ -201,6 +201,7 @@ export const GET_POST_BY_SLUG = gql`
       databaseId
       slug
       date
+      modified
       title(format: RENDERED)
       excerpt(format: RENDERED)
       content(format: RENDERED)

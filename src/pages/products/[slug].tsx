@@ -275,6 +275,10 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
           ? displayProduct.shortDescription.replace(/<[^>]+>/g, '')
           : undefined,
         image: displayProduct.image?.sourceUrl ?? undefined,
+        brand: {
+          '@type': 'Brand',
+          name: 'Shamanicca',
+        },
         offers: {
           '@type': 'Offer',
           priceCurrency: 'USD',
@@ -283,6 +287,11 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
             ? 'https://schema.org/OutOfStock'
             : 'https://schema.org/InStock',
           url: `${SITE_URL}/products/${displayProduct.slug}`,
+          seller: {
+            '@type': 'Organization',
+            name: 'Shamanicca',
+            url: SITE_URL,
+          },
         },
       }
     : undefined;

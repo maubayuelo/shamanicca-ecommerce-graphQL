@@ -70,6 +70,7 @@ type MinimalPost = {
   id: number;
   slug: string;
   date: string;
+  modified?: string;
   title: { rendered: string };
   excerpt: { rendered: string };
   content?: { rendered: string };
@@ -124,15 +125,29 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
 
   const articleSchema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'BlogPosting',
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/blog/${post.slug}`,
+    },
     headline: postTitle,
     description: postExcerpt || undefined,
     image: post.featuredImage ?? undefined,
     datePublished: post.date,
+    dateModified: post.modified ?? post.date,
+    author: {
+      '@type': 'Organization',
+      name: 'Shamanicca',
+      url: siteUrl,
+    },
     publisher: {
       '@type': 'Organization',
       name: 'Shamanicca',
       url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/images/logo.png`,
+      },
     },
     url: `${siteUrl}/blog/${post.slug}`,
   };
@@ -347,6 +362,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
       id: postNode.databaseId,
       slug: postNode.slug,
       date: postNode.date,
+      modified: postNode.modified ?? undefined,
       title: { rendered: postNode.title || '' },
       excerpt: { rendered: postNode.excerpt || '' },
       content: { rendered: postNode.content || '' },

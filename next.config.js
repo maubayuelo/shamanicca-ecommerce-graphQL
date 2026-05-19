@@ -20,6 +20,19 @@ module.exports = {
   },
   async redirects() {
     return [
+      // Old WordPress /post/:slug → new /blog/:slug (preserves SEO authority)
+      {
+        source: '/post/:slug',
+        destination: '/blog/:slug',
+        permanent: true,
+      },
+      // Old WordPress /?p=:id catch-all → blog root (fallback for numeric IDs)
+      {
+        source: '/',
+        has: [{ type: 'query', key: 'p' }],
+        destination: '/blog',
+        permanent: true,
+      },
       {
         source: '/store/:category',
         destination: '/shop/:category',

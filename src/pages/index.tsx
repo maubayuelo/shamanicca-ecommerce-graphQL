@@ -66,12 +66,43 @@ export default function Home({ hero, blogItems, products: productsSSR, banners }
   const products = data?.products?.nodes ?? productsSSR ?? [];
   const displayProducts: FeaturedProduct[] = (products as FeaturedProduct[]).slice(0, 6);
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com';
+
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Shamanicca',
+    url: siteUrl,
+    logo: `${siteUrl}/images/logo.png`,
+    sameAs: [
+      'https://www.instagram.com/shamanicca',
+      'https://www.youtube.com/@shamanicca',
+      'https://www.tiktok.com/@shamanicca',
+    ],
+  };
+
+  const webSiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Shamanicca',
+    url: siteUrl,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
   return (
     <Fragment>
       <SeoHead
         title="Shamanicca — Intentioned Mystical Style"
         description="Shop ethically made apparel, sacred objects, and accessories. Discover intentional fashion with a mystical edge."
         ogType="website"
+        jsonLd={[organizationSchema, webSiteSchema]}
       />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 container mx-auto px-4 py-8">
