@@ -9,7 +9,7 @@ import ProductsGrid, { type FeaturedProduct } from '../components/sections/Produ
 import HomeBanners from '../components/sections/HomeBanners';
 import BlogGrid, { type BlogGridItem } from '../components/sections/BlogGrid';
 import client from '../lib/graphql/apolloClient';
-import { GET_PRODUCTS, GET_BLOG_POSTS, GET_HOME_BANNERS } from '../lib/graphql/queries';
+import { GET_PRODUCTS_BY_CATEGORY, GET_BLOG_POSTS, GET_HOME_BANNERS } from '../lib/graphql/queries';
 import { pickImage } from '../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../utils/html';
 import { fetchWooProductsREST } from '../lib/api/woocommerce';
@@ -29,7 +29,7 @@ type GetProductsData = {
   products?: { nodes?: ProductFromApi[] };
 };
 
-type GetProductsVars = { first?: number };
+type GetProductsVars = { category: string; first?: number };
 
 type PageProps = {
   hero: null;
@@ -58,8 +58,8 @@ type GetHomeBannersData = {
 export default function Home({ hero, blogItems, products: productsSSR, banners }: PageProps) {
   // Always query WPGraphQL for products; apolloClient has a default endpoint.
   const skipQuery = false;
-  const { data, loading, error } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS, {
-    variables: { first: 12 },
+  const { data, loading, error } = useQuery<GetProductsData, GetProductsVars>(GET_PRODUCTS_BY_CATEGORY, {
+    variables: { category: 'featured-products', first: 12 },
     skip: skipQuery,
   });
   // Prefer client data; fallback to SSR props; do not use local mocks
@@ -143,7 +143,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
     // Fetch products server-side so Home has initial data
     let productsSSR: FeaturedProduct[] = [];
     try {
-      const productsResp = await client.query<GetProductsData, GetProductsVars>({ query: GET_PRODUCTS, variables: { first: 12 } });
+      const productsResp = await client.query<GetProductsData, GetProductsVars>({ query: GET_PRODUCTS_BY_CATEGORY, variables: { category: 'featured-products', first: 12 } });
       productsSSR = (productsResp.data.products?.nodes ?? []) as unknown as FeaturedProduct[];
     } catch {
       productsSSR = [];

@@ -158,7 +158,7 @@ export default function Header() {
         const cats = await res.json();
         
         // Get top-level categories (no parent) and filter out 'uncategorized'
-        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized' && c.slug !== 'best-sellers');
+        const topLevel = cats.filter((c: any) => c.parent === 0 && c.slug !== 'uncategorized' && c.slug !== 'best-sellers' && c.slug !== 'featured-products');
         // Sort top-level by menuOrder
         topLevel.sort((a: any, b: any) => (a.menuOrder || 0) - (b.menuOrder || 0));
         
