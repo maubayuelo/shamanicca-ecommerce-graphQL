@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import SeoHead from '../../components/atoms/SeoHead';
 import React, { Fragment } from 'react';
 import type { GetStaticPaths, GetStaticProps } from 'next';
+import Image from 'next/image';
 import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
 import ProductsGrid from '../../components/sections/ProductsGrid';
@@ -9,6 +10,7 @@ import ProductImageGallery from '../../components/molecules/ProductImageGallery'
 import ProductStickyBar from '../../components/molecules/ProductStickyBar';
 import Breadcrumb from '../../components/molecules/Breadcrumb';
 import { useCart } from '../../lib/context/cart';
+import { useWishlist } from '../../lib/context/wishlist';
 import client from '../../lib/graphql/apolloClient';
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCT_SLUGS, GET_PRODUCTS } from '../../lib/graphql/queries';
 import { decodeEntities } from '../../utils/html';
@@ -75,6 +77,9 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
   const [showStickyBar, setShowStickyBar] = React.useState(false);
   const ctaRef = React.useRef<HTMLButtonElement>(null);
   const { addItem: addToCart } = useCart();
+  const { toggle, isWishlisted, hydrated } = useWishlist();
+  const wishlistId = String(product?.databaseId ?? product?.id ?? '');
+  const wishlisted = hydrated && !!wishlistId && isWishlisted(wishlistId);
 
   // Show sticky bar when the main CTA scrolls out of view
   React.useEffect(() => {
@@ -451,6 +456,31 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                   ADD TO BAG
                 </button>
               )}
+
+              <button
+                className={`product__wishlist-btn${wishlisted ? ' is-wishlisted' : ''}`}
+                onClick={() => {
+                  if (!product || !wishlistId) return;
+                  toggle({
+                    id: wishlistId,
+                    name: title,
+                    slug: product.slug,
+                    price,
+                    regularPrice: isOnSale ? regularPrice : undefined,
+                    image: product.image?.sourceUrl ?? null,
+                  });
+                }}
+                aria-label={wishlisted ? `Remove ${title} from wishlist` : `Save ${title} to wishlist`}
+              >
+                <Image
+                  src={wishlisted ? '/images/icon-heart-full.svg' : '/images/icon-heart.svg'}
+                  alt=""
+                  width={18}
+                  height={18}
+                  aria-hidden
+                />
+                {wishlisted ? 'Saved to wishlist' : 'Save to wishlist'}
+              </button>
 
               <div 
                 className="product__desc" 

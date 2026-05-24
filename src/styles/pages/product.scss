@@ -184,6 +184,35 @@
     width: 100%;
   }
 
+  &__wishlist-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-10;
+    padding: 14px $spacing-20;
+    border: 1.5px solid $gray-40;
+    border-radius: 10px;
+    background: transparent;
+    color: $black;
+    cursor: pointer;
+    @include font-style(sm, bold, sm);
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+
+    img { display: block; flex-shrink: 0; }
+
+    &:hover {
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+
+    &.is-wishlisted {
+      border-color: $primary-color;
+      color: $primary-color;
+      background: $primary-color-light;
+    }
+  }
+
   &__related {
     margin-top: $spacing-30;
   }
