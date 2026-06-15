@@ -1,3 +1,30 @@
+/**
+ * api/newsletter.ts — Newsletter signup API endpoint
+ *
+ * Route: POST /api/newsletter
+ *
+ * Subscribes an email address to the Mailchimp mailing list.
+ * Like the contact form, this is a server-side route to keep the
+ * Mailchimp API key secret (never exposed to the browser).
+ *
+ * MAILCHIMP API DETAILS:
+ *  - Uses Mailchimp Marketing API v3
+ *  - PUT to /lists/{audienceId}/members/{emailHash}
+ *  - PUT is idempotent (safe to call multiple times — won't duplicate)
+ *  - status_if_new: 'subscribed' → immediately subscribed (no double opt-in email)
+ *
+ * WHY MD5 HASH?
+ *  Mailchimp identifies members by an MD5 hash of their lowercase email.
+ *  This is Mailchimp's own convention for their API — not a security measure.
+ *    emailHash = md5(email.toLowerCase())
+ *
+ * ERROR HANDLING:
+ *  - 'Member Exists' → already subscribed → return success (user can resub safely)
+ *  - 'Forgotten Email Not Subscribed' → GDPR unsubscribed user → return success
+ *    (we do not re-subscribe users who opted out — this is a legal requirement)
+ *  - If env vars are missing (local dev) → log warning and return fake success
+ */
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import crypto from 'crypto';
 

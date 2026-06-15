@@ -1,3 +1,33 @@
+/**
+ * wishlist.tsx — Saved products page (route: /wishlist)
+ *
+ * Displays items the user saved with the heart icon on product pages.
+ *
+ * DATA SOURCE:
+ * All data comes from WishlistContext (React Context + localStorage).
+ * Like the cart, there is no server-side data fetching — fully client-side.
+ *
+ * HYDRATION GUARD:
+ * Shows "Loading…" until `hydrated` is true (after localStorage is read on client).
+ *
+ * EMPTY STATE:
+ * When the wishlist has no items, shows a large heart icon + link to /shop.
+ * Good UX practice — never leave the user on a dead-end empty page.
+ *
+ * PRODUCT TILE:
+ * Each saved item shows: image, name, price (with strikethrough if on sale),
+ * a "View Product" link to the product detail page, and a "Remove" button.
+ *
+ * PRICE DISPLAY:
+ * regularPrice is shown with strikethrough only if it is:
+ *  - A valid finite number (`Number.isFinite`)
+ *  - Greater than the current price (i.e., there is actually a discount)
+ * This prevents displaying $0.00 or NaN if data is missing.
+ *
+ * LAYOUT:
+ * A CSS grid (wishlist-grid) that adapts from 1 column (mobile) to 3-4 columns (desktop).
+ */
+
 import { Fragment } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';

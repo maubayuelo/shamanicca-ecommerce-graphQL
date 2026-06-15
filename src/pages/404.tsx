@@ -1,3 +1,22 @@
+/**
+ * 404.tsx — Custom "Page Not Found" error page
+ *
+ * In Next.js, a file named exactly `404.tsx` becomes the custom 404 error page.
+ * It is rendered whenever:
+ *  - A URL doesn't match any page file in /pages/
+ *  - A dynamic page returns `{ notFound: true }` from getStaticProps/getServerSideProps
+ *  - A dynamic route path doesn't match any known slug
+ *
+ * WHY CUSTOMIZE THE 404 PAGE?
+ *  The default Next.js 404 is plain and has no site branding.
+ *  This custom version shows the Shamanicca header and offers useful links
+ *  so users aren't stranded — they can navigate to the shop or blog.
+ *
+ * STATIC PAGE:
+ *  The 404 page has no data fetching — it's always the same content.
+ *  Next.js statically generates it at build time.
+ */
+
 import { Fragment } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';

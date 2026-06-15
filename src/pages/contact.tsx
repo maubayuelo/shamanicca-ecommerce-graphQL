@@ -1,3 +1,38 @@
+/**
+ * contact.tsx — Contact Us page (route: /contact)
+ *
+ * A contact form page that POSTs to the /api/contact serverless endpoint.
+ * The page content (title and intro text) can optionally be managed in WordPress.
+ *
+ * DATA FETCHING:
+ *  getStaticProps calls getWPPage('contact') — this fetches the WordPress page
+ *  with slug "contact" via the WP REST API (not GraphQL).
+ *  If the page exists in WordPress, its title and content are rendered above the form.
+ *  If not (returns null), a hardcoded "Contact Us" heading is shown instead.
+ *  revalidate: 60 → regenerates every minute (page content can change in WP).
+ *
+ * FORM ARCHITECTURE:
+ *  - Controlled components: each input binds to a field in `form` state
+ *  - Client-side validation: `validate()` runs before submission
+ *  - Async submission: `handleSubmit` POSTs to /api/contact and handles errors
+ *  - Success state: replaces form with a confirmation message
+ *
+ * VALIDATION PATTERN:
+ *  validate() returns a `FieldError` object (Partial<FormState> without 'website').
+ *  If the object has any keys → errors exist → block submission.
+ *  Each field shows its specific error message next to it with role="alert".
+ *
+ * HONEYPOT ANTI-SPAM:
+ *  A hidden "website" input field (position: absolute; left: -9999px) catches bots.
+ *  Real users never see or fill it. If it has a value when submitted, the client
+ *  returns a fake 200 success (so bots don't know they were blocked) but the
+ *  /api/contact handler skips sending the email.
+ *
+ * SUBJECTS:
+ *  Pre-defined select options match the allowlist in /api/contact.ts.
+ *  The backend rejects any subject not in that list.
+ */
+
 import type { GetStaticProps } from 'next';
 import { Fragment, useState } from 'react';
 import Header from '../components/organisms/Header';

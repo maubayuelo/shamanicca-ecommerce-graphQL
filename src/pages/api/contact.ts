@@ -1,3 +1,38 @@
+/**
+ * api/contact.ts — Contact form API endpoint
+ *
+ * Route: POST /api/contact
+ *
+ * This is a Next.js API Route — a serverless function that runs on the server.
+ * It processes the contact form submission and sends an email via Resend.
+ *
+ * WHY A SERVER-SIDE API ROUTE?
+ * The Resend API key is a secret. If we called Resend directly from the browser,
+ * the API key would be visible in the browser's network tab. By routing through
+ * this server-side function, the key stays private on the server.
+ *
+ * SECURITY MEASURES:
+ *
+ * 1. Method guard: only POST requests are allowed (GET would return 405)
+ *
+ * 2. Honeypot anti-spam: the contact form has a hidden "website" field that
+ *    normal users never fill in. Bots that auto-fill all fields will trigger
+ *    `if (website) return 200` — they get a fake success (so they don't retry)
+ *    but no email is sent.
+ *
+ * 3. Input validation:
+ *    - All fields required (name, email, subject, message)
+ *    - Email format checked with a regex
+ *    - Subject must be one of the approved values (prevents injection)
+ *
+ * 4. Graceful degradation: if RESEND_API_KEY is not set, the handler
+ *    returns success without sending — useful for local development.
+ *
+ * EMAIL:
+ * Sent via Resend (https://resend.com) with a formatted HTML template.
+ * The `replyTo` is set to the sender's email so the team can reply directly.
+ */
+
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Resend } from 'resend';
 

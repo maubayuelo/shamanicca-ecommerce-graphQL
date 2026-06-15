@@ -1,3 +1,32 @@
+/**
+ * ProductCard.tsx — Individual product tile (Molecule)
+ *
+ * Displays a single product in a grid or listing. This is the smallest
+ * self-contained unit that represents a product visually.
+ *
+ * ATOMIC DESIGN LEVEL: Molecule
+ * It combines two atoms (Image + Button) with product data to form
+ * a meaningful, reusable component.
+ *
+ * USED IN:
+ *  - ProductsGrid (homepage featured products)
+ *  - ProductListing (shop category pages)
+ *  - Search results
+ *
+ * PROPS:
+ *  `product` — a ProductCardProduct object with:
+ *    - name: display title
+ *    - slug: used to build the link to the detail page (/products/:slug)
+ *    - image.sourceUrl: the product thumbnail URL from WooCommerce
+ *    - price: current price (string from WP like "$29.99" or number)
+ *    - regularPrice: original price if on sale
+ *    - shortDescription: optional teaser text
+ *
+ * NOTE: The console.log below is a runtime sanity check left from development
+ * to confirm that Next.js Image and Button imported correctly. It can be removed
+ * in a cleanup pass.
+ */
+
 import Image from 'next/image';
 import Button from '../atoms/Button';
 

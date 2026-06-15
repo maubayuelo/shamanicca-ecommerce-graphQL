@@ -1,3 +1,36 @@
+/**
+ * blog.tsx — Blog landing page (route: /blog)
+ *
+ * The main blog listing page — shows the most recent posts plus a sidebar
+ * with "Top Reads" and "Magical Practices" curated sections.
+ *
+ * DATA FETCHING — all server-side via getStaticProps (ISR):
+ *
+ *  1. Main posts:
+ *     GET_BLOG_POSTS → the 15 most recent WordPress posts (ordered by date DESC)
+ *
+ *  2. Categories:
+ *     GET_CATEGORIES → all blog categories (used for navigation/filtering)
+ *     Run in PARALLEL with main posts using Promise.all() — both requests fire
+ *     simultaneously instead of sequentially, cutting the wait time in half.
+ *
+ *  3. Sidebar sections (also parallel):
+ *     - "Top Reads" category → 3 posts
+ *     - "Magical Practices" category → 3 posts
+ *     These are in a separate try/catch so sidebar failures don't break the whole page.
+ *
+ * ERROR ISOLATION:
+ * The sidebar fetch is wrapped in its own try/catch separate from the main posts.
+ * If the sidebar fails, the page still renders with just the main posts — the sidebar
+ * simply shows empty. This is called "graceful degradation".
+ *
+ * COMPONENT DELEGATION:
+ * The page itself is thin — it just fetches data and passes it to BlogMainPage.
+ * All the layout logic (featured post, grid, sidebar) lives in BlogMainPage section.
+ *
+ * revalidate: 300 → regenerates every 5 minutes (ISR)
+ */
+
 import { Fragment } from 'react';
 import type { GetStaticProps } from 'next';
 import SeoHead from '../components/atoms/SeoHead';

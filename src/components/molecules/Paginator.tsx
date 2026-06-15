@@ -1,3 +1,40 @@
+/**
+ * Paginator.tsx — Page navigation for lists (Molecule)
+ *
+ * Renders numbered page buttons with ellipses (…) for long page ranges.
+ * Example: [←] [1] [2] … [5] [6] [7] … [10] [→]
+ *
+ * ATOMIC DESIGN LEVEL: Molecule
+ * Combines Link atoms and button atoms with pagination logic.
+ *
+ * TWO NAVIGATION MODES:
+ *  1. LINK-BASED (SEO-friendly, used in blog/all):
+ *     Provide hrefBuilder={(page) => `/blog/all?page=${page}`}
+ *     Each page renders as an <a> tag — crawlable by Google.
+ *
+ *  2. CALLBACK-BASED (client-state, used in shop category):
+ *     Provide onPageChange={(page) => setState(page)}
+ *     Each page renders as a <button> — no URL change, filters state client-side.
+ *
+ * PAGE RANGE ALGORITHM (buildPageItems):
+ *  Always shows: first N pages, last N pages, and K siblings around the current page.
+ *  Gaps between visible ranges are filled with "…" dots.
+ *  This is the standard "Google-style" paginator pattern.
+ *  - boundaryCount: how many pages to always show at start/end (default 1)
+ *  - siblingCount: how many pages to show around the current page (default 1)
+ *
+ * RESPONSIVE BEHAVIOR:
+ *  useResponsiveCounts() hook watches window.innerWidth and reduces
+ *  siblingCount/boundaryCount on mobile to prevent overflow.
+ *  The breakpoints match the SCSS variables ($breakpoint-phone: 600px).
+ *
+ * ACCESSIBILITY:
+ *  - Wrapped in <nav role="navigation" aria-label="Pagination">
+ *  - Active page: aria-current="page"
+ *  - Disabled prev/next: aria-disabled + tabIndex={-1}
+ *  - Screen reader text: "Page N" via <span className="sr-only">
+ */
+
 import Link from 'next/link';
 import React, { Fragment } from 'react';
 import Image from 'next/image';

@@ -1,3 +1,32 @@
+/**
+ * cart.tsx — Cart state management using React Context API
+ *
+ * This file implements the shopping cart using React's built-in Context API.
+ * It is the primary cart implementation used throughout the app.
+ *
+ * HOW REACT CONTEXT WORKS:
+ *  1. Create a Context object (the "channel" for data)
+ *  2. Wrap your app in a Provider (the component that holds the state)
+ *  3. Any child component can read/update the state via a custom hook
+ *
+ * PERSISTENCE:
+ * Cart items are saved to localStorage so they survive page refreshes.
+ * On mount, we read from localStorage to restore the previous cart.
+ *
+ * SSR SAFETY:
+ * localStorage doesn't exist on the server (Next.js renders pages server-side).
+ * The `readInitialItems` function checks `typeof window === 'undefined'` to
+ * avoid errors when Next.js renders the page on the server.
+ * The `hydrated` flag tells components to wait before showing cart counts,
+ * preventing a flicker where the server renders "0 items" and then the
+ * browser updates to the real count.
+ *
+ * ORDER COMPLETION DETECTION:
+ * After a user completes a purchase on WooCommerce, it sets a cookie called
+ * `shamanicca_order_complete`. On next load, this cart detects that cookie
+ * and clears the cart automatically.
+ */
+
 import React from 'react';
 
 export type CartProduct = {

@@ -1,3 +1,39 @@
+/**
+ * Header.tsx — Site-wide navigation header (Organism)
+ *
+ * This is one of the most complex components in the app. It handles:
+ *
+ * NAVIGATION:
+ *  - Fetches shop categories from /api/shop/categories (WooCommerce via GraphQL)
+ *  - Fetches blog categories from /api/blog/categories (WordPress via GraphQL)
+ *  - Builds the nav dynamically from CMS data (so adding a WooCommerce category
+ *    automatically adds it to the nav without code changes)
+ *  - Falls back to static Blog/About links if the API fails
+ *
+ * DESKTOP MENU:
+ *  - Top-level nav items with hover dropdowns for sub-categories
+ *  - Accessible: dropdowns use role="menu" and aria-label
+ *
+ * MOBILE MENU:
+ *  - Hamburger button toggles a full-screen overlay menu
+ *  - Sub-menus expand/collapse with +/- toggle buttons
+ *  - Controlled by `mobileExpandedId` state (only one submenu open at a time)
+ *
+ * SEARCH:
+ *  - Search overlay with scope selector (Shop or Blog)
+ *  - Submits to /search?q=...&scope=...
+ *  - Closes on Escape key or clicking the backdrop
+ *
+ * CART & WISHLIST BADGES:
+ *  - Real-time item counts from CartContext and WishlistContext
+ *  - Only shown after `hydrated: true` to avoid SSR mismatch flash
+ *
+ * PERFORMANCE:
+ *  - Header height is tracked via ResizeObserver and stored as a CSS custom property
+ *    (--header-height) so other elements (like the search panel) can position
+ *    themselves relative to the bottom of the header dynamically
+ *  - Navigation data is fetched client-side once on mount
+ */
 
 import Link from 'next/link';
 import Image from 'next/image';

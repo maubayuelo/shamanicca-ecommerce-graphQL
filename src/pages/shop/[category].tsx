@@ -1,3 +1,32 @@
+/**
+ * shop/[category].tsx — Shop category listing page (route: /shop/:category)
+ *
+ * Examples: /shop/women, /shop/men, /shop/accessories, /shop/mystical-home
+ *
+ * This is a dynamic route — the `category` segment maps to a WooCommerce category slug.
+ *
+ * DATA FETCHING:
+ *  - getStaticPaths: fetches ALL product category slugs from WooCommerce at build time,
+ *    generating a static page for each. `fallback: 'blocking'` handles new categories
+ *    added to WooCommerce after the last build.
+ *  - getStaticProps:
+ *      1. Fetches all categories to validate that the requested category slug exists.
+ *         If not found → returns `notFound: true` → Next.js shows the 404 page.
+ *      2. Fetches all products in that category (up to 100).
+ *      3. Returns products + categoryName as props to the page component.
+ *  - revalidate: 300 → ISR — page regenerates every 5 minutes.
+ *
+ * SUBCATEGORY FILTERING (URL query param):
+ *  The URL can include ?sub=t-shirts to highlight a sub-category.
+ *  The `subParam` is read from the router query and used to adjust the page title
+ *  (e.g. "Women — T-Shirts"). Full subcategory routes (/shop/women/t-shirts) are
+ *  not implemented — all subcategory products show on the parent category page.
+ *
+ * LAYOUT:
+ *  Header → StoreSubHeader (category title + breadcrumb) → ProductListing → Footer
+ *  ProductListing handles sorting and filtering client-side.
+ */
+
 import SeoHead from '../../components/atoms/SeoHead';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import React, { Fragment, useMemo } from 'react';

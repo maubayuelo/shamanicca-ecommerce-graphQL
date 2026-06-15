@@ -1,5 +1,29 @@
+/**
+ * queries.ts — All GraphQL query definitions for this app
+ *
+ * GraphQL queries are written inside `gql` template literals.
+ * The `gql` tag from Apollo parses the query string into an AST
+ * (Abstract Syntax Tree) that Apollo can send to the server.
+ *
+ * HOW QUERIES WORK:
+ *  1. You write a query describing exactly what data you need
+ *  2. Apollo sends it to the GraphQL endpoint (WPGraphQL on WordPress)
+ *  3. The server returns only the fields you asked for — nothing more
+ *
+ * NAMING CONVENTION:
+ *  - GET_*     → queries that fetch data (read-only)
+ *  - SEARCH_*  → queries that filter/search data
+ *
+ * WPGraphQL supports two types of content from WordPress:
+ *  - Products (from WooCommerce) — shop items
+ *  - Posts/Categories (from WordPress) — blog content
+ */
+
 import { gql } from '@apollo/client';
 
+// Fetch a list of products (all types).
+// Uses a GraphQL "union" (... on SimpleProduct, ... on VariableProduct) because
+// WooCommerce has multiple product types — each has slightly different fields.
 export const GET_PRODUCTS = gql`
   query GetProducts($first: Int = 10) {
     products(first: $first) {

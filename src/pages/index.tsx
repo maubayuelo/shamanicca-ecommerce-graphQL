@@ -1,3 +1,31 @@
+/**
+ * index.tsx — Homepage (route: /)
+ *
+ * This is the main landing page of the Shamanicca store.
+ *
+ * DATA FETCHING STRATEGY — two-layer approach:
+ *
+ *  Layer 1 — getStaticProps (runs on the SERVER at build time + every 5 min via ISR):
+ *    - Fetches featured products from WPGraphQL
+ *    - Falls back to WooCommerce REST API if GraphQL returns empty
+ *    - Fetches blog posts (4 most recent)
+ *    - Fetches homepage banners from WordPress ACF (Advanced Custom Fields)
+ *    - Returns all data as `props` to the page component
+ *    - `revalidate: 300` = Incremental Static Regeneration every 5 minutes
+ *
+ *  Layer 2 — useQuery (runs in the BROWSER after the page loads):
+ *    - Re-fetches products from WPGraphQL client-side for fresh data
+ *    - Apollo Client caches results to avoid duplicate requests
+ *    - Prefers client-side data; falls back to the SSR props
+ *
+ * SEO:
+ *    - Organization and WebSite Schema.org JSON-LD for Google/AI indexing
+ *    - SeoHead component injects meta title, description, og:type
+ *
+ * LAYOUT:
+ *    Header → Hero → Featured Products Grid → Home Banners → Blog Grid → Footer
+ */
+
 import { Fragment } from 'react';
 import type { GetStaticProps } from 'next';
 import SeoHead from '../components/atoms/SeoHead';

@@ -1,3 +1,25 @@
+/**
+ * utils.ts — GraphQL response utility helpers
+ *
+ * WordPress/WooCommerce images come back from the API with multiple sizes
+ * pre-generated (thumbnail, medium, large, full, etc.).
+ *
+ * Example API response for a product image:
+ * {
+ *   sourceUrl: "https://example.com/image.jpg",   ← full size
+ *   mediaDetails: {
+ *     sizes: [
+ *       { name: "thumbnail", sourceUrl: "https://.../image-150x150.jpg" },
+ *       { name: "medium",    sourceUrl: "https://.../image-300x300.jpg" },
+ *       { name: "large",     sourceUrl: "https://.../image-1024x1024.jpg" },
+ *     ]
+ *   }
+ * }
+ *
+ * These helpers extract the right size URL, with fallbacks so we never
+ * get a broken image if a size wasn't generated.
+ */
+
 // Pick a named size from a WP featuredImage node; falls back to full sourceUrl
 export function pickImage(node: any, sizeName: string): string | null {
   const sizes = node?.featuredImage?.node?.mediaDetails?.sizes || [];

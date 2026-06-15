@@ -1,3 +1,37 @@
+/**
+ * ProductFilterPanel.tsx — Product filtering side panel (Molecule)
+ *
+ * A slide-in panel with checkboxes for filtering products by category and price range.
+ * Triggered by the "Filter" button in the ProductListing section.
+ *
+ * ATOMIC DESIGN LEVEL: Molecule
+ * Combines checkbox inputs, buttons, and a backdrop into a dialog component.
+ *
+ * CONTROLLED COMPONENT PATTERN:
+ *  - isOpen: controlled externally by the parent (ProductListing)
+ *  - onClose: called when user clicks the backdrop, close button, or presses Escape
+ *  - onApply: called when user clicks "Apply" — receives the selected FilterValues
+ *
+ * FILTER STATE:
+ *  Internal state `values` tracks checked items as arrays of strings.
+ *  The `toggle()` function uses a JavaScript Set to add/remove items efficiently:
+ *    Set is like an array but automatically prevents duplicates.
+ *    set.has(key) → true/false
+ *    set.add(key) → adds
+ *    set.delete(key) → removes
+ *    Array.from(set) → converts back to array for storage in state
+ *
+ * PRICE RANGES:
+ *  Stored as strings: '<25', '25-50', '50-100', '>100'
+ *  The actual filtering logic lives in ProductListing where products are filtered
+ *  against these range strings.
+ *
+ * ACCESSIBILITY:
+ *  - role="dialog" + aria-modal="true" for screen readers
+ *  - Escape key closes the panel (keyboard trap alternative)
+ *  - Filter groups use <fieldset> + <legend> for semantic grouping
+ */
+
 import React from 'react';
 
 export type ProductFilterValues = {

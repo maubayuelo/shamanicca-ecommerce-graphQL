@@ -1,3 +1,56 @@
+/**
+ * products/[slug].tsx — Product detail page (route: /products/:slug)
+ *
+ * [slug] is a dynamic route segment — Next.js replaces it with the actual
+ * product slug from the URL (e.g. /products/sacred-hoodie → slug = "sacred-hoodie").
+ *
+ * DATA FETCHING:
+ *  - getStaticPaths: pre-generates a page for every product slug from WooCommerce
+ *    at build time. `fallback: 'blocking'` means if a product is added to WooCommerce
+ *    after the build, the first visitor waits while Next.js generates it server-side,
+ *    then caches it for all future visitors.
+ *  - getStaticProps: fetches the full product details + a batch of related products
+ *    server-side. Returns `notFound: true` if the slug doesn't match any product
+ *    (Next.js renders the 404 page automatically).
+ *  - revalidate: 300 → ISR — the page is regenerated every 5 minutes in the background.
+ *
+ * KEY FEATURES OF THIS PAGE:
+ *
+ *  1. IMAGE GALLERY:
+ *     WordPress/WooCommerce stores each image in multiple sizes (thumbnail, medium,
+ *     woocommerce_single, large). This page picks the best available size for desktop
+ *     vs. mobile using the `pickSize()` utility.
+ *
+ *  2. SIZE SELECTOR:
+ *     WooCommerce VariableProducts have `variations.nodes[]`, each with attributes
+ *     (name: "size", value: "M") and stockStatus ("IN_STOCK" / "OUT_OF_STOCK").
+ *     This page filters to only show in-stock sizes, and auto-selects if only one exists.
+ *
+ *  3. STICKY ADD TO BAG BAR:
+ *     Uses `IntersectionObserver` to watch when the main "Add to Bag" button scrolls
+ *     out of view — when it does, a sticky bar appears at the bottom of the viewport.
+ *     This improves mobile UX so the CTA is always accessible while scrolling.
+ *
+ *  4. WISHLIST TOGGLE:
+ *     Uses the WishlistContext `toggle()` method — adds if not in wishlist, removes if it is.
+ *     The heart icon switches between outlined and filled based on `isWishlisted()`.
+ *     Only shown after `hydrated: true` to prevent SSR mismatch.
+ *
+ *  5. BREADCRUMB:
+ *     WooCommerce returns `productCategories.nodes[]` — each node may have a `parent`
+ *     field pointing to its parent category. This logic builds a 2-level breadcrumb
+ *     (e.g. Shop → Women → Hoodies) from that hierarchy.
+ *
+ *  6. SEO:
+ *     - Product schema (schema.org/Product) with price, availability, brand
+ *     - BreadcrumbList schema for Google rich results
+ *     - og:type = "product" for social sharing cards
+ *     - Canonical URL to prevent duplicate content issues
+ *
+ *  7. RELATED PRODUCTS:
+ *     Fetched from WooCommerce at build time, displayed in a "You might also like" grid.
+ */
+
 import { useRouter } from 'next/router';
 import SeoHead from '../../components/atoms/SeoHead';
 import React, { Fragment } from 'react';

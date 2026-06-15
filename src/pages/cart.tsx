@@ -1,3 +1,41 @@
+/**
+ * cart.tsx — Shopping cart page (route: /cart)
+ *
+ * Displays the items in the user's cart with quantity controls
+ * and a "Checkout" button that redirects to WooCommerce.
+ *
+ * DATA SOURCE:
+ * All cart data comes from CartContext (React Context + localStorage).
+ * There is no server-side data fetching on this page — everything is client-side.
+ * This is why the page is NOT using getStaticProps or getServerSideProps.
+ *
+ * HYDRATION GUARD:
+ * `hasHydrated` starts false (SSR renders an empty cart). After the browser loads
+ * the page and reads localStorage, it becomes true. We show "Loading your bag…"
+ * until hydrated to prevent a flash of "empty cart" on first load.
+ *
+ * CHECKOUT FLOW:
+ * Clicking "Checkout" does NOT open a Stripe modal or a separate checkout page.
+ * Instead it redirects to WooCommerce with cart data encoded in the URL:
+ *
+ *   https://master.shamanicca.com/?headless_checkout=1&items=123:2:M,456:1
+ *                                   ↑ custom WP endpoint    ↑ productId:qty:size
+ *
+ * WooCommerce reads these params, adds the items to its own cart session,
+ * and presents the user with the native WC checkout form.
+ * After purchase, WooCommerce sets the `shamanicca_order_complete` cookie
+ * which CartContext detects to clear the React cart.
+ *
+ * QUANTITY CONTROLS:
+ *  - Minus button: calls updateQty(key, qty - 1), minimum 1
+ *  - Plus button: calls updateQty(key, qty + 1)
+ *  - Number input: allows typing a quantity directly
+ *  - Remove: calls removeItem(key) which removes the item entirely
+ *
+ * SEO: noRobots={true} — this page should NOT be indexed by search engines.
+ * There's no useful public content on a cart page.
+ */
+
 import React, { Fragment, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';

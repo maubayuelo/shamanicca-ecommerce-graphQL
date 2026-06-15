@@ -1,3 +1,31 @@
+/**
+ * cookieConsent.tsx — Cookie consent state management
+ *
+ * Manages whether the user has accepted or declined cookies.
+ * This is required by GDPR (EU privacy law) — you cannot collect analytics
+ * data without the user's explicit consent.
+ *
+ * CONSENT CATEGORIES:
+ *  - necessary: always true (the app can't function without these)
+ *  - analytics: user decides (controls Google Analytics data collection)
+ *
+ * HOW IT WORKS:
+ *  1. On first visit: `decided: false` → the CookieConsent banner is shown
+ *  2. User clicks "Accept All" → analytics enabled, saved to localStorage
+ *  3. User clicks "Reject All" → analytics stays blocked, saved to localStorage
+ *  4. On next visit: reads from localStorage, GA consent is immediately updated
+ *
+ * GA CONSENT MODE v2 INTEGRATION:
+ *  `pushGtagConsent(true/false)` calls window.gtag('consent', 'update', ...)
+ *  This is the signal GA4 waits for before collecting data.
+ *  The initial defaults (denied) were set in _app.tsx before the GA script loaded.
+ *
+ * VERSIONING:
+ *  CONSENT_VERSION = 1 — if we ever change what we track, bump this number.
+ *  Old stored consents with a different version are discarded, forcing the user
+ *  to re-decide, which is required when consent scope changes under GDPR.
+ */
+
 'use client';
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 

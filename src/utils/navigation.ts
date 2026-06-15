@@ -1,3 +1,24 @@
+/**
+ * navigation.ts — Static fallback navigation data
+ *
+ * This file defines the site's navigation structure as a hardcoded array.
+ * It is used as a FALLBACK in case the API calls in Header.tsx fail to load
+ * categories from WooCommerce or WordPress.
+ *
+ * IN PRODUCTION the Header dynamically builds its nav from two API calls:
+ *  - GET /api/shop/categories   → WooCommerce product categories
+ *  - GET /api/blog/categories   → WordPress blog categories
+ *
+ * If those API calls succeed, this file's data is NOT used (the CMS is the source of truth).
+ * If they fail, the Header falls back to just Blog + About (see Header.tsx staticItems).
+ * This file serves as documentation of the intended nav structure and for reference.
+ *
+ * STRUCTURE:
+ *  Each item has: id, label, href, type, order, and optional children[]
+ *  Children[] represent dropdown sub-navigation items.
+ *  Currently all children href to the parent category page (no nested /shop/men/t-shirts routes yet).
+ */
+
 // Navigation data structure for the site — shaped so it can map easily to a future GraphQL schema
 // Keep this file in JS/TS-friendly format. If the project is TypeScript, this file can be renamed
 // to `.ts` and typed. For now we export a plain array of objects.

@@ -1,3 +1,33 @@
+/**
+ * next.config.js — Next.js configuration
+ *
+ * This file configures the Next.js framework itself (not the app logic).
+ *
+ * KEY SETTINGS:
+ *
+ * reactStrictMode: true
+ *   — Enables React's strict mode in development. This deliberately double-renders
+ *     components to help catch bugs like side effects in render functions.
+ *     Only active in development, not in production.
+ *
+ * eslint/typescript ignoreDuringBuilds
+ *   — Skip lint/type errors during `npm run build`. This lets the app deploy
+ *     even if there are non-blocking type warnings. In production you want
+ *     CI/CD to catch these separately before they reach build.
+ *
+ * images.remotePatterns
+ *   — Next.js's <Image> component only optimizes (resize/compress/convert to WebP)
+ *     images from explicitly allowed hostnames. This prevents the server from
+ *     being used as a proxy for arbitrary external images.
+ *
+ * redirects()
+ *   — 301 (permanent) redirects tell browsers AND search engines that a URL
+ *     has moved. This preserves SEO authority when URLs change.
+ *     - /post/:slug → /blog/:slug  (WordPress default URLs → new blog URLs)
+ *     - /?p=123 → /blog           (WordPress numeric IDs → blog root)
+ *     - /store/:cat → /shop/:cat  (old shop URLs → new shop URLs)
+ */
+
 module.exports = {
   reactStrictMode: true,
   eslint: { ignoreDuringBuilds: true },

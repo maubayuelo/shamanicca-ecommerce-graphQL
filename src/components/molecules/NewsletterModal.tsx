@@ -1,3 +1,39 @@
+/**
+ * NewsletterModal.tsx — Newsletter signup popup (Molecule)
+ *
+ * A modal dialog that prompts users to subscribe to the newsletter.
+ * Rendered globally in _app.tsx so it appears on every page.
+ *
+ * ATOMIC DESIGN LEVEL: Molecule
+ * Wraps the NewsletterForm molecule in a dismissible modal overlay.
+ *
+ * TRIGGER LOGIC — two ways the modal opens:
+ *
+ *  1. TIME-BASED (10 seconds):
+ *     A setTimeout fires after DELAY_MS = 10000ms on page load.
+ *     If the user has already dismissed it (localStorage flag), it never fires.
+ *
+ *  2. EXIT INTENT (desktop):
+ *     When the user's mouse moves above y=20px (the top of the viewport),
+ *     it suggests they're about to close the tab or navigate away.
+ *     The modal opens immediately. This is the "exit intent" pattern.
+ *
+ * DISMISSAL:
+ *  - Clicking "No thanks", the close button, or the backdrop dismisses it
+ *  - On dismiss, STORAGE_KEY is saved to localStorage
+ *  - On next page load, `localStorage.getItem(STORAGE_KEY)` returns a truthy value
+ *    so neither trigger fires — the user never sees the modal again
+ *
+ * ON SUCCESS:
+ *  - The NewsletterForm calls back... wait, it doesn't directly.
+ *    The form shows its own success state. The modal detects this via the `subscribed`
+ *    state (set via the success path) and closes after 3 seconds.
+ *
+ * SSR SAFETY:
+ *  The useEffect checks `typeof window === 'undefined'` before accessing localStorage,
+ *  because this code runs on the server during SSR where window doesn't exist.
+ */
+
 'use client';
 import { useEffect, useState } from 'react';
 import NewsletterForm from './NewsletterForm';

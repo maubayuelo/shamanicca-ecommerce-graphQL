@@ -1,3 +1,40 @@
+/**
+ * search.tsx — Search results page (route: /search?q=...&scope=...)
+ *
+ * A client-side search page that queries WPGraphQL for products or blog posts.
+ *
+ * URL PARAMETERS:
+ *  q     — the search term (e.g. /search?q=hoodie)
+ *  scope — 'shop' (products) or 'blog' (articles), defaults to 'shop'
+ *
+ * HOW SEARCH WORKS:
+ * Unlike most pages that use getStaticProps (server-side at build time),
+ * search results are fetched 100% in the browser using Apollo's useQuery hook.
+ * This is because the query changes on every search term — we can't pre-build
+ * all possible search results at deploy time.
+ *
+ *  - SEARCH_PRODUCTS query → searches WooCommerce products via WPGraphQL
+ *  - SEARCH_POSTS query    → searches WordPress blog posts via WPGraphQL
+ *  - `skip: !rawQ || scope !== 'shop'` → Apollo skips the query entirely
+ *    when there is no search term or when searching a different scope.
+ *    This prevents unnecessary API calls.
+ *
+ * SCOPE SWITCHING:
+ * The "Shop" / "Blog" radio toggles update the URL using `router.replace()` with
+ * `{ shallow: true }` — this updates the URL without re-running getStaticProps,
+ * which is what we want here (the page has no server-side data to re-fetch).
+ *
+ * RESULTS DISPLAY:
+ *  - Shop results → ProductsGrid (same component as homepage featured products)
+ *  - Blog results → BlogGrid (same component as blog listing)
+ * This reuse keeps the UI consistent across the app.
+ *
+ * EMPTY / LOADING STATES:
+ *  - No query → "Enter a search term..."
+ *  - Loading  → "Searching…"
+ *  - No results → "No products found for '...'"
+ */
+
 import { Fragment, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client/react';

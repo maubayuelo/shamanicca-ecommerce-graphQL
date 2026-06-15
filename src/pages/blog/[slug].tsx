@@ -1,3 +1,50 @@
+/**
+ * blog/[slug].tsx — Individual blog post page (route: /blog/:slug)
+ *
+ * Examples: /blog/crystal-healing-guide, /blog/what-is-shamanism
+ *
+ * Blog posts are created in WordPress and served via WPGraphQL.
+ *
+ * DATA FETCHING:
+ *  - getStaticPaths: pre-generates pages for the 50 most recent post slugs.
+ *    `fallback: 'blocking'` handles older or newly published posts on-demand.
+ *  - getStaticProps: fetches the full post content + sidebar + related posts.
+ *    All server-side at build time (ISR revalidates every 5 minutes).
+ *
+ * WHAT getStaticProps FETCHES:
+ *  1. The post itself (title, content HTML, excerpt, date, featured image, categories)
+ *     → via GET_POST_BY_SLUG GraphQL query
+ *  2. Related posts (same category, excluding current post)
+ *     → via GET_CATEGORY_POSTS_CURSOR
+ *  3. Sidebar sections: "Top Reads" + "Magical Practices" categories
+ *     → two queries run in parallel with Promise.all() for performance
+ *  4. ACF (Advanced Custom Fields) video data via WordPress REST API
+ *     → WPGraphQL doesn't expose ACF by default, so we fetch via /wp-json/wp/v2/posts
+ *
+ * CONTENT RENDERING:
+ *  - `dangerouslySetInnerHTML` is used to inject WordPress's HTML content directly.
+ *    This is safe here because the HTML comes from a trusted CMS we control,
+ *    not from user input.
+ *  - The `splitAtParagraph()` helper splits the HTML after the 3rd paragraph
+ *    to inject an in-content banner ad in the middle of the article.
+ *
+ * ACF VIDEO FEATURE:
+ *  Posts can optionally have a YouTube video embedded via ACF fields:
+ *    - display_video: true/false toggle
+ *    - youtube_video_id: the YouTube video ID (e.g. "dQw4w9WgXcQ")
+ *  The `extractFeaturedVideoUrl()` helper reads these fields and returns an embed URL.
+ *
+ * SEO:
+ *  - BlogPosting schema (schema.org) with author, publisher, datePublished, dateModified
+ *  - og:type = "article" for rich social sharing cards
+ *  - Breadcrumb path: Home → Blog → Category → Post title
+ *
+ * LAYOUT:
+ *  Header → Breadcrumb → Post header → Featured image → [optional video] →
+ *  Article content (split for in-content banner) → Related Posts → Footer
+ *  + BlogSidebar (Top Reads, Magical Practices, optional banners)
+ */
+
 import { Fragment } from 'react';
 import SeoHead from '../../components/atoms/SeoHead';
 import type { GetStaticPaths, GetStaticProps } from 'next';

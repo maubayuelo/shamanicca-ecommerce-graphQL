@@ -1,3 +1,38 @@
+/**
+ * blog/all.tsx — Paginated "all posts" listing page (route: /blog/all?page=N)
+ *
+ * This page lists ALL blog posts with pagination (9 posts per page).
+ * Unlike most pages in this app which use getStaticProps (static generation),
+ * this page uses getServerSideProps — it is rendered fresh on every request.
+ *
+ * WHY getServerSideProps HERE INSTEAD OF getStaticProps?
+ * The page content depends on the `?page=` query parameter in the URL.
+ * With getStaticProps you can only pre-generate specific paths. Since the page
+ * number can change (and change often as new posts are added), server-side
+ * rendering is simpler here — the server reads the query param and fetches
+ * the correct page of results on each request.
+ *
+ * PAGINATION STRATEGIES:
+ * This page tries two approaches in order:
+ *
+ *  Strategy 1 — Offset Pagination (preferred, requires WPGraphQL Offset Pagination plugin):
+ *    GET_ALL_POSTS_WITH_TOTAL uses `offsetPagination: { size, offset }` and returns
+ *    a `total` count. This gives us: total items → how many pages → render paginator.
+ *    OFFSET_BASE = 10 means the first 10 posts are shown on the homepage/blog landing,
+ *    so this listing starts from post #11.
+ *
+ *  Strategy 2 — Cursor Pagination (fallback, available in WPGraphQL by default):
+ *    If the offset plugin isn't installed, cursor-based pagination is used instead.
+ *    Cursors are opaque strings (like "YXJyYXljb25uZWN0aW9uOjA=") that point to
+ *    a position in the result set. To reach page 3, you must iterate through pages
+ *    1 and 2 first (no random access), which is less efficient but always works.
+ *    Since we don't have a total count, we estimate it from `hasNextPage`.
+ *
+ * LAYOUT:
+ *  Header → BlogHeader → BlogGrid (9 posts) → Paginator → Footer
+ *  + BlogSidebar (sidebar from current page's posts as placeholder)
+ */
+
 import { Fragment } from 'react';
 import Head from 'next/head';
 import type { GetServerSideProps } from 'next';

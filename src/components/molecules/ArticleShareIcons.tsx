@@ -1,3 +1,37 @@
+/**
+ * ArticleShareIcons.tsx — Social share buttons for blog posts (Molecule)
+ *
+ * Renders a row of share icons: X (Twitter), Facebook, WhatsApp, Telegram,
+ * Email, and a "copy link" button. Appears at the top of every blog post.
+ *
+ * HOW SHARING WORKS:
+ * Each social network has a standard "share intent" URL — you pass the article
+ * URL and title as query parameters, and the social network opens a pre-filled
+ * share dialog in a new tab.
+ *   X:         https://twitter.com/intent/tweet?text=...
+ *   Facebook:  https://www.facebook.com/share.php?u=...
+ *   WhatsApp:  https://api.whatsapp.com/send?text=...
+ *   Telegram:  https://telegram.me/share/url?url=...
+ *   Email:     mailto:?subject=...&body=...
+ *
+ * URL RESOLUTION:
+ * The `articleUrl` prop can be a relative path (/blog/my-post).
+ * On the server (SSR), window is not available so we can't make it absolute.
+ * The useEffect resolves it to a full URL client-side using:
+ *   new URL(relativeUrl, window.location.origin).toString()
+ *   → "https://shamanicca.com/blog/my-post"
+ *
+ * COPY LINK:
+ * Uses the modern Clipboard API (navigator.clipboard.writeText).
+ * Falls back to the legacy `document.execCommand('copy')` for older browsers.
+ * After copying, shows "URL Copied" for 1.2 seconds then resets.
+ *
+ * ACCESSIBILITY:
+ * External links use target="_blank" + rel="noopener noreferrer" (security best practice).
+ * "noopener" prevents the opened tab from accessing window.opener.
+ * "noreferrer" prevents sending the referring URL to the target site.
+ */
+
 import React from 'react';
 
 export type ArticleShareIconsProps = {

@@ -1,3 +1,18 @@
+/**
+ * wishlist.tsx — Wishlist state management using React Context API
+ *
+ * Follows the exact same pattern as cart.tsx.
+ * The wishlist lets users save products for later without adding to cart.
+ *
+ * KEY DIFFERENCES FROM CART:
+ *  - No quantity tracking (you either wishlisted it or not)
+ *  - `toggle()` method: adds if not there, removes if already there
+ *  - `isWishlisted(id)` helper: returns true/false so the heart icon
+ *    can show filled or outlined depending on state
+ *
+ * STORAGE KEY: 'shamanicca-wishlist' in localStorage
+ */
+
 import React from 'react';
 
 export type WishlistItem = {

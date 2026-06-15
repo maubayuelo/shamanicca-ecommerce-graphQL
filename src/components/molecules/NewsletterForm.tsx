@@ -1,3 +1,30 @@
+/**
+ * NewsletterForm.tsx — Email subscription form (Molecule)
+ *
+ * A standalone email input + submit button that POSTs to /api/newsletter.
+ * Used inside the NewsletterModal and potentially on other pages.
+ *
+ * ATOMIC DESIGN LEVEL: Molecule
+ * Combines an input (atom) + button (atom) with fetch logic and state management.
+ *
+ * STATE MACHINE:
+ * The component has 4 states:
+ *  'idle'    → initial state, form is ready
+ *  'loading' → API call in progress (button shows "...")
+ *  'success' → email submitted successfully (form replaced with success message)
+ *  'error'   → API returned an error (error message shown below the form)
+ *
+ * FORM FLOW:
+ *  1. User types email and submits
+ *  2. Quick client-side validation (must contain "@")
+ *  3. POST to /api/newsletter with { email }
+ *  4. On success: show "You're in!" message
+ *  5. On error: show error text below form, allow retry
+ *
+ * NOTE: The server-side /api/newsletter handles the actual Mailchimp call,
+ * keeping the API key secret from the browser.
+ */
+
 'use client';
 import { useState } from 'react';
 

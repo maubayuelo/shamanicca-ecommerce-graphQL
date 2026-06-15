@@ -1,3 +1,43 @@
+/**
+ * ProductImageGallery.tsx — Product photo gallery with zoom modal (Molecule)
+ *
+ * Renders a horizontally scrollable image carousel with:
+ *  - Thumbnail strip below the main image
+ *  - Prev/next arrow navigation
+ *  - Click-to-zoom fullscreen modal
+ *  - Keyboard support (ArrowLeft / ArrowRight, Escape to close modal)
+ *
+ * ATOMIC DESIGN LEVEL: Molecule
+ * Combines multiple images with scroll/navigation and modal logic.
+ *
+ * SCROLL-BASED CAROUSEL (no carousel library):
+ *  Images are laid out in a horizontal flex container (gallery__track) that overflows.
+ *  CSS `scroll-snap-type: x mandatory` snaps to each image naturally.
+ *  The `scroll` event listener on the viewport reads scrollLeft / clientWidth
+ *  to determine which slide is active — this syncs the thumbnail highlights.
+ *
+ * TWO IMAGE SIZES PER SLIDE:
+ *  Each GalleryImage has:
+ *    src       — large version for desktop (e.g. woocommerce_single, 600×600)
+ *    sources[] — additional <source> elements for <picture>, e.g.:
+ *                  { srcSet: "...medium.jpg", media: "(max-width: 600px)" }
+ *                This serves a smaller image to mobile browsers automatically.
+ *    fullSrc   — the original WooCommerce upload, only loaded in the zoom modal
+ *
+ * PLACEHOLDER IMAGES:
+ *  If no real images are passed, `buildPlaceholderSet()` generates 5 labelled
+ *  placeholder images (Front, Back, Side, Top, Bottom) from placehold.co.
+ *  This prevents broken UI during development or when WooCommerce images fail.
+ *
+ * FULLSCREEN MODAL:
+ *  Clicking any image opens a modal overlay showing the full-size image.
+ *  The modal uses role="dialog" aria-modal="true" for accessibility.
+ *  Backdrop click or Escape key closes it.
+ *
+ * SALE BADGE:
+ *  If isOnSale is true, a "SALE" badge overlays the top-left of the first image.
+ */
+
 import React from 'react';
 
 type GalleryImage = {

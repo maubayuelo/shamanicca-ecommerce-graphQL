@@ -1,3 +1,23 @@
+/**
+ * cart.ts — Zustand cart store
+ *
+ * Zustand is a lightweight state management library (alternative to Redux).
+ * Unlike React's useState (which is local to one component), Zustand state
+ * is global — any component in the app can read or update it.
+ *
+ * The `persist` middleware automatically saves the cart to localStorage
+ * and restores it when the page reloads, so the cart survives navigation.
+ *
+ * NOTE: This app also has a React Context-based cart in lib/context/cart.tsx.
+ * The Context version is the primary one used in production. This Zustand
+ * version is an alternative / reference implementation.
+ *
+ * CART ITEM KEY LOGIC:
+ * Each cart item needs a unique identifier. Since the same product can be
+ * added in different sizes, the key is: `${productId}:${size}`.
+ * So "hoodie in size M" and "hoodie in size L" are separate items.
+ */
+
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
