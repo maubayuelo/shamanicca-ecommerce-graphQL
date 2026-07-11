@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type AcfImage = string | { url?: string; sizes?: Record<string, string> } | null | undefined;
 
@@ -33,9 +34,10 @@ const FALLBACK: HeroData = {
 function resolveBgUrl(field: AcfImage): string | null {
   if (!field) return null;
   if (typeof field === 'string') return field;
-  // ACF Image Array format — prefer large size, fall back to full URL
-  if (field.sizes?.large) return field.sizes.large;
-  return field.url ?? null;
+  // ACF Image Array format — prefer the original upload so the desktop crop
+  // (larger, portrait panel) isn't upscaled from WP's capped "large" size.
+  // next/image's `sizes` prop still derives a small file for mobile from this.
+  return field.url ?? field.sizes?.large ?? null;
 }
 
 export default function Hero() {
@@ -57,46 +59,55 @@ export default function Hero() {
       });
   }, []);
 
-  const showOverlay = data.show_overlay === true || data.show_overlay === 1;
-  const opacity = parseFloat(String(data.overlay_opacity ?? 0.5));
-  const overlayStyle: React.CSSProperties = showOverlay
-    ? { background: `rgba(0,0,0,${opacity})` }
-    : { background: 'transparent' };
-
-  const bgUrl = resolveBgUrl(data.background_image);
-  const bgStyle: React.CSSProperties = {
-    backgroundImage: `url(${bgUrl || '/images/hero-image.png'})`,
-  };
+  const bgUrl = resolveBgUrl(data.background_image) || '/images/hero-image.png';
 
   return (
-    <section className="hero" style={bgStyle}>
-      <div className="layer" style={overlayStyle} />
-
+    <section className="hero">
       <div className="main">
-        {data.hero_subtitle && (
-          <h1 className="type-2xl m-0 type-bold">{data.hero_subtitle}</h1>
-        )}
-        {data.hero_title && (
-          <p className="type-4xl mt-0 mb-md-responsive type-extrabold">{data.hero_title}</p>
-        )}
-        {data.hero_body_text && (
-          <p className="hero__body type-lg">{data.hero_body_text}</p>
-        )}
-
-        {(data.cta_1_label || data.cta_2_label) && (
-          <div className="hero__ctas">
-            {data.cta_1_label && data.cta_1_url && (
-              <Link href={data.cta_1_url} className="btn btn-white btn-medium">
-                {data.cta_1_label}
-              </Link>
+        <div className="hero__grid">
+          <div className="hero__text">
+            {data.hero_subtitle && (
+              <p className="hero__eyebrow type-md type-extrabold type-uppercase fade-up m-0">
+                {data.hero_subtitle}
+              </p>
             )}
-            {data.cta_2_label && data.cta_2_url && (
-              <Link href={data.cta_2_url} className="btn btn-white btn-medium">
-                {data.cta_2_label}
-              </Link>
+            {data.hero_title && (
+              <h1 className="hero__title type-5xl type-extrabold fade-up mt-0 mb-md-responsive">
+                {data.hero_title}
+              </h1>
+            )}
+            {data.hero_body_text && (
+              <p className="hero__body type-lg fade-up">{data.hero_body_text}</p>
+            )}
+
+            {(data.cta_1_label || data.cta_2_label) && (
+              <div className="hero__ctas fade-up">
+                {data.cta_1_label && data.cta_1_url && (
+                  <Link href={data.cta_1_url} className="btn btn-primary btn-large">
+                    {data.cta_1_label}
+                  </Link>
+                )}
+                {data.cta_2_label && data.cta_2_url && (
+                  <Link href={data.cta_2_url} className="btn btn-secondary btn-large">
+                    {data.cta_2_label}
+                  </Link>
+                )}
+              </div>
             )}
           </div>
-        )}
+
+          <div className="hero__media fade-in">
+            <Image
+              src={bgUrl}
+              alt=""
+              fill
+              priority
+              quality={90}
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className="hero__media-img"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

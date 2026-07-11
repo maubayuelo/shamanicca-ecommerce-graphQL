@@ -1,73 +1,99 @@
-.hero {
-    background-color: rgb(0, 0, 0);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    max-height: 390px;
+@use "../variables" as *;
+@use "../mixins" as *;
 
-    @media (min-width: 768px) {
-        max-height: 510px;
+.hero {
+    --hero-image-ratio: 4 / 5;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-height: 75dvh;
+    @include media-desktop-up {
+       min-height: 75dvh;
+       padding: $spacing-30 0 0;
     }
 
-    .main {
-        top: 0;
-        left: 0;
-        display: flex;
-        flex-direction: column;
+    &__grid {
+        display: grid;
+        grid-template-columns: 1fr;
         align-items: center;
-        justify-content: center;
-        text-align: center;
-        overflow: hidden;
-        position: relative;
-        height: 100%;
-        z-index: 2;
-        padding: 0 1rem 30px;
+        gap: $spacing-20;
+        padding-top: $spacing-20;
+        padding-bottom: $spacing-20;
 
-        @media (min-width: 768px) {
-            padding-bottom: 45px;
+        @include media-desktop-up {
+            grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+            gap: $spacing-60;
+            padding-top: 0;
+            padding-bottom: 0;
         }
-        @media (min-width: 1024px) {
-            padding-bottom: 60px;
+    }
+
+    &__text {
+        order: 2;
+        max-width: 65ch;
+
+        @include media-desktop-up {
+            order: 1;
         }
+    }
+
+    &__eyebrow {
+        color: $primary-color;
+        margin: 0 0 $spacing-10;
+        letter-spacing: 0.04em;
+    }
+
+    &__title {
+        //margin-bottom: $spacing-15;
     }
 
     &__body {
-        margin: 0 0 1rem;
-        color: rgba(255, 255, 255, 0.85);
-        max-width: 480px;
+        margin: 0 0 $spacing-25;
+        color: $gray-90;
+        max-width: 60ch;
     }
 
     &__ctas {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.75rem;
-        margin-top: 1.5rem;
+        flex-wrap: wrap;
+        gap: $spacing-15;
+    }
 
-        @media (min-width: 480px) {
-            flex-direction: row;
-            justify-content: center;
+    &__media {
+        order: 1;
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        max-height: 50dvh;
+        overflow: hidden;
+        border: 1px solid $gray-40;
+        @include responsive-border-radius;
+
+        @include media-desktop-up {
+            order: 2;
+            aspect-ratio: var(--hero-image-ratio);
+            max-height: calc(100dvh - var(--header-height, 64px));
         }
     }
 
-    .layer {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        // background is set dynamically via inline style from overlay_opacity
+    &__media-img {
+        object-fit: cover;
     }
+}
 
+@media (prefers-reduced-motion: no-preference) {
+    .hero__eyebrow.fade-up { animation-delay: 80ms; }
+    .hero__title.fade-up { animation-delay: 160ms; }
+    .hero__body.fade-up { animation-delay: 240ms; }
+    .hero__ctas.fade-up { animation-delay: 320ms; }
+    .hero__media.fade-in { animation-delay: 40ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero .fade-up,
+    .hero .fade-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
 }
