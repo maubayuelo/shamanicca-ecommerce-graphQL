@@ -48,6 +48,14 @@ module.exports = {
     GRAPHQL_ENDPOINT: process.env.GRAPHQL_ENDPOINT,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   },
+  async rewrites() {
+    return [
+      // Serve the static shamanicca-biolink SPA build (public/bioIG/index.html)
+      // at /bioIG — Next.js's public folder doesn't auto-resolve directory
+      // requests to index.html, so this maps the bare path explicitly.
+      { source: '/bioIG', destination: '/bioIG/index.html' },
+    ];
+  },
   async redirects() {
     return [
       // Old WordPress /post/:slug → new /blog/:slug (preserves SEO authority)
