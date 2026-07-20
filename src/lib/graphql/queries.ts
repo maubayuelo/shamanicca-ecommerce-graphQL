@@ -437,6 +437,64 @@ export const GET_PRODUCT_CATEGORIES = gql`
   }
 `;
 
+// Blog: affiliated banner for a category, by databaseId
+export const GET_CATEGORY_BANNER = gql`
+  query GetCategoryBanner($id: ID!) {
+    category(id: $id, idType: DATABASE_ID) {
+      affiliatedBanner {
+        bannerType
+        bannerHeadline
+        bannerSubtext
+        bannerCtaLabel
+        bannerCtaUrl
+        openInNewTab
+        bannerEnabled
+        bannerImage {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              sizes {
+                name
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+// Blog: global fallback affiliated banner from the "Site Settings" page
+export const GET_SITE_SETTINGS_BANNER = gql`
+  query GetSiteSettingsBanner {
+    page(id: "site-settings", idType: URI) {
+      affiliatedBanner {
+        bannerType
+        bannerHeadline
+        bannerSubtext
+        bannerCtaLabel
+        bannerCtaUrl
+        openInNewTab
+        bannerEnabled
+        bannerImage {
+          node {
+            sourceUrl
+            altText
+            mediaDetails {
+              sizes {
+                name
+                sourceUrl
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 // Fetch home page banners from ACF
 export const GET_HOME_BANNERS = gql`
   query GetHomeBanners {

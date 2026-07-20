@@ -6,7 +6,7 @@ type Props = { banner: AcfBanner; className?: string };
 export default function InContentBanner({ banner, className = '' }: Props) {
   const isAffiliate = banner.banner_type === 'affiliate';
   const inner = (
-    <div className="blog-banner">
+    <div className={`blog-banner${isAffiliate ? ' is-affilliated' : ''}`}>
       <div className="blog-banner__image">
         <picture>
           {/* Tablet+ (≥601px): image is 150–210px wide — medium is sufficient */}

@@ -1,35 +1,45 @@
 import { useState, useEffect } from 'react';
 import type { AcfBanner, BannersResult } from '../types/banners';
+import client from '../lib/graphql/apolloClient';
+import { GET_CATEGORY_BANNER, GET_SITE_SETTINGS_BANNER } from '../lib/graphql/queries';
 
-// ACF image fields return either a URL string or an object { url: '...' }
-function resolveImageUrl(raw: unknown): string {
-  if (!raw) return '';
-  if (typeof raw === 'string') return raw;
-  if (typeof raw === 'object' && raw !== null) {
-    const obj = raw as Record<string, unknown>;
-    return (obj.url ?? obj.URL ?? obj.src ?? '') as string;
-  }
-  return '';
+type GqlMediaSize = { name: string; sourceUrl: string };
+
+type GqlAffiliatedBanner = {
+  bannerType: string[] | null;
+  bannerHeadline: string | null;
+  bannerSubtext: string | null;
+  bannerCtaLabel: string | null;
+  bannerCtaUrl: string | null;
+  openInNewTab: boolean | null;
+  bannerEnabled: boolean | null;
+  bannerImage: {
+    node: {
+      sourceUrl: string;
+      altText: string;
+      mediaDetails?: { sizes?: GqlMediaSize[] } | null;
+    } | null;
+  } | null;
+} | null;
+
+function pickSize(sizes: GqlMediaSize[] | undefined, name: string): string | null {
+  return sizes?.find((s) => s.name === name)?.sourceUrl ?? null;
 }
 
-// ACF boolean fields can return true/false, 1/0, or "1"/"" strings.
-function resolveBool(raw: unknown): boolean {
-  if (typeof raw === 'boolean') return raw;
-  if (typeof raw === 'number') return raw === 1;
-  if (typeof raw === 'string') return raw === '1' || raw.toLowerCase() === 'true';
-  return false;
-}
-
-function normalizeBanner(raw: Record<string, unknown>): AcfBanner {
+function normalizeBanner(raw: GqlAffiliatedBanner): AcfBanner | null {
+  if (!raw) return null;
+  const sizes = raw.bannerImage?.node?.mediaDetails?.sizes ?? undefined;
   return {
-    banner_type: (raw.banner_type === 'affiliate' ? 'affiliate' : 'shamanicca') as AcfBanner['banner_type'],
-    banner_image: resolveImageUrl(raw.banner_image),
-    banner_headline: String(raw.banner_headline ?? ''),
-    banner_subtext: String(raw.banner_subtext ?? ''),
-    banner_cta_label: String(raw.banner_cta_label ?? ''),
-    banner_cta_url: String(raw.banner_cta_url ?? '#'),
-    banner_new_tab: resolveBool(raw.banner_new_tab),
-    banner_enabled: resolveBool(raw.banner_enabled),
+    banner_type: raw.bannerType?.includes('affiliate') ? 'affiliate' : 'shamanicca',
+    banner_image: raw.bannerImage?.node?.sourceUrl ?? '',
+    banner_image_medium: pickSize(sizes, 'medium'),
+    banner_image_large: pickSize(sizes, 'large') ?? pickSize(sizes, 'medium_large'),
+    banner_headline: raw.bannerHeadline ?? '',
+    banner_subtext: raw.bannerSubtext ?? '',
+    banner_cta_label: raw.bannerCtaLabel ?? '',
+    banner_cta_url: raw.bannerCtaUrl ?? '#',
+    banner_new_tab: !!raw.openInNewTab,
+    banner_enabled: !!raw.bannerEnabled,
   };
 }
 
@@ -39,17 +49,9 @@ function isEnabled(b: AcfBanner): boolean {
   return !!b.banner_image && !!b.banner_headline;
 }
 
-async function fetchAcf(localUrl: string): Promise<Record<string, unknown>> {
-  const res = await fetch(localUrl);
-  if (!res.ok) throw new Error(`ACF ${res.status}`);
-  const json = await res.json();
-  // ACF REST v3 wraps fields under `.acf`; v2 returns them at root
-  return (json?.acf ?? json ?? {}) as Record<string, unknown>;
-}
-
-function extractBanner(data: Record<string, unknown>): AcfBanner | null {
-  if (!data || !data.banner_headline && !data.banner_image) return null;
-  const banner = normalizeBanner(data);
+function extractBanner(raw: GqlAffiliatedBanner): AcfBanner | null {
+  const banner = normalizeBanner(raw);
+  if (!banner) return null;
   return isEnabled(banner) ? banner : null;
 }
 
@@ -66,8 +68,12 @@ export function useBanners(categoryId?: number | null): BannersResult {
 
       if (categoryId) {
         try {
-          const data = await fetchAcf(`/api/acf-banners?type=category&id=${categoryId}`);
-          result = extractBanner(data);
+          const { data } = await client.query<{ category: { affiliatedBanner: GqlAffiliatedBanner } | null }>({
+            query: GET_CATEGORY_BANNER,
+            variables: { id: categoryId },
+            fetchPolicy: 'no-cache',
+          });
+          result = extractBanner(data.category?.affiliatedBanner ?? null);
         } catch (err) {
           console.warn('[useBanners] category fetch failed:', err);
         }
@@ -76,8 +82,11 @@ export function useBanners(categoryId?: number | null): BannersResult {
       // Fall back to global site settings if no category banner found
       if (!result) {
         try {
-          const data = await fetchAcf(`/api/acf-banners?type=options`);
-          result = extractBanner(data);
+          const { data } = await client.query<{ page: { affiliatedBanner: GqlAffiliatedBanner } | null }>({
+            query: GET_SITE_SETTINGS_BANNER,
+            fetchPolicy: 'no-cache',
+          });
+          result = extractBanner(data.page?.affiliatedBanner ?? null);
         } catch (err) {
           console.warn('[useBanners] global fallback fetch failed:', err);
         }
