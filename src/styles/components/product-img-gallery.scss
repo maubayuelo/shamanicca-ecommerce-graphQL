@@ -131,7 +131,9 @@
 	.gallery__modal {
 		position: fixed;
 		inset: 0;
-		z-index: 5000;
+		// Above the cookie bar (9000) and sticky add-to-bag bar (8000) so the
+		// zoom view is always the top-most layer while open.
+		z-index: 9999;
 
 		.modal__backdrop {
 			position: absolute;
@@ -147,7 +149,9 @@
 			inset: 0;
 			display: grid;
 			grid-template-rows: auto 1fr auto;
+			row-gap: $spacing-20;
 			justify-content: center;
+			padding-bottom: $spacing-20;
 		}
 
 		.modal__close {

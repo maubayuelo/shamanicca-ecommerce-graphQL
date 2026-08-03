@@ -203,12 +203,14 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
 
     type WPSizes = Array<{ name?: string | null; sourceUrl?: string | null }> | null | undefined;
 
-    // Best large src for desktop/tablet — tries WC and WP size names in descending quality
+    // Best large src for desktop/tablet — prefer the original upload so the
+    // ~600-720px gallery column (and any retina display) isn't upscaled from
+    // WC's 600px "woocommerce_single" crop, which is what caused the pixelation.
     const bestLarge = (sizes: WPSizes, fallback: string): string =>
-      pickSize(sizes, 'woocommerce_single', null) ||
+      fallback ||
       pickSize(sizes, 'large', null) ||
-      pickSize(sizes, 'medium_large', null) ||
-      fallback;
+      pickSize(sizes, 'woocommerce_single', null) ||
+      pickSize(sizes, 'medium_large', null);
 
     // Best medium src for mobile
     const bestMedium = (sizes: WPSizes, fallback: string): string =>
@@ -225,7 +227,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
       const medium = bestMedium(sizes, product.image.sourceUrl);
       galleryImages.push({
         src: large,
-        fullSrc: pickSize(sizes, 'large', product.image.sourceUrl) ?? product.image.sourceUrl,
+        fullSrc: product.image.sourceUrl,
         alt: displayProduct.name,
         thumb: pickSize(sizes, 'thumbnail', product.image.sourceUrl)!,
         sources: [{ srcSet: medium, media: '(max-width: 600px)' }],
@@ -241,7 +243,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
           const medium = bestMedium(sizes, img.sourceUrl);
           galleryImages.push({
             src: large,
-            fullSrc: pickSize(sizes, 'large', img.sourceUrl) ?? img.sourceUrl,
+            fullSrc: img.sourceUrl,
             alt: displayProduct.name,
             thumb: pickSize(sizes, 'thumbnail', img.sourceUrl)!,
             sources: [{ srcSet: medium, media: '(max-width: 600px)' }],
