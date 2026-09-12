@@ -13,7 +13,7 @@
     {
       "files": ["src/pages/**", "src/components/**"],
       "rules": {
-        "@next/next/no-img-element": ["warn", { "extensions": [".svg"] }]
+        "@next/next/no-img-element": "warn"
       }
     }
   ]
