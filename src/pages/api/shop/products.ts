@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '../../../lib/graphql/apolloClient';
 import { GET_PRODUCTS_BY_CATEGORY } from '../../../lib/graphql/queries';
+import type { GetProductsData } from '../../../lib/graphql/types';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { category } = req.query;
@@ -10,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { data } = await client.query({
+    const { data } = await client.query<GetProductsData>({
       query: GET_PRODUCTS_BY_CATEGORY,
       variables: { category, first: 100 },
     });

@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import client from '../../../lib/graphql/apolloClient';
 import { GET_CATEGORIES } from '../../../lib/graphql/queries';
+import type { GetCategoriesData } from '../../../lib/graphql/types';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const { data } = await client.query({ query: GET_CATEGORIES, variables: { first: 100 } });
+    const { data } = await client.query<GetCategoriesData>({ query: GET_CATEGORIES, variables: { first: 100 } });
     const cats = (data.categories?.nodes || []).map((c: any) => ({
       id: c.databaseId,
       name: c.name,

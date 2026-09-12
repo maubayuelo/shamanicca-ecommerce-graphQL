@@ -10,6 +10,7 @@ import Footer from '../../components/organisms/Footer';
 // Removed static navigation; humanize subcategory labels directly
 import client from '../../lib/graphql/apolloClient';
 import { GET_PRODUCTS } from '../../lib/graphql/queries';
+import type { GetProductsData } from '../../lib/graphql/types';
 
 type Props = {
   products: ProductListingProduct[];
@@ -56,7 +57,7 @@ export default function ShopPage({ products }: Props) {
 export const getStaticProps: GetStaticProps<Props> = async () => {
   try {
     // Fetch all products from WooCommerce
-    const { data } = await client.query({
+    const { data } = await client.query<GetProductsData>({
       query: GET_PRODUCTS,
       variables: { first: 100 },
     });
