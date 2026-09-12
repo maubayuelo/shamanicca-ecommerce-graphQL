@@ -8,15 +8,36 @@ This app is the public-facing website: it shows products, a blog, a shopping car
 
 ## Table of Contents
 
-1. [What this app does](#what-this-app-does)
-2. [Tech stack (and why)](#tech-stack-and-why)
-3. [How data flows through the app](#how-data-flows-through-the-app)
-4. [Project structure explained](#project-structure-explained)
-5. [Key concepts for the interview](#key-concepts-for-the-interview)
-6. [Environment variables](#environment-variables)
-7. [Scripts](#scripts)
-8. [Getting started locally](#getting-started-locally)
-9. [Deployment (Vercel)](#deployment-vercel)
+1. [Architecture: why two repositories](#architecture-why-two-repositories)
+2. [What this app does](#what-this-app-does)
+3. [Tech stack (and why)](#tech-stack-and-why)
+4. [How data flows through the app](#how-data-flows-through-the-app)
+5. [Project structure explained](#project-structure-explained)
+6. [Key concepts for the interview](#key-concepts-for-the-interview)
+7. [Environment variables](#environment-variables)
+8. [Scripts](#scripts)
+9. [Getting started locally](#getting-started-locally)
+10. [Deployment (Vercel)](#deployment-vercel)
+
+---
+
+## Architecture: why two repositories
+
+Shamanicca is split across **two repositories on purpose**, not by accident:
+
+- **This repo** (`web-app-graphql`) — the React/Next.js storefront. Renders the shop, product pages, blog, cart, and wishlist, and reads all content from WordPress/WooCommerce through WPGraphQL.
+- **[shamanicca-ecommerce-wp-theme-checkout](https://github.com/maubayuelo/shamanicca-ecommerce-wp-theme-checkout)** — a WooCommerce child theme (storefront-child) responsible for the checkout flow only: cart-to-order handoff, payment, and order confirmation.
+
+```
+┌─────────────────────┐        WPGraphQL         ┌──────────────────────────┐        WooCommerce core        ┌───────────────────┐
+│   React storefront   │ ───────────────────────▶ │   WordPress (headless)   │ ──────────────────────────────▶ │  WooCommerce       │
+│   (this repo)         │ ◀─────────────────────── │   + WPGraphQL plugin     │ ◀────────────────────────────── │  checkout theme    │
+└─────────────────────┘   products, blog, pages   └──────────────────────────┘   cart handoff, payment, order  └───────────────────┘
+```
+
+**Why not one repo?** The storefront is a stateless, statically-generated Next.js app deployed on Vercel — it only *reads* data. Checkout is a stateful WooCommerce flow (payment, order state, sessions) that has to run inside WordPress to use WooCommerce's built-in cart, payment gateways, and order management. Splitting them keeps each deployable and scaled independently, and keeps PCI/payment-sensitive code out of the public frontend repo. Merging them into a monorepo would not remove that boundary — it would just hide it.
+
+**Current state:** checkout redirects the user from this app to the WooCommerce theme to complete purchase (see `lib/api/woocommerce.ts`). **Migrating checkout into this React app is on the roadmap** — the WooCommerce theme repo will remain the backend for order processing, but the UI will eventually be rendered here instead of being a redirect.
 
 ---
 
