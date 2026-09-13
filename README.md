@@ -1,10 +1,12 @@
+[![CI](https://github.com/maubayuelo/shamanicca-ecommerce-graphQL/actions/workflows/ci.yml/badge.svg)](https://github.com/maubayuelo/shamanicca-ecommerce-graphQL/actions/workflows/ci.yml)
+
 # Shamanicca — E-Commerce Storefront
 
 A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **React 18**, **TypeScript 5**, **Apollo Client 4 (GraphQL)**, and **SCSS**.
 
 This app is the public-facing website. It shows products, a blog, a shopping cart, and a wishlist, and it hands the actual payment step off to WordPress / WooCommerce by redirecting the shopper there to complete checkout. Content — both products and blog articles — lives in WordPress and is read over GraphQL.
 
-> **Status:** the app builds and runs. Linting and type-checking pass. An automated test suite and CI pipeline are **planned, not yet in place** — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
+> **Status:** the app builds and runs. Linting and type-checking pass. A GitHub Actions CI pipeline runs lint, typecheck, tests, and build on every push and pull request, and a Vitest suite (20 tests) covers the cart context. Test coverage is not measured yet — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
 
 ---
 
@@ -209,10 +211,10 @@ New to this stack? Here's the short version of the ideas that matter most in thi
 | `npm run start` | Serve the production build |
 | `npm run lint` | Run ESLint (via `next lint`) |
 | `npm run typecheck` | Type-check with `tsc --noEmit` |
-| `npm run test` | **Placeholder — no tests exist yet** (see [Roadmap](#roadmap)) |
+| `npm run test` | Run the Vitest suite (20 tests, cart context) once and exit |
 | `npm run setup` | Run `scripts/setup.sh` |
 
-> `npm run test` is wired to Vitest but there are **no test files yet**, so it currently exits without running anything. Don't rely on it as a check until the suite is in place.
+> `npm run test` runs Vitest with `--run` (no watch mode), covering the cart context's behavior, persistence, and hydration. Coverage is not measured yet — see [Roadmap](#roadmap).
 
 ---
 
@@ -223,11 +225,11 @@ Current, honest state of the checks:
 - `npm run lint` — **passes** (exit 0). It reports ~100 pre-existing warnings (mostly `@typescript-eslint/no-explicit-any`) and **0 errors**. The warnings are a known cleanup backlog, not a blocker.
 - `npm run typecheck` — **passes clean** (0 errors).
 - `npm run build` — **passes** (generates all static pages).
-- `npm run test` — no tests yet; see above.
+- `npm run test` — **passes** (20 tests; see above).
 
 Before opening a PR, run `npm run lint` and `npm run typecheck` and make sure you haven't *added* new errors. Please don't introduce new `any` types — if you're typing a GraphQL response, add the shape to `src/lib/graphql/types.ts`.
 
-There is no CI enforcing this automatically **yet** — it's on the [Roadmap](#roadmap). Until then, these checks are on the honor system.
+CI (GitHub Actions) now runs `lint`, `typecheck`, `test`, and `build` on every push and pull request. Lint warnings are **not** gated — the workflow only fails on lint errors, so the ~100 existing warnings won't block a PR. That's deliberate until the [lint cleanup](#roadmap) lands.
 
 ---
 
@@ -241,12 +243,13 @@ This repo carries a curated, version-pinned set of **14 agent skills** (in `.age
 
 Known gaps and planned work, so nothing here is a surprise:
 
-- **CI pipeline** — add GitHub Actions to run lint / typecheck / build (and tests, once they exist) on every push and PR, then add a status badge here.
-- **Test suite** — add real Vitest tests so `npm run test` stops being a placeholder.
 - **Tailwind migration** — refactor the SCSS layer to Tailwind with a design-token system. This is a prerequisite for planned checkout work.
 - **Fix `.env.example`** — declare the Resend variables (`RESEND_API_KEY`, `RESEND_FROM`, `CONTACT_EMAIL`) and remove the unused SendGrid/SMTP keys.
 - **Lint cleanup** — work through the ~100 existing warnings (largely `no-explicit-any`).
 - **Remove dead code** — `src/lib/api/stripe.ts` is no longer imported anywhere and can be deleted.
+- **Measure test coverage** — `@vitest/coverage-v8` isn't installed yet; add it and wire up `npm run test:coverage`.
+- **Gate lint on warnings** — once the cleanup pass above lands, tighten CI to `next lint --max-warnings 0`.
+- **Upgrade Vitest** — move from 1.6 to the current major (4) once there's time to handle any breaking config changes.
 
 ---
 
