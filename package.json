@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "setup": "bash scripts/setup.sh"
   },
   "dependencies": {
@@ -29,17 +31,20 @@
     "sass": "^1.89.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^14.3.1",
     "@types/node": "^20.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.7.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.0.0",
     "eslint-config-next": "^15.5.0",
     "jsdom": "^21.1.2",
     "postcss": "^8.5.6",
     "typescript": "^5.0.0",
+    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^1.6.1",
     "whatwg-fetch": "^3.6.20"
   }
