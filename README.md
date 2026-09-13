@@ -22,6 +22,7 @@ This app is the public-facing website. It shows products, a blog, a shopping car
 - [Key concepts (for newcomers)](#key-concepts-for-newcomers)
 - [Available scripts](#available-scripts)
 - [Contributing](#contributing)
+- [Continuous integration](#continuous-integration)
 - [AI-assisted development](#ai-assisted-development)
 - [Roadmap](#roadmap)
 - [Changelog](#changelog)
@@ -227,9 +228,19 @@ Current, honest state of the checks:
 - `npm run build` — **passes** (generates all static pages).
 - `npm run test` — **passes** (20 tests; see above).
 
-Before opening a PR, run `npm run lint` and `npm run typecheck` and make sure you haven't *added* new errors. Please don't introduce new `any` types — if you're typing a GraphQL response, add the shape to `src/lib/graphql/types.ts`.
+Before opening a PR, run `npm run lint`, `npm run typecheck`, and `npm run test`, and make sure you haven't *added* new errors. Please don't introduce new `any` types — if you're typing a GraphQL response, add the shape to `src/lib/graphql/types.ts`.
 
-CI (GitHub Actions) now runs `lint`, `typecheck`, `test`, and `build` on every push and pull request. Lint warnings are **not** gated — the workflow only fails on lint errors, so the ~100 existing warnings won't block a PR. That's deliberate until the [lint cleanup](#roadmap) lands.
+See [Continuous integration](#continuous-integration) for what the automated pipeline checks.
+
+---
+
+## Continuous integration
+
+CI (GitHub Actions) runs on every push and pull request: `lint`, `typecheck`, and the Vitest suite. Lint warnings are **not** gated — the workflow only fails on lint errors, so the ~100 existing warnings won't block a PR. That's deliberate until the [lint cleanup](#roadmap) lands.
+
+The production build is intentionally **not** part of CI. `next build` fetches the live headless-WordPress GraphQL API at build time to pre-render pages, and that endpoint sits behind host-level bot protection that serves automated CI runners a challenge page instead of data. Running the build in CI would end up testing API reachability from a datacenter IP, not our code — so CI verifies the code, and Vercel's deployment build (which runs from an environment the host doesn't challenge) is the correct place to verify the build itself.
+
+The follow-up is to make build-time data fetching degrade gracefully so the build is resilient regardless of where it runs — see the [Roadmap](#roadmap).
 
 ---
 
@@ -250,6 +261,7 @@ Known gaps and planned work, so nothing here is a surprise:
 - **Measure test coverage** — `@vitest/coverage-v8` isn't installed yet; add it and wire up `npm run test:coverage`.
 - **Gate lint on warnings** — once the cleanup pass above lands, tighten CI to `next lint --max-warnings 0`.
 - **Upgrade Vitest** — move from 1.6 to the current major (4) once there's time to handle any breaking config changes.
+- **Make build-time data fetching resilient** — graceful fallback when the GraphQL API is unreachable or returns non-JSON, so `next build` can't be broken by an upstream challenge page — would allow re-adding build to CI.
 
 ---
 

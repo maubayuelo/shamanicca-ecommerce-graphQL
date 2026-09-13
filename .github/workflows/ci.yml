@@ -41,5 +41,8 @@ jobs:
       - name: Run tests
         run: npm run test
 
-      - name: Build
-        run: npm run build
+      # Build is intentionally NOT run in CI. `next build` statically generates pages
+      # by fetching the live WordPress GraphQL API, which the host (SiteGround) guards
+      # with bot protection — CI runners get served a CAPTCHA page instead of JSON.
+      # CI verifies our code (lint, types, tests); build reachability is a deploy-time
+      # concern handled by Vercel. See README "Continuous integration" for detail.
