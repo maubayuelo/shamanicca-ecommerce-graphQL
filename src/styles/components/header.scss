@@ -20,7 +20,6 @@
         padding: 0.5rem 0.5rem;
         text-align: center;
     }
-
     &__main{
             display: flex;
             align-items: center;
@@ -40,7 +39,6 @@
             cursor: pointer;
         }
     }
-
     &__nav{
         display: none; // default hidden on small screens
         height: 100%;
@@ -67,25 +65,21 @@
             }
         }
     }
-
     // Show desktop nav starting at 1280px
     @media (min-width: 1280px){
         &__nav{ display: flex; }
         &__mobile_toggle { display: none; }
         &__mobile_menu { display: none; }
     }
-
     hr{
         border: none;
         border-top: 1px solid #b2b2b2;
         margin: 0;
     }
-
     &__container{
             //height: -webkit-fill-available;
             height: fit-content;
     }
-
     &__nav_item_wrapper {
         position: relative;
         display: flex;
@@ -132,7 +126,6 @@
                 }
             }
         }
-
         .header__dropdown {
             margin-top: 0px;
             position: absolute;
@@ -181,7 +174,6 @@
             }
         }
     }
-
     &__actions {
         align-items: center;
         display: flex;
@@ -189,7 +181,7 @@
         @media (max-width: 768px){
              //gap: $spacing-15;
         }
-        
+ 
     }
 
     &__action_btn {
@@ -323,7 +315,6 @@
                 }
             }
         }
-
         
     }
 }

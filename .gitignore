@@ -46,6 +46,7 @@ Thumbs.db
 # Editors/IDE
 .vscode/
 .idea/
+*.code-workspace
 
 # Vercel/Deploy
 .vercel/
