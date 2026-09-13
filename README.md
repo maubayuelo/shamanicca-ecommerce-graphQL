@@ -1,23 +1,48 @@
-# Shamanicca — E-commerce Web App
+# Shamanicca — E-Commerce Storefront
 
-A modern e-commerce storefront for **Shamanicca**, built with **Next.js**, **TypeScript**, **GraphQL**, and **SCSS**.
+A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **React 18**, **TypeScript 5**, **Apollo Client 4 (GraphQL)**, and **SCSS**.
 
-This app is the public-facing website: it shows products, a blog, a shopping cart, a wishlist, and handles the checkout flow by redirecting users to WordPress/WooCommerce.
+This app is the public-facing website. It shows products, a blog, a shopping cart, and a wishlist, and it hands the actual payment step off to WordPress / WooCommerce by redirecting the shopper there to complete checkout. Content — both products and blog articles — lives in WordPress and is read over GraphQL.
+
+> **Status:** the app builds and runs. Linting and type-checking pass. An automated test suite and CI pipeline are **planned, not yet in place** — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
 
 ---
 
-## Table of Contents
+## Table of contents
 
-1. [Architecture: why two repositories](#architecture-why-two-repositories)
-2. [What this app does](#what-this-app-does)
-3. [Tech stack (and why)](#tech-stack-and-why)
-4. [How data flows through the app](#how-data-flows-through-the-app)
-5. [Project structure explained](#project-structure-explained)
-6. [Key concepts for the interview](#key-concepts-for-the-interview)
-7. [Environment variables](#environment-variables)
-8. [Scripts](#scripts)
-9. [Getting started locally](#getting-started-locally)
-10. [Deployment (Vercel)](#deployment-vercel)
+- [What this app does](#what-this-app-does)
+- [Architecture: why two repositories](#architecture-why-two-repositories)
+- [How the pieces fit together](#how-the-pieces-fit-together)
+- [Tech stack](#tech-stack)
+- [Getting started](#getting-started)
+- [Environment variables](#environment-variables)
+- [Project structure](#project-structure)
+- [Key concepts (for newcomers)](#key-concepts-for-newcomers)
+- [Available scripts](#available-scripts)
+- [Contributing](#contributing)
+- [AI-assisted development](#ai-assisted-development)
+- [Roadmap](#roadmap)
+- [Changelog](#changelog)
+
+---
+
+## What this app does
+
+| Feature | Description |
+|---|---|
+| **Shop** | Lists products fetched from WooCommerce via GraphQL |
+| **Product detail** | Full product page with image gallery, size selection, add-to-cart |
+| **Cart** | Client-side cart, stored in the browser (`localStorage`) |
+| **Wishlist** | Save-for-later list, also stored in `localStorage` |
+| **Checkout** | Redirects to WordPress / WooCommerce to complete the purchase |
+| **Blog** | Articles fetched from WordPress via GraphQL |
+| **Search** | Searches products or blog posts |
+| **SEO** | Structured data (Schema.org), meta tags, 301 redirects |
+| **Newsletter** | Email signup modal connected to Mailchimp |
+| **Contact form** | Sends email via the **Resend** API |
+| **Analytics** | Google Analytics 4 with Consent Mode v2 |
+
+A note on the split: this repo is **only the storefront**. It doesn't store products, process payments, or hold the database. Those live in a separate WordPress / WooCommerce backend. This app reads from that backend and, when it's time to pay, sends the shopper over to it. That's what "headless" means here — the front end and the content/commerce backend are two separate systems talking over an API.
 
 ---
 
@@ -28,512 +53,203 @@ Shamanicca is split across **two repositories on purpose**, not by accident:
 - **This repo** (`web-app-graphql`) — the React/Next.js storefront. Renders the shop, product pages, blog, cart, and wishlist, and reads all content from WordPress/WooCommerce through WPGraphQL.
 - **[shamanicca-ecommerce-wp-theme-checkout](https://github.com/maubayuelo/shamanicca-ecommerce-wp-theme-checkout)** — a WooCommerce child theme (storefront-child) responsible for the checkout flow only: cart-to-order handoff, payment, and order confirmation.
 
-```
-┌─────────────────────┐        WPGraphQL         ┌──────────────────────────┐        WooCommerce core        ┌───────────────────┐
-│   React storefront   │ ───────────────────────▶ │   WordPress (headless)   │ ──────────────────────────────▶ │  WooCommerce       │
-│   (this repo)         │ ◀─────────────────────── │   + WPGraphQL plugin     │ ◀────────────────────────────── │  checkout theme    │
-└─────────────────────┘   products, blog, pages   └──────────────────────────┘   cart handoff, payment, order  └───────────────────┘
-```
-
 **Why not one repo?** The storefront is a stateless, statically-generated Next.js app deployed on Vercel — it only *reads* data. Checkout is a stateful WooCommerce flow (payment, order state, sessions) that has to run inside WordPress to use WooCommerce's built-in cart, payment gateways, and order management. Splitting them keeps each deployable and scaled independently, and keeps PCI/payment-sensitive code out of the public frontend repo. Merging them into a monorepo would not remove that boundary — it would just hide it.
 
-**Current state:** checkout redirects the user from this app to the WooCommerce theme to complete purchase (see `lib/api/woocommerce.ts`). **Migrating checkout into this React app is on the roadmap** — the WooCommerce theme repo will remain the backend for order processing, but the UI will eventually be rendered here instead of being a redirect.
+**Current state:** checkout redirects the user from this app to the WooCommerce theme to complete purchase (see `src/lib/api/woocommerce.ts`). **Migrating checkout into this React app is on the roadmap** — the WooCommerce theme repo will remain the backend for order processing, but the UI will eventually be rendered here instead of being a redirect.
 
 ---
 
-## What this app does
+## How the pieces fit together
 
-| Feature | Description |
+```
+                    ┌─────────────────────────┐
+                    │  WordPress / WooCommerce │
+                    │  (products, blog, orders)│
+                    └───────────┬─────────────┘
+                                │  GraphQL (read)
+                                ▼
+   Shopper ──▶  ┌──────────────────────────────┐
+                │   THIS APP (Next.js storefront)│
+                │  • browse shop & blog          │
+                │  • cart + wishlist (localStorage)
+                │  • search, SEO, analytics      │
+                └───────────┬──────────────────┘
+                            │  redirect at checkout
+                            ▼
+                    WordPress / WooCommerce
+                    (shopper completes payment)
+```
+
+The data only flows **one way for content**: WordPress is the source of truth, this app reads it. The cart and wishlist are the exception — they live entirely in the shopper's browser (`localStorage`) until checkout, at which point the shopper is handed to WooCommerce to pay.
+
+---
+
+## Tech stack
+
+| Layer | Choice |
 |---|---|
-| **Shop** | Lists products fetched from WooCommerce via GraphQL |
-| **Product detail** | Full product page with gallery, size selection, add-to-cart |
-| **Cart** | Client-side cart stored in the browser (`localStorage`) |
-| **Wishlist** | Save-for-later list, also stored in `localStorage` |
-| **Checkout** | Redirects to WordPress/WooCommerce to complete purchase |
-| **Blog** | Articles fetched from WordPress via GraphQL |
-| **Search** | Searches products or blog posts |
-| **SEO** | Structured data (Schema.org), meta tags, 301 redirects |
-| **Newsletter** | Email signup modal connected to Mailchimp |
-| **Contact form** | Sends emails via Resend API |
-| **Analytics** | Google Analytics 4 with Consent Mode v2 |
+| Framework | Next.js 15 (Pages Router) |
+| Language | TypeScript 5 |
+| UI library | React 18 |
+| Data / API | GraphQL via Apollo Client 4 |
+| UI components | Mantine 8 |
+| Styling | SCSS *(migration to Tailwind planned — see [Roadmap](#roadmap))* |
+| Email | Resend |
+| Newsletter | Mailchimp |
+| Analytics | Google Analytics 4 (Consent Mode v2) |
+| Backend (external) | WordPress + WooCommerce |
 
 ---
 
-## Tech stack (and why)
+## Getting started
 
-### Core Framework — Next.js 15
-
-**Next.js** is a framework built on top of React. It adds:
-
-- **File-based routing** — every file inside `src/pages/` becomes a URL automatically
-- **Server-side rendering (SSR)** — pages can be generated on the server before sending HTML to the browser
-- **Static Site Generation (ISG/ISR)** — pages can be pre-built at deploy time, then refreshed periodically
-- **API Routes** — serverless functions inside `src/pages/api/` (like mini Express endpoints)
-
-> Why not plain React? Plain React only renders in the browser. Next.js pre-renders pages on the server so users get fast HTML immediately (better SEO and performance).
-
----
-
-### Language — TypeScript 5
-
-TypeScript is JavaScript with **types**. Types let you define the shape of data so your editor warns you before you make mistakes.
-
-```ts
-// Without TypeScript (JavaScript)
-function greet(user) { return user.name; } // What is "user"? Who knows.
-
-// With TypeScript
-type User = { name: string; age: number };
-function greet(user: User) { return user.name; } // Crystal clear!
-```
-
----
-
-### Data Fetching — GraphQL + Apollo Client
-
-**GraphQL** is a query language for APIs. Instead of hitting many REST endpoints, you write a single query describing exactly what data you need.
-
-```graphql
-# REST approach: 3 separate requests
-GET /products
-GET /products/1/images
-GET /products/1/categories
-
-# GraphQL approach: 1 request asking for exactly what you need
-query {
-  product(id: "1") {
-    name
-    price
-    image { sourceUrl }
-    productCategories { nodes { name } }
-  }
-}
-```
-
-**Apollo Client** is the library that manages GraphQL queries in React. It handles:
-- Sending queries to the server
-- Caching the results so you don't re-fetch the same data
-- Exposing the data via the `useQuery` hook in your components
-
-This app connects to **WPGraphQL** — a WordPress plugin that exposes all WordPress/WooCommerce data as a GraphQL API.
-
----
-
-### State Management — React Context + Zustand
-
-**State** = data that can change and that components need to share.
-
-**React Context API** is React's built-in solution for sharing state between many components without "prop drilling" (passing props down many levels).
-
-```
-App (has the cart data)
-  └── Header (needs cart count)
-        └── CartBadge (needs cart count)
-              └── Number (needs cart count)
-```
-Without Context you'd pass `cartCount` as a prop at every level. With Context, any component can read it directly.
-
-**Zustand** is a simpler, lighter alternative to Redux for state management. This app uses it for the cart store, with `persist` middleware to automatically save/restore cart data from `localStorage`.
-
----
-
-### Styling — SCSS + Mantine UI
-
-**SCSS** (Sass) is CSS with superpowers: variables, nesting, mixins (reusable style blocks), and more.
-
-```scss
-// Plain CSS
-.header { background: #fff; }
-.header .nav { display: flex; }
-
-// SCSS — cleaner nesting + variables
-$white: #fff;
-.header {
-  background: $white;
-  .nav { display: flex; }
-}
-```
-
-**Mantine UI** is a React component library used for complex UI pieces like the image carousel on the product page.
-
----
-
-## How data flows through the app
-
-Here is the big picture of how data travels from WordPress to the user's screen:
-
-```
-WordPress CMS (hosted on SiteGround)
-        │
-        │  WPGraphQL plugin exposes GraphQL API
-        ▼
-https://master.shamanicca.com/graphql
-        │
-        │  Apollo Client sends queries (from Next.js build or browser)
-        ▼
-Next.js (hosted on Vercel)
-        │
-        ├── getStaticProps (runs at BUILD TIME on the server)
-        │     └── Fetches products + blog posts + banners
-        │           → passes them as props to the page component
-        │
-        ├── useQuery (runs in the BROWSER after page loads)
-        │     └── Re-fetches fresh data client-side
-        │           → updates the page without a full reload
-        │
-        └── Page component renders HTML → User sees the page
-```
-
-### Cart and Wishlist data flow (client-side only)
-
-```
-User clicks "Add to Cart"
-        │
-        ▼
-CartProvider (React Context)
-        │
-        ▼
-localStorage (browser storage — persists when page refreshes)
-        │
-        ▼
-useCart() hook — any component can read/update cart
-        │
-        ▼
-Header shows badge count, Cart page shows items
-```
-
----
-
-## Project structure explained
-
-```
-shamanicca-web-app/
-│
-├── public/                  ← Static files served directly (images, favicons)
-│   └── images/              ← SVG icons and the site logo
-│
-├── src/
-│   │
-│   ├── pages/               ← Every file here = a URL route
-│   │   ├── _app.tsx         ← Root wrapper (providers, global styles, analytics)
-│   │   ├── _document.tsx    ← Custom HTML shell (meta tags, favicons)
-│   │   ├── index.tsx        ← Homepage (/)
-│   │   ├── shop/
-│   │   │   ├── index.tsx    ← Shop landing (/shop)
-│   │   │   └── [category].tsx ← Dynamic: /shop/women, /shop/men, etc.
-│   │   ├── products/
-│   │   │   └── [slug].tsx   ← Dynamic: /products/my-product-name
-│   │   ├── blog/
-│   │   │   ├── index.tsx    ← Blog listing (/blog)
-│   │   │   └── [slug].tsx   ← Dynamic: /blog/my-post-title
-│   │   ├── cart.tsx         ← Cart page (/cart)
-│   │   ├── wishlist.tsx     ← Wishlist page (/wishlist)
-│   │   ├── search.tsx       ← Search results (/search)
-│   │   └── api/             ← Serverless API routes (like Express endpoints)
-│   │       ├── contact.ts   ← POST /api/contact → sends email via Resend
-│   │       ├── newsletter.ts← POST /api/newsletter → Mailchimp signup
-│   │       ├── shop/
-│   │       │   ├── categories.ts  ← GET /api/shop/categories
-│   │       │   └── products.ts    ← GET /api/shop/products
-│   │       └── blog/
-│   │           └── categories.ts  ← GET /api/blog/categories
-│   │
-│   ├── components/          ← Reusable UI pieces (Atomic Design pattern)
-│   │   ├── atoms/           ← Smallest pieces: Button, GoTop, CookieConsent
-│   │   ├── molecules/       ← Medium pieces: ProductCard, NewsletterModal
-│   │   ├── organisms/       ← Large pieces: Header, Footer
-│   │   └── sections/        ← Full page sections: Hero, ProductsGrid, BlogGrid
-│   │
-│   ├── lib/                 ← Core logic and integrations
-│   │   ├── graphql/
-│   │   │   ├── apolloClient.ts  ← Sets up the Apollo Client instance
-│   │   │   ├── queries.ts       ← All GraphQL query definitions
-│   │   │   └── utils.ts         ← Helper: picks the best image size from WP
-│   │   ├── context/
-│   │   │   ├── cart.tsx         ← Cart state (React Context)
-│   │   │   ├── wishlist.tsx     ← Wishlist state (React Context)
-│   │   │   └── cookieConsent.tsx← Cookie consent state
-│   │   ├── store/
-│   │   │   └── cart.ts          ← Cart state (Zustand version — alternative)
-│   │   └── api/
-│   │       ├── woocommerce.ts   ← WooCommerce REST API fallback client
-│   │       ├── stripe.ts        ← Stripe checkout (legacy)
-│   │       └── wp.ts            ← WordPress utility functions
-│   │
-│   ├── styles/              ← SCSS stylesheets
-│   │   ├── globals.scss     ← Reset, body, utility classes
-│   │   ├── variables.scss   ← Colors, spacing, breakpoints as SCSS variables
-│   │   ├── mixins.scss      ← Reusable SCSS blocks (e.g., responsive media queries)
-│   │   ├── typography.scss  ← Font sizes, weights, text utilities
-│   │   ├── components/      ← Per-component SCSS (header.scss, button.scss, etc.)
-│   │   └── pages/           ← Per-page SCSS (home.scss, product.scss, etc.)
-│   │
-│   ├── types/               ← TypeScript type/interface definitions
-│   │   └── global.d.ts      ← Ambient declarations (e.g., SCSS modules)
-│   │
-│   └── utils/               ← Pure helper functions
-│       ├── constants.ts     ← App-wide constants
-│       ├── html.ts          ← cleanExcerpt(), decodeEntities() for WP content
-│       ├── navigation.ts    ← Nav link definitions
-│       ├── dom.ts           ← Browser DOM helpers (useBodyClass hook)
-│       └── mockProducts.ts  ← Fallback data for development
-│
-├── scripts/                 ← Shell scripts for setup tasks
-├── .env.example             ← Template for environment variables
-├── next.config.js           ← Next.js configuration
-├── tsconfig.json            ← TypeScript configuration
-└── package.json             ← Dependencies and scripts
-```
-
----
-
-## Key concepts for the interview
-
-### 1. Atomic Design Pattern
-
-Components in this project follow **Atomic Design** — a system that organizes UI into layers from simplest to most complex:
-
-| Level | What it is | Example here |
-|---|---|---|
-| **Atom** | Single-purpose, no dependencies | `Button.tsx`, `GoTop.tsx` |
-| **Molecule** | 2–3 atoms combined | `ProductCard.tsx`, `Breadcrumb.tsx` |
-| **Organism** | Complex, self-contained section | `Header.tsx`, `Footer.tsx` |
-| **Section** | Full page content area | `Hero.tsx`, `ProductsGrid.tsx`, `BlogGrid.tsx` |
-
----
-
-### 2. Static Site Generation with ISR (Incremental Static Regeneration)
-
-The homepage uses `getStaticProps` with `revalidate`:
-
-```ts
-export const getStaticProps: GetStaticProps = async () => {
-  // This runs on the SERVER at build time (and every 5 minutes after)
-  const products = await fetchProducts();
-  return {
-    props: { products },
-    revalidate: 300, // Re-generate this page every 300 seconds (5 min)
-  };
-};
-```
-
-**What this means:**
-- At build time, Next.js pre-renders the homepage HTML with fresh data
-- The static HTML is served instantly to every user (super fast)
-- After 5 minutes, the next visitor triggers a background refresh
-- No user ever waits — they always get the cached version while Next.js updates it silently
-
----
-
-### 3. Dynamic Routes
-
-Pages with square brackets `[slug].tsx` are **dynamic routes**. Next.js uses `getStaticPaths` to pre-generate them:
-
-```ts
-// src/pages/products/[slug].tsx
-export async function getStaticPaths() {
-  const slugs = await getAllProductSlugs(); // ["t-shirt", "hoodie", ...]
-  return {
-    paths: slugs.map((s) => ({ params: { slug: s } })),
-    fallback: 'blocking', // Generate unknown slugs on-demand
-  };
-}
-```
-
----
-
-### 4. React Context API pattern
-
-Every Context in this app follows the same 3-part pattern:
-
-```ts
-// 1. CREATE the context
-const CartContext = React.createContext<CartContextValue | undefined>(undefined);
-
-// 2. CREATE the Provider (wraps children, manages state)
-export function CartProvider({ children }) {
-  const [items, setItems] = useState([]);
-  // ... state logic ...
-  return <CartContext.Provider value={{ items, addItem, removeItem }}>
-    {children}
-  </CartContext.Provider>;
-}
-
-// 3. CREATE a custom hook (safe way to consume the context)
-export function useCart() {
-  const ctx = useContext(CartContext);
-  if (!ctx) throw new Error('useCart must be used inside CartProvider');
-  return ctx;
-}
-```
-
-Usage anywhere in the app:
-```ts
-function Header() {
-  const { items } = useCart(); // No prop drilling!
-  return <span>{items.length} items</span>;
-}
-```
-
----
-
-### 5. API Routes (Serverless Functions)
-
-Files in `src/pages/api/` are **serverless API endpoints** — they run on the server, not the browser. This is how the contact form works without exposing API keys:
-
-```ts
-// src/pages/api/contact.ts
-// This runs on the SERVER — the user never sees the Resend API key
-export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
-  const { name, email, message } = req.body;
-  await resend.emails.send({ to: 'hello@shamanicca.com', ... });
-  res.status(200).json({ ok: true });
-}
-```
-
----
-
-### 6. localStorage for persistence
-
-The cart and wishlist survive page reloads because they are saved to the browser's `localStorage`:
-
-```ts
-// Save
-localStorage.setItem('shamanicca-cart', JSON.stringify(items));
-
-// Restore on page load
-const saved = localStorage.getItem('shamanicca-cart');
-const items = saved ? JSON.parse(saved) : [];
-```
-
-**Important:** `localStorage` only exists in the browser, not on the server. This is why there is a `hydrated` flag — components wait until the browser has loaded the data before showing cart counts, to avoid "flash" mismatches between server HTML and client state.
-
----
-
-### 7. SEO — Structured Data (Schema.org / JSON-LD)
-
-Search engines like Google can read structured data to better understand pages. This app adds JSON-LD scripts to pages:
-
-```ts
-const productSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Product',
-  name: product.name,
-  offers: { '@type': 'Offer', price: product.price },
-};
-// Rendered as: <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
-```
-
----
-
-### 8. Google Analytics Consent Mode v2
-
-The app loads GA4 but **blocks data collection by default** until the user accepts cookies:
-
-```ts
-// FIRST: set defaults to denied (before GA script loads)
-gtag('consent', 'default', { analytics_storage: 'denied' });
-
-// THEN: load GA script (it respects the denied state)
-<Script src="https://www.googletagmanager.com/gtag/js?id=..." />
-
-// LATER: when user accepts cookies
-gtag('consent', 'update', { analytics_storage: 'granted' });
-```
-
-This makes the app compliant with GDPR (European privacy law).
-
----
-
-## Environment variables
-
-Create a `.env.local` file (never commit this to git):
+**Prerequisites:** Node.js (a current LTS) and npm. You'll also need access to a WordPress/WooCommerce backend exposing GraphQL, and the API keys listed under [Environment variables](#environment-variables).
 
 ```bash
-cp .env.example .env.local
-```
-
-| Variable | Where it's used | Public? |
-|---|---|---|
-| `NEXT_PUBLIC_GRAPHQL_URL` | Apollo Client endpoint | Yes (browser) |
-| `NEXT_PUBLIC_SITE_URL` | SEO meta tags, schema.org | Yes (browser) |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Google Analytics | Yes (browser) |
-| `NEXT_PUBLIC_GA_ENABLED` | Toggle analytics on/off | Yes (browser) |
-| `WORDPRESS_API_URL` | Server-side WP REST calls | No (server only) |
-| `RESEND_API_KEY` | Contact form emails | No (server only) |
-| `SMTP_HOST/PORT/USER/PASSWORD` | Alternative email | No (server only) |
-
-> **Rule of thumb:** Any variable starting with `NEXT_PUBLIC_` is sent to the browser and visible to users. Never put secrets (API keys, passwords) in `NEXT_PUBLIC_` variables.
-
----
-
-## Scripts
-
-```bash
-npm run dev       # Start development server at http://localhost:3000
-npm run build     # Build for production
-npm run start     # Run the production build locally
-npm run lint      # Check code style with ESLint
-npm run typecheck # Check TypeScript types (no output files)
-npm run test      # Run unit tests with Vitest
-npm run setup     # Initial project setup script
-```
-
----
-
-## Getting started locally
-
-```bash
-# 1. Clone the repo
-git clone <repo-url>
+# 1. Clone
+git clone https://github.com/maubayuelo/shamanicca-ecommerce-graphQL.git
 cd web-app-graphql
 
 # 2. Install dependencies
 npm install
 
-# 3. Set up environment variables
+# 3. Create your local env file (see the next section)
 cp .env.example .env.local
-# Edit .env.local with your actual values
+# then edit .env.local with your real values
 
-# 4. Start the dev server
+# 4. Run the dev server
 npm run dev
-# Open http://localhost:3000
 ```
+
+The dev server starts at `http://localhost:3000`.
+
+> **Heads-up on `.env.example`:** it is currently out of date for email — it lists SendGrid/SMTP variables, but the app actually uses **Resend**. Use the [Environment variables](#environment-variables) table below as the source of truth until `.env.example` is corrected. This is a known issue on the [Roadmap](#roadmap).
 
 ---
 
-## Deployment (Vercel)
+## Environment variables
 
-This app is deployed on **Vercel** — the company that created Next.js, so they work perfectly together.
+Copy `.env.example` to `.env.local` and fill in your values. `.env.local` is git-ignored and must never be committed.
 
-```bash
-# 1. Push code to GitHub
-git push origin main
+The table below reflects what the **code actually reads**. Where it disagrees with `.env.example`, trust the table.
 
-# 2. In Vercel dashboard:
-#    - Import the GitHub repository
-#    - Set all environment variables (from .env.local)
-#    - Vercel auto-detects Next.js and builds it
+| Variable | Required | What it's for |
+|---|---|---|
+| `NEXT_PUBLIC_GRAPHQL_URL` | Yes | GraphQL endpoint the app queries |
+| `NEXT_PUBLIC_GRAPHQL_ENDPOINT` | Yes | GraphQL endpoint (secondary/config use) |
+| `NEXT_PUBLIC_SITE_URL` | Yes | This app's own public URL (canonicals, SEO) |
+| `NEXT_PUBLIC_WC_STORE_URL` | Yes | WooCommerce store base URL |
+| `NEXT_PUBLIC_WP_CHECKOUT_URL` | Yes | Where shoppers are redirected to pay |
+| `WORDPRESS_API_URL` | Yes | WordPress API base (server-side) |
+| `RESEND_API_KEY` | Yes (contact form) | Resend API key — powers the contact form |
+| `RESEND_FROM` | Yes (contact form) | "From" address for contact-form email |
+| `CONTACT_EMAIL` | Yes (contact form) | "To" address that receives contact-form email |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Optional | Google Analytics 4 measurement ID |
+| `NEXT_PUBLIC_GA_ENABLED` | Optional | Toggle GA on/off |
+| `SENTRY_DSN` | Optional | Error reporting (Sentry), if used |
+| `NODE_ENV` / `PORT` | Optional | Standard Node runtime settings |
 
-# 3. Every push to main triggers an automatic re-deploy
+> **Not used by the code:** `SENDGRID_API_KEY`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`. These appear in the current `.env.example` but the app reads none of them — the contact form is Resend-based. They'll be removed when `.env.example` is fixed.
+
+---
+
+## Project structure
+
+```
+src/
+├── components/          # UI, organized atomic-design style
+│   ├── atoms/           #   smallest pieces (buttons, inputs…)
+│   ├── molecules/       #   small groups of atoms
+│   └── organisms/       #   larger sections (Header, galleries…)
+├── lib/
+│   ├── context/
+│   │   └── cart.tsx     # the cart — React Context (see note below)
+│   ├── graphql/
+│   │   ├── queries.ts   # GraphQL queries
+│   │   └── types.ts     # TypeScript shapes for query responses
+│   └── api/
+│       └── woocommerce.ts  # WooCommerce REST helper (used on the home page)
+├── pages/               # Next.js Pages Router — each file is a route
+│   ├── api/             #   server-side API routes (e.g. contact form)
+│   ├── shop/
+│   ├── blog/
+│   └── products/
+├── styles/              # SCSS
+└── utils/
+
+scripts/                 # setup.sh (run via `npm run setup`)
 ```
 
-**How Vercel works with Next.js:**
-- Static pages (with `getStaticProps`) → deployed as pre-built HTML files on a CDN
-- Dynamic pages and API routes → deployed as serverless functions
-- ISR pages → static HTML that auto-refreshes after the `revalidate` seconds
+> **Cart — one implementation, not two.** The cart is a single React Context in `src/lib/context/cart.tsx`, consumed via a `useCart()` hook and provided at the app root. (Earlier versions of this project experimented with a Zustand store; that was removed. If you see Zustand referenced anywhere, it's stale — Context is the one and only cart.)
+
+---
+
+## Key concepts (for newcomers)
+
+New to this stack? Here's the short version of the ideas that matter most in this codebase.
+
+**Headless WordPress.** WordPress normally renders its own pages. Here it doesn't — it only serves *data* (products, posts) through an API. This Next.js app is the "head" that reads that data and renders the actual website. The two are decoupled, so the front end can be rebuilt without touching the backend.
+
+**GraphQL + Apollo Client.** REST gives you fixed endpoints that return fixed blobs of data. GraphQL lets the app ask for *exactly* the fields it needs in one request. Apollo Client is the library that sends those queries and caches the results. One thing to know if you touch queries: in Apollo Client 4, `client.query()` returns `unknown` unless you give it a type — `client.query<MyResponseType>(...)`. The response shapes live in `src/lib/graphql/types.ts`; add to that file rather than reaching for `any`.
+
+**Atomic design.** Components are grouped by size and reusability: *atoms* (a button), *molecules* (a labelled input), *organisms* (a whole header). Build from small to large; keep the small ones dumb and reusable.
+
+**Client-side cart.** The cart and wishlist aren't on a server — they're in the browser's `localStorage`. This keeps the storefront simple and fast, and means the app doesn't need its own database. The trade-off: the cart is per-device, and it's cleared server-side only at checkout, when WooCommerce takes over.
+
+**Consent-gated analytics.** Google Analytics runs under Consent Mode v2 — tracking respects the shopper's consent choice rather than firing unconditionally.
+
+---
+
+## Available scripts
+
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the local dev server (`localhost:3000`) |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Run ESLint (via `next lint`) |
+| `npm run typecheck` | Type-check with `tsc --noEmit` |
+| `npm run test` | **Placeholder — no tests exist yet** (see [Roadmap](#roadmap)) |
+| `npm run setup` | Run `scripts/setup.sh` |
+
+> `npm run test` is wired to Vitest but there are **no test files yet**, so it currently exits without running anything. Don't rely on it as a check until the suite is in place.
 
 ---
 
 ## Contributing
 
-- Branch from `main` for all features
-- Run `npm run lint && npm run typecheck && npm run test` before opening a PR
-- Include screenshots for any UI changes
+Current, honest state of the checks:
+
+- `npm run lint` — **passes** (exit 0). It reports ~100 pre-existing warnings (mostly `@typescript-eslint/no-explicit-any`) and **0 errors**. The warnings are a known cleanup backlog, not a blocker.
+- `npm run typecheck` — **passes clean** (0 errors).
+- `npm run build` — **passes** (generates all static pages).
+- `npm run test` — no tests yet; see above.
+
+Before opening a PR, run `npm run lint` and `npm run typecheck` and make sure you haven't *added* new errors. Please don't introduce new `any` types — if you're typing a GraphQL response, add the shape to `src/lib/graphql/types.ts`.
+
+There is no CI enforcing this automatically **yet** — it's on the [Roadmap](#roadmap). Until then, these checks are on the honor system.
 
 ---
 
-## License
+## AI-assisted development
 
-Private — all rights reserved.
+This repo carries a curated, version-pinned set of **14 agent skills** (in `.agents/skills/`, e.g. `deploy-to-vercel`, `vercel-react-best-practices`, `web-design-guidelines`) with their sources and content hashes locked in `skills-lock.json`, so AI-assisted work stays reproducible. `.claude/skills/` holds symlinks into the same set for Claude Code's discovery path — same skills, one source of truth. These are curated third-party skills, pinned like any other dependency.
+
+---
+
+## Roadmap
+
+Known gaps and planned work, so nothing here is a surprise:
+
+- **CI pipeline** — add GitHub Actions to run lint / typecheck / build (and tests, once they exist) on every push and PR, then add a status badge here.
+- **Test suite** — add real Vitest tests so `npm run test` stops being a placeholder.
+- **Tailwind migration** — refactor the SCSS layer to Tailwind with a design-token system. This is a prerequisite for planned checkout work.
+- **Fix `.env.example`** — declare the Resend variables (`RESEND_API_KEY`, `RESEND_FROM`, `CONTACT_EMAIL`) and remove the unused SendGrid/SMTP keys.
+- **Lint cleanup** — work through the ~100 existing warnings (largely `no-explicit-any`).
+- **Remove dead code** — `src/lib/api/stripe.ts` is no longer imported anywhere and can be deleted.
+
+---
+
+## Changelog
+
+See [`CHANGELOG.md`](./CHANGELOG.md). Latest entry: **`0.1.0` (2025-12-18)** — initial public storefront scaffolding.
