@@ -6,7 +6,7 @@ A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **
 
 This app is the public-facing website. It shows products, a blog, a shopping cart, and a wishlist, and it hands the actual payment step off to WordPress / WooCommerce by redirecting the shopper there to complete checkout. Content — both products and blog articles — lives in WordPress and is read over GraphQL.
 
-> **Status:** the app builds and runs. Linting and type-checking pass. A GitHub Actions CI pipeline runs lint, typecheck, tests, and build on every push and pull request, and a Vitest suite (20 tests) covers the cart context. Test coverage is not measured yet — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
+> **Status:** the app builds and runs. Linting and type-checking pass. A GitHub Actions CI pipeline runs lint, typecheck, and tests on every push and pull request (build is intentionally excluded — see [Continuous integration](#continuous-integration)), and a Vitest suite (20 tests) covers the cart context. Test coverage is not measured yet — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
 
 ---
 
