@@ -6,7 +6,7 @@ A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **
 
 This app is the public-facing website. It shows products, a blog, a shopping cart, and a wishlist, and it hands the actual payment step off to WordPress / WooCommerce by redirecting the shopper there to complete checkout. Content — both products and blog articles — lives in WordPress and is read over GraphQL.
 
-> **Status:** the app builds and runs. Linting and type-checking pass. A GitHub Actions CI pipeline runs lint, typecheck, tests, and build on every push and pull request, and a Vitest suite (20 tests) covers the cart context. Test coverage is not measured yet — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
+> **Status:** the app builds and runs. Linting and type-checking pass. A GitHub Actions CI pipeline runs lint, typecheck, and tests on every push and pull request (build is intentionally excluded — see [Continuous integration](#continuous-integration)), and a Vitest suite (20 tests) covers the cart context. Test coverage is not measured yet — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
 
 ---
 
@@ -126,15 +126,13 @@ npm run dev
 
 The dev server starts at `http://localhost:3000`.
 
-> **Heads-up on `.env.example`:** it is currently out of date for email — it lists SendGrid/SMTP variables, but the app actually uses **Resend**. Use the [Environment variables](#environment-variables) table below as the source of truth until `.env.example` is corrected. This is a known issue on the [Roadmap](#roadmap).
-
 ---
 
 ## Environment variables
 
 Copy `.env.example` to `.env.local` and fill in your values. `.env.local` is git-ignored and must never be committed.
 
-The table below reflects what the **code actually reads**. Where it disagrees with `.env.example`, trust the table.
+The table below mirrors `.env.example`, which matches what the code actually reads.
 
 | Variable | Required | What it's for |
 |---|---|---|
@@ -142,17 +140,25 @@ The table below reflects what the **code actually reads**. Where it disagrees wi
 | `NEXT_PUBLIC_GRAPHQL_ENDPOINT` | Yes | GraphQL endpoint (secondary/config use) |
 | `NEXT_PUBLIC_SITE_URL` | Yes | This app's own public URL (canonicals, SEO) |
 | `NEXT_PUBLIC_WC_STORE_URL` | Yes | WooCommerce store base URL |
-| `NEXT_PUBLIC_WP_CHECKOUT_URL` | Yes | Where shoppers are redirected to pay |
+| `NEXT_PUBLIC_WP_BASE_URL` | Optional | WordPress base URL (client-side use) |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Optional | Google Analytics 4 measurement ID |
+| `NEXT_PUBLIC_GA_ENABLED` | Optional | Toggle GA on/off |
+| `GRAPHQL_ENDPOINT` | Yes | GraphQL endpoint (server-side reads) |
 | `WORDPRESS_API_URL` | Yes | WordPress API base (server-side) |
+| `WC_STORE_URL` | Yes | WooCommerce store base URL (server-side) |
+| `WC_CONSUMER_KEY` | Yes (WooCommerce API) | WooCommerce REST API consumer key |
+| `WC_CONSUMER_SECRET` | Yes (WooCommerce API) | WooCommerce REST API consumer secret |
+| `WP_HOME_SLUG` | Optional | WordPress homepage slug |
+| `WP_SITE_SETTINGS_SLUG` | Optional | WordPress site-settings slug |
+| `WP_HTTP_AUTH_USER` | Optional | HTTP basic-auth username (protected WP env) |
+| `WP_HTTP_AUTH_PASS` | Optional | HTTP basic-auth password (protected WP env) |
 | `RESEND_API_KEY` | Yes (contact form) | Resend API key — powers the contact form |
 | `RESEND_FROM` | Yes (contact form) | "From" address for contact-form email |
 | `CONTACT_EMAIL` | Yes (contact form) | "To" address that receives contact-form email |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Optional | Google Analytics 4 measurement ID |
-| `NEXT_PUBLIC_GA_ENABLED` | Optional | Toggle GA on/off |
-| `SENTRY_DSN` | Optional | Error reporting (Sentry), if used |
+| `MAILCHIMP_API_KEY` | Yes (newsletter) | Mailchimp API key — powers newsletter signup |
+| `MAILCHIMP_AUDIENCE_ID` | Yes (newsletter) | Mailchimp audience/list ID |
+| `MAILCHIMP_SERVER` | Yes (newsletter) | Mailchimp server prefix (e.g. `us10`) |
 | `NODE_ENV` / `PORT` | Optional | Standard Node runtime settings |
-
-> **Not used by the code:** `SENDGRID_API_KEY`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`. These appear in the current `.env.example` but the app reads none of them — the contact form is Resend-based. They'll be removed when `.env.example` is fixed.
 
 ---
 
@@ -247,22 +253,19 @@ The follow-up is to make build-time data fetching degrade gracefully so the buil
 ## AI-assisted development
 
 This repo carries a curated, version-pinned set of **14 agent skills** (in `.agents/skills/`, e.g. `deploy-to-vercel`, `vercel-react-best-practices`, `web-design-guidelines`) with their sources and content hashes locked in `skills-lock.json`, so AI-assisted work stays reproducible. `.claude/skills/` holds symlinks into the same set for Claude Code's discovery path — same skills, one source of truth. These are curated third-party skills, pinned like any other dependency.
-
 ---
 
 ## Roadmap
-
 Known gaps and planned work, so nothing here is a surprise:
-
-- **Tailwind migration** — refactor the SCSS layer to Tailwind with a design-token system. This is a prerequisite for planned checkout work.
-- **Fix `.env.example`** — declare the Resend variables (`RESEND_API_KEY`, `RESEND_FROM`, `CONTACT_EMAIL`) and remove the unused SendGrid/SMTP keys.
-- **Lint cleanup** — work through the ~100 existing warnings (largely `no-explicit-any`).
-- **Remove dead code** — `src/lib/api/stripe.ts` is no longer imported anywhere and can be deleted.
-- **Measure test coverage** — `@vitest/coverage-v8` isn't installed yet; add it and wire up `npm run test:coverage`.
-- **Gate lint on warnings** — once the cleanup pass above lands, tighten CI to `next lint --max-warnings 0`.
-- **Upgrade Vitest** — move from 1.6 to the current major (4) once there's time to handle any breaking config changes.
-- **Make build-time data fetching resilient** — graceful fallback when the GraphQL API is unreachable or returns non-JSON, so `next build` can't be broken by an upstream challenge page — would allow re-adding build to CI.
-
+- Tailwind migration — refactor the SCSS layer to Tailwind with a design-token system. This is a prerequisite for planned checkout work.
+- Fix .env.example — declare the Resend variables (RESEND_API_KEY, RESEND_FROM, CONTACT_EMAIL) and remove the unused SendGrid/SMTP keys.
+- Lint cleanup — work through the ~100 existing warnings (largely no-explicit-any).
+- Remove dead code — src/lib/api/stripe.ts is no longer imported anywhere and can be deleted.
+- Measure test coverage — @vitest/coverage-v8 isn't installed yet; add it and wire up npm run test:coverage.
+- Gate lint on warnings — once the cleanup pass above lands, tighten CI to next lint --max-warnings 0.
+- Upgrade Vitest — move from 1.6 to the current major (4) once there's time to handle any breaking config changes.
+- Make build-time data fetching resilient — graceful fallback when the GraphQL API is unreachable or returns non-JSON, so next build can't be broken by an upstream challenge page — would allow re-adding build to CI.
+- Migrate off `next lint` — it's deprecated and removed in Next.js 16; move to the ESLint CLI (`npx @next/codemod@canary next-lint-to-eslint-cli .`) before that upgrade, or the lint gate silently stops running.
 ---
 
 ## Changelog
