@@ -265,6 +265,7 @@ Known gaps and planned work, so nothing here is a surprise:
 - Gate lint on warnings — once the cleanup pass above lands, tighten CI to next lint --max-warnings 0.
 - Upgrade Vitest — move from 1.6 to the current major (4) once there's time to handle any breaking config changes.
 - Make build-time data fetching resilient — graceful fallback when the GraphQL API is unreachable or returns non-JSON, so next build can't be broken by an upstream challenge page — would allow re-adding build to CI.
+- Migrate off `next lint` — it's deprecated and removed in Next.js 16; move to the ESLint CLI (`npx @next/codemod@canary next-lint-to-eslint-cli .`) before that upgrade, or the lint gate silently stops running.
 ---
 
 ## Changelog
