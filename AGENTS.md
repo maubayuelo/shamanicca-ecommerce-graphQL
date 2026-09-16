@@ -51,7 +51,7 @@ The build is verified by the Vercel preview attached to every PR.
 
 A passing `dev` server is not evidence of anything. For any change that alters
 what the user sees, the gates are necessary but not sufficient — visual
-confirmation is required.
+confirmation is required — see `docs/VISUAL-VERIFICATION.md`.
 
 CI (`.github/workflows/ci.yml`, job `verify`) runs the same three gates on push
 to `main`, on PRs targeting `main`, and on `workflow_dispatch`. Pushing a
