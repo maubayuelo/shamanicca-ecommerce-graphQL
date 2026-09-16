@@ -1,10 +1,11 @@
 # AGENTS.md
 
 Instructions for AI coding agents working in this repository.
-Read this file first. Keep it short — it is loaded every session.
+Read this file first. Keep it short — it is loaded into every session through
+the `@AGENTS.md` import in `CLAUDE.md`, whose harness load-check line must stay
+intact.
 
 For the human-facing project explanation, see `README.md`.
-For the in-flight Tailwind migration, see `docs/MIGRATION-TAILWIND.md`.
 
 ---
 
@@ -14,41 +15,48 @@ Shamanicca — headless e-commerce storefront. Next.js reads WordPress/WooCommer
 through WPGraphQL. Checkout hands off to WooCommerce. Cart and wishlist are
 client-only, persisted to `localStorage`.
 
-Production: https://shamanicca-ecommerce.vercel.app
 GraphQL endpoint: `https://master.shamanicca.com/graphql`
+Deployed on Vercel from `main`.
 
 ---
 
 ## Stack
 
-| Layer | Choice | Version |
-|---|---|---|
-| Framework | Next.js, **Pages Router** (`src/pages/`) | 15.5 |
-| Runtime | React | 18.3.1 |
-| Language | TypeScript | 5.x |
-| Data | Apollo Client + `graphql-request` → WPGraphQL | 4.0 / 7.2 |
-| Styling | SCSS (being migrated to Tailwind) | sass 1.89 |
-| Components | Mantine (carousel only) | 8.3.6 |
-| Tests | Vitest + Testing Library + jsdom | 1.6.1 |
-| Deploy | Vercel | — |
+Next.js (**Pages Router**) · React 18 · TypeScript · Apollo Client +
+`graphql-request` → WPGraphQL · SCSS (`sass`) · Vitest + Testing Library + jsdom.
+
+Exact versions live in `package.json`; the Node version lives in `.nvmrc` and
+drives CI. Read those rather than trusting a number written here.
 
 **Pages Router, not App Router.** Do not introduce `app/`, Server Components,
 `use client`, or server actions. If a task seems to need them, stop and ask.
 
 ---
 
-## Commands
+## Commands and the completion gate
 
 ```bash
 npm run dev        # localhost:3000
-npm run build      # production build — the real correctness gate
 npm run typecheck  # tsc --noEmit
 npm run lint       # next lint
 npm run test       # vitest
+npm run build      # production build — NOT the completion gate, see below
 ```
 
-Before declaring any task complete: `npm run typecheck && npm run build`.
-A passing `dev` server is not sufficient evidence.
+**Completion gate:** `npm run lint && npm run typecheck && npm run test`.
+
+Do not run `npm run build` as proof of correctness. `next build` fetches the
+live WPGraphQL endpoint, which is bot-protected and unreliable outside Vercel.
+The build is verified by the Vercel preview attached to every PR.
+
+A passing `dev` server is not evidence of anything. For any change that alters
+what the user sees, the gates are necessary but not sufficient — visual
+confirmation is required.
+
+CI (`.github/workflows/ci.yml`, job `verify`) runs the same three gates on push
+to `main`, on PRs targeting `main`, and on `workflow_dispatch`. Pushing a
+feature branch alone runs nothing. Lint fails on errors only; warnings are not
+gated (see Known debt).
 
 ---
 
@@ -62,33 +70,45 @@ src/
 │   ├── molecules/  2–3 atoms
 │   ├── organisms/  Header, Footer — self-contained, stateful
 │   └── sections/   Full page bands: Hero, ProductsGrid, BlogGrid
+├── hooks/
 ├── lib/
-│   ├── graphql/    apolloClient.ts, queries.ts, utils.ts
+│   ├── graphql/    apolloClient.ts, queries.ts, types.ts, utils.ts
 │   ├── context/    cart, wishlist, cookieConsent
 │   └── api/        woocommerce.ts, wp.ts, stripe.ts (legacy)
-├── styles/         SCSS — migration target
-├── types/
+├── styles/         SCSS
+├── test/
+├── types/          Ambient/global declarations only — see type rule below
 └── utils/          Pure functions only
 ```
 
 **Placement rule:** a new component goes in the lowest layer that fits.
 If it imports another component, it is not an atom.
 
+**Type location:** WPGraphQL response shapes go in `src/lib/graphql/types.ts`.
+`src/types/` is for ambient and global declarations only — never query shapes.
+
 ---
 
 ## Conventions
 
-- Named exports for components. Default export only for pages.
-- Props typed with an explicit `interface`, declared above the component.
-- Do not use `any`. If a WPGraphQL shape is unknown, add it to `src/types/`.
-- WordPress HTML goes through `isomorphic-dompurify`, never straight into
-  `dangerouslySetInnerHTML`. Excerpt cleanup lives in `utils/html.ts`.
+- **Exports.** New components use named exports; pages keep a default export.
+  Every existing component uses `export default` — do not convert them. An
+  export change is a public API change; see hard rule 1.
+- **Props** are typed with `type XProps = { ... }` declared above the component.
+  This codebase uses `type`, not `interface`.
+- **Do not use `any`.** Type WPGraphQL shapes in `src/lib/graphql/types.ts`.
+- **WordPress HTML** must pass through `isomorphic-dompurify` before reaching
+  `dangerouslySetInnerHTML`. No call site does this yet (see Known debt) —
+  apply it in new code. Excerpt cleanup lives in `utils/html.ts`.
 - Anything touching `localStorage` must guard for SSR and respect the
   `hydrated` flag pattern. Reading storage during render causes hydration
   mismatch — this has already broken the cart badge once.
 - Analytics stays behind Consent Mode v2. Never fire `gtag` before consent.
 - New env vars: add to `.env.example` with a comment. `NEXT_PUBLIC_` means
   the browser can read it — no secrets.
+- **Commits** follow Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`,
+  `ci:`, `test:`, optional scope). One responsibility per commit — two changes
+  in the same file are still two commits if they are two concerns.
 
 ---
 
@@ -104,20 +124,32 @@ Do not, without an explicit instruction saying so:
 4. **Migrate frameworks or add dependencies.** Propose first, wait.
 5. **Read `package-lock.json`.** It is large and tells you nothing.
 6. **Edit `.env.local`** or print secret values.
-7. **Commit** unless asked. Stage and describe the diff instead.
+7. **Commit.** Stage and describe the diff instead.
+8. **Write any file during a READ or analysis task** — a report included.
+   Findings go in the conversation. If a destination path is wanted, you will
+   be given one.
+9. **Touch anything under Known debt**, or any unrelated problem you notice
+   while working. Report it and continue with the assigned scope. This includes
+   pre-existing `any`, default exports, and unused dependencies.
 
 ---
 
 ## Known debt
 
-Flag these if you touch nearby code. Do not fix them opportunistically.
-
-- **`@types/react` is ^19 while `react` is 18.3.1.** Type errors from this
+- **All components use `export default`.** The named-export convention above
+  applies to new components only.
+- **~100 lint warnings**, mostly `@typescript-eslint/no-explicit-any`, and a
+  `@types/react` ^19 against `react` 18.3.1 mismatch. Type errors from that
   mismatch are pre-existing, not caused by your change.
-- **`lib/api/stripe.ts` is legacy.** Checkout goes through WooCommerce.
-- **Mantine is used for one thing** — the product page carousel. `embla-carousel-react`
-  is already a direct dependency; drop Mantine as part of the SCSS→Tailwind
-  migration, not as a standalone change.
+- **`isomorphic-dompurify` is installed but imported nowhere**, while 10+ files
+  inject raw WordPress HTML through `dangerouslySetInnerHTML`. Tracked as its
+  own task.
+- **`@mantine/*` and `embla-carousel-react` are declared dependencies but unused**
+  in `src`. The product gallery is a hand-rolled scroll carousel.
+- **`src/lib/api/stripe.ts` is legacy** and imported nowhere. Checkout goes
+  through WooCommerce.
+- **`src/styles/globals.css` contains `@tailwind` directives** but Tailwind is
+  not installed and nothing imports the file. Dead code, not migration state.
 
 ---
 
@@ -135,6 +167,7 @@ Flag these if you touch nearby code. Do not fix them opportunistically.
 
 ## Current focus
 
-Migrating SCSS → Tailwind CSS. Read `docs/MIGRATION-TAILWIND.md` before
-touching anything in `src/styles/` or any `className`. The migration has
-phases and gates; do not skip ahead.
+No migration is in progress. The SCSS → Tailwind migration is planned but has
+not started: Tailwind is not installed, there is no config, and PostCSS
+registers only `autoprefixer`. Do not begin it, install Tailwind, or create a
+config without an explicit instruction.
