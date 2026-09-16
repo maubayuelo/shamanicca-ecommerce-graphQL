@@ -26,6 +26,7 @@ import '../styles/pages/product.scss';
 import '../styles/pages/about.scss';
 import '../styles/pages/cart.scss';
 import '../styles/pages/wishlist.scss';
+import '../styles/tailwind.css';
 import { Poppins } from 'next/font/google';
 import { CartProvider } from '../lib/context/cart';
 import { WishlistProvider } from '../lib/context/wishlist';
