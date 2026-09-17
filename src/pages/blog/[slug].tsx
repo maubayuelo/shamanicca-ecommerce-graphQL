@@ -210,8 +210,8 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
         publishedAt={post.date}
         jsonLd={articleSchema}
       />
-      <div className="min-h-screen flex flex-col">
-        <main className="flex-1 container mx-auto px-4 py-8">
+      <div>
+        <main>
           <Header />
 
           <div className="main">

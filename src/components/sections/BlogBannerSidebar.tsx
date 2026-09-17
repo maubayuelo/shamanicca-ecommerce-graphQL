@@ -31,7 +31,7 @@ export default function BlogBannerSidebar({
         <Image src={imageUrl} alt={title || ''} width={180} height={180} />
       </div>
       <div className="blog-sidebar__banner-body">
-        <div className="flex flex-col gap-[3px]">
+        <div>
           {title && <div className="type-xl type-extrabold">{title}</div>}
           {subtitle && <div className="type-md mb-xm-responsive">{subtitle}</div>}
           {isAffilliated && (

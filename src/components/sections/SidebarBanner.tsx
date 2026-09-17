@@ -13,8 +13,8 @@ export default function SidebarBanner({ banner, className = '' }: Props) {
       <div className="blog-sidebar__banner-image">
         <Image src={banner.banner_image} alt={banner.banner_headline} width={180} height={180} />
       </div>
-      <div className="blog-sidebar__banner-body">
-        <div className="flex flex-col gap-[3px]">
+      <div>
+        <div className="">
           <div className="type-xl type-extrabold">{banner.banner_headline}</div>
           {banner.banner_subtext && (
             <div className="type-md mb-xm-responsive">{banner.banner_subtext}</div>
