@@ -132,8 +132,8 @@ export default function Home({ hero, blogItems, products: productsSSR, banners }
         ogType="website"
         jsonLd={[organizationSchema, webSiteSchema]}
       />
-      <div className="min-h-screen flex flex-col">
-        <main className="flex-1 container mx-auto px-4 py-8">
+      <div>
+        <main>
           <Header />
           <Hero />
           

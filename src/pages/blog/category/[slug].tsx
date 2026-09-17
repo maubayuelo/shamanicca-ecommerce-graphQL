@@ -61,8 +61,8 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
       <Head>
         <title>{name ? `${decodeEntities(name)} — Blog` : 'Blog Category'} — Shamanicca</title>
       </Head>
-      <div className="min-h-screen flex flex-col">
-        <main className="flex-1 container mx-auto px-4 py-8">
+      <div>
+        <main>
           <Header />
           <div className="main">
             <div className="blog-layout mt-lg-responsive mb-xl-responsive">

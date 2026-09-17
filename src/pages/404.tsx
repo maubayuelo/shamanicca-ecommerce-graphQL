@@ -29,9 +29,9 @@ export default function NotFoundPage() {
       <Head>
         <title>404 - Page Not Found — Shamanicca</title>
       </Head>
-      <div className="min-h-screen flex flex-col">
+      <div>
         <Header />
-        <main className="flex-1 container mx-auto px-4 py-8">
+        <main>
           <div className="main">
             <div className="mt-lg-responsive mb-lg-responsive type-center">
               <h1 className="type-5xl type-extrabold mb-md-responsive">404</h1>
@@ -39,7 +39,7 @@ export default function NotFoundPage() {
               <p className="type-lg type-medium type-gray-60 mb-lg-responsive">
                 The page you're looking for doesn't exist or has been moved.
               </p>
-              <div className="flex gap-md justify-center">
+              <div>
                 <Link href="/" className="btn btn-primary mr-30">
                   Shop
                 </Link>

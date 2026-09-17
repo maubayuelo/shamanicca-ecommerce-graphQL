@@ -67,8 +67,8 @@ export default function CategoryPage({ category, categoryName, products }: Props
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/shop/${category}`}
         ogType="website"
       />
-      <div className="min-h-screen flex flex-col">
-        <main className="flex-1 container mx-auto px-4 py-8">
+      <div>
+        <main>
           <Header />
           <StoreSubHeader categoryTitle={title} subCategoryTitle={subTitle} />
           <ProductListing

@@ -68,8 +68,8 @@ export default function BlogPage({ posts, topReads, magicalPractices }: PageProp
         canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}/blog`}
         ogType="website"
       />
-      <div className="min-h-screen flex flex-col">
-        <main className="flex-1 container mx-auto px-4 py-8">
+      <div>
+        <main>
           <Header />
           <BlogMainPage posts={posts} topReads={topReads} magicalPractices={magicalPractices} />
           <Footer />
