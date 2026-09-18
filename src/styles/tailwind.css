@@ -7,7 +7,12 @@
 @layer theme, utilities;
 
 @import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
+/* source("../") restricts scanning to src/, replacing Tailwind's default
+   scan root (the project directory). Without it, class names appearing as
+   prose in .agents/skills/ Markdown compile into real CSS. @source would
+   only ADD a path, not replace the root — see the compiler's separate
+   root/sources handling. */
+@import "tailwindcss/utilities" layer(utilities) source("../");
 
 @theme {
   /* Breakpoints — Tailwind defaults, adopted deliberately.
