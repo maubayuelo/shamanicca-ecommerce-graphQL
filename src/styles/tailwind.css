@@ -7,4 +7,72 @@
 @layer theme, utilities;
 
 @import "tailwindcss/theme" layer(theme);
-@import "tailwindcss/utilities" layer(utilities);
+/* source("../") restricts scanning to src/, replacing Tailwind's default
+   scan root (the project directory). Without it, class names appearing as
+   prose in .agents/skills/ Markdown compile into real CSS. @source would
+   only ADD a path, not replace the root — see the compiler's separate
+   root/sources handling. */
+@import "tailwindcss/utilities" layer(utilities) source("../");
+
+@theme {
+  /* Breakpoints — Tailwind defaults, adopted deliberately.
+  Replaces the SCSS 600/601/1024/1400/1600 scale. */
+  --breakpoint-sm:  40rem;   /* 640  */
+  --breakpoint-md:  48rem;   /* 768  */
+  --breakpoint-lg:  64rem;   /* 1024 */
+  --breakpoint-xl:  80rem;   /* 1280 */
+  --breakpoint-2xl: 96rem;   /* 1536 */
+
+  /* Brand — lossless conversions of the SCSS hex values. Only three steps
+  exist; other numbers are intentionally undefined. */
+  --color-primary-100: oklch(92.4% 0.041 294.8);  /* was #e7e1ff */
+  --color-primary-500: oklch(58.4% 0.232 279.2);  /* was #675dff */
+  --color-primary-800: oklch(35.8% 0.184 282.3);  /* was #371b97 */
+
+  /* Sale badges. Lossless conversion of #ea3323. Adopting Tailwind's
+  red palette is queued as a separate, deliberate change. */
+  --color-highlighted-500: oklch(61.1% 0.220 29.8);
+
+  /* Neutrals — chroma 0, genuinely neutral. Renumbered sequentially from
+  the SCSS gray-10…gray-90. NOTE: lighter than Tailwind's defaults at
+  the same names. 900/950 had no SCSS equivalent and take Tailwind's
+  neutral values (also chroma 0, so the ramp stays neutral throughout). */
+  --color-gray-50:  oklch(97.9% 0 none);
+  --color-gray-100: oklch(95.5% 0 none);
+  --color-gray-200: oklch(93.1% 0 none);
+  --color-gray-300: oklch(89.1% 0 none);
+  --color-gray-400: oklch(80.8% 0 none);
+  --color-gray-500: oklch(73.2% 0 none);
+  --color-gray-600: oklch(65.3% 0 none);
+  --color-gray-700: oklch(57.3% 0 none);
+  --color-gray-800: oklch(48.9% 0 none);
+  --color-gray-900: oklch(20.5% 0 none);
+  --color-gray-950: oklch(14.5% 0 none);
+
+  /* Spacing stays on Tailwind's default 4px scale. These three values from
+  the SCSS system cannot be expressed on it exactly. Temporary — retire
+  once each call site is checked against p-4/p-6/p-11 (within 1–3px). */
+  --spacing-legacy-15: 0.9375rem;   /* 15px — was $spacing-15 */
+  --spacing-legacy-25: 1.5625rem;   /* 25px — was $spacing-25 */
+  --spacing-legacy-45: 2.8125rem;   /* 45px — was $spacing-45 */
+
+  /* Type scale — mobile-first. These are the phone/tablet values; desktop
+  sizes are applied with md:/lg: variants in markup. xs–xl are identical
+  across all breakpoints and need no variants. NOTE: text-5xl is 32px
+  here, not Tailwind's default 48px. */
+  --text-xs:   0.75rem;   --text-xs--line-height:   1.125rem;  /* 12/18 */
+  --text-sm:   0.875rem;  --text-sm--line-height:   1.25rem;   /* 14/20 */
+  --text-base: 1rem;      --text-base--line-height: 1.5rem;    /* 16/24 */
+  --text-lg:   1.125rem;  --text-lg--line-height:   1.625rem;  /* 18/26 */
+  --text-xl:   1.25rem;   --text-xl--line-height:   1.75rem;   /* 20/28 */
+  --text-2xl:  1.375rem;  --text-2xl--line-height:  2rem;      /* 22/32 */
+  --text-3xl:  1.5rem;    --text-3xl--line-height:  2.25rem;   /* 24/36 */
+  --text-4xl:  1.75rem;   --text-4xl--line-height:  2.5rem;    /* 28/40 */
+  --text-5xl:  2rem;      --text-5xl--line-height:  2.75rem;   /* 32/44 */
+
+  /* Weights — only these three are loaded by next/font (Poppins 400/600/900).
+  NOTE: the SCSS class .type-bold renders 600 (semibold), not 700. */
+  --font-weight-normal:   400;
+  --font-weight-semibold: 600;
+  --font-weight-black:    900;
+}
