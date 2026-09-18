@@ -302,20 +302,20 @@ export default function Header() {
               ))}
             </nav>
           </div>
-          <div className="header__actions">
-            <button aria-label="search" className="header__action_btn" onClick={toggleSearch}>
-              <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="header__action_icon" />
+          <div className="flex items-center gap-legacy-15">
+            <button aria-label="search" className="bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60" onClick={toggleSearch}>
+              <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="size-6" />
             </button>
-            <Link href="/wishlist" aria-label="Wishlist" className="header__action_btn header__action_cart">
-              <Image src="/images/icon-heart.svg" alt="Wishlist" width={24} height={24} className="header__action_icon" />
+            <Link href="/wishlist" aria-label="Wishlist" className="relative inline-flex items-center no-underline bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60">
+              <Image src="/images/icon-heart.svg" alt="Wishlist" width={24} height={24} className="size-6" />
               {wishlistHydrated && wishlistCount > 0 && (
-                <span className="header__cart_badge type-bold" aria-label={`Wishlist items: ${wishlistCount}`}>{wishlistCount}</span>
+                <span className="type-bold absolute -top-2 -right-2 min-w-4.5 h-4.5 p-0 rounded-[9px] [background:var(--color-primary-500)] text-white text-[11px] leading-4.5 text-center" aria-label={`Wishlist items: ${wishlistCount}`}>{wishlistCount}</span>
               )}
             </Link>
-            <Link href="/cart" aria-label="cart" className="header__action_btn header__action_cart">
-              <Image src="/images/icon-shopping-bag.svg" alt="Cart" width={24} height={24} className="header__action_icon" />
+            <Link href="/cart" aria-label="cart" className="relative inline-flex items-center no-underline bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60">
+              <Image src="/images/icon-shopping-bag.svg" alt="Cart" width={24} height={24} className="size-6" />
               {cartHydrated && cartCount > 0 && (
-                <span className="header__cart_badge type-bold" aria-label={`Cart items: ${cartCount}`}>{cartCount}</span>
+                <span className="type-bold absolute -top-2 -right-2 min-w-4.5 h-4.5 p-0 rounded-[9px] [background:var(--color-primary-500)] text-white text-[11px] leading-4.5 text-center" aria-label={`Cart items: ${cartCount}`}>{cartCount}</span>
               )}
             </Link>
             <button
@@ -328,7 +328,7 @@ export default function Header() {
                 alt={mobileOpen ? 'Close menu' : 'Open menu'}
                 width={28}
                 height={28}
-                className="header__mobile_icon"
+                className="size-6"
               />
             </button>
           </div>
