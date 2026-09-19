@@ -257,20 +257,20 @@ export default function Header() {
 
   return (
     <Fragment>
-    <header ref={headerRef} className="header header__sticky">
+    <header ref={headerRef} className="header sticky top-0 z-[1000] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
       {/* <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
       </div> */}
 
 
-      <div className="main"> <div className="header__main">
+      <div className="main"> <div className="flex items-center justify-between p-2.5 xl:p-0">
         
 
           
-          <Link href="/" className="header__logo">
-            <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="header__logo" priority />
+          <Link href="/" className="flex">
+            <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="h-[1.8rem] w-auto cursor-pointer" priority />
           </Link>
-          <div className="header__container">
+          <div className="h-fit">
             <nav className="header__nav" aria-label="Main navigation">
               {computedNav.map((item) => (
                 <div key={item.id} className="header__nav_item_wrapper">
@@ -337,7 +337,8 @@ export default function Header() {
         </div>
       </div>
 
-      <hr />
+      {/* ! overrides the unlayered hr rule in globals.scss; remove it once globals.scss is migrated. */}
+      <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]!" />
 
       <div className={`header__mobile_menu ${mobileOpen ? 'is-open' : ''}`}>
         <nav ref={mobileNavRef} className="header__mobile_nav pb-sm-responsive" aria-label="Mobile navigation">
