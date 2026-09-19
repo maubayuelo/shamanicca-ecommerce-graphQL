@@ -271,25 +271,26 @@ export default function Header() {
             <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="h-[1.8rem] w-auto cursor-pointer" priority />
           </Link>
           <div className="h-fit">
-            <nav className="header__nav" aria-label="Main navigation">
+            {/* ! overrides unlayered .hidden/ul rules in helpers.scss/typography.scss and link colors in button.scss; remove it once those styles are migrated. */}
+            <nav className="hidden h-full xl:flex! font-[family-name:var(--font-main)]" aria-label="Main navigation">
               {computedNav.map((item) => (
-                <div key={item.id} className="header__nav_item_wrapper">
-                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold`}>
+                <div key={item.id} className="header__nav_item_wrapper group relative flex items-center hover:bg-gray-200 focus:bg-gray-200">
+                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-[0.9375rem] leading-none text-black no-underline cursor-pointer hover:text-primary-500! focus:text-primary-500!`}>
                     {item.label}
                   </Link>
                   
                   {item.children && item.children.length > 0 && (
-                    <div className="header__dropdown pt-10 pb-10" role="menu" aria-label={`${item.label} subcategories`}>
-                      <ul className="">
+                    <div className="pt-10 pb-10 absolute left-0 top-full z-40 mt-0 min-w-45 hidden [.group:hover_&]:block! group-focus-within:block! rounded-b-md bg-gray-200" role="menu" aria-label={`${item.label} subcategories`}>
+                      <ul className="list-none m-0 p-0! rounded-b-md">
                         {item.children.map((child) => (
-                          <li key={child.id} className="header__dropdown_item">
+                          <li key={child.id} className="p-0 m-0">
                             <Link
                               href={
                                 item.id === 'blog' && (child as any).href
                                   ? (child as any).href
                                   : `/shop/${child.id}`
                               }
-                              className="type-md type-bold"
+                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-[#111]! no-underline hover:text-primary-500!"
                             >
                               {child.label}
                             </Link>
