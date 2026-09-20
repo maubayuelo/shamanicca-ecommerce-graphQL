@@ -257,39 +257,40 @@ export default function Header() {
 
   return (
     <Fragment>
-    <header ref={headerRef} className="header header__sticky">
+    <header ref={headerRef} className="header sticky top-0 z-[1000] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
       {/* <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
       </div> */}
 
 
-      <div className="main"> <div className="header__main">
+      <div className="main"> <div className="flex items-center justify-between p-2.5 xl:p-0">
         
 
           
-          <Link href="/" className="header__logo">
-            <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="header__logo" priority />
+          <Link href="/" className="flex">
+            <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="h-[1.8rem] w-auto cursor-pointer" priority />
           </Link>
-          <div className="header__container">
-            <nav className="header__nav" aria-label="Main navigation">
+          <div className="h-fit">
+            {/* ! overrides unlayered .hidden/ul rules in helpers.scss/typography.scss and link colors in button.scss; remove it once those styles are migrated. */}
+            <nav className="hidden h-full xl:flex! font-[family-name:var(--font-main)]" aria-label="Main navigation">
               {computedNav.map((item) => (
-                <div key={item.id} className="header__nav_item_wrapper">
-                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold`}>
+                <div key={item.id} className="header__nav_item_wrapper group relative flex items-center hover:bg-gray-200 focus:bg-gray-200">
+                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-[0.9375rem] leading-none text-black no-underline cursor-pointer hover:text-primary-500! focus:text-primary-500!`}>
                     {item.label}
                   </Link>
                   
                   {item.children && item.children.length > 0 && (
-                    <div className="header__dropdown pt-10 pb-10" role="menu" aria-label={`${item.label} subcategories`}>
-                      <ul className="">
+                    <div className="pt-10 pb-10 absolute left-0 top-full z-40 mt-0 min-w-45 hidden [.group:hover_&]:block! group-focus-within:block! rounded-b-md bg-gray-200" role="menu" aria-label={`${item.label} subcategories`}>
+                      <ul className="list-none m-0 p-0! rounded-b-md">
                         {item.children.map((child) => (
-                          <li key={child.id} className="header__dropdown_item">
+                          <li key={child.id} className="p-0 m-0">
                             <Link
                               href={
                                 item.id === 'blog' && (child as any).href
                                   ? (child as any).href
                                   : `/shop/${child.id}`
                               }
-                              className="type-md type-bold"
+                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-[#111]! no-underline hover:text-primary-500!"
                             >
                               {child.label}
                             </Link>
@@ -302,25 +303,25 @@ export default function Header() {
               ))}
             </nav>
           </div>
-          <div className="header__actions">
-            <button aria-label="search" className="header__action_btn" onClick={toggleSearch}>
-              <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="header__action_icon" />
+          <div className="flex items-center gap-legacy-15">
+            <button aria-label="search" className="bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60" onClick={toggleSearch}>
+              <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="size-6" />
             </button>
-            <Link href="/wishlist" aria-label="Wishlist" className="header__action_btn header__action_cart">
-              <Image src="/images/icon-heart.svg" alt="Wishlist" width={24} height={24} className="header__action_icon" />
+            <Link href="/wishlist" aria-label="Wishlist" className="relative inline-flex items-center no-underline bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60">
+              <Image src="/images/icon-heart.svg" alt="Wishlist" width={24} height={24} className="size-6" />
               {wishlistHydrated && wishlistCount > 0 && (
-                <span className="header__cart_badge type-bold" aria-label={`Wishlist items: ${wishlistCount}`}>{wishlistCount}</span>
+                <span className="type-bold absolute -top-2 -right-2 min-w-4.5 h-4.5 p-0 rounded-[9px] [background:var(--color-primary-500)] text-white text-[11px] leading-4.5 text-center" aria-label={`Wishlist items: ${wishlistCount}`}>{wishlistCount}</span>
               )}
             </Link>
-            <Link href="/cart" aria-label="cart" className="header__action_btn header__action_cart">
-              <Image src="/images/icon-shopping-bag.svg" alt="Cart" width={24} height={24} className="header__action_icon" />
+            <Link href="/cart" aria-label="cart" className="relative inline-flex items-center no-underline bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60">
+              <Image src="/images/icon-shopping-bag.svg" alt="Cart" width={24} height={24} className="size-6" />
               {cartHydrated && cartCount > 0 && (
-                <span className="header__cart_badge type-bold" aria-label={`Cart items: ${cartCount}`}>{cartCount}</span>
+                <span className="type-bold absolute -top-2 -right-2 min-w-4.5 h-4.5 p-0 rounded-[9px] [background:var(--color-primary-500)] text-white text-[11px] leading-4.5 text-center" aria-label={`Cart items: ${cartCount}`}>{cartCount}</span>
               )}
             </Link>
             <button
               aria-label="Toggle mobile menu"
-              className="header__mobile_toggle"
+              className="inline-block xl:hidden bg-transparent border-0"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               <Image
@@ -328,7 +329,7 @@ export default function Header() {
                 alt={mobileOpen ? 'Close menu' : 'Open menu'}
                 width={28}
                 height={28}
-                className="header__mobile_icon"
+                className="size-6"
               />
             </button>
           </div>
@@ -337,26 +338,28 @@ export default function Header() {
         </div>
       </div>
 
-      <hr />
+      {/* ! overrides the unlayered hr rule in globals.scss; remove it once globals.scss is migrated. */}
+      <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]!" />
 
-      <div className={`header__mobile_menu ${mobileOpen ? 'is-open' : ''}`}>
-        <nav ref={mobileNavRef} className="header__mobile_nav pb-sm-responsive" aria-label="Mobile navigation">
+      <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
+        {/* ! overrides unlayered ul padding in typography.scss and anchor colors in button.scss; remove it once those styles are migrated. */}
+        <nav ref={mobileNavRef} className="pb-sm-responsive bg-white" aria-label="Mobile navigation">
           {computedNav.map((item) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = mobileExpandedId === item.id;
             return (
-              <div key={item.id} className="mobile__item">
-                <div className="mobile__row">
+              <div key={item.id} className="border-b border-b-gray-200">
+                <div className="flex items-center justify-between p-legacy-15">
                   <Link
                     href={item.href}
-                    className="mobile__link type-bold"
+                    className="type-bold text-black! no-underline flex-1"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}
                   </Link>
                   {hasChildren && (
                     <button
-                      className="mobile__toggle"
+                      className="bg-transparent border-0 cursor-pointer text-xl leading-none py-0 px-1.25 text-black shrink-0 [&:hover]:text-primary-500"
                       aria-expanded={isExpanded}
                       aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${item.label} menu`}
                       onClick={() => toggleMobileSubmenu(item.id)}
@@ -366,11 +369,12 @@ export default function Header() {
                   )}
                 </div>
                 {hasChildren && isExpanded && (
-                  <ul className="mobile__subnav">
+                  <ul className="list-none pt-0 pr-legacy-15 pb-legacy-15 pl-7.5! m-0 bg-gray-50">
                     {item.children!.map((child: any) => (
-                      <li key={child.id} className="mobile__subnav_item">
+                      <li key={child.id} className="py-1.5 px-0">
                         <Link
                           href={item.id === 'blog' && child.href ? child.href : `/shop/${child.id}`}
+                          className="text-[#333]! no-underline [&:hover]:text-primary-500!"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
@@ -388,13 +392,13 @@ export default function Header() {
 
     {/* Search Overlay (moved outside header to layer beneath it) */}
     <div
-      className={`header__search ${searchOpen ? 'is-open' : ''}`}
+      className={`header__search fixed left-0 top-[var(--header-height,_64px)] bg-black p-legacy-15 w-[calc(100%-30px)] z-[900] overflow-hidden [transition:max-height_0.25s_ease,opacity_0.2s_ease,transform_0.25s_ease] ${searchOpen ? 'max-h-65 opacity-100 [transform:translateY(0)] pointer-events-auto' : 'max-h-0 opacity-0 [transform:translateY(-9px)] pointer-events-none'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="header-search-title"
       onClick={closeSearchOnBackdrop}
     >
-      <div className="header__search_inner" role="document">
+      <div className="mx-auto text-white flex flex-row justify-between w-full max-w-150 items-start md:items-center" role="document">
         <h2 id="header-search-title" className="visually-hidden">Site search</h2>
         <form className="header__search_form form--condensed" role="search" aria-label="Site search" onSubmit={handleSearchSubmit}>
           <div className="header__search_field">
@@ -423,9 +427,9 @@ export default function Header() {
           </fieldset>
         </form>
 
-        <div className="header__search_header">
-          <button aria-label="Close search" className="header__search_close" onClick={() => setSearchOpen(false)}>
-            <Image src="/images/icon-close.svg" alt="Close" width={20} height={20} />
+        <div className="block w-fit float-right">
+          <button aria-label="Close search" className="bg-transparent border-0 cursor-pointer p-0 ml-legacy-15 size-legacy-15" onClick={() => setSearchOpen(false)}>
+            <Image src="/images/icon-close.svg" alt="Close" width={20} height={20} className="size-legacy-15 invert" />
           </button>
         </div>
       </div>
