@@ -321,7 +321,7 @@ export default function Header() {
             </Link>
             <button
               aria-label="Toggle mobile menu"
-              className="header__mobile_toggle"
+              className="inline-block xl:hidden bg-transparent border-0"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               <Image
@@ -341,24 +341,25 @@ export default function Header() {
       {/* ! overrides the unlayered hr rule in globals.scss; remove it once globals.scss is migrated. */}
       <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]!" />
 
-      <div className={`header__mobile_menu ${mobileOpen ? 'is-open' : ''}`}>
-        <nav ref={mobileNavRef} className="header__mobile_nav pb-sm-responsive" aria-label="Mobile navigation">
+      <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
+        {/* ! overrides unlayered ul padding in typography.scss and anchor colors in button.scss; remove it once those styles are migrated. */}
+        <nav ref={mobileNavRef} className="pb-sm-responsive bg-white" aria-label="Mobile navigation">
           {computedNav.map((item) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = mobileExpandedId === item.id;
             return (
-              <div key={item.id} className="mobile__item">
-                <div className="mobile__row">
+              <div key={item.id} className="border-b border-b-gray-200">
+                <div className="flex items-center justify-between p-legacy-15">
                   <Link
                     href={item.href}
-                    className="mobile__link type-bold"
+                    className="type-bold text-black! no-underline flex-1"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}
                   </Link>
                   {hasChildren && (
                     <button
-                      className="mobile__toggle"
+                      className="bg-transparent border-0 cursor-pointer text-xl leading-none py-0 px-1.25 text-black shrink-0 [&:hover]:text-primary-500"
                       aria-expanded={isExpanded}
                       aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${item.label} menu`}
                       onClick={() => toggleMobileSubmenu(item.id)}
@@ -368,11 +369,12 @@ export default function Header() {
                   )}
                 </div>
                 {hasChildren && isExpanded && (
-                  <ul className="mobile__subnav">
+                  <ul className="list-none pt-0 pr-legacy-15 pb-legacy-15 pl-7.5! m-0 bg-gray-50">
                     {item.children!.map((child: any) => (
-                      <li key={child.id} className="mobile__subnav_item">
+                      <li key={child.id} className="py-1.5 px-0">
                         <Link
                           href={item.id === 'blog' && child.href ? child.href : `/shop/${child.id}`}
+                          className="text-[#333]! no-underline [&:hover]:text-primary-500!"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
