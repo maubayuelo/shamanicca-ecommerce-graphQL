@@ -392,13 +392,13 @@ export default function Header() {
 
     {/* Search Overlay (moved outside header to layer beneath it) */}
     <div
-      className={`header__search ${searchOpen ? 'is-open' : ''}`}
+      className={`header__search fixed left-0 top-[var(--header-height,_64px)] bg-black p-legacy-15 w-[calc(100%-30px)] z-[900] overflow-hidden [transition:max-height_0.25s_ease,opacity_0.2s_ease,transform_0.25s_ease] ${searchOpen ? 'max-h-65 opacity-100 [transform:translateY(0)] pointer-events-auto' : 'max-h-0 opacity-0 [transform:translateY(-9px)] pointer-events-none'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="header-search-title"
       onClick={closeSearchOnBackdrop}
     >
-      <div className="header__search_inner" role="document">
+      <div className="mx-auto text-white flex flex-row justify-between w-full max-w-150 items-start md:items-center" role="document">
         <h2 id="header-search-title" className="visually-hidden">Site search</h2>
         <form className="header__search_form form--condensed" role="search" aria-label="Site search" onSubmit={handleSearchSubmit}>
           <div className="header__search_field">
@@ -427,9 +427,9 @@ export default function Header() {
           </fieldset>
         </form>
 
-        <div className="header__search_header">
-          <button aria-label="Close search" className="header__search_close" onClick={() => setSearchOpen(false)}>
-            <Image src="/images/icon-close.svg" alt="Close" width={20} height={20} />
+        <div className="block w-fit float-right">
+          <button aria-label="Close search" className="bg-transparent border-0 cursor-pointer p-0 ml-legacy-15 size-legacy-15" onClick={() => setSearchOpen(false)}>
+            <Image src="/images/icon-close.svg" alt="Close" width={20} height={20} className="size-legacy-15 invert" />
           </button>
         </div>
       </div>

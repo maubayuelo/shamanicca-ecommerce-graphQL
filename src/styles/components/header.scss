@@ -35,64 +35,6 @@
 /* Search overlay */
 :root { --header-height: 64px; } // fallback, overwritten by JS
 .header {
-    &__search {
-        // Fixed panel emerging from under the sticky header
-        position: fixed;
-        left: 0;
-        top: var(--header-height, 64px);
-        
-        background: $black;
-        padding: $spacing-15 $spacing-15;
-        width: calc(100% - $spacing-30);
-        z-index: 900; // below the sticky header (header z-index is 1000)
-        overflow: hidden;
-        // hidden state
-        max-height: 0;
-        opacity: 0;
-        transform: translateY(-9px);
-        pointer-events: none;
-        // animation
-        transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.25s ease;
-
-        &.is-open {
-            max-height: 260px; // enough to reveal form content
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        &_inner {
-            margin: 0 auto;
-            color: $white;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 600px;
-            align-items: flex-start;
-            @media (min-width: 768px){
-                align-items: center;
-            }
-        }
-
-        &_header {
-            display: block;
-            width: fit-content;
-            float: right;
-        }
-
-        &_close {
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 15px;
-            width: $spacing-15;
-            height: $spacing-15;
-            img { height: 15px; width: 15px; filter: invert(1); }
-        }
-    }
-
     /* Utility for a11y labels (scoped to header to avoid global leaks) */
     .visually-hidden {
         position: absolute !important;
@@ -103,7 +45,7 @@
     }
 }
 
-/* Also apply visually-hidden rules inside the search overlay context */
+/* Retained for the scoped search accessibility hook; deduplication is outside this step. */
 .header__search .visually-hidden {
     position: absolute !important;
     height: 1px; width: 1px;
