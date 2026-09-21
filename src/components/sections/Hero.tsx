@@ -97,13 +97,14 @@ export default function Hero() {
           </div>
 
           <div className="hero__media fade-in">
+            {/* On desktop the landscape source is cover-cropped into a square container, so the rendered image is wider than the slot and needs a larger source. */}
             <Image
               src={bgUrl}
               alt=""
               fill
               priority
               quality={90}
-              sizes="(min-width: 1024px) 55vw, 100vw"
+              sizes="(min-width: 1024px) 90vw, 100vw"
               className="hero__media-img"
             />
           </div>

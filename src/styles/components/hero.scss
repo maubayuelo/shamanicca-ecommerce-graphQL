@@ -2,14 +2,16 @@
 @use "../mixins" as *;
 
 .hero {
-    --hero-image-ratio: 4 / 5;
+    // Sources are landscape; 5:3 on stacked layouts crops almost nothing,
+    // while 1:1 on desktop keeps the image balanced beside the text.
+    --hero-image-ratio: 1 / 1;
     width: 100%;
     display: flex;
     align-items: center;
     min-height: 75dvh;
     @include media-desktop-up {
        min-height: 75dvh;
-       padding: $spacing-30 0 0;
+       padding: $spacing-30 0;
     }
 
     &__grid {
@@ -62,17 +64,27 @@
     &__media {
         order: 1;
         position: relative;
+        box-sizing: border-box;
         width: 100%;
-        aspect-ratio: 4 / 5;
-        max-height: 50dvh;
+        aspect-ratio: 1 / 1;              // phones: square
+        max-height: 50svh;
         overflow: hidden;
         border: 1px solid $gray-40;
         @include responsive-border-radius;
 
+        @media (min-width: 768px) {
+            aspect-ratio: 5 / 3;          // tablet portrait: landscape
+        }
+
         @include media-desktop-up {
             order: 2;
             aspect-ratio: var(--hero-image-ratio);
-            max-height: calc(100dvh - var(--header-height, 64px));
+            // Fixed offset, not --header-height: that variable is the header's
+            // viewport-bottom coordinate and changes as the banner scrolls away,
+            // which made this container grow on scroll. 106px = header (46px) +
+            // hero top padding (30px) + bottom gap (30px). Update if the header
+            // height changes.
+            max-height: calc(100svh - 106px);
         }
     }
 
