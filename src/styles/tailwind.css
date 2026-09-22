@@ -79,6 +79,9 @@
   /* Cookie consent bar entrance. */
   --animate-cookie-slide-up: cookie-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 
+  --animate-modal-fade-in: modal-fade-in 0.25s ease both;
+  --animate-modal-slide-up: modal-slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+
   @keyframes cookie-slide-up {
     from {
       opacity: 0;
@@ -88,5 +91,15 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes modal-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes modal-slide-up {
+    from { opacity: 0; transform: translateY(32px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
 }

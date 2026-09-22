@@ -82,17 +82,17 @@ export default function NewsletterModal() {
   if (!visible) return null;
 
   return (
-    <div className="newsletter-modal" role="dialog" aria-modal="true" aria-label="Subscribe to our newsletter">
-      <button className="newsletter-modal__backdrop" onClick={dismiss} aria-label="Close" />
-      <div className="newsletter-modal__card">
-        <button className="newsletter-modal__close" onClick={dismiss} aria-label="Close">✕</button>
+    <div className="fixed inset-0 z-[9500] flex items-end justify-center animate-modal-fade-in sm:items-center" role="dialog" aria-modal="true" aria-label="Subscribe to our newsletter">
+      <button className="absolute inset-0 size-full bg-black/55 border-0 cursor-pointer" onClick={dismiss} aria-label="Close" />
+      <div className="relative bg-white w-full max-w-120 rounded-t-3xl pt-legacy-45 px-7.5 pb-7.5 animate-modal-slide-up sm:rounded-3xl sm:py-15 sm:px-legacy-45">
+        <button className="absolute top-legacy-15 right-legacy-15 size-8 rounded-full border border-gray-200 bg-white text-gray-700 text-[14px] cursor-pointer flex items-center justify-center [transition:background_0.15s,color_0.15s] hover:bg-gray-50 hover:text-black" onClick={dismiss} aria-label="Close">✕</button>
 
-        <div className="newsletter-modal__body">
-          <div className="newsletter-modal__eyebrow type-sm type-bold type-uppercase">New drops & offers</div>
-          <h2 className="newsletter-modal__title type-4xl type-extrabold">
+        <div className="flex flex-col gap-legacy-15">
+          <div className="type-sm type-bold type-uppercase text-primary-500 tracking-[0.08em]">New drops & offers</div>
+          <h2 className="type-4xl type-extrabold m-0">
             Get the<br />good stuff.
           </h2>
-          <p className="newsletter-modal__desc type-md">
+          <p className="type-md m-0 text-gray-700 max-w-[36ch]">
             Product drops, sacred knowledge and juicy updates. No spam — just things worth reading.
           </p>
 
@@ -102,10 +102,10 @@ export default function NewsletterModal() {
               <p className="type-md">Welcome to the Shamanicca community.</p>
             </div>
           ) : (
-            <NewsletterForm className="newsletter-modal__form" />
+            <NewsletterForm className="mt-1.25 [&_.newsletter-form]:gap-2.5!" />
           )}
 
-          <button className="newsletter-modal__skip type-sm" onClick={dismiss}>
+          <button className="type-sm bg-transparent border-0 p-0 text-gray-500 cursor-pointer underline underline-offset-3 self-start [transition:color_0.15s] hover:text-black" onClick={dismiss}>
             No thanks
           </button>
         </div>
