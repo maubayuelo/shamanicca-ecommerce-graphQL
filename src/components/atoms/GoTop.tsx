@@ -27,10 +27,10 @@ export default function GoTop({ threshold = 300, label = 'Go to top' }: GoTopPro
     <button
       type="button"
       aria-label={label}
-      className={`go-top btn btn-primary ${visible ? 'is-visible' : ''}`}
+      className={`btn btn-primary fixed right-2.5 bottom-2.5 lg:right-7.5 lg:bottom-7.5 size-9 p-0! rounded-full! z-[1000] shadow-[0_3px_9px_rgba(0,0,0,0.5)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-100 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
       onClick={onClick}
     >
-      <img src="/images/icon-chevron-up.svg" alt="" aria-hidden="true" />
+      <img className="size-4.5 invert" src="/images/icon-chevron-up.svg" alt="" aria-hidden="true" />
     </button>
   );
 }

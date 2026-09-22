@@ -6,7 +6,6 @@
 @use "./components/hero" as *;
 @use "./components/button" as *;
 @use "./components/product-listing" as *;
-@use "./components/footer" as *;
 @use "./components/home-banners" as *;
 @use "./components/home-articles" as *;
 @use "./components/store-subheader" as *;
@@ -15,17 +14,14 @@
 @use "./components/breadcrumb" as *;
 @use "./components/blog" as *;
 @use "./components/article-share-icons" as *;
-@use "./components/go-top" as *;
 @use "./components/product-sort" as *;
 @use "./components/product-filter" as *;
 @use "./forms" as *;
-@use "./components/cookie-consent" as *;
 @use "./components/product-sticky-bar" as *;
 @use "./components/announcement-banner" as *;
 @use "./components/wp-content" as *;
 @use "./components/form-field" as *;
 @use "./components/contact-form" as *;
-@use "./components/newsletter-modal" as *;
 
 // Global SCSS (custom variables)
 :root {
