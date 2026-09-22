@@ -8,8 +8,10 @@ $color-text-base: $text-color;
 // Use the family name; next/font in _app.tsx ensures the face is loaded
 $font-family-base: "Poppins", sans-serif;
 
-body {
-    font-family: $font-family-base;
+@layer base {
+    body {
+        font-family: $font-family-base;
+    }
 }
 
 $font-weights: (
@@ -150,30 +152,51 @@ $line-heights-phone: (
     @include responsive-font-size(md);
     @include responsive-line-height(md);
 }
-.type-lg, .type-paragraph, p {
+.type-lg, .type-paragraph {
     font-family: $font-family-base;
     @include responsive-font-size(lg);
     @include responsive-line-height(lg);
+}
+@layer base {
+    p {
+        font-family: $font-family-base;
+        @include responsive-font-size(lg);
+        @include responsive-line-height(lg);
+    }
 }
 .type-xl {
     font-family: $font-family-base;
     @include responsive-font-size(xl);
     @include responsive-line-height(xl);
 }
-.type-2xl, h3  {
+.type-2xl {
     font-family: $font-family-base;
     @include responsive-font-size("2xl");
     @include responsive-line-height("2xl");
+}
+@layer base {
+    h3 {
+        font-family: $font-family-base;
+        @include responsive-font-size("2xl");
+        @include responsive-line-height("2xl");
+    }
 }
 .type-3xl{
     font-family: $font-family-base;
     @include responsive-font-size("3xl");
     @include responsive-line-height("3xl");
 }
-.type-4xl, h2 {
+.type-4xl {
     font-family: $font-family-base;
     @include responsive-font-size("4xl");
     @include responsive-line-height("4xl");
+}
+@layer base {
+    h2 {
+        font-family: $font-family-base;
+        @include responsive-font-size("4xl");
+        @include responsive-line-height("4xl");
+    }
 }
 .type-5xl {
     font-family: $font-family-base;
@@ -242,27 +265,31 @@ $line-heights-phone: (
     }
 }
 
-ul {
-    //margin-top: 0;
-    //margin-bottom: 0;
-    padding-left: 24px;
-    li {
-        margin-bottom: $spacing-10;
-        @include font-style(lg, medium, lg);
-        color: $color-text-base;
+@layer base {
+    ul {
+        //margin-top: 0;
+        //margin-bottom: 0;
+        padding-left: 24px;
+        li {
+            margin-bottom: $spacing-10;
+            @include font-style(lg, medium, lg);
+            color: $color-text-base;
+        }
     }
 }
 
 // Global heading antialiasing for improved text rendering
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+@layer base {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
 }
 
 
