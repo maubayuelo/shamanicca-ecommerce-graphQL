@@ -1,18 +1,18 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-.section-home-articles, .blog-grid {
+.blog-grid {
   display: flex;
   flex-direction: column;
   // gap: $spacing-30;
   // padding-top: $spacing-30;
   // padding-bottom: $spacing-60;
 
-  .section-title, .blog-grid__title {
+  .blog-grid__title {
     color: $text-color;
   }
 
-  .articles-grid, .blog-grid__list {
+  .blog-grid__list {
     display: grid;
     grid-template-columns: 1fr; // mobile
     gap: $spacing-30;
@@ -33,7 +33,7 @@
     }
   }
 
-  .article-card, .blog-grid__item {
+  .blog-grid__item {
     display: flex;
     flex-direction: column;
     gap: $spacing-15;
@@ -42,7 +42,7 @@
       flex-direction: row;
     }
 
-    .thumb, .blog-grid__thumb {
+    .blog-grid__thumb {
       display: block;
       width: 100%;
       max-width: 100%;
@@ -65,7 +65,7 @@
       }
     }
 
-    .info, .blog-grid__info {
+    .blog-grid__info {
       display: flex;
       flex-direction: column;
       gap: $spacing-10;
@@ -85,7 +85,7 @@
     }
   }
 
-  .section-footer, .blog-grid__footer {
+  .blog-grid__footer {
     display: flex;
     justify-content: center;
     align-items: center;
