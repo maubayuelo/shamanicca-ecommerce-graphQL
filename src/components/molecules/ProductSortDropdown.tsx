@@ -54,12 +54,12 @@ const defaultOptions: SortOption[] = [
 
 export default function ProductSortDropdown({ value = 'recent', onChange, className = '', options = defaultOptions }: ProductSortDropdownProps) {
   return (
-    <div className={`product-sort ${className}`}>
+    <div className={`inline-flex items-center ${className}`}>
       <label htmlFor="product-sort" className="visually-hidden">Sort products</label>
       <select
         id="product-sort"
         name="product-sort"
-        className="form-control form-control--condensed product-sort__select"
+        className="form-control form-control--condensed min-w-45"
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
         aria-label="Sort products"
