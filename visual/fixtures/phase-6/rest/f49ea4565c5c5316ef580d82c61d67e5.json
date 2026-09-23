@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/pages",
+    "query": {
+      "_fields": [
+        "slug,title,content,excerpt"
+      ],
+      "slug": [
+        "contact"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"slug\":\"contact\",\"title\":{\"rendered\":\"Contact Us\"},\"content\":{\"rendered\":\"<p class=\\\"type-sansserif type-bold type-sz-xsm marging-top-sm margin-bottom-sm type-center\\\">We&#8217;re a small brand and we read every message. Reach out \\u2014 we&#8217;ll get back to you within 2 business days.<\\/p>\\n\",\"protected\":false},\"excerpt\":{\"rendered\":\"<p>We&#8217;re a small brand and we read every message. Reach out \\u2014 we&#8217;ll get back to you within 2 business days.<\\/p>\\n\",\"protected\":false}}]"
+}

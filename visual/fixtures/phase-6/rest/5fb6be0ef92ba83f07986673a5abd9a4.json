@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/posts",
+    "query": {
+      "_fields": [
+        "acf"
+      ],
+      "slug": [
+        "attract-love-and-ideal-partner-agestas-sacred-codes-meditation"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"acf\":{\"video_title\":\"Attract Love And Ideal Partner \\u2014 Agesta's Sacred Codes Meditation, Shamanicca's YouTube Video.\",\"yoube_video_id\":\"2GeS58v8obE\",\"display_video\":\"1\"}}]"
+}

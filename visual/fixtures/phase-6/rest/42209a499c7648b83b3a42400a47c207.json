@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/posts",
+    "query": {
+      "_fields": [
+        "acf"
+      ],
+      "slug": [
+        "increase-self-confidence-agestas-sacred-codes-meditation"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"acf\":{\"video_title\":\"Increase Self Confidence \\u2014 Agesta's Sacred Codes Meditation, Shamanicca's YouTube Video.\",\"yoube_video_id\":\"AmSs0XM_-5w\",\"display_video\":\"1\"}}]"
+}

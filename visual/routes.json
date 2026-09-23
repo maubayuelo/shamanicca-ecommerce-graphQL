@@ -1,14 +1,20 @@
 {
+  "defaultViewports": ["375", "768", "1440"],
   "viewports": [
     { "name": "375", "width": 375, "height": 812 },
     { "name": "768", "width": 768, "height": 1024 },
+    { "name": "620", "width": 620, "height": 900 },
+    { "name": "1024", "width": 1024, "height": 768 },
+    { "name": "1366", "width": 1366, "height": 768 },
     { "name": "1440", "width": 1440, "height": 900 }
   ],
   "routes": [
     { "name": "home", "path": "/" },
     { "name": "shop", "path": "/shop" },
     { "name": "shop-category", "path": "/shop/posters" },
-    { "name": "product", "path": "/products/merkaba-rider-womens-t-shirt" },
+    { "name": "product", "path": "/products/merkaba-rider-womens-t-shirt", "viewports": ["375", "768", "620", "1024", "1366", "1440"] },
+    { "name": "product-oos", "path": "/products/merkaba-rider-womens-t-shirt-oos", "viewports": ["375", "1440"] },
+    { "name": "product-sale", "path": "/products/philosophers-stone-unlimited-being-womens-t-shirt", "viewports": ["375", "768", "620", "1024", "1366", "1440"] },
     { "name": "blog", "path": "/blog" },
     { "name": "blog-category", "path": "/blog/category/ancient-traditions" },
     { "name": "blog-post", "path": "blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats" },
@@ -19,5 +25,16 @@
     { "name": "about", "path": "/about" },
     { "name": "contact", "path": "/contact" },
     { "name": "404", "path": "/this-page-does-not-exist" }
+  ],
+  "states": [
+    { "route": "product", "name": "thumb-2", "viewports": ["375", "768", "1440"] },
+    { "route": "product", "name": "last-image", "viewports": ["768", "1440"] },
+    { "route": "product", "name": "modal-image-2", "viewports": ["375", "1440"] },
+    { "route": "product", "name": "modal-thumb-4", "viewports": ["375", "1440"] },
+    { "route": "product", "name": "sticky-bar-visible", "viewports": ["375", "768", "1440"] },
+    { "route": "product", "name": "size-error", "viewports": ["375", "1440"] },
+    { "route": "product", "name": "wishlist-saved", "viewports": ["375", "1440"] },
+    { "route": "product", "name": "wishlist-hover", "viewports": ["1440"] },
+    { "route": "product", "name": "size-focused", "viewports": ["1440"] }
   ]
 }

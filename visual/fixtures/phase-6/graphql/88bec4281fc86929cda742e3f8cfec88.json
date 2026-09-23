@@ -1,0 +1,16 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetProductsByCategory",
+    "query": "query GetProductsByCategory($category: String!, $first: Int = 100) {\n  products(first: $first, where: {category: $category}) {\n    nodes {\n      id\n      databaseId\n      name\n      slug\n      shortDescription\n      image {\n        sourceUrl\n        mediaDetails {\n          sizes {\n            name\n            sourceUrl\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      ... on SimpleProduct {\n        price\n        regularPrice\n        __typename\n      }\n      ... on VariableProduct {\n        price\n        regularPrice\n        __typename\n      }\n      ... on ExternalProduct {\n        price\n        regularPrice\n        __typename\n      }\n      ... on GroupProduct {\n        price\n        regularPrice\n        __typename\n      }\n      ... on ProductWithPricing {\n        price\n        regularPrice\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "first": 100,
+      "category": "uncategorized"
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"products\":{\"nodes\":[],\"__typename\":\"RootQueryToProductUnionConnection\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

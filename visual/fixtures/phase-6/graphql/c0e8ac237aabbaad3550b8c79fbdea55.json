@@ -1,0 +1,13 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": null,
+    "query": "query{ product(id:\"merkaba-rider-womens-t-shirt\", idType: SLUG){ slug } }",
+    "variables": {}
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"product\":{\"slug\":\"merkaba-rider-womens-t-shirt\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

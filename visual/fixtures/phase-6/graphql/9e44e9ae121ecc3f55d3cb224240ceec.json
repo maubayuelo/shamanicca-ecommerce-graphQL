@@ -1,0 +1,15 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetCategoryBanner",
+    "query": "query GetCategoryBanner($id: ID!) {\n  category(id: $id, idType: DATABASE_ID) {\n    affiliatedBanner {\n      bannerType\n      bannerHeadline\n      bannerSubtext\n      bannerCtaLabel\n      bannerCtaUrl\n      openInNewTab\n      bannerEnabled\n      bannerImage {\n        node {\n          sourceUrl\n          altText\n          mediaDetails {\n            sizes {\n              name\n              sourceUrl\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "id": 10
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"category\":{\"affiliatedBanner\":{\"bannerType\":[\"affiliate\"],\"bannerHeadline\":null,\"bannerSubtext\":null,\"bannerCtaLabel\":null,\"bannerCtaUrl\":null,\"openInNewTab\":false,\"bannerEnabled\":false,\"bannerImage\":null,\"__typename\":\"AffiliatedBanner\"},\"__typename\":\"Category\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

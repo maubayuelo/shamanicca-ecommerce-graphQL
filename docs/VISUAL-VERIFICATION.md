@@ -22,7 +22,12 @@ would be automating the wrong thing.
 The fast tier never substitutes for the formal one. A phase is not verified
 until it has passed the formal gate.
 
-**D3 — Viewports.** 375 · 768 · 1440.
+**D3 — Viewports.** 375 · 768 · 1440 by default. `product` and `product-sale`
+additionally capture at 620 (midpoint of the Phase 6a 601–639 shifted band),
+1024 (the `lg` breakpoint boundary used throughout `product.scss`) and 1366
+(a common laptop width otherwise unsampled between 1024 and 1440). A route
+opts into a non-default viewport list via a `"viewports"` array of names on
+its entry in `visual/routes.json`; routes without one get the default three.
 
 **D4 — Location.** `visual/`, git-ignored. This document is committed; the
 images are not. Binary artifacts in git history are permanent and never get
@@ -78,6 +83,8 @@ These are fixed for the duration of the migration.
 | `shop` | `/shop` |
 | `shop-category` | `/shop/posters` |
 | `product` | `/products/merkaba-rider-womens-t-shirt` |
+| `product-oos` | `/products/merkaba-rider-womens-t-shirt-oos` (recorded alias — see "Hermetic captures"; 375 and 1440 only) |
+| `product-sale` | `/products/philosophers-stone-unlimited-being-womens-t-shirt` |
 | `blog` | `/blog` |
 | `blog-category` | `/blog/category/ancient-traditions` |
 | `blog-post` | `blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats` |
@@ -92,25 +99,42 @@ These are fixed for the duration of the migration.
 `product` should be one with several gallery images and a long description — it
 exercises more CSS than a sparse one.
 
+`product-sale` is pinned to a product confirmed (by querying the live
+endpoint directly, not assumed) to be on sale — `regularPrice ($49.50) >
+price ($39.50)`, which is what `products/[slug].tsx` computes `isOnSale`
+from — with all four size variations in stock, so it exercises the sale
+price line, the savings badge and the gallery SALE badge (rendered on every
+slide) without also being the out-of-stock fixture. It captures the base
+three viewports plus the same 620/1024/1366 extras as `product`, but no
+interaction states — those are scoped to `product` only (see States below).
+
 ---
 
 ## Capture list
 
-### Routes (13 × 3 viewports)
+### Routes
+
+13 routes × 3 default viewports, plus `product` and `product-sale` at 3
+additional viewports each (620, 1024, 1366), plus `product-oos` at 375 and 1440
+(full-page base capture of the recorded out-of-stock alias, no separate state):
 
 ```
 home__<vp>            shop__<vp>            shop-category__<vp>
-product__<vp>         blog__<vp>            blog-category__<vp>
-blog-post__<vp>       search-shop__<vp>     search-blog__<vp>
-cart__<vp>            wishlist__<vp>        about__<vp>
-contact__<vp>         404__<vp>
+product__<vp>         product-oos__<vp>     product-sale__<vp>
+blog__<vp>            blog-category__<vp>   blog-post__<vp>
+search-shop__<vp>     search-blog__<vp>     cart__<vp>
+wishlist__<vp>        about__<vp>           contact__<vp>
+404__<vp>
 ```
 
 ### States
 
 States only exist after an interaction. A route can pass while its overlay is
 wrecked — and overlays, fixed positioning and transforms are exactly where a
-SCSS → Tailwind migration breaks.
+SCSS → Tailwind migration breaks. Interaction states are captured as
+**viewport** screenshots (not full-page) after scrolling the relevant element
+into view, because fixed-position elements (the gallery modal, the sticky
+bar) render wrong in a stitched full-page capture.
 
 ```
 home__375__menu-open              home__768__menu-open
@@ -124,6 +148,40 @@ shop__375__filter-open            shop__1440__filter-open
 The mobile menu is only captured below the desktop breakpoint. Cart and overlay
 states are captured at the extremes only — 768 adds nothing 375 and 1440 do not
 already show.
+
+#### Product states (Phase 6.0)
+
+All on the `product` route only (`visual/routes.json`'s `states` array),
+fresh browser context per state (no shared storage), driven by
+`scripts/capture.mjs`'s `STATE_HANDLERS`:
+
+| State | Viewports | Selector(s) | Wait condition |
+|---|---|---|---|
+| `thumb-2` | 375, 768, 1440 | `.gallery__thumbs .thumb:nth-child(2)` | `.gallery__track.scrollLeft` stable for 3 consecutive rAF and within 1px of the target slide's `offsetLeft`; `window.scrollY` stable |
+| `last-image` | 768, 1440 | last `.gallery__thumbs .thumb`, then `.nav--next` | same gallery-settle condition, then asserts `.nav--next` is disabled |
+| `modal-image-2` | 375, 1440 | thumb 2, then that slide's `.image-button` | gallery-settle on slide 2, then `.gallery__modal .modal__image img` decoded and `.modal__thumbs .thumb:nth-child(2)` marked `is-active` |
+| `modal-thumb-4` | 375, 1440 | open modal on image 1, then `.modal__thumbs .thumb:nth-child(4)` | modal image decoded and thumb 4 marked `is-active` — modal thumbnails only change the modal's own active state, they do not scroll the underlying gallery track |
+| `sticky-bar-visible` | 375, 768, 1440 | scroll to `.product__desc`, then `.product-sticky-bar` | scroll settled, then every finite-iteration animation on `.product-sticky-bar` (the entrance) has resolved via `getAnimations().finished` |
+| `size-error` | 375, 1440 | `.product__cta` clicked with no size selected | `#size-error` has non-empty text, `.product__options .field` has class `field--error`, `#size` has `aria-invalid="true"` |
+| `wishlist-saved` | 375, 1440 | `.product__wishlist-btn` | polls click → `is-wishlisted` class (bounded retry, since `WishlistContext` hydration has no DOM signal without an app-code change), then the swapped heart icon is decoded |
+| `wishlist-hover` | 1440 | `.product__wishlist-btn` (`.hover()`, no click) | `getAnimations().finished` on the button (150ms hover transition) |
+| `size-focused` | 1440 | `#size` (`.focus()`) | `document.activeElement.id === 'size'` |
+
+**Why `.focus()` and not a real Tab keypress** for `size-focused`: the
+compiled CSS styles `#size:focus`, not `#size:focus-visible` — confirmed
+against the compiled output during the Phase 6 READ. A programmatic focus
+and a keyboard-driven focus render identically under `:focus`. Simulating a
+real Tab sequence would mean hard-coding a tab-stop count through the header
+nav and gallery controls, and the header nav's item count is WordPress
+content, not fixed — that would make this state's setup nondeterministic,
+which is exactly what this PR exists to eliminate elsewhere.
+
+Excluded from this PR: touch swipe (the gallery's scroll listener is
+attached to the viewport, not the track, so swipe-to-active sync is already
+flagged as unreliable in the Phase 6 READ and shouldn't be baselined until
+that's fixed), the native `<select>` popup (an OS-level surface, not part of
+the page's render tree), and the filter drawer (`ProductFilterPanel` isn't
+mounted on any route today).
 
 ---
 
@@ -223,13 +281,24 @@ encode the wrong rules and hide the interesting failures behind a green check.
 
 `scripts/capture.mjs` automates the *capture* step above — navigating to each
 pinned route at each viewport, suppressing the cookie banner and newsletter
-modal, waiting out fonts and lazy images, and writing a full-page PNG. It does
-not compare images; comparison is still the manual flicker method above.
-Interaction-state captures (menus, overlays, hover, filters) are not covered —
-they will be added to the script as phases need them.
+modal, waiting out fonts and lazy images, and writing a full-page PNG. For
+interaction states (`visual/routes.json`'s `states` array) it instead runs a
+named handler that performs the action sequence and writes a **viewport**
+screenshot. It does not compare images; comparison is still the manual
+flicker method above, or the decoded-pixel compare used for a phase gate.
 
-The route and viewport list lives in `visual/routes.json`, generated from the
-pinned URL table above.
+Every wait in the script is a condition — no in-flight /graphql or WP REST
+requests, fonts ready, images decoded, scroll position settled for 3
+consecutive frames, running finite animations/transitions finished (finished,
+paused and infinite animations are skipped; infinite ones are frozen at
+currentTime 0 right before the shot) — never a fixed sleep. A wait that times out throws, the capture
+that was in progress is not written (no partial screenshots), and the whole
+run exits non-zero naming the route, viewport and state that failed. See
+"Determinism test" below for why this matters enough to test on its own.
+
+The route, viewport and state list lives in `visual/routes.json`, generated
+from the pinned URL table above. A route may override the default viewport
+list with its own `"viewports"` array of names.
 
 ```bash
 node scripts/capture.mjs <outputDir> [--base http://localhost:3000]
@@ -260,3 +329,193 @@ node scripts/capture.mjs visual/<phase>/after --base http://localhost:3000
 ```
 
 Run BEFORE and AFTER in the same session per the determinism protocol above.
+
+---
+
+## Hermetic captures: record once, replay everywhere
+
+The live WordPress/WooCommerce backend is not deterministic enough to be a
+capture fixture (search returned different result sets for the same query
+seconds apart; the pinned product's stock changed). So captures run against
+**recorded** responses, served by `scripts/graphql-replay.mjs`. One set,
+`visual/fixtures/phase-6/{graphql,rest}/`, covers the whole phase; its
+`README.md` records the date, the commit it was recorded from and every edit.
+The fixtures are public storefront data (no secrets) and **are committed**.
+
+The proxy serves GraphQL (`POST /graphql`) and REST (WP REST, the CMS routes,
+the WooCommerce fallback) on one port. In replay mode it never contacts the
+live backend: an unknown request returns HTTP 500, is logged loudly and is
+listed at `GET /__misses`. `capture.mjs --replay <proxy-url>` checks that list
+after every capture and fails the run on any miss, naming the route, viewport,
+state and missed key. `consumer_key`, `consumer_secret` and any
+token/auth-like parameter are stripped from stored keys and bodies, and
+request headers are never stored — after recording, `grep -rE "ck_|cs_"
+visual/fixtures` must return nothing.
+
+### Every fetch env var must point at the proxy — at BUILD and at RUNTIME
+
+`NEXT_PUBLIC_*` values are inlined into the client bundle by `next build`;
+server-side code reads its env when the process starts. Set all of these for
+both `npm run build` and `npm run start`:
+
+```bash
+export NEXT_PUBLIC_GRAPHQL_URL=http://localhost:4001/graphql
+export NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:4001/graphql
+export GRAPHQL_ENDPOINT=http://localhost:4001/graphql
+export NEXT_PUBLIC_WP_BASE_URL=http://localhost:4001
+export WORDPRESS_API_URL=http://localhost:4001/wp-json
+export WC_STORE_URL=http://localhost:4001
+export NEXT_PUBLIC_WC_STORE_URL=http://localhost:4001
+```
+
+Restarting the server does not change a page that was already prerendered
+(ISR output lives in `.next`): switching the proxy from record to replay
+requires a **fresh build** (`rm -rf .next`), not just a restart. Kill the old
+server by port (`lsof -t -iTCP:<port> -sTCP:LISTEN`) — a leftover
+`next-server` process will keep answering with its old pages.
+
+### Recording fixtures (deliberate, its own commit)
+
+```bash
+# 1. proxy in record mode, app built and started with the env vars above
+node scripts/graphql-replay.mjs record --upstream https://master.shamanicca.com --port 4001
+rm -rf .next && npm run build && npm run start -- -p 3010
+# 2. one full capture run, so every request the captures make is recorded
+node scripts/capture.mjs /tmp/record-pass --base http://localhost:3010
+# 3. post-process (never hand-edit fixture JSON)
+node scripts/fixture-tools.mjs instock --slug merkaba-rider-womens-t-shirt
+node scripts/fixture-tools.mjs alias --slug merkaba-rider-womens-t-shirt --as merkaba-rider-womens-t-shirt-oos
+# 4. update fixtures README (date, commit, edits), grep for secrets, commit
+# 5. stop the proxy; restart it in replay mode, delete .next, rebuild, restart
+node scripts/graphql-replay.mjs replay --port 4001
+```
+
+`instock` rewrites the recorded product response so the 4 variations are
+`IN_STOCK` (the real product is out of stock, so its size/CTA states would
+otherwise be unreachable); `alias` stores the untouched original under the
+slug `merkaba-rider-womens-t-shirt-oos`, which the `product-oos` route
+captures — one build, both stock states. The aliased response gets its own
+`data.product.id`: the app's server-side Apollo client is one long-lived cache
+normalized by id, so a shared id would let whichever response was written last
+(ISR regeneration order) decide the stock state of both pages — and identical
+runs would agree on the wrong answer. The aliased body still says
+`slug: merkaba-rider-womens-t-shirt`; the product page does not compare it to
+the URL, so it renders rather than 404s. **Always look at the images**: two
+identical runs prove determinism, not that the right state was captured.
+
+### Runbook (copy-paste)
+
+Everything runs from the repo root. The env vars come from the command line
+only; never put them in `.env.local`. Use `next dev` for nothing here — this is
+production build vs production build.
+
+```bash
+# 0. free the ports (3010 = app, 4001 = proxy); nothing may be listening
+kill -9 $(lsof -t -iTCP:3010 -sTCP:LISTEN) $(lsof -t -iTCP:4001 -sTCP:LISTEN) 2>/dev/null
+lsof -nP -iTCP:3010 -iTCP:4001 -sTCP:LISTEN          # must print nothing
+
+# 1. the seven env vars, for BOTH build and start
+export NEXT_PUBLIC_GRAPHQL_URL=http://localhost:4001/graphql
+export NEXT_PUBLIC_GRAPHQL_ENDPOINT=http://localhost:4001/graphql
+export GRAPHQL_ENDPOINT=http://localhost:4001/graphql
+export NEXT_PUBLIC_WP_BASE_URL=http://localhost:4001
+export WORDPRESS_API_URL=http://localhost:4001/wp-json
+export WC_STORE_URL=http://localhost:4001
+export NEXT_PUBLIC_WC_STORE_URL=http://localhost:4001
+export CAPTURE_MEDIA_DIR=~/.shamanicca-visual-cache/phase-6/media   # same for before AND after
+
+# 2. proxy in replay mode (never contacts the live backend)
+node scripts/graphql-replay.mjs replay --port 4001 &
+
+# 3. FRESH build, then start
+rm -rf .next && npm run build
+npm run start -- -p 3010 &
+
+# 4. the server must be serving THIS build
+curl -s localhost:3010/ | grep -o '"buildId":"[^"]*"'; cat .next/BUILD_ID   # must match
+
+# 5. capture (fails on any proxy miss, media miss, or timed-out wait)
+node scripts/capture.mjs visual/<phase>/<before|after> \
+  --base http://localhost:3010 --replay http://localhost:4001 --media replay
+
+# 6. compare before/after: decoded pixels, zero tolerance, dimensions first
+#    (see "Comparing"); then LOOK at the images.
+
+# 7. clean up: stop both servers, delete the proxy-built .next
+kill -9 $(lsof -t -iTCP:3010 -sTCP:LISTEN) $(lsof -t -iTCP:4001 -sTCP:LISTEN); rm -rf .next
+```
+
+Rules: before and after builds use the **same committed fixture set and the
+same `CAPTURE_MEDIA_DIR`**; each is a fresh build (`rm -rf .next`) — restarting
+a server does not change pages already prerendered; a leftover `next-server`
+keeps answering with its old pages, so check the ports in step 0. After step 7,
+the next normal `npm run build` uses the live endpoint again (it reads
+`.env.local`, which this procedure never touches).
+
+Within a phase, the BEFORE build and the AFTER build both replay the **same
+committed fixture set** — never re-record between them. Re-recording is a
+separate commit with its own explanation, because it changes what every
+future comparison is measured against.
+
+### Images: the browser-side media cache
+
+The proxy cannot cover images, and they turned out not to be a theoretical
+risk: with GraphQL/REST replayed but images live, back-to-back runs still
+differed (a live gallery image once loaded with `naturalWidth 0`; one page came
+out 125px taller in one run; antialiased pixels flipped on a thumbnail corner)
+even though the CDN returns byte-identical data. `capture.mjs --media` fixes
+that with the same rule as the proxy:
+
+- `--media record` — the first sight of each REMOTE image (WordPress media
+  domain, and `/_next/image` requests whose source is remote) stores its bytes
+  in `$CAPTURE_MEDIA_DIR` (default `~/.shamanicca-visual-cache/phase-6/media`).
+  The cache is **not committed** (binary artifacts in git history are
+  permanent; `visual/fixtures/**/media/` is git-ignored). A missing or empty
+  cache is a hard error naming the variable and the path.
+- `--media replay` — fulfils from disk; a miss aborts that image, fails the
+  capture (no screenshot is written) and names the missed URL.
+- The app's own local assets are never cached, so a phase that changes an icon
+  or a local image is still measured against the build under test.
+
+Record it in the same pass as the GraphQL/REST fixtures:
+`node scripts/capture.mjs /tmp/record-pass --base ... --replay ... --media record`.
+Every acceptance/before/after run then uses `--media replay`, and **before and after must use the same fixture set AND the same `CAPTURE_MEDIA_DIR`** — a different image cache is a different baseline.
+
+Also worth knowing: a screenshot is only written after two consecutive frames
+are byte-identical (`writeStableScreenshot`), and `--only label,label` runs a
+subset of captures for debugging.
+
+## Determinism test
+
+The capture script's own waits are a claim: that capturing the same build
+twice, back to back, produces byte-identical output. That claim has to be
+tested on its own, separately from any before/after comparison — a
+nondeterministic wait would otherwise show up as an unexplained diff in a
+real phase comparison and get investigated as if it were a code regression.
+
+Run it against **one production build in replay mode** (fresh build, env vars
+above), not `next dev` — dev-mode compilation and Fast Refresh introduce their
+own timing variance, and live data introduces its own:
+
+```bash
+node scripts/capture.mjs visual/<phase>/run1 --base http://localhost:3010 --replay http://localhost:4001 --media replay
+node scripts/capture.mjs visual/<phase>/run2 --base http://localhost:3010 --replay http://localhost:4001 --media replay
+```
+
+Both runs must also finish with 0 proxy misses and 0 media misses. Run both in
+one shell invocation (no gap) and confirm `scripts/capture.mjs` did not change
+between them — a run made with an older script does not count. Phase 6.0
+result: 71/71 identical, about 84s per run.
+
+Then decode-pixel compare every matching filename between `run1` and
+`run2` — dimensions first, then a full per-pixel diff, zero tolerance, no
+resizing (the same protocol as a before/after phase gate). **Expect every
+file identical.** Any difference is nondeterminism in the capture script
+itself, not a code change, and must be fixed before that script version is
+trusted for a merge gate.
+
+The most likely source of a failure here is anything still timed rather than
+awaited on a real signal — check first whether a wait condition was skipped
+for a particular state (e.g. a new state added later without going through
+`STATE_HANDLERS`'s existing settle helpers), not whether the underlying page
+behavior is actually flaky.

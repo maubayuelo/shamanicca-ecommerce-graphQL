@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/posts",
+    "query": {
+      "_fields": [
+        "acf"
+      ],
+      "slug": [
+        "inner-cleanse-agestas-sacred-codes-meditation"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"acf\":{\"video_title\":\"Inner Cleanse \\u2014 Agesta's Sacred Codes Meditation in Shamanicca's YouTube Channel.\",\"yoube_video_id\":\"F4eLTdoOuYA\",\"display_video\":\"1\"}}]"
+}
