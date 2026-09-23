@@ -76,12 +76,13 @@ These are fixed for the duration of the migration.
 |---|---|
 | `home` | `/` |
 | `shop` | `/shop` |
-| `shop-category` | `/shop/________` |
-| `product` | `/products/________` |
+| `shop-category` | `/shop/posters` |
+| `product` | `/products/merkaba-rider-womens-t-shirt` |
 | `blog` | `/blog` |
-| `blog-category` | `/blog/category/________` |
-| `blog-post` | `/blog/________` |
-| `search` | `/search?q=________` |
+| `blog-category` | `/blog/category/ancient-traditions` |
+| `blog-post` | `blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats` |
+| `search-shop` | `/search?q=tshirt&scope=shop` |
+| `search-blog` | `/search?q=wicca&scope=blog` |
 | `cart` | `/cart` |
 | `wishlist` | `/wishlist` |
 | `about` | `/about` |
@@ -100,9 +101,9 @@ exercises more CSS than a sparse one.
 ```
 home__<vp>            shop__<vp>            shop-category__<vp>
 product__<vp>         blog__<vp>            blog-category__<vp>
-blog-post__<vp>       search__<vp>          cart__<vp>
-wishlist__<vp>        about__<vp>           contact__<vp>
-404__<vp>
+blog-post__<vp>       search-shop__<vp>     search-blog__<vp>
+cart__<vp>            wishlist__<vp>        about__<vp>
+contact__<vp>         404__<vp>
 ```
 
 ### States
@@ -215,3 +216,47 @@ Once several phases have run manually and the failure modes are understood,
 Playwright's `toHaveScreenshot()` automates the capture and the diff. Not before
 — automating a comparison whose ground rules are still being discovered would
 encode the wrong rules and hide the interesting failures behind a green check.
+
+---
+
+## Automated capture
+
+`scripts/capture.mjs` automates the *capture* step above — navigating to each
+pinned route at each viewport, suppressing the cookie banner and newsletter
+modal, waiting out fonts and lazy images, and writing a full-page PNG. It does
+not compare images; comparison is still the manual flicker method above.
+Interaction-state captures (menus, overlays, hover, filters) are not covered —
+they will be added to the script as phases need them.
+
+The route and viewport list lives in `visual/routes.json`, generated from the
+pinned URL table above.
+
+```bash
+node scripts/capture.mjs <outputDir> [--base http://localhost:3000]
+# or
+npm run capture -- <outputDir> [--base http://localhost:3000]
+```
+
+### BEFORE (reference commit, port 3001)
+
+Capture from a separate git worktree so the working copy is untouched:
+
+```bash
+git worktree add ../shamanicca-before <reference-commit-or-branch>
+cd ../shamanicca-before
+npm install
+npm run dev -- --port 3001
+# in another terminal, from the main working copy:
+node scripts/capture.mjs visual/<phase>/before --base http://localhost:3001
+```
+
+Remove the worktree when done: `git worktree remove ../shamanicca-before`.
+
+### AFTER (working copy, port 3000)
+
+```bash
+npm run dev
+node scripts/capture.mjs visual/<phase>/after --base http://localhost:3000
+```
+
+Run BEFORE and AFTER in the same session per the determinism protocol above.
