@@ -1,0 +1,23 @@
+{
+  "viewports": [
+    { "name": "375", "width": 375, "height": 812 },
+    { "name": "768", "width": 768, "height": 1024 },
+    { "name": "1440", "width": 1440, "height": 900 }
+  ],
+  "routes": [
+    { "name": "home", "path": "/" },
+    { "name": "shop", "path": "/shop" },
+    { "name": "shop-category", "path": "/shop/posters" },
+    { "name": "product", "path": "/products/merkaba-rider-womens-t-shirt" },
+    { "name": "blog", "path": "/blog" },
+    { "name": "blog-category", "path": "/blog/category/ancient-traditions" },
+    { "name": "blog-post", "path": "blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats" },
+    { "name": "search-shop", "path": "/search?q=tshirt&scope=shop" },
+    { "name": "search-blog", "path": "/search?q=wicca&scope=blog" },
+    { "name": "cart", "path": "/cart" },
+    { "name": "wishlist", "path": "/wishlist" },
+    { "name": "about", "path": "/about" },
+    { "name": "contact", "path": "/contact" },
+    { "name": "404", "path": "/this-page-does-not-exist" }
+  ]
+}
