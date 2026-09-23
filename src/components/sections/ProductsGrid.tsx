@@ -106,18 +106,18 @@ export default function ProductsGrid({
   const shouldShowCTA = showCTA ?? displayingInHome;
 
   return (
-    <section className={`main section-featured-products pb-lg-responsive ${className}`}>
+    <section className={`main section-featured-products pb-lg-responsive flex flex-col ${className}`}>
       {shouldShowTitle && (
-        <h2 className="section-title type-4xl type-extrabold mt-lg-responsive mb-md-responsive">{title}</h2>
+        <h2 className="type-4xl type-extrabold mt-lg-responsive mb-md-responsive text-black">{title}</h2>
       )}
 
-      <div className="product-grid">
+      <div className="grid grid-cols-[1fr] gap-legacy-15 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)] lg:gap-7.5">
         {visibleProducts?.map((p) => (
           <ProductTile key={p.id} product={p} />
         ))}
       </div>
       {shouldShowCTA && (
-        <div className="section-featured-products__section-footer mt-md-responsive mb-sm-responsive">
+        <div className="mt-md-responsive mb-sm-responsive flex w-full items-center justify-center">
           <Link href={bestSellersHref} className="btn btn-secondary btn-large m-0">Check Best Sellers!</Link>
         </div>
       )}
@@ -165,10 +165,10 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
   const regularPriceNum = regularPrice != null ? parsePrice(regularPrice) : undefined;
 
   return (
-    <article className="product-tile">
-      <Link href={href} aria-label={`View ${name}`} className="image-wrap">
-        {onSale && <div className="product-badge type-sm type-bold">SALE</div>}
-        <Image src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+    <article className="relative flex flex-col items-stretch bg-transparent pb-legacy-15">
+      <Link href={href} aria-label={`View ${name}`} className="image-wrap relative block w-full aspect-square overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_#e0e0e0] after:z-1 after:pointer-events-none">
+        {onSale && <div className="type-sm type-bold absolute z-1 top-legacy-15 left-legacy-15 px-2 py-1.5 bg-highlighted-500 text-white rounded-[10px]">SALE</div>}
+        <Image className="absolute z-0 inset-0 block w-full h-full object-cover" src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
       </Link>
       <button
         className={`btn-wishlist${wishlisted ? ' is-wishlisted' : ''}`}
@@ -177,13 +177,13 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
       >
         <Image src={wishlisted ? '/images/icon-heart-full.svg' : '/images/icon-heart.svg'} alt="" width={18} height={18} aria-hidden />
       </button>
-      <div className="info">
-        <h3 className="product-name type-lg type-bold mt-sm-responsive  mb-xs-responsive">
+      <div className="flex flex-col">
+        <h3 className="type-lg type-bold mt-sm-responsive mb-xs-responsive text-black">
           <Link href={href} aria-label={`View ${name}`}>{name}</Link>
         </h3>
-        <div className="prices">
-          {onSale && <span className="price-compare type-lg">{formatPrice(regularPrice)}</span>}
-          <span className="price type-lg">{formatPrice(price)}</span>
+        <div className="inline-flex items-start gap-legacy-15">
+          {onSale && <span className="type-lg text-black line-through opacity-80">{formatPrice(regularPrice)}</span>}
+          <span className="type-lg text-black">{formatPrice(price)}</span>
         </div>
       </div>
     </article>
