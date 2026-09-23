@@ -44,8 +44,8 @@ export type BreadcrumbProps = {
 
 export default function Breadcrumb({
   items,
-  className='breadcrumb type-xs',
-  separator = <span className="sep" aria-hidden="true" />,
+  className='text-black font-normal type-xs',
+  separator = <span className="mx-1.5 inline-block w-1.25 h-3.25 border-l-[1.25px] border-black opacity-80 [transform:skewX(-15deg)]" aria-hidden="true" />,
   ariaLabel = 'Breadcrumb',
   linkLast = false,
 }: BreadcrumbProps) {
@@ -56,7 +56,7 @@ export default function Breadcrumb({
         const shouldLink = item.href && (!isLast || linkLast);
         const label = decodeEntities(item.label);
         const node = shouldLink ? (
-          <Link href={item.href} aria-label={item.ariaLabel ?? label}>{label}</Link>
+          <Link href={item.href} className="text-black no-underline" aria-label={item.ariaLabel ?? label}>{label}</Link>
         ) : (
           <span aria-current={isLast ? 'page' : undefined}>{label}</span>
         );
