@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/posts",
+    "query": {
+      "_fields": [
+        "acf"
+      ],
+      "slug": [
+        "attract-ideal-partner-positive-subliminal-affirmations"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"acf\":{\"video_title\":\"Attract Ideal Partner. Positive Subliminal Affirmations. Binaural Isochronic Tones, Shamanicca's YouTube video.\",\"yoube_video_id\":\"icIspQfkPzE\",\"display_video\":\"1\"}}]"
+}

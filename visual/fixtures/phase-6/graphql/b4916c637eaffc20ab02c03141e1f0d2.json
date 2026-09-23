@@ -1,0 +1,13 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetHomeBanners",
+    "query": "query GetHomeBanners {\n  page(id: \"home\", idType: URI) {\n    homePageBanners {\n      homeBanners {\n        bannerImage {\n          node {\n            mediaItemUrl\n            sourceUrl\n            __typename\n          }\n          __typename\n        }\n        bannerTitle\n        bannerSubtitle\n        bannerHref\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {}
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"page\":{\"homePageBanners\":{\"homeBanners\":[{\"bannerImage\":{\"node\":{\"mediaItemUrl\":\"https:\\/\\/master.shamanicca.com\\/wp-content\\/uploads\\/2026\\/01\\/imaginary-accesories.png\",\"sourceUrl\":\"https:\\/\\/master.shamanicca.com\\/wp-content\\/uploads\\/2026\\/01\\/imaginary-accesories.png\",\"__typename\":\"MediaItem\"},\"__typename\":\"AcfMediaItemConnectionEdge\"},\"bannerTitle\":\"Accessories\",\"bannerSubtitle\":\"Mugs, Phone Cases, Tote-Bags\",\"bannerHref\":\"\\/shop\\/accessories\",\"__typename\":\"HomePageBannersHomeBanners\"},{\"bannerImage\":{\"node\":{\"mediaItemUrl\":\"https:\\/\\/master.shamanicca.com\\/wp-content\\/uploads\\/2026\\/01\\/imaginary-sacred-objects.png\",\"sourceUrl\":\"https:\\/\\/master.shamanicca.com\\/wp-content\\/uploads\\/2026\\/01\\/imaginary-sacred-objects.png\",\"__typename\":\"MediaItem\"},\"__typename\":\"AcfMediaItemConnectionEdge\"},\"bannerTitle\":\"Sacred Objects\",\"bannerSubtitle\":\"Altar Plates, Ritual Candles, Posters\",\"bannerHref\":\"\\/shop\\/sacred-objects\",\"__typename\":\"HomePageBannersHomeBanners\"}],\"__typename\":\"HomePageBanners\"},\"__typename\":\"Page\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

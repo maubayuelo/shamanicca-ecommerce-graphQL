@@ -1,0 +1,15 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetCategoryBySlug",
+    "query": "query GetCategoryBySlug($slug: ID!) {\n  category(id: $slug, idType: SLUG) {\n    databaseId\n    name\n    slug\n    description\n    count\n    __typename\n  }\n}",
+    "variables": {
+      "slug": "ancient-traditions"
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"category\":{\"databaseId\":10,\"name\":\"Ancient Traditions\",\"slug\":\"ancient-traditions\",\"description\":\"Explore the rich history and diverse traditions of Wicca, Shamanism, Alchemy, and other spiritual paths. Delve into ancient practices, cultural contexts, and the evolution of these powerful beliefs.<!-- notionvc: f8e00cf8-42d3-45ea-ac5a-0e03a40a3f64 -->\",\"count\":6,\"__typename\":\"Category\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

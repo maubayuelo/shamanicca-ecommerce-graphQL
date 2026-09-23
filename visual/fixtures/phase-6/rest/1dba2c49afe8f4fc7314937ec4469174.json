@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/posts",
+    "query": {
+      "_fields": [
+        "acf"
+      ],
+      "slug": [
+        "let-it-go-and-trust-the-process-positive-subliminal-affirmations"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"acf\":{\"video_title\":\"Let It Go And Trust The Process. Positive Subliminal Affirmations. Binaural Isochronic Tones, Shamanicca's YouTube Video.\",\"yoube_video_id\":\"PWr8fhdN8sY\",\"display_video\":\"1\"}}]"
+}

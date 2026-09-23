@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/pages",
+    "query": {
+      "_fields": [
+        "slug,title,content,excerpt"
+      ],
+      "slug": [
+        "newsletter"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"slug\":\"newsletter\",\"title\":{\"rendered\":\"Get Shamanicca&#8217;s Newsletter\"},\"content\":{\"rendered\":\"<p class=\\\"type-sansserif type-bold type-sz-xsm marging-top-sm margin-bottom-sm type-center\\\">Be up to date monthly with our latest Posts and news, filling Up the subscription form bellow!<\\/p>\\n\",\"protected\":false},\"excerpt\":{\"rendered\":\"<p>Be up to date monthly with our latest Posts and news, filling Up the subscription form bellow!<\\/p>\\n\",\"protected\":false}}]"
+}

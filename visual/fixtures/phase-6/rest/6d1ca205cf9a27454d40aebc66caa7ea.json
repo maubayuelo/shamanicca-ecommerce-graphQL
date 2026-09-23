@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/pages",
+    "query": {
+      "_fields": [
+        "slug,title,content,excerpt"
+      ],
+      "slug": [
+        "returns-exchanges"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"slug\":\"returns-exchanges\",\"title\":{\"rendered\":\"Returns &#038; Exchanges\"},\"content\":{\"rendered\":\"<h3>Every piece is made for you. Here&#8217;s what that means.<\\/h3>\\n<p>At Shamanicca, every item is printed on demand \\u2014 just for you, the moment you place your order. Nothing sits in a warehouse. Nothing is mass-produced. Each piece is intentionally created when you call it in.<\\/p>\\n<p>Because of this, we are unable to accept returns or exchanges for buyer&#8217;s remorse, wrong size selections, or change of mind. We ask that you choose with intention.<\\/p>\\n<hr \\/>\\n<h2>What We Do Cover<\\/h2>\\n<p>If your order arrives damaged, defective, or with a print error \\u2014 we&#8217;ve got you, fully.<\\/p>\\n<p>We will replace or refund any item that arrives with:<\\/p>\\n<ul>\\n<li>Visible print defects or misalignment<\\/li>\\n<li>Damaged or torn product upon arrival<\\/li>\\n<li>Wrong item or wrong size sent by our fulfillment partner<\\/li>\\n<\\/ul>\\n<p>To open a claim, email us at <strong>contact@shamanicca.com<\\/strong> within <strong>7 days of delivery<\\/strong> with your order number and a clear photo of the issue. We&#8217;ll make it right, no friction.<\\/p>\\n<hr \\/>\\n<h2>Size Exchanges<\\/h2>\\n<p>We don&#8217;t offer direct size exchanges because each item is made fresh per order. If you ordered the wrong size, please refer to our <strong>Size Chart<\\/strong> before placing a new order \\u2014 it&#8217;s detailed and accurate.<\\/p>\\n<p>Still unsure? Reach out before you order and we&#8217;ll help you find your fit.<\\/p>\\n<hr \\/>\\n<h2>What We Don&#8217;t Cover<\\/h2>\\n<ul>\\n<li>Items damaged after delivery through normal wear, washing, or misuse<\\/li>\\n<li>Orders with an incorrect shipping address entered at checkout<\\/li>\\n<li>Packages marked as delivered by the carrier but reported missing (we recommend filing a claim directly with the carrier)<\\/li>\\n<\\/ul>\\n<hr \\/>\\n<h2>Refund Timeline<\\/h2>\\n<p>Approved refunds are processed within <strong>5\\u201310 business days<\\/strong> back to your original payment method. You&#8217;ll receive a confirmation email once it&#8217;s initiated.<\\/p>\\n<hr \\/>\\n<h2>Questions?<\\/h2>\\n<p>We&#8217;re a small, intentional brand and we genuinely care about your experience. If something feels off, reach out \\u2014 we&#8217;d rather talk it through than leave you unsatisfied.<\\/p>\\n<p>\\ud83d\\udce7 <strong>contact@shamanicca.com<\\/strong><\\/p>\\n<hr \\/>\\n<p><em>Shamanicca is fulfilled by Printful. All products are printed on demand and shipped within 2\\u20137 business days depending on your location.<\\/em><\\/p>\\n\",\"protected\":false},\"excerpt\":{\"rendered\":\"<p>Every piece is made for you. Here&#8217;s what that means. At Shamanicca, every item is printed on demand \\u2014 just for you, the moment you place your order. Nothing sits in a warehouse. Nothing is mass-produced. Each piece is intentionally created when you call it in. Because of this, we are unable to accept returns [&hellip;]<\\/p>\\n\",\"protected\":false}}]"
+}

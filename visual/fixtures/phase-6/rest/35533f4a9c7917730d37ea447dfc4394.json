@@ -1,0 +1,20 @@
+{
+  "key": {
+    "kind": "rest",
+    "method": "GET",
+    "pathname": "/wp-json/wp/v2/posts",
+    "query": {
+      "_fields": [
+        "acf"
+      ],
+      "slug": [
+        "sacred-codes-meditations-universes-hidden-power-to-manifest-and-heal"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "[{\"acf\":{\"video_title\":\"what are Agesta's Sacred Codes and How to Use Them Correctly, YouTube video.\",\"yoube_video_id\":\"Txa7vZ_vMd8\",\"display_video\":\"1\"}}]"
+}
