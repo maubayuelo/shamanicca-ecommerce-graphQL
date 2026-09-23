@@ -53,4 +53,5 @@ Thumbs.db
 .vercel/
 
 # Visuals for harnessing tasks
-visual/
+visual/*
+!visual/routes.json

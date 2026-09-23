@@ -61,17 +61,13 @@ const HIDE_DEV_INDICATOR_CSS = 'nextjs-portal { display: none !important; }';
 
 async function scrollToBottomInSteps(page) {
   await page.evaluate(async () => {
-    const step = 400;
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-    let previousHeight = -1;
-    while (true) {
-      const { scrollY, innerHeight } = window;
-      const scrollHeight = document.body.scrollHeight;
-      if (scrollY + innerHeight >= scrollHeight || scrollHeight === previousHeight) break;
-      previousHeight = scrollHeight;
-      window.scrollBy(0, step);
-      await delay(100);
+    const step = window.innerHeight / 2;
+    for (let y = 0; y < document.body.scrollHeight; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 300));
     }
+    window.scrollTo(0, document.body.scrollHeight);
+    await new Promise((r) => setTimeout(r, 1000));
   });
 }
 
@@ -79,11 +75,15 @@ async function main() {
   const browser = await chromium.launch();
   let failures = [];
   let count = 0;
+  let i = 0;
+  const total = manifest.viewports.length * manifest.routes.length;
 
   try {
     for (const viewport of manifest.viewports) {
       for (const route of manifest.routes) {
         const label = `${route.name}__${viewport.name}`;
+        console.log(`[${i + 1}/${total}] ${route.name}__${viewport.name} ...`);
+        const startedAt = Date.now();
         try {
           const context = await browser.newContext({
             viewport: { width: viewport.width, height: viewport.height },
@@ -113,6 +113,34 @@ async function main() {
 
           await scrollToBottomInSteps(page);
           await page.waitForTimeout(1000);
+          await Promise.race([
+            (async () => {
+              await page.evaluate(async () => {
+                await Promise.all(
+                  Array.from(document.images)
+                    .filter((img) => !img.complete)
+                    .map((img) => new Promise((resolve) => {
+                      img.addEventListener('load', resolve, { once: true });
+                      img.addEventListener('error', resolve, { once: true });
+                    }))
+                );
+              });
+              await page.evaluate(async () => {
+                const urls = new Set();
+                for (const el of document.querySelectorAll('*')) {
+                  const bg = getComputedStyle(el).backgroundImage;
+                  const m = bg && bg.match(/url\(["']?(.*?)["']?\)/);
+                  if (m && m[1] && !m[1].startsWith('data:')) urls.add(m[1]);
+                }
+                await Promise.all([...urls].map((src) => new Promise((resolve) => {
+                  const img = new Image();
+                  img.onload = img.onerror = resolve;
+                  img.src = src;
+                })));
+              });
+            })(),
+            new Promise((resolve) => setTimeout(resolve, 30000)),
+          ]);
           await page.evaluate(() => window.scrollTo(0, 0));
           await page.waitForTimeout(500);
 
@@ -121,11 +149,12 @@ async function main() {
 
           await context.close();
           count++;
-          console.log(`captured ${label}`);
+          console.log(`    done in ${Date.now() - startedAt}ms`);
         } catch (err) {
           failures.push({ route: route.name, viewport: viewport.name, error: err });
           console.error(`FAILED ${label}: ${err.message}`);
         }
+        i++;
       }
     }
   } finally {
