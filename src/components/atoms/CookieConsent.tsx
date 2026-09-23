@@ -14,9 +14,9 @@ export default function CookieConsent() {
       aria-label="Cookie consent"
       aria-live="polite"
     >
-      <p className="m-0 text-[13px]! leading-[1.6]! text-gray-800">
+      <p className="m-0 text-[13px] leading-[1.6] text-gray-800">
         We use cookies to improve your experience. Read our{' '}
-        <Link href="/cookie-policy" className="text-primary-500! underline! underline-offset-2 hover:text-primary-800!">
+        <Link href="/cookie-policy" className="text-primary-500 underline underline-offset-2 hover:text-primary-800">
           cookie policy
         </Link>
         .

@@ -275,13 +275,13 @@ export default function Header() {
             <nav className="hidden h-full xl:flex! font-[family-name:var(--font-main)]" aria-label="Main navigation">
               {computedNav.map((item) => (
                 <div key={item.id} className="header__nav_item_wrapper group relative flex items-center hover:bg-gray-200 focus:bg-gray-200">
-                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-[0.9375rem] leading-none text-black no-underline cursor-pointer hover:text-primary-500! focus:text-primary-500!`}>
+                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-[0.9375rem] leading-none text-black no-underline cursor-pointer hover:text-primary-500 focus:text-primary-500`}>
                     {item.label}
                   </Link>
                   
                   {item.children && item.children.length > 0 && (
                     <div className="pt-10 pb-10 absolute left-0 top-full z-40 mt-0 min-w-45 hidden [.group:hover_&]:block! group-focus-within:block! rounded-b-md bg-gray-200" role="menu" aria-label={`${item.label} subcategories`}>
-                      <ul className="list-none m-0 p-0! rounded-b-md">
+                      <ul className="list-none m-0 p-0 rounded-b-md">
                         {item.children.map((child) => (
                           <li key={child.id} className="p-0 m-0">
                             <Link
@@ -290,7 +290,7 @@ export default function Header() {
                                   ? (child as any).href
                                   : `/shop/${child.id}`
                               }
-                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-[#111]! no-underline hover:text-primary-500!"
+                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-[#111] no-underline hover:text-primary-500"
                             >
                               {child.label}
                             </Link>
@@ -339,7 +339,7 @@ export default function Header() {
       </div>
 
       {/* ! overrides the unlayered hr rule in globals.scss; remove it once globals.scss is migrated. */}
-      <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]!" />
+      <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]" />
 
       <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
         {/* ! overrides unlayered ul padding in typography.scss and anchor colors in button.scss; remove it once those styles are migrated. */}
@@ -352,7 +352,7 @@ export default function Header() {
                 <div className="flex items-center justify-between p-legacy-15">
                   <Link
                     href={item.href}
-                    className="type-bold text-black! no-underline flex-1"
+                    className="type-bold text-black no-underline flex-1"
                     onClick={() => setMobileOpen(false)}
                   >
                     {item.label}
@@ -369,12 +369,12 @@ export default function Header() {
                   )}
                 </div>
                 {hasChildren && isExpanded && (
-                  <ul className="list-none pt-0 pr-legacy-15 pb-legacy-15 pl-7.5! m-0 bg-gray-50">
+                  <ul className="list-none pt-0 pr-legacy-15 pb-legacy-15 pl-7.5 m-0 bg-gray-50">
                     {item.children!.map((child: any) => (
                       <li key={child.id} className="py-1.5 px-0">
                         <Link
                           href={item.id === 'blog' && child.href ? child.href : `/shop/${child.id}`}
-                          className="text-[#333]! no-underline [&:hover]:text-primary-500!"
+                          className="text-[#333] no-underline [&:hover]:text-primary-500"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
