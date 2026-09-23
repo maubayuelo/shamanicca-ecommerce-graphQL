@@ -41,7 +41,7 @@ export default function Footer() {
 
           <div className="flex flex-col">
             <h4 className="type-md type-extrabold type-uppercase m-0">Explore</h4>
-            <ul className="mt-md-responsive list-none p-0! flex flex-col gap-1.5">
+            <ul className="mt-md-responsive list-none p-0 flex flex-col gap-1.5">
               <li className="type-md"><Link href="/about">About Us</Link></li>
               <li className="type-md"><Link href="/returns-exchanges">Returns &amp; Exchanges</Link></li>
               <li className="type-md"><Link href="/size-chart">Size Chart</Link></li>
@@ -51,7 +51,7 @@ export default function Footer() {
 
           <div className="flex flex-col">
             <h4 className="type-md type-extrabold type-uppercase m-0">Customer Service</h4>
-            <ul className="mt-md-responsive list-none p-0! flex flex-col gap-1.5">
+            <ul className="mt-md-responsive list-none p-0 flex flex-col gap-1.5">
 
               <li className="type-md"><Link href="/faq">FAQ</Link></li>
               <li className="type-md"><Link href="/contact">Contact Us</Link></li>
