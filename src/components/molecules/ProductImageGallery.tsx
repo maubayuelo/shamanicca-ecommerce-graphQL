@@ -61,6 +61,10 @@ export type ProductImageGalleryProps = {
   className?: string;
 };
 
+// Shared by the strip and the modal; only the border colour differs per context.
+const THUMB_BASE =
+  'thumb border-2 rounded-[9px] [padding:0] bg-transparent bg-none cursor-pointer w-fit h-fit [&_img]:w-13.5 [&_img]:h-13.5 sm:[&_img]:w-18 sm:[&_img]:h-18 [&_img]:object-cover [&_img]:block [&_img]:rounded-md';
+
 // Utility to generate 5 placeholder images with different angles in WebP
 function buildPlaceholderSet(title = 'Product'): GalleryImage[] {
   const angles = ['Front', 'Back', 'Side', 'Top', 'Bottom'] as const;
@@ -164,26 +168,26 @@ export default function ProductImageGallery({
 
   return (
     <section
-      className={["product-image-gallery", className].filter(Boolean).join(' ')}
+      className={["product-image-gallery relative", className].filter(Boolean).join(' ')}
       aria-label="Product image gallery"
     >
-      <div className="gallery__viewport" ref={viewportRef} onKeyDown={handleKeyDown} tabIndex={0}>
-        <div className="gallery__track">
+      <div className="gallery__viewport relative overflow-hidden" ref={viewportRef} onKeyDown={handleKeyDown} tabIndex={0}>
+        <div className="gallery__track flex overflow-x-auto snap-x snap-mandatory [-webkit-overflow-scrolling:touch] scroll-smooth [&::-webkit-scrollbar]:hidden">
           {imgs.map((img, i) => (
             <div
               key={i}
-              className="gallery__slide"
+              className="gallery__slide min-w-full snap-start"
               ref={(el) => { slideRefs.current[i] = el; }}
             >
-              <div className="gallery__image-wrapper">
+              <div className="gallery__image-wrapper relative overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_oklch(0.9067_0_0)] after:z-[1] after:pointer-events-none">
                 {isOnSale && (
-                  <div className="badge badge--sale type-bold" aria-label="On sale">
+                  <div className="badge badge--sale type-bold absolute top-3 left-3 bg-highlighted-500 py-1.5 px-2.5 rounded-sm z-[2] [&>span]:text-white" aria-label="On sale">
                     <span>SALE</span>
                   </div>
                 )}
                 <button
                   type="button"
-                  className="image-button"
+                  className="image-button block w-full cursor-zoom-in [padding:0] [border:0] bg-transparent bg-none [&_img]:w-full [&_img]:h-auto [&_img]:block"
                   onClick={() => setModalOpen(true)}
                   aria-label={`Open fullscreen view for image ${i + 1}`}
                 >
@@ -208,7 +212,7 @@ export default function ProductImageGallery({
         {/* Navigation arrows (desktop priority) */}
         <button
           type="button"
-          className="nav nav--prev type-extrabold type-xl-responsive"
+          className="nav nav--prev type-extrabold type-xl-responsive left-2 absolute top-1/2 [transform:translateY(-50%)] w-9.5 h-9.5 rounded-[999px] [border:none] bg-black/45 text-white max-sm:hidden sm:inline-flex items-center justify-center cursor-pointer z-[3] disabled:opacity-40 disabled:cursor-default [&_img]:w-2.25 [&_img]:h-auto"
           onClick={goPrev}
           aria-label="Previous image"
           disabled={active === 0}
@@ -217,7 +221,7 @@ export default function ProductImageGallery({
         </button>
         <button
           type="button"
-          className="nav nav--next type-extrabold type-xl-responsive"
+          className="nav nav--next type-extrabold type-xl-responsive right-2 absolute top-1/2 [transform:translateY(-50%)] w-9.5 h-9.5 rounded-[999px] [border:none] bg-black/45 text-white max-sm:hidden sm:inline-flex items-center justify-center cursor-pointer z-[3] disabled:opacity-40 disabled:cursor-default [&_img]:w-2.25 [&_img]:h-auto"
           onClick={goNext}
           aria-label="Next image"
           disabled={active === imgs.length - 1}
@@ -227,12 +231,12 @@ export default function ProductImageGallery({
       </div>
 
       {/* Thumbnails */}
-      <div className="gallery__thumbs mt-md-responsive" role="tablist" aria-label="Image thumbnails">
+      <div className="gallery__thumbs mt-md-responsive grid grid-flow-col auto-cols-max overflow-x-auto [justify-content:start] [align-items:start] gap-2.25 sm:gap-3" role="tablist" aria-label="Image thumbnails">
         {imgs.map((img, i) => (
           <button
             type="button"
             key={i}
-            className={["thumb", i === active ? 'is-active' : ''].join(' ')}
+            className={[THUMB_BASE, i === active ? 'is-active border-black' : 'border-transparent'].join(' ')}
             role="tab"
             aria-selected={i === active}
             aria-controls={`slide-${i}`}
@@ -249,23 +253,23 @@ export default function ProductImageGallery({
 
       {/* Fullscreen modal */}
       {isModalOpen && (
-        <div className="gallery__modal " role="dialog" aria-modal="true" aria-label="Fullscreen image viewer">
-          <button className="modal__backdrop" onClick={() => setModalOpen(false)} aria-label="Close viewer" />
-          <div className="modal__content pt-md-responsive">
-            <button className="modal__close" onClick={() => setModalOpen(false)} aria-label="Close">✕</button>
-            <div className="modal__image">
+        <div className="gallery__modal fixed inset-0 z-[9999]" role="dialog" aria-modal="true" aria-label="Fullscreen image viewer">
+          <button className="modal__backdrop absolute inset-0 bg-black/81 w-full h-full [border:0]" onClick={() => setModalOpen(false)} aria-label="Close viewer" />
+          <div className="modal__content pt-md-responsive absolute inset-0 grid grid-rows-[auto_1fr_auto] gap-y-5 justify-center pb-5">
+            <button className="modal__close absolute top-4.5 right-4.5 bg-black/60 text-white [border:0] rounded-[999px] w-9 h-9 cursor-pointer z-[2]" onClick={() => setModalOpen(false)} aria-label="Close">✕</button>
+            <div className="modal__image grid place-items-center [&_img]:max-w-[90vw] [&_img]:max-h-[90vh] [&_img]:w-auto [&_img]:h-auto [&_img]:rounded-xl">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imgs[active].fullSrc || imgs[active].src}
                 alt={imgs[active].alt || title}
               />
             </div>
-            <div className="modal__thumbs">
+            <div className="modal__thumbs grid grid-flow-col w-full h-fit justify-center overflow-x-auto gap-2.25 sm:gap-3">
               {imgs.map((img, i) => (
                 <button
                   type="button"
                   key={i}
-                  className={["thumb", i === active ? 'is-active' : ''].join(' ')}
+                  className={[THUMB_BASE, i === active ? 'is-active border-white' : 'border-[rgba(255,255,255,0.7)]'].join(' ')}
                   onClick={() => setActive(i)}
                   aria-label={`Show image ${i + 1}`}
                 >

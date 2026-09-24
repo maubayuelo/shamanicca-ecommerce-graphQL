@@ -406,7 +406,6 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               title={title} 
               isOnSale={!!isOnSale} 
               images={images}
-              className="product__media" 
             />
 
             <div className="flex flex-col gap-7.5 overflow-hidden">
