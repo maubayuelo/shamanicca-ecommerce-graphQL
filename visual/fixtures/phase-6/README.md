@@ -63,6 +63,37 @@ BEFORE and AFTER builds replay these same files.
 responses: 197 files, 1.3 MB. The recorded media cache is 110 images, 16 MB,
 kept outside the repo. 0 hits for `ck_` / `cs_` in any fixture.
 
+## Additive recordings
+
+Made with `graphql-replay.mjs record-missing` (existing fixture files are
+served from disk and can never be overwritten; new keys are written with an
+exclusive write). Every pre-existing fixture file is byte-identical
+(`comm -23` of the before/after SHA-256 lists is empty; 196 files before).
+
+**2026-09-24, Phase 7.0** (recorded from `ea23fe0`, main after the Phase 6d
+merge; new routes `blog-all`, `blog-all-p2`, `blog-post-video`). 5 new files,
+all `graphql/`:
+
+| File | Operation | Variables | Why |
+|---|---|---|---|
+| `cf2d643e…` | `GetAllPostsWithTotal` | `size 9, offset 10` | `/blog/all` page 1 |
+| `b2e74728…` | `GetAllPostsCursor` | `first 9` | `/blog/all` page 1 fallback (and page 2's first hop) |
+| `09fc46d1…` | `GetAllPostsWithTotal` | `size 9, offset 19` | `/blog/all?page=2` |
+| `f21be47a…` | `GetAllPostsCursor` | `first 9, after <cursor>` | `/blog/all?page=2` fallback |
+| `30f66178…` | `GetCategoryBanner` | `id 8` | the `blog-post-video` post's category |
+
+- **The two `GetAllPostsWithTotal` files are GraphQL errors, not data**
+  (`Field "offsetPagination" is not defined by type "RootQueryToPostConnectionWhereArgs"`,
+  HTTP 200). That is the live backend's behaviour on the recording date, and
+  it is why `/blog/all` always takes its cursor fallback. Kept as recorded.
+- These are live responses recorded a day after the rest of the set; a post
+  list on `/blog/all` reflects the backend on 2026-09-24.
+- Media: 17 new cache entries (34 files) outside the repo, added with
+  `--media record-missing`; the original 222 files are byte-identical. That
+  includes three product-gallery images no capture had needed before (the
+  sale product's later slides).
+- 0 hits for `ck_` / `cs_` in the new files.
+
 ## Re-recording
 
 Deliberate and separate: re-record only in its own commit, never as a side

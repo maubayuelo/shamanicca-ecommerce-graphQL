@@ -6,6 +6,7 @@
  * Usage:
  *   node scripts/graphql-replay.mjs record --upstream https://master.shamanicca.com [--port 4001] [--dir visual/fixtures/phase-6]
  *   node scripts/graphql-replay.mjs replay  [--port 4001] [--dir visual/fixtures/phase-6]
+ *   node scripts/graphql-replay.mjs record-missing --upstream https://master.shamanicca.com [--port 4001] [--dir visual/fixtures/phase-6]
  *
  * One proxy, one port, routing by path:
  *   POST /graphql        -> GraphQL fixtures (visual/fixtures/phase-6/graphql/<hash>.json)
@@ -23,7 +24,15 @@
  * in-memory list servable at GET /__misses so capture.mjs can fail the whole
  * run on any miss instead of silently falling through to nothing.
  *
- * Request headers are never stored, in either mode — only method, path,
+ * record-missing mode is replay plus an additive top-up: a key that HAS a
+ * fixture file is served from disk and never forwarded; a key that has none is
+ * forwarded upstream and stored with an exclusive write (flag "wx"), so an
+ * existing fixture can never be overwritten, not even by a race. 5xx upstream
+ * responses are passed through but not stored. Newly stored keys are listed at
+ * GET /__recorded (reset with POST /__recorded/reset) so a run can report
+ * exactly which files it added.
+ *
+ * Request headers are never stored, in any mode — only method, path,
  * query (secrets stripped) and the upstream response (status, a small
  * whitelist of headers, and the body).
  */
@@ -41,8 +50,8 @@ const rootDir = path.resolve(__dirname, '..');
 function parseArgs(argv) {
   const args = argv.slice(2);
   const mode = args[0];
-  if (mode !== 'record' && mode !== 'replay') {
-    console.error('Usage: node scripts/graphql-replay.mjs <record|replay> [--upstream <url>] [--port 4001] [--dir visual/fixtures/phase-6]');
+  if (mode !== 'record' && mode !== 'replay' && mode !== 'record-missing') {
+    console.error('Usage: node scripts/graphql-replay.mjs <record|replay|record-missing> [--upstream <url>] [--port 4001] [--dir visual/fixtures/phase-6]');
     process.exit(1);
   }
   const opts = { mode, port: 4001, dir: path.join(rootDir, 'visual', 'fixtures', 'phase-6'), upstream: null };
@@ -51,8 +60,8 @@ function parseArgs(argv) {
     else if (args[i] === '--dir') opts.dir = path.isAbsolute(args[i + 1]) ? args[++i] : path.resolve(process.cwd(), args[++i]);
     else if (args[i] === '--upstream') opts.upstream = args[++i].replace(/\/$/, '');
   }
-  if (mode === 'record' && !opts.upstream) {
-    console.error('record mode requires --upstream <url>');
+  if ((mode === 'record' || mode === 'record-missing') && !opts.upstream) {
+    console.error(`${mode} mode requires --upstream <url>`);
     process.exit(1);
   }
   return opts;
@@ -138,14 +147,14 @@ function readFixture(kind, hash) {
   return JSON.parse(fs.readFileSync(p, 'utf-8'));
 }
 
-function writeFixture(kind, hash, keyObj, status, headers, body) {
+function writeFixture(kind, hash, keyObj, status, headers, body, { exclusive = false } = {}) {
   const RESPONSE_HEADER_ALLOWLIST = ['content-type'];
   const keptHeaders = {};
   for (const h of RESPONSE_HEADER_ALLOWLIST) {
     if (headers[h]) keptHeaders[h] = headers[h];
   }
   const record = { key: keyObj, status, headers: keptHeaders, body };
-  fs.writeFileSync(fixturePath(kind, hash), JSON.stringify(record, null, 2));
+  fs.writeFileSync(fixturePath(kind, hash), JSON.stringify(record, null, 2), exclusive ? { flag: 'wx' } : undefined);
 }
 
 // ---------------------------------------------------------------------------
@@ -186,6 +195,8 @@ function forwardUpstream(method, upstreamUrl, reqHeaders, bodyBuffer) {
 // ---------------------------------------------------------------------------
 
 const misses = [];
+const recorded = []; // record-missing: keys stored by this process
+const pendingRecordings = new Map(); // record-missing: hash -> in-flight upstream fetch
 
 function setCors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -212,6 +223,19 @@ const server = http.createServer(async (req, res) => {
 
   if (urlObj.pathname === '/__misses/reset' && req.method === 'POST') {
     misses.length = 0;
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end('{"ok":true}');
+    return;
+  }
+
+  if (urlObj.pathname === '/__recorded' && req.method === 'GET') {
+    res.writeHead(200, { 'content-type': 'application/json' });
+    res.end(JSON.stringify(recorded));
+    return;
+  }
+
+  if (urlObj.pathname === '/__recorded/reset' && req.method === 'POST') {
+    recorded.length = 0;
     res.writeHead(200, { 'content-type': 'application/json' });
     res.end('{"ok":true}');
     return;
@@ -246,6 +270,46 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (opts.mode === 'record-missing') {
+    const existing = readFixture(kind, hash);
+    if (existing) {
+      res.writeHead(existing.status, { 'content-type': existing.headers['content-type'] || 'application/json' });
+      res.end(existing.body);
+      return;
+    }
+    try {
+      if (!pendingRecordings.has(hash)) {
+        pendingRecordings.set(hash, (async () => {
+          const upstreamUrl = `${opts.upstream}${urlObj.pathname}${urlObj.search}`;
+          const upstreamRes = await forwardUpstream(req.method, upstreamUrl, req.headers, bodyBuffer);
+          if (upstreamRes.status < 500) {
+            try {
+              writeFixture(kind, hash, keyObj, upstreamRes.status, upstreamRes.headers, upstreamRes.body, { exclusive: true });
+              recorded.push({ kind, hash, key: keyObj, status: upstreamRes.status });
+              console.log(`[graphql-replay] RECORDED (${kind}) hash=${hash} status=${upstreamRes.status}`);
+            } catch (err) {
+              // Lost a race to another writer: the file exists now; never overwrite it.
+              if (err.code !== 'EEXIST') throw err;
+            }
+          } else {
+            console.error(`[graphql-replay] upstream ${upstreamRes.status} for (${kind}) hash=${hash}: passed through, NOT stored`);
+          }
+          return upstreamRes;
+        })());
+      }
+      const upstreamRes = await pendingRecordings.get(hash);
+      pendingRecordings.delete(hash);
+      res.writeHead(upstreamRes.status, { 'content-type': upstreamRes.headers['content-type'] || 'application/json' });
+      res.end(upstreamRes.body);
+    } catch (err) {
+      pendingRecordings.delete(hash);
+      console.error(`[graphql-replay] upstream request failed: ${err.message}`);
+      res.writeHead(502, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ error: 'UPSTREAM_FAILED', message: err.message }));
+    }
+    return;
+  }
+
   // record mode
   try {
     const upstreamUrl = `${opts.upstream}${urlObj.pathname}${urlObj.search}`;
@@ -261,5 +325,5 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(opts.port, () => {
-  console.log(`[graphql-replay] ${opts.mode} mode on :${opts.port}, fixtures at ${opts.dir}${opts.mode === 'record' ? `, upstream ${opts.upstream}` : ''}`);
+  console.log(`[graphql-replay] ${opts.mode} mode on :${opts.port}, fixtures at ${opts.dir}${opts.mode !== 'replay' ? `, upstream ${opts.upstream}` : ''}`);
 });

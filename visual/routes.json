@@ -15,9 +15,12 @@
     { "name": "product", "path": "/products/merkaba-rider-womens-t-shirt", "viewports": ["375", "768", "620", "1024", "1366", "1440"] },
     { "name": "product-oos", "path": "/products/merkaba-rider-womens-t-shirt-oos", "viewports": ["375", "1440"] },
     { "name": "product-sale", "path": "/products/philosophers-stone-unlimited-being-womens-t-shirt", "viewports": ["375", "768", "620", "1024", "1366", "1440"] },
-    { "name": "blog", "path": "/blog" },
-    { "name": "blog-category", "path": "/blog/category/ancient-traditions" },
-    { "name": "blog-post", "path": "blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats" },
+    { "name": "blog", "path": "/blog", "viewports": ["375", "768", "620", "1366", "1440"] },
+    { "name": "blog-category", "path": "/blog/category/ancient-traditions", "viewports": ["375", "768", "620", "1366", "1440"] },
+    { "name": "blog-post", "path": "blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats", "viewports": ["375", "768", "620", "1366", "1440"] },
+    { "name": "blog-all", "path": "/blog/all", "viewports": ["375", "768", "620", "1366", "1440"] },
+    { "name": "blog-all-p2", "path": "/blog/all?page=2", "viewports": ["375", "1440"] },
+    { "name": "blog-post-video", "path": "/blog/be-resilient-positive-subliminal-affirmations", "viewports": ["375", "1440"] },
     { "name": "search-shop", "path": "/search?q=tshirt&scope=shop" },
     { "name": "search-blog", "path": "/search?q=wicca&scope=blog" },
     { "name": "cart", "path": "/cart" },
@@ -35,6 +38,14 @@
     { "route": "product", "name": "size-error", "viewports": ["375", "1440"] },
     { "route": "product", "name": "wishlist-saved", "viewports": ["375", "1440"] },
     { "route": "product", "name": "wishlist-hover", "viewports": ["1440"] },
-    { "route": "product", "name": "size-focused", "viewports": ["1440"] }
+    { "route": "product", "name": "size-focused", "viewports": ["1440"] },
+    { "route": "shop", "name": "paginator-hover", "viewports": ["1440"] },
+    { "route": "blog-all", "name": "paginator-anchor-hover", "viewports": ["1440"] },
+    { "route": "blog-post", "name": "share-hover", "viewports": ["1440"] },
+    { "route": "blog-post", "name": "share-focus", "viewports": ["1440"] },
+    { "route": "blog-post", "name": "url-copied", "viewports": ["1440"] },
+    { "route": "blog", "name": "sidebar-banner-hover", "viewports": ["1440"] },
+    { "route": "blog", "name": "content-banner-hover", "viewports": ["1440"] },
+    { "route": "blog", "name": "main-article-hover", "viewports": ["1440"] }
   ]
 }

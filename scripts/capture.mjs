@@ -194,6 +194,30 @@ async function installMediaCache(context, misses) {
   });
 }
 
+// Third-party embeds (a blog post's YouTube iframe) load live, ever-changing
+// content that no fixture or cache can pin. Every request to an embed host is
+// answered with the same blank document, so the iframe box (aspect ratio,
+// radius, position) is captured and its content never is (a full-page
+// screenshot never paints an out-of-process iframe anyway: it is a blank slot).
+// Registered AFTER
+// installMediaCache: Playwright runs the most recently registered route first,
+// and route.fallback() hands everything else on to the media handler.
+const EMBED_HOST = /(^|\.)(youtube\.com|youtube-nocookie\.com|vimeo\.com)$/i;
+const BLANK_EMBED_DOCUMENT = '<!doctype html><html><head><meta charset="utf-8"><title></title></head><body></body></html>';
+
+async function installEmbedBlocker(context) {
+  await context.route('**/*', async (route) => {
+    let host;
+    try {
+      host = new URL(route.request().url()).hostname;
+    } catch {
+      return route.fallback();
+    }
+    if (!EMBED_HOST.test(host)) return route.fallback();
+    return route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: BLANK_EMBED_DOCUMENT });
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Wait primitives — every one of these is a condition, never a bare sleep.
 // ---------------------------------------------------------------------------
@@ -601,6 +625,52 @@ async function waitModalReady(page, expectedIndex, timeoutMs = 15000) {
 // smooth, non-deterministic scrolling).
 // ---------------------------------------------------------------------------
 
+// Positions `selector` `offset` px below the top of the viewport with an
+// instant scroll, then waits for the scroll to settle.
+async function scrollElementToOffset(page, selector, offset) {
+  await withHardTimeout(
+    page.evaluate(([sel, off]) => {
+      const el = document.querySelector(sel);
+      if (!el) throw new Error(`${sel} not found`);
+      const rect = el.getBoundingClientRect();
+      window.scrollTo({ top: window.scrollY + rect.top - off, behavior: 'instant' });
+    }, [selector, offset]),
+    10000,
+    `scroll ${selector} into place to issue`,
+  );
+  await waitScrollSettled(page);
+}
+
+// A hover state is only captured if the browser really reports :hover.
+async function assertHovered(page, selector) {
+  await withHardTimeout(
+    page.evaluate((sel) => {
+      const el = document.querySelector(sel);
+      if (!el) throw new Error(`${sel} not found`);
+      if (!el.matches(':hover')) throw new Error(`${sel} is not :hover after hover()`);
+    }, selector),
+    3000,
+    `${selector} to report :hover`,
+  );
+}
+
+// Per-state init scripts (run before any page script) and context setup.
+const STATE_INIT_SCRIPTS = {
+  // ArticleShareIcons resets "URL Copied" with setTimeout(..., 1200). Swallow
+  // exactly that delay so the copied state persists; every other timer runs.
+  'blog-post:url-copied': () => {
+    const original = window.setTimeout;
+    window.setTimeout = function (handler, delay, ...args) {
+      if (delay === 1200) return 0;
+      return original.call(this, handler, delay, ...args);
+    };
+  },
+};
+
+const STATE_PERMISSIONS = {
+  'blog-post:url-copied': ['clipboard-read', 'clipboard-write'],
+};
+
 const STATE_HANDLERS = {
   'product:thumb-2': async (page) => {
     await page.locator('.gallery__thumbs .thumb').nth(1).click();
@@ -735,6 +805,106 @@ const STATE_HANDLERS = {
     await waitAnimationsSettled(page, '.product__wishlist-btn', 3000);
   },
 
+  // ---- Phase 7.0: blog, share icons, paginator states ------------------------
+
+  // Button variant (ProductsGrid passes no hrefBuilder). The first page button
+  // that is neither the current page nor disabled: page 2.
+  'shop:paginator-hover': async (page) => {
+    await scrollElementToOffset(page, '.paginator', 300);
+    const target = page.locator('.paginator__item:not(.is-active):not(.is-disabled) button').first();
+    await target.hover();
+    await assertHovered(page, '.paginator__item:not(.is-active):not(.is-disabled) button');
+    await waitAnimationsSettled(page, '.paginator', 3000);
+  },
+
+  // Anchor variant (hrefBuilder). Page 1: the previous item is .is-disabled
+  // and page 1 is .is-active, so current + disabled are both in the shot
+  // while a page link is hovered.
+  'blog-all:paginator-anchor-hover': async (page) => {
+    await withHardTimeout(
+      page.evaluate(() => {
+        if (!document.querySelector('.paginator__item.is-disabled')) throw new Error('expected a .is-disabled paginator item on page 1');
+        if (!document.querySelector('.paginator__item.is-active')) throw new Error('expected a .is-active paginator item');
+        if (!document.querySelector('.paginator__item a')) throw new Error('expected the anchor variant (.paginator__item a)');
+      }),
+      5000,
+      'paginator current + disabled items (anchor variant) to be present',
+    );
+    await scrollElementToOffset(page, '.paginator', 300);
+    await page.locator('.paginator__item:not(.is-active):not(.is-disabled) a').first().hover();
+    await assertHovered(page, '.paginator__item:not(.is-active):not(.is-disabled) a');
+    await waitAnimationsSettled(page, '.paginator', 3000);
+  },
+
+  'blog-post:share-hover': async (page) => {
+    await page.locator('.article-share-icons a[aria-label="Share on X"]').hover();
+    await assertHovered(page, '.article-share-icons a[aria-label="Share on X"]');
+    await waitAnimationsSettled(page, '.article-share-icons', 3000);
+  },
+
+  // Real keyboard focus: focus() alone does not always match :focus-visible
+  // (that depends on input modality), so step away and back with the keyboard.
+  // Tab order is relative to the target, never a hard-coded stop count.
+  'blog-post:share-focus': async (page) => {
+    const sel = '.article-share-icons a[aria-label="Share on Facebook"]';
+    await page.locator(sel).focus();
+    await page.keyboard.press('Shift+Tab');
+    await page.keyboard.press('Tab');
+    await resetMouse(page);
+    await withHardTimeout(
+      page.evaluate((sel) => {
+        const el = document.activeElement;
+        if (el !== document.querySelector(sel)) throw new Error('keyboard focus did not return to the Facebook share link');
+        if (!el.matches(':focus-visible')) throw new Error('the Facebook share link is focused but not :focus-visible');
+      }, sel),
+      3000,
+      'share link to be keyboard focused (:focus-visible)',
+    );
+    await waitAnimationsSettled(page, '.article-share-icons', 3000);
+  },
+
+  // The 1200ms "URL Copied" timer is stopped by STATE_INIT_SCRIPTS below, so
+  // the state persists until the shot. Waits for the condition, not a delay.
+  'blog-post:url-copied': async (page) => {
+    await page.locator('.article-share-icons a[aria-label="Copy link"]').click();
+    await resetMouse(page);
+    await withHardTimeout(
+      page.evaluate(() => new Promise((resolve, reject) => {
+        const deadline = performance.now() + 4000;
+        const check = () => {
+          const li = document.querySelector('.article-share-icons li[aria-live]');
+          if (li && getComputedStyle(li).display !== 'none' && li.textContent.trim() === 'URL Copied') return resolve(undefined);
+          if (performance.now() > deadline) return reject(new Error('"URL Copied" never became visible'));
+          requestAnimationFrame(check);
+        };
+        check();
+      })),
+      5000,
+      '"URL Copied" to become visible',
+    );
+    await waitAnimationsSettled(page, '.article-share-icons', 3000);
+  },
+
+  'blog:sidebar-banner-hover': async (page) => {
+    await scrollElementToOffset(page, '.blog-sidebar__banner', 250);
+    await page.locator('.blog-sidebar__banner').first().hover();
+    await assertHovered(page, '.blog-sidebar__banner');
+    await waitAnimationsSettled(page, '.blog-sidebar__banner', 3000);
+  },
+
+  'blog:content-banner-hover': async (page) => {
+    await scrollElementToOffset(page, '.blog-banner', 250);
+    await page.locator('.blog-banner').first().hover();
+    await assertHovered(page, '.blog-banner');
+    await waitAnimationsSettled(page, '.blog-banner', 3000);
+  },
+
+  'blog:main-article-hover': async (page) => {
+    await page.locator('.blog-main-article h1 a').first().hover();
+    await assertHovered(page, '.blog-main-article h1 a');
+    await waitAnimationsSettled(page, '.blog-main-article', 3000);
+  },
+
   // #size:focus is what's styled in the compiled CSS, not #size:focus-visible
   // (confirmed against the compiled output in the Phase 6 READ) — so a
   // programmatic .focus() and a real Tab-key focus render identically here.
@@ -815,7 +985,13 @@ if (only) {
 
 async function main() {
   if (media) assertMediaCacheReady();
-  const browser = await chromium.launch();
+  // --disable-partial-raster: Chromium re-rasters only the invalidated part of
+  // a tile on top of the previous raster, which leaves a rounded-clip edge
+  // (image corners) one or two levels apart depending on which partial
+  // updates happened before the shot. Viewport screenshots of /blog flipped
+  // between two frames in ~1 of 3 fresh contexts (12/12 identical with the
+  // flag, Phase 7.0). Full re-raster is what a screenshot should capture.
+  const browser = await chromium.launch({ args: ['--disable-partial-raster'] });
   let failures = [];
   let count = 0;
   let lastMissCount = 0;
@@ -853,6 +1029,11 @@ async function main() {
 
         const mediaMisses = [];
         if (media) await installMediaCache(context, mediaMisses);
+        await installEmbedBlocker(context);
+
+        const stateKey = state ? `${route.name}:${state}` : null;
+        if (stateKey && STATE_INIT_SCRIPTS[stateKey]) await context.addInitScript(STATE_INIT_SCRIPTS[stateKey]);
+        if (stateKey && STATE_PERMISSIONS[stateKey]) await context.grantPermissions(STATE_PERMISSIONS[stateKey], { origin: new URL(base).origin });
 
         const page = await context.newPage();
         await page.addStyleTag({ content: HIDE_DEV_INDICATOR_CSS });
