@@ -22,7 +22,7 @@ import client from '../lib/graphql/apolloClient';
 // Global styles loaded once here — apply to every page
 import '../styles/globals.scss';
 import '../styles/components/header.scss';
-import '../styles/pages/product.scss';
+import '../styles/typography-cascade.scss';
 import '../styles/pages/about.scss';
 import '../styles/pages/cart.scss';
 import '../styles/pages/wishlist.scss';
