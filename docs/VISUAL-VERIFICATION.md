@@ -459,6 +459,8 @@ future comparison is measured against.
 
 ### Images: the browser-side media cache
 
+A layout change that resizes images can change srcset choices → media misses. Top up the cache with --media record-missing on the BEFORE build; never overwrite.
+
 The proxy cannot cover images, and they turned out not to be a theoretical
 risk: with GraphQL/REST replayed but images live, back-to-back runs still
 differed (a live gallery image once loaded with `naturalWidth 0`; one page came
