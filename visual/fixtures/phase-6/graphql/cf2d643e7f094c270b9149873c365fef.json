@@ -1,0 +1,16 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetAllPostsWithTotal",
+    "query": "query GetAllPostsWithTotal($size: Int!, $offset: Int!) {\n  posts(\n    where: {offsetPagination: {size: $size, offset: $offset}, orderby: {field: DATE, order: DESC}}\n  ) {\n    pageInfo {\n      offsetPagination {\n        total\n        __typename\n      }\n      __typename\n    }\n    nodes {\n      databaseId\n      slug\n      title(format: RENDERED)\n      excerpt(format: RENDERED)\n      featuredImage {\n        node {\n          sourceUrl\n          mediaDetails {\n            sizes {\n              name\n              sourceUrl\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "size": 9,
+      "offset": 10
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"errors\":[{\"message\":\"Field \\\"offsetPagination\\\" is not defined by type \\\"RootQueryToPostConnectionWhereArgs\\\".\",\"locations\":[{\"line\":3,\"column\":13}]},{\"message\":\"Cannot query field \\\"offsetPagination\\\" on type \\\"RootQueryToPostConnectionPageInfo\\\".\",\"locations\":[{\"line\":6,\"column\":7}]}],\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

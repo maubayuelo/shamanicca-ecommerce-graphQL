@@ -65,7 +65,7 @@ can be named.
 **D2b — Scope per round.** During a phase, capture only the surface that phase
 touches. Run the full sweep once, as the merge gate for that phase.
 
-A full sweep is ~39 captures per side. Doing that after every stylesheet edit is
+A full sweep is 94 captures per side (Phase 7.0; it was ~39 originally). Doing that after every stylesheet edit is
 expensive enough that it would get skipped — and a procedure that gets skipped
 is worse than no procedure, because it creates false confidence.
 
@@ -88,6 +88,9 @@ These are fixed for the duration of the migration.
 | `blog` | `/blog` |
 | `blog-category` | `/blog/category/ancient-traditions` |
 | `blog-post` | `blog/the-wheel-of-the-year-a-complete-guide-to-wiccan-sabbats` |
+| `blog-all` | `/blog/all` (page 1; paginator, anchor variant) |
+| `blog-all-p2` | `/blog/all?page=2` (375 and 1440 only) |
+| `blog-post-video` | `/blog/be-resilient-positive-subliminal-affirmations` (a post with an embedded video; 375 and 1440 only) |
 | `search-shop` | `/search?q=tshirt&scope=shop` |
 | `search-blog` | `/search?q=wicca&scope=blog` |
 | `cart` | `/cart` |
@@ -116,16 +119,30 @@ interaction states — those are scoped to `product` only (see States below).
 
 13 routes × 3 default viewports, plus `product` and `product-sale` at 3
 additional viewports each (620, 1024, 1366), plus `product-oos` at 375 and 1440
-(full-page base capture of the recorded out-of-stock alias, no separate state):
+(full-page base capture of the recorded out-of-stock alias, no separate state).
+Phase 7.0 added `blog`, `blog-category`, `blog-post` and `blog-all` at 620 and
+1366 (the 601–639 and 1280–1439 bands), `blog-all` (page 1), and `blog-all-p2`
+and `blog-post-video` at 375 and 1440 — 86 route captures in total, plus 8
+states in Phase 7.0 on top of the earlier ones (94 per side):
 
 ```
 home__<vp>            shop__<vp>            shop-category__<vp>
 product__<vp>         product-oos__<vp>     product-sale__<vp>
 blog__<vp>            blog-category__<vp>   blog-post__<vp>
+blog-all__<vp>        blog-all-p2__<vp>     blog-post-video__<vp>
 search-shop__<vp>     search-blog__<vp>     cart__<vp>
 wishlist__<vp>        about__<vp>           contact__<vp>
 404__<vp>
 ```
+
+**Full-page captures never paint an out-of-process iframe.** A cross-origin
+`<iframe>` (the blog post's video) comes out as a blank rectangle in a
+`fullPage` screenshot — always, deterministically — but is painted in a
+viewport screenshot. `capture.mjs` answers every request to an embed host
+(youtube.com, youtube-nocookie.com, vimeo.com) with one blank document, so the
+embed's content can never vary; in `blog-post-video__<vp>` you see the slot
+(the `.post-video` box: aspect ratio, spacing, the caption below it), not a
+video.
 
 ### States
 
@@ -166,6 +183,28 @@ fresh browser context per state (no shared storage), driven by
 | `wishlist-saved` | 375, 1440 | `.product__wishlist-btn` | polls click → `is-wishlisted` class (bounded retry, since `WishlistContext` hydration has no DOM signal without an app-code change), then the swapped heart icon is decoded |
 | `wishlist-hover` | 1440 | `.product__wishlist-btn` (`.hover()`, no click) | `getAnimations().finished` on the button (150ms hover transition) |
 | `size-focused` | 1440 | `#size` (`.focus()`) | `document.activeElement.id === 'size'` |
+
+#### Blog, share-icon and paginator states (Phase 7.0)
+
+Same rules as above (viewport screenshots, fresh context, `STATE_HANDLERS`,
+mouse to 0,0 except for hover states). A hover state asserts
+`element.matches(':hover')` before the shot, so it cannot pass unless the
+browser really reports the hover.
+
+| State (`route:state`) | Viewport | Action | Wait condition |
+|---|---|---|---|
+| `shop:paginator-hover` | 1440 | scroll `.paginator` 300px from the top, hover the first page button that is neither `.is-active` nor `.is-disabled` (page 2; the shop paginator is the `<button>` variant) | `:hover` asserted; `getAnimations()` settled on `.paginator` (120ms transition) |
+| `blog-all:paginator-anchor-hover` | 1440 | same, on the anchor variant. Page 1 is current and its previous item is disabled, so **current and disabled are both in the shot** | asserts `.is-disabled`, `.is-active` and `.paginator__item a` exist; `:hover`; animations settled |
+| `blog-post:share-hover` | 1440 | hover the "Share on X" link | `:hover`; animations settled (0.2s background transition) |
+| `blog-post:share-focus` | 1440 | focus "Share on Facebook", `Shift+Tab`, `Tab` (a real keyboard focus, relative to the target, no hard-coded tab count), mouse to 0,0 | `document.activeElement` is that link and `:focus-visible` matches |
+| `blog-post:url-copied` | 1440 | click "Copy link" | `li[aria-live]` is visible with the text "URL Copied". The component clears it with `setTimeout(…, 1200)`; a per-state **init script** (`STATE_INIT_SCRIPTS`) swallows exactly that delay, so the state persists until the shot. Clipboard permissions are granted to the origin |
+| `blog:sidebar-banner-hover` | 1440 | scroll `.blog-sidebar__banner` 250px from the top, hover it | `:hover`; animations settled |
+| `blog:content-banner-hover` | 1440 | same for the first `.blog-banner` | `:hover`; animations settled |
+| `blog:main-article-hover` | 1440 | hover `.blog-main-article h1 a` | `:hover`; animations settled |
+
+The `.is-affilliated` (sic) banner variant is **not** capturable: every
+recorded banner is `bannerType: ["shamanicca"]`, and its query has no
+variables, so there is no key to alias. Use `scripts/probe-affiliated.mjs`.
 
 **Why `.focus()` and not a real Tab keypress** for `size-focused`: the
 compiled CSS styles `#size:focus`, not `#size:focus-visible` — confirmed
@@ -452,6 +491,35 @@ keeps answering with its old pages, so check the ports in step 0. After step 7,
 the next normal `npm run build` uses the live endpoint again (it reads
 `.env.local`, which this procedure never touches).
 
+### Adding fixtures without touching existing ones: `record-missing`
+
+When a phase needs a route the set does not cover, do **not** re-record.
+`record-missing` is replay plus an additive top-up: a key that has a fixture
+file is served from disk and never forwarded; a key with none is forwarded
+upstream and stored with an exclusive write, so an existing file can never be
+overwritten (5xx upstream responses are passed through, not stored).
+
+```bash
+# 0. fingerprint what exists
+(cd visual/fixtures/phase-6 && find graphql rest -type f -name '*.json' | sort | xargs shasum -a 256) > /tmp/fixtures-before.sha
+# 1. proxy in record-missing mode; build with the env vars above; start
+node scripts/graphql-replay.mjs record-missing --upstream https://master.shamanicca.com --port 4001
+rm -rf .next && npm run build && npm run start -- -p 3010
+# 2. a full capture with the new routes/states, media topped up too
+node scripts/capture.mjs /tmp/record-pass --base http://localhost:3010 \
+  --replay http://localhost:4001 --media record-missing
+curl -s localhost:4001/__recorded          # exactly which keys were added
+# 3. prove additive: recompute the list; `comm -23 before after` must be empty
+# 4. list the new files in the fixtures README, secret-scan, commit
+# 5. stop the proxy, restart in REPLAY mode, delete .next, rebuild, restart —
+#    and only then run the acceptance captures
+```
+
+Some recordings are the live backend's real behaviour, not what the code
+"should" do: `GetAllPostsWithTotal` (WPGraphQL offset pagination) is recorded
+as a GraphQL error today, so `/blog/all` always takes its cursor fallback — the
+fixtures keep that.
+
 Within a phase, the BEFORE build and the AFTER build both replay the **same
 committed fixture set** — never re-record between them. Re-recording is a
 separate commit with its own explanation, because it changes what every
@@ -460,6 +528,13 @@ future comparison is measured against.
 ### Images: the browser-side media cache
 
 A layout change that resizes images can change srcset choices → media misses. Top up the cache with --media record-missing on the BEFORE build; never overwrite.
+
+A capture can also miss an image **no earlier run ever requested**: Chrome
+lazy-loads by distance from the viewport, and that distance depends on the
+network speed it estimates at startup, so a slide two swipes away in the
+product gallery is requested in some runs and not others. Fill those with a
+`--media record-missing` pass (the numeric probes take the same flag) rather
+than trusting a lucky run.
 
 The proxy cannot cover images, and they turned out not to be a theoretical
 risk: with GraphQL/REST replayed but images live, back-to-back runs still
@@ -487,6 +562,51 @@ Also worth knowing: a screenshot is only written after two consecutive frames
 are byte-identical (`writeStableScreenshot`), and `--only label,label` runs a
 subset of captures for debugging.
 
+## Numeric probes (no screenshots)
+
+Captures cannot reach every state, and a picture is a poor way to answer a
+numeric question. Two probes run against the same replay proxy and production
+build as `capture.mjs` (same consent init script, same media-cache replay, same
+embed blocker; both exit 1 on any proxy or media miss, because numbers measured
+on a broken page are worthless). `--media record-missing` tops up an image a
+probe visits at a width no capture uses.
+
+```bash
+node scripts/probe-overflow.mjs   [--out overflow.json]   # scrollWidth - innerWidth
+node scripts/probe-affiliated.mjs [--out affiliated.json] # .is-affilliated computed diff
+```
+
+- `probe-overflow.mjs` — every blog route (`blog`, `blog-category`, `blog-post`,
+  `blog-all`, `blog-all-p2`, `blog-post-video`) at 320/375/620/768/1024/1366/1440:
+  `documentElement.scrollWidth` against `window.innerWidth`, the widest element
+  past the right edge when there is overflow, and `.blog-layout`'s grid columns
+  at ≥1280. Phase 7.0 result: **0 overflow in all 42 cells.**
+- `probe-affiliated.mjs` — the `.is-affilliated` (sic) banner variant is never
+  rendered by any recorded route. The probe adds the class to the real rendered
+  content banner (375, 1440) and sidebar banner (1440) and prints every computed
+  value that changes. Run it on the BEFORE and AFTER builds (`--out`) and diff
+  the JSON. Phase 7.0 baseline: exactly one change per banner, `background-color`
+  (content banner `rgba(0,0,0,0)` → `rgb(248,248,248)`; sidebar banner
+  `rgb(255,255,255)` → `rgb(240,240,240)`).
+
+### Chromium runs with `--disable-partial-raster`
+
+Viewport (non-full-page) screenshots of `/blog` at 1440 flipped between two
+frames in about one of three fresh contexts: a handful of antialiased pixels,
+one or two levels apart, on a rounded image corner. Partial raster re-rasters
+only the invalidated part of a tile over the previous raster, so which frame
+you get depends on which partial updates happened first. With
+`--disable-partial-raster` 12 of 12 fresh contexts were identical, and the
+extra frame-stability wait, disabling transitions and GPU flags were each
+tried and did not help. **A capture set made before Phase 7.0 is not
+pixel-comparable to one made after it**: 3 of the 71 older captures
+(`product__375`, `product-sale__375`, `product__1440__wishlist-hover`) differ
+by a few antialiased pixels. Every phase captures BEFORE and AFTER with the
+same script version, so this only matters if you compare against an old
+directory.
+
+---
+
 ## Determinism test
 
 The capture script's own waits are a claim: that capturing the same build
@@ -504,7 +624,8 @@ node scripts/capture.mjs visual/<phase>/run1 --base http://localhost:3010 --repl
 node scripts/capture.mjs visual/<phase>/run2 --base http://localhost:3010 --replay http://localhost:4001 --media replay
 ```
 
-Both runs must also finish with 0 proxy misses and 0 media misses. Run both in
+Both runs must also finish with 0 proxy misses and 0 media misses. Phase 7.0
+result: **94/94 identical** between back-to-back runs, about 111s per run. Run both in
 one shell invocation (no gap) and confirm `scripts/capture.mjs` did not change
 between them — a run made with an older script does not count. Phase 6.0
 result: 71/71 identical, about 84s per run.
