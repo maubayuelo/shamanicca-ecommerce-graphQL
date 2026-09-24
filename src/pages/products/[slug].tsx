@@ -388,7 +388,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
         jsonLd={[...(productSchema ? [productSchema] : []), breadcrumbSchema]}
       />
       <Header />
-      <main className="product-page" role="main">
+      <main className="w-full" role="main">
         <div className='main'>
           <Breadcrumb
             className="breadcrumb type-xs pt-sm-responsive pb-sm-responsive"
@@ -400,8 +400,8 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
             linkLast={true}
           />
         </div>
-        <div className="main product">
-          <div className="product__content">
+        <div className="main">
+          <div className="grid grid-cols-[1fr] lg:grid-cols-[44%_1fr] lg:gap-15 lg:items-start xl:grid-cols-[minmax(0,720px)_1fr]">
             <ProductImageGallery 
               title={title} 
               isOnSale={!!isOnSale} 
@@ -409,24 +409,25 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               className="product__media" 
             />
 
-            <div className="product__details">
+            <div className="flex flex-col gap-7.5 overflow-hidden">
               
-              <h1 className="product__title mt-lg-responsive mb-0 type-5xl">{title}</h1>
+              <h1 className="mt-lg-responsive mb-0 type-5xl type-antialiased font-black text-black">{title}</h1>
 
-              <div className="product__price" aria-live="polite">
-                {isOnSale && <div className="regular  type-2xl">${regularPrice.toFixed(2)}</div>}
-                <div className="current type-2xl">${price.toFixed(2)}</div>
-                {isOnSale && <div className="badge-small type-sm">Save ${Math.max(0, regularPrice - price).toFixed(0)}</div>}
+              <div className="flex gap-3 items-center" aria-live="polite">
+                {isOnSale && <div className="type-2xl type-antialiased font-semibold text-gray-600 line-through">${regularPrice.toFixed(2)}</div>}
+                <div className="type-2xl type-antialiased font-black text-black">${price.toFixed(2)}</div>
+                {isOnSale && <div className="type-sm px-2 py-0.75 rounded-lg bg-[#e7e1ff] text-primary-800">Save ${Math.max(0, regularPrice - price).toFixed(0)}</div>}
               </div>
 
               
 
-              <div className="product__options">
+              <div className="product__options grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[180px_1fr]">
                 {hasSizeOptions && (
-                  <div className={`field ${sizeError ? 'field--error' : ''}`}>
-                    <label htmlFor="size">Size</label>
+                  <div className={`field grid gap-2 content-start ${sizeError ? 'field--error' : ''}`}>
+                    <label htmlFor="size" className="text-sm font-semibold text-black">Size</label>
                     <select
                       id="size"
+                      className="w-full py-2.5 px-3 bg-white border border-gray-300 rounded-[10px] shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
                       value={size}
                       onChange={(e) => {
                         setSize(e.target.value);
@@ -445,17 +446,18 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                         </option>
                       ))}
                     </select>
-                    <span id="size-error" className="field-error" aria-live="polite">
+                    <span id="size-error" className="block min-h-5 text-[0.875rem] text-[oklch(0.4437_0.1613_26.9)]" aria-live="polite">
                       {sizeError}
                     </span>
                   </div>
                 )}
 
-                <div className="field">
-                  <label htmlFor="quantity">Quantity</label>
-                  <div className="qty-control">
+                <div className="field grid gap-2 content-start">
+                  <label htmlFor="quantity" className="text-sm font-semibold text-black">Quantity</label>
+                  <div className="inline-flex items-center gap-2.5">
                     <button
                       type="button"
+                      className="size-9 rounded-lg border border-gray-300 bg-white cursor-pointer"
                       aria-label="Decrease quantity"
                       onClick={() => setQty((q) => Math.max(1, q - 1))}
                     >
@@ -463,6 +465,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     </button>
                     <input
                       id="quantity"
+                      className="w-17.5 text-center py-2.5 px-3 bg-white border border-gray-300 rounded-[10px] shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
                       type="number"
                       min={1}
                       value={qty}
@@ -471,6 +474,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     />
                     <button
                       type="button"
+                      className="size-9 rounded-lg border border-gray-300 bg-white cursor-pointer"
                       aria-label="Increase quantity"
                       onClick={() => setQty((q) => q + 1)}
                     >
@@ -481,13 +485,13 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               </div>
 
               {isProductOutOfStock ? (
-                <button ref={ctaRef} className="btn btn-primary btn-large product__cta" disabled>
+                <button ref={ctaRef} className="btn btn-primary btn-large product__cta w-full" disabled>
                   Out of Stock
                 </button>
               ) : (
                 <button
                   ref={ctaRef}
-                  className="btn btn-primary btn-large product__cta"
+                  className="btn btn-primary btn-large product__cta w-full"
                   onClick={() => {
                     if (!product) return;
                     if (hasSizeOptions && !size) {
@@ -513,7 +517,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               )}
 
               <button
-                className={`product__wishlist-btn${wishlisted ? ' is-wishlisted' : ''}`}
+                className={`product__wishlist-btn flex w-full items-center justify-center gap-2.5 py-3.5 px-5 border-[1.5px] rounded-[10px] cursor-pointer [font-family:Poppins,sans-serif] text-sm font-semibold transition-[border-color,color,background] duration-150 ease-[ease] ${wishlisted ? 'is-wishlisted border-[#675dff] bg-[#e7e1ff] text-[#675dff]' : 'border-gray-300 bg-transparent text-black [&:hover]:border-[#675dff] [&:hover]:text-[#675dff]'}`}
                 onClick={() => {
                   if (!product || !wishlistId) return;
                   toggle({
@@ -532,13 +536,14 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                   alt=""
                   width={18}
                   height={18}
+                  className="block shrink-0"
                   aria-hidden
                 />
                 {wishlisted ? 'Saved to wishlist' : 'Save to wishlist'}
               </button>
 
               <div 
-                className="product__desc" 
+                className="product__desc type-lg font-normal text-black [&_a]:text-[#675dff] [&_a]:font-black [&_a]:underline" 
                 dangerouslySetInnerHTML={{ __html: description }}
               />
               
@@ -552,7 +557,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               pageSize={3}
               showTitle
               showCTA={false}
-              className="product__related pb-lg-responsive"
+              className="pb-lg-responsive"
             />
         <Footer />
       </main>
