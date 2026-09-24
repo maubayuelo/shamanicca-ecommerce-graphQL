@@ -401,7 +401,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
           />
         </div>
         <div className="main">
-          <div className="grid grid-cols-[1fr] lg:grid-cols-[44%_1fr] lg:gap-15 lg:items-start xl:grid-cols-[minmax(0,720px)_1fr]">
+          <div className="grid grid-cols-[minmax(0,1fr)] lg:grid-cols-[44%_1fr] lg:gap-15 lg:items-start xl:grid-cols-[minmax(0,720px)_1fr]">
             <ProductImageGallery 
               title={title} 
               isOnSale={!!isOnSale} 
