@@ -37,6 +37,7 @@ import Paginator from '../../components/molecules/Paginator';
 import client from '../../lib/graphql/apolloClient';
 import { GET_POST_IDS, GET_POSTS_BY_IDS } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
+import { useBanners } from '../../hooks/useBanners';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
 import { MAX_LISTING_IDS, paginateIds, parsePageParam, warnIfTruncated } from '../../utils/paginate';
 
@@ -54,15 +55,16 @@ export default function AllPostsPage({ items, currentPage, totalItems }: PagePro
     { title: 'Magical Practices', items: items.slice(3, 6) },
   ];
 
-  const sampleBanners = [
-    {
-      imageUrl: 'https://placehold.co/270x270.png',
-      title: 'Intentioned Apparel',
-      subtitle: 'Wear your protection. Embody your abundance.',
-      ctaLabel: 'SHOP NOW!',
-      href: '/shop',
-    },
-  ];
+  const { banner } = useBanners(null);
+
+  const sidebarBanners = banner ? [{
+    imageUrl: banner.banner_image,
+    title: banner.banner_headline,
+    subtitle: banner.banner_subtext,
+    ctaLabel: banner.banner_cta_label,
+    href: banner.banner_cta_url,
+    isAffilliated: banner.banner_type === 'affiliate',
+  }] : [];
 
   const hrefBuilder = (page: number) => {
     const base = '/blog/all';
@@ -92,7 +94,7 @@ export default function AllPostsPage({ items, currentPage, totalItems }: PagePro
                   hrefBuilder={hrefBuilder}
                 />
               </div>
-              <BlogSidebar sections={sidebarSections} banners={sampleBanners} />
+              <BlogSidebar sections={sidebarSections} banners={sidebarBanners} />
             </div>
           </div>
           <Footer />
