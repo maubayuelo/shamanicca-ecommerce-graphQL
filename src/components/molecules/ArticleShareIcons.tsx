@@ -34,6 +34,14 @@
 
 import React from 'react';
 
+// Shared by every share link. `group` lets the wrap react to the link's
+// :hover / :focus-visible (ungated, like the SCSS it replaces).
+const SHARE_LINK =
+  'group inline-flex items-center justify-center text-black no-underline transition-[color] duration-200 ease-[ease-in-out]';
+const SHARE_WRAP =
+  'share-icon-wrap inline-flex items-center justify-center w-7.5 h-7.5 bg-black rounded-md transition-[background-color] duration-200 ease-[ease-in-out] [.group:hover_&]:bg-[#675dff] [.group:focus-visible_&]:bg-[#675dff]';
+const SHARE_ICON = 'share-icon inline-block w-4.5 h-4.5 bg-white';
+
 export type ArticleShareIconsProps = {
   articleTitle: string;
   articleUrl?: string;
@@ -106,27 +114,29 @@ export default function ArticleShareIcons({ articleTitle, articleUrl, className 
 
   return (
     <div className={`article-share-icons ${className}`}>
-      <ul className="m-0 p-0">
+      <ul className="m-0 p-0 inline-flex items-center gap-2.5 list-none">
         <li className="type-sm type-extrabold type-uppercase type-lineheight-xs">
           Sharing<br/>is <span className='type-primary-color'>Love</span>
         </li>
         {links.map((link, idx) => (
           <li key={`share-${idx}`}>
             <a
+              className={SHARE_LINK}
               href={link.href}
               title={link.title}
               aria-label={link.title}
               target={link.external ? '_blank' : undefined}
               rel={link.external ? 'noopener noreferrer' : undefined}
             >
-              <span className="share-icon-wrap">
-                <span className={`share-icon share-icon--${link.icon}`} aria-hidden="true" />
+              <span className={SHARE_WRAP}>
+                <span className={`${SHARE_ICON} share-icon--${link.icon}`} aria-hidden="true" />
               </span>
             </a>
           </li>
         ))}
         <li>
           <a
+            className={SHARE_LINK}
             href="#"
             title="Copy link"
             aria-label="Copy link"
@@ -135,8 +145,8 @@ export default function ArticleShareIcons({ articleTitle, articleUrl, className 
               copyToClipboard();
             }}
           >
-            <span className="share-icon-wrap">
-              <span className="share-icon share-icon--link" aria-hidden="true" />
+            <span className={SHARE_WRAP}>
+              <span className={`${SHARE_ICON} share-icon--link`} aria-hidden="true" />
             </span>
           </a>
         </li>
