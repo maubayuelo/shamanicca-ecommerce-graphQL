@@ -1,0 +1,16 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetCategoryPostIds",
+    "query": "query GetCategoryPostIds($slug: ID!, $first: Int!) {\n  category(id: $slug, idType: SLUG) {\n    databaseId\n    name\n    slug\n    description\n    count\n    posts(first: $first) {\n      nodes {\n        databaseId\n        date\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "slug": "ancient-traditions",
+      "first": 100
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"category\":{\"databaseId\":10,\"name\":\"Ancient Traditions\",\"slug\":\"ancient-traditions\",\"description\":\"Explore the rich history and diverse traditions of Wicca, Shamanism, Alchemy, and other spiritual paths. Delve into ancient practices, cultural contexts, and the evolution of these powerful beliefs.<!-- notionvc: f8e00cf8-42d3-45ea-ac5a-0e03a40a3f64 -->\",\"count\":6,\"posts\":{\"nodes\":[{\"databaseId\":565,\"date\":\"2025-02-05T23:13:31\",\"__typename\":\"Post\"},{\"databaseId\":556,\"date\":\"2025-02-05T23:09:13\",\"__typename\":\"Post\"},{\"databaseId\":554,\"date\":\"2025-02-05T23:08:49\",\"__typename\":\"Post\"},{\"databaseId\":148,\"date\":\"2022-01-26T01:13:54\",\"__typename\":\"Post\"},{\"databaseId\":150,\"date\":\"2021-12-30T17:08:27\",\"__typename\":\"Post\"},{\"databaseId\":140,\"date\":\"2021-12-26T16:02:22\",\"__typename\":\"Post\"}],\"__typename\":\"CategoryToPostConnection\"},\"__typename\":\"Category\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

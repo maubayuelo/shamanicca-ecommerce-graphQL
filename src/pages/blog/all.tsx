@@ -12,21 +12,13 @@
  * rendering is simpler here — the server reads the query param and fetches
  * the correct page of results on each request.
  *
- * PAGINATION STRATEGIES:
- * This page tries two approaches in order:
- *
- *  Strategy 1 — Offset Pagination (preferred, requires WPGraphQL Offset Pagination plugin):
- *    GET_ALL_POSTS_WITH_TOTAL uses `offsetPagination: { size, offset }` and returns
- *    a `total` count. This gives us: total items → how many pages → render paginator.
- *    OFFSET_BASE = 10 means the first 10 posts are shown on the homepage/blog landing,
- *    so this listing starts from post #11.
- *
- *  Strategy 2 — Cursor Pagination (fallback, available in WPGraphQL by default):
- *    If the offset plugin isn't installed, cursor-based pagination is used instead.
- *    Cursors are opaque strings (like "YXJyYXljb25uZWN0aW9uOjA=") that point to
- *    a position in the result set. To reach page 3, you must iterate through pages
- *    1 and 2 first (no random access), which is less efficient but always works.
- *    Since we don't have a total count, we estimate it from `hasNextPage`.
+ * PAGINATION (ids paging, see utils/paginate.ts):
+ *  WordPress keeps a curated post order that `orderby` does not change, while
+ *  WPGraphQL cursors filter by date — walking cursors repeated posts on every
+ *  page. So one query (GET_POST_IDS) lists every post id in the site's own
+ *  order, the page's slice of ids is cut here, and a second query
+ *  (GET_POSTS_BY_IDS) loads exactly those posts, in that order. The total is
+ *  the id count, so the paginator always shows every page.
  *
  * LAYOUT:
  *  Header → BlogHeader → BlogGrid (9 posts) → Paginator → Footer
@@ -43,12 +35,12 @@ import BlogGrid, { type BlogGridItem } from '../../components/sections/BlogGrid'
 import BlogSidebar from '../../components/sections/BlogSidebar';
 import Paginator from '../../components/molecules/Paginator';
 import client from '../../lib/graphql/apolloClient';
-import { GET_ALL_POSTS_WITH_TOTAL, GET_ALL_POSTS_CURSOR } from '../../lib/graphql/queries';
+import { GET_POST_IDS, GET_POSTS_BY_IDS } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
+import { MAX_LISTING_IDS, paginateIds, parsePageParam, warnIfTruncated } from '../../utils/paginate';
 
 const PAGE_SIZE = 9;
-const OFFSET_BASE = 10; // Start listing from the 11th post
 
 type PageProps = {
   items: BlogGridItem[];
@@ -111,52 +103,38 @@ export default function AllPostsPage({ items, currentPage, totalItems }: PagePro
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => {
-  const pageParam = typeof ctx.query.page === 'string' ? parseInt(ctx.query.page, 10) : NaN;
-  const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
+  const currentPage = parsePageParam(ctx.query.page);
 
-  const offset = Math.max(0, OFFSET_BASE + (currentPage - 1) * PAGE_SIZE);
-  // Prefer offsetPagination if available; otherwise use cursor-based iteration
-  try {
-    const { data } = await client.query<{ posts: { nodes: any[]; pageInfo: { offsetPagination: { total: number } } } }>({
-      query: GET_ALL_POSTS_WITH_TOTAL,
-      variables: { size: PAGE_SIZE, offset },
+  const idsRes = await client.query<{ posts: { nodes: Array<{ databaseId: number }> } }>({
+    query: GET_POST_IDS,
+    variables: { first: MAX_LISTING_IDS },
+    fetchPolicy: 'no-cache',
+  });
+  const ids = (idsRes.data.posts?.nodes || []).map((n) => n.databaseId);
+  warnIfTruncated(ids.length, '/blog/all');
+
+  const { pageIds } = paginateIds(ids, currentPage, PAGE_SIZE);
+
+  let items: BlogGridItem[] = [];
+  if (pageIds.length > 0) {
+    const { data } = await client.query<{ posts: { nodes: any[] } }>({
+      query: GET_POSTS_BY_IDS,
+      variables: { in: pageIds.map(String), first: PAGE_SIZE },
+      fetchPolicy: 'no-cache',
     });
-
-    const items: BlogGridItem[] = (data.posts?.nodes || []).map((n: any) => ({
-      id: n.databaseId,
-      title: decodeEntities(n.title || ''),
-      summary: cleanExcerpt(n.excerpt || ''),
-      imageUrl: pickImage(n, 'thumbnail') || null,
-      imageUrlMedium: pickImage(n, 'medium') || null,
-      href: `/blog/${n.slug}`,
-    }));
-
-    const totalItems = data.posts?.pageInfo?.offsetPagination?.total ?? items.length;
-    return { props: { items, currentPage, totalItems } };
-  } catch {
-    // Cursor-based: iterate to the requested page
-    let after: string | undefined = undefined;
-    for (let i = 1; i < currentPage; i++) {
-      const pageRes = await client.query<{ posts: { pageInfo: { endCursor: string; hasNextPage: boolean } } }>({ query: GET_ALL_POSTS_CURSOR, variables: { first: PAGE_SIZE, after } });
-      after = pageRes.data.posts?.pageInfo?.endCursor;
-      const hasNext = pageRes.data.posts?.pageInfo?.hasNextPage;
-      if (!hasNext && i < currentPage) {
-        // Requested page exceeds available pages; return last available page
-        break;
-      }
-    }
-    const { data } = await client.query<{ posts: { nodes: any[]; pageInfo: { hasNextPage: boolean } } }>({ query: GET_ALL_POSTS_CURSOR, variables: { first: PAGE_SIZE, after } });
-    const items: BlogGridItem[] = (data.posts?.nodes || []).map((n: any) => ({
-      id: n.databaseId,
-      title: decodeEntities(n.title || ''),
-      summary: cleanExcerpt(n.excerpt || ''),
-      imageUrl: pickImage(n, 'thumbnail') || null,
-      imageUrlMedium: pickImage(n, 'medium') || null,
-      href: `/blog/${n.slug}`,
-    }));
-    // Without total support, approximate: if there's a next page, assume more items, otherwise end here
-    const hasNext = data.posts?.pageInfo?.hasNextPage ?? false;
-    const totalItems = hasNext ? (currentPage + 1) * PAGE_SIZE : (currentPage - 1) * PAGE_SIZE + items.length;
-    return { props: { items, currentPage, totalItems } };
+    const byId = new Map<number, any>((data.posts?.nodes || []).map((n: any) => [n.databaseId, n]));
+    items = pageIds
+      .map((id) => byId.get(id))
+      .filter(Boolean)
+      .map((n: any) => ({
+        id: n.databaseId,
+        title: decodeEntities(n.title || ''),
+        summary: cleanExcerpt(n.excerpt || ''),
+        imageUrl: pickImage(n, 'thumbnail') || null,
+        imageUrlMedium: pickImage(n, 'medium') || null,
+        href: `/blog/${n.slug}`,
+      }));
   }
+
+  return { props: { items, currentPage, totalItems: ids.length } };
 };
