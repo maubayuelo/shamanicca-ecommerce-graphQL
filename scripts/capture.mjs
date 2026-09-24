@@ -47,8 +47,8 @@ function parseArgs(argv) {
       i++;
     } else if (args[i] === '--media') {
       media = args[i + 1];
-      if (media !== 'record' && media !== 'replay') {
-        console.error('--media must be "record" or "replay"');
+      if (media !== 'record' && media !== 'record-missing' && media !== 'replay') {
+        console.error('--media must be "record", "record-missing", or "replay"');
         process.exit(1);
       }
       i++;
@@ -60,7 +60,7 @@ function parseArgs(argv) {
     }
   }
   if (positional.length !== 1) {
-    console.error('Usage: node scripts/capture.mjs <outputDir> [--base http://localhost:3000] [--replay http://localhost:4001] [--only label,label] [--media record|replay]');
+    console.error('Usage: node scripts/capture.mjs <outputDir> [--base http://localhost:3000] [--replay http://localhost:4001] [--only label,label] [--media record|record-missing|replay]');
     process.exit(1);
   }
   return { outputDir: positional[0], base, replay, only, media };
@@ -121,7 +121,7 @@ function mediaKeyFor(requestUrl) {
 }
 
 function assertMediaCacheReady() {
-  if (media === 'record') {
+  if (media === 'record' || media === 'record-missing') {
     fs.mkdirSync(mediaDir, { recursive: true });
     return;
   }
@@ -137,6 +137,7 @@ function assertMediaCacheReady() {
 }
 
 async function installMediaCache(context, misses) {
+  const pendingRecordings = new Map();
   await context.route('**/*', async (route) => {
     const request = route.request();
     if (request.resourceType() !== 'image') return route.continue();
@@ -155,6 +156,33 @@ async function installMediaCache(context, misses) {
       misses.push(key);
       console.error(`[media] MISS ${key}`);
       return route.abort('failed');
+    }
+    if (media === 'record-missing') {
+      if (!pendingRecordings.has(key)) {
+        pendingRecordings.set(key, (async () => {
+          if (fs.existsSync(binPath) || fs.existsSync(metaPath)) {
+            throw new Error(`Incomplete cache entry; refusing to overwrite: ${key}`);
+          }
+          const response = await route.fetch();
+          const body = await response.body();
+          if (response.status() !== 200 || body.length === 0) {
+            throw new Error(`Cannot record ${key}: HTTP ${response.status()}, ${body.length} bytes`);
+          }
+          const contentType = response.headers()['content-type'] || 'application/octet-stream';
+          // Exclusive creation protects existing files even if another process writes this key.
+          fs.writeFileSync(binPath, body, { flag: 'wx' });
+          fs.writeFileSync(metaPath, JSON.stringify({ key, contentType }, null, 2), { flag: 'wx' });
+          console.log(`[media] RECORDED ${key}`);
+          return { status: 200, contentType, body };
+        })());
+      }
+      try {
+        return await route.fulfill(await pendingRecordings.get(key));
+      } catch (error) {
+        misses.push(key);
+        console.error(`[media] RECORD FAILED ${key}: ${error.message}`);
+        return route.abort('failed');
+      }
     }
     const response = await route.fetch();
     const body = await response.body();
