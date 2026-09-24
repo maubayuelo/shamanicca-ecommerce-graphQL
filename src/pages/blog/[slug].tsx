@@ -285,7 +285,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                       <Fragment>
 
                         <iframe
-                          className="post-video mb-sm-responsive"
+                          className="post-video mb-sm-responsive block w-full aspect-video h-auto [border:0]"
                           src={url}
                           title={decodeEntities(title)}
                           frameBorder={0}

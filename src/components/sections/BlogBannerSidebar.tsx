@@ -23,17 +23,17 @@ export default function BlogBannerSidebar({
   return (
     <a
       href={href}
-      className={`blog-sidebar__banner${isAffilliated ? ' is-affilliated' : ''} ${className}`}
+      className={`blog-sidebar__banner group self-stretch pr-legacy-15 bg-white overflow-hidden outline-1 outline-solid outline-gray-800 justify-start mt-legacy-15 -mb-7.5 items-center gap-legacy-15 inline-flex [&.is-affilliated]:bg-gray-100 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
       target={isAffilliated ? '_blank' : undefined}
       rel={isAffilliated ? 'noopener noreferrer' : undefined}
     >
-      <div className="blog-sidebar__banner-image">
-        <Image src={imageUrl} alt={title || ''} width={180} height={180} />
+      <div className="blog-sidebar__banner-image w-37.5 [height:-webkit-fill-available] [padding:0] relative bg-black">
+        <Image className="w-full h-full object-cover block" src={imageUrl} alt={title || ''} width={180} height={180} />
       </div>
-      <div className="blog-sidebar__banner-body">
+      <div className="blog-sidebar__banner-body [flex:1_1_0] inline-flex flex-col justify-start items-start py-legacy-15 px-0 gap-legacy-15">
         <div>
-          {title && <div className="type-xl type-extrabold">{title}</div>}
-          {subtitle && <div className="type-md mb-xm-responsive">{subtitle}</div>}
+          {title && <div className="type-xl type-extrabold [.group:hover_&]:text-[#675dff]">{title}</div>}
+          {subtitle && <div className="type-md mb-xm-responsive [.group:hover_&]:text-[#675dff]">{subtitle}</div>}
           {isAffilliated && (
           <div className="type-italic type-xs mt-0" aria-label="Affiliated">Affilliated Ad</div>
         )}
