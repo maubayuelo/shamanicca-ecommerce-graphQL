@@ -101,10 +101,13 @@ export default function Paginator({
   // The page window follows the viewport width after mount (SSR-safe: null
   // until then). See utils/paginationWindow.ts.
   const viewportWidth = useViewportWidth();
+  const navRef = React.useRef<HTMLElement | null>(null);
+  const listRef = React.useRef<HTMLUListElement | null>(null);
+  const container = useContainerWidth(navRef, listRef, [viewportWidth, totalPages]);
 
   const items = React.useMemo(
-    () => pageItemsForWidth({ totalPages, currentPage: page, width: viewportWidth, siblingCount, boundaryCount }),
-    [totalPages, page, viewportWidth, siblingCount, boundaryCount]
+    () => pageItemsForWidth({ totalPages, currentPage: page, width: viewportWidth, siblingCount, boundaryCount, container }),
+    [totalPages, page, viewportWidth, siblingCount, boundaryCount, container]
   );
 
   const handleClick = (p: number) => (e: React.MouseEvent) => {
@@ -119,8 +122,8 @@ export default function Paginator({
   const nextDisabled = page >= totalPages;
 
   return (
-    <nav className={`paginator w-full flex items-center justify-center ${className}`} aria-label="Pagination" role="navigation">
-      <ul className={PAG_LIST} role="list">
+    <nav ref={navRef} className={`paginator w-full flex items-center justify-center ${className}`} aria-label="Pagination" role="navigation">
+      <ul ref={listRef} className={PAG_LIST} role="list">
         {/* Prev */}
         <li className={`${PAG_ITEM} paginator__prev${prevDisabled ? ' is-disabled' : ''}`}>
           {hrefBuilder ? (
@@ -205,4 +208,30 @@ function useViewportWidth(): number | null {
   }, []);
 
   return width;
+}
+
+// The width the page gives the list, measured with the list itself out of the
+// way: a wide list would otherwise stretch its own container (a `1fr` grid
+// column grows to its content, which is how the blog layout overflowed the
+// page at 1280px). Null on the server and until the first measurement.
+function useContainerWidth(
+  navRef: React.RefObject<HTMLElement | null>,
+  listRef: React.RefObject<HTMLElement | null>,
+  deps: React.DependencyList,
+): number | null {
+  const [container, setContainer] = React.useState<number | null>(null);
+
+  React.useEffect(() => {
+    const nav = navRef.current;
+    const list = listRef.current;
+    if (!nav || !list) return;
+    const previous = list.style.display;
+    list.style.display = 'none';
+    const width = nav.clientWidth;
+    list.style.display = previous;
+    setContainer(width);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+
+  return container;
 }
