@@ -5,12 +5,16 @@
  * pages around the current one, an ellipsis for each gap). pageItemsForWidth
  * picks its counts from the viewport width:
  *
- *  - phone (<= 600px) and desktop (>= 1024px): the fixed counts the component
- *    always used (the list scrolls on phones; desktop has the room);
- *  - tablet (601-1023px): the list cannot scroll (overflow: hidden) and its
- *    cells are large, so the widest window that FITS is used, measured with the
- *    cell widths below. A full list of 6-7 pages is ~775-825px wide but the
- *    container is only `width - 30`px, which clipped the last pages and Next.
+ *  - phone (<= 600px): the fixed counts the component always used (the list
+ *    scrolls there);
+ *  - tablet (601-1023px) and desktop (>= 1024px): the list cannot scroll
+ *    (overflow: hidden) and its cells are large, so the widest window that FITS
+ *    the container is used, measured with the cell widths below. A full list of
+ *    6-7 pages is ~775-825px wide; the container is `width - 30` on a tablet,
+ *    `width - 60` on desktop and only `width - 570` next to the blog sidebar.
+ *    Desktop keeps its usual window (2 siblings, 2 boundary pages) whenever
+ *    that fits, and falls back through the tablet candidates only when it
+ *    does not.
  *
  * Keep the two 600 / 1024 values in sync with the SCSS breakpoints (the 600px
  * query in Paginator.tsx is exact; both move in Phase 9).
@@ -126,7 +130,7 @@ export function listWidth(items: PageItem[]): number {
 }
 
 /** Widest list any current page produces for these counts. */
-function worstListWidth(totalPages: number, siblingCount: number, boundaryCount: number): number {
+export function worstListWidth(totalPages: number, siblingCount: number, boundaryCount: number): number {
   let worst = 0;
   for (let cur = 1; cur <= totalPages; cur++) {
     worst = Math.max(worst, listWidth(buildPageItems({ totalPages, currentPage: cur, siblingCount, boundaryCount })));
@@ -134,31 +138,42 @@ function worstListWidth(totalPages: number, siblingCount: number, boundaryCount:
   return worst;
 }
 
-/**
- * The tablet window: the widest of (props, no siblings, no siblings and no
- * boundary...) that fits the container for EVERY current page, so the
- * numbers do not change shape while paging. The last candidate (only the
- * current page between two ellipses) is 394px wide and always fits at 601px.
- */
-export function tabletCounts(width: number, totalPages: number, siblingCount: number, boundaryCount: number) {
+type Counts = { siblingCount: number; boundaryCount: number };
+
+/** Window candidates, widest first (siblings + boundary > boundary > siblings > current only). */
+function candidatesFor(siblingCount: number, boundaryCount: number): Counts[] {
   const s = Math.max(1, siblingCount);
   const b = Math.max(1, boundaryCount);
-  const room = width - TABLET_CELL.gutter;
-  const candidates = [
+  return [
     { siblingCount: s, boundaryCount: b },
     { siblingCount: 0, boundaryCount: b },
     { siblingCount: s, boundaryCount: 0 },
     { siblingCount: 0, boundaryCount: 0 },
   ];
+}
+
+/**
+ * The first candidate whose WORST case over every current page fits `room`
+ * (so the window keeps one shape while paging). The last candidate (only the
+ * current page between two ellipses) is 394px wide.
+ */
+export function firstFitting(room: number, totalPages: number, candidates: Counts[]): Counts {
   for (const c of candidates) {
     if (worstListWidth(totalPages, c.siblingCount, c.boundaryCount) <= room) return c;
   }
   return candidates[candidates.length - 1];
 }
 
+/** The tablet window (601-1023px) for a viewport `width` (container = width - gutter). */
+export function tabletCounts(width: number, totalPages: number, siblingCount: number, boundaryCount: number) {
+  return firstFitting(width - TABLET_CELL.gutter, totalPages, candidatesFor(siblingCount, boundaryCount));
+}
+
 /**
  * The page items for a viewport width. `width` is null until the first client
- * render (server and first paint use the props, as before).
+ * render (server and first paint use the props, as before). `container` is the
+ * measured width available to the list, or null when it is not known yet
+ * (tablet then uses `width - gutter`; desktop keeps its usual window).
  */
 export function pageItemsForWidth({
   totalPages,
@@ -166,19 +181,28 @@ export function pageItemsForWidth({
   width,
   siblingCount,
   boundaryCount,
+  container = null,
 }: {
   totalPages: number;
   currentPage: number;
   width: number | null;
   siblingCount: number;
   boundaryCount: number;
+  container?: number | null;
 }): PageItem[] {
-  let counts = { siblingCount, boundaryCount };
+  let counts: Counts = { siblingCount, boundaryCount };
   if (width !== null) {
-    counts =
-      width > PHONE_MAX && width < DESKTOP_MIN
-        ? tabletCounts(width, totalPages, siblingCount, boundaryCount)
-        : fixedCounts(width, siblingCount, boundaryCount);
+    if (width <= PHONE_MAX) {
+      counts = fixedCounts(width, siblingCount, boundaryCount);
+    } else if (width < DESKTOP_MIN) {
+      counts = firstFitting(container ?? width - TABLET_CELL.gutter, totalPages, candidatesFor(siblingCount, boundaryCount));
+    } else {
+      const usual = fixedCounts(width, siblingCount, boundaryCount);
+      counts =
+        container === null
+          ? usual
+          : firstFitting(container, totalPages, [usual, ...candidatesFor(siblingCount, boundaryCount)]);
+    }
   }
   return buildPageItems({ totalPages, currentPage, ...counts });
 }
