@@ -35,10 +35,11 @@ import BlogGrid, { type BlogGridItem } from '../../components/sections/BlogGrid'
 import BlogSidebar from '../../components/sections/BlogSidebar';
 import Paginator from '../../components/molecules/Paginator';
 import client from '../../lib/graphql/apolloClient';
-import { GET_POST_IDS, GET_POSTS_BY_IDS } from '../../lib/graphql/queries';
+import { GET_POST_IDS, GET_POSTS_BY_IDS, GET_CATEGORY_POSTS_CURSOR } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
 import { useBanners } from '../../hooks/useBanners';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
+import { visiblePostIds } from '../../utils/blog-sidebar';
 import { MAX_LISTING_IDS, paginateIds, parsePageParam, warnIfTruncated } from '../../utils/paginate';
 
 const PAGE_SIZE = 9;
@@ -47,12 +48,14 @@ type PageProps = {
   items: BlogGridItem[];
   currentPage: number;
   totalItems: number;
+  topReads: BlogGridItem[];
+  magicalPractices: BlogGridItem[];
 };
 
-export default function AllPostsPage({ items, currentPage, totalItems }: PageProps) {
+export default function AllPostsPage({ items, currentPage, totalItems, topReads, magicalPractices }: PageProps) {
   const sidebarSections = [
-    { title: 'Top Reads', items: items.slice(0, 3) },
-    { title: 'Magical Practices', items: items.slice(3, 6) },
+    { title: 'Top Reads', items: topReads },
+    { title: 'Magical Practices', items: magicalPractices },
   ];
 
   const { banner } = useBanners(null);
@@ -118,6 +121,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
   const { pageIds } = paginateIds(ids, currentPage, PAGE_SIZE);
 
   let items: BlogGridItem[] = [];
+  let visibleNodes: any[] = [];
   if (pageIds.length > 0) {
     const { data } = await client.query<{ posts: { nodes: any[] } }>({
       query: GET_POSTS_BY_IDS,
@@ -125,10 +129,8 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
       fetchPolicy: 'no-cache',
     });
     const byId = new Map<number, any>((data.posts?.nodes || []).map((n: any) => [n.databaseId, n]));
-    items = pageIds
-      .map((id) => byId.get(id))
-      .filter(Boolean)
-      .map((n: any) => ({
+    visibleNodes = pageIds.map((id) => byId.get(id)).filter(Boolean);
+    items = visibleNodes.map((n: any) => ({
         id: n.databaseId,
         title: decodeEntities(n.title || ''),
         summary: cleanExcerpt(n.excerpt || ''),
@@ -138,5 +140,33 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
       }));
   }
 
-  return { props: { items, currentPage, totalItems: ids.length } };
+  const visibleIds = visiblePostIds(visibleNodes);
+  let topReads: BlogGridItem[] = [];
+  let magicalPractices: BlogGridItem[] = [];
+  try {
+    const [topRes, magRes] = await Promise.all([
+      client.query<{ category: { posts: { nodes: any[] } } }>({
+        query: GET_CATEGORY_POSTS_CURSOR,
+        variables: { slug: 'top-reads', first: 3, notIn: visibleIds },
+        fetchPolicy: 'no-cache',
+      }),
+      client.query<{ category: { posts: { nodes: any[] } } }>({
+        query: GET_CATEGORY_POSTS_CURSOR,
+        variables: { slug: 'magical-practices', first: 3, notIn: visibleIds },
+        fetchPolicy: 'no-cache',
+      }),
+    ]);
+    const mapPost = (n: any): BlogGridItem => ({
+      id: n.databaseId,
+      title: decodeEntities(n.title || ''),
+      summary: cleanExcerpt(n.excerpt || ''),
+      imageUrl: pickImage(n, 'thumbnail') || null,
+      imageUrlMedium: pickImage(n, 'medium') || null,
+      href: `/blog/${n.slug}`,
+    });
+    topReads = (topRes.data.category?.posts?.nodes || []).map(mapPost);
+    magicalPractices = (magRes.data.category?.posts?.nodes || []).map(mapPost);
+  } catch { /* sidebar stays empty */ }
+
+  return { props: { items, currentPage, totalItems: ids.length, topReads, magicalPractices } };
 };

@@ -1,0 +1,22 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetCategoryPostsCursor",
+    "query": "query GetCategoryPostsCursor($slug: ID!, $first: Int!, $after: String, $notIn: [ID]) {\n  category(id: $slug, idType: SLUG) {\n    databaseId\n    name\n    slug\n    description\n    posts(\n      first: $first\n      after: $after\n      where: {notIn: $notIn, orderby: {field: DATE, order: DESC}}\n    ) {\n      pageInfo {\n        hasNextPage\n        endCursor\n        __typename\n      }\n      nodes {\n        databaseId\n        slug\n        title(format: RENDERED)\n        excerpt(format: RENDERED)\n        featuredImage {\n          node {\n            sourceUrl\n            mediaDetails {\n              sizes {\n                name\n                sourceUrl\n                __typename\n              }\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "slug": "top-reads",
+      "first": 3,
+      "notIn": [
+        "797",
+        "590",
+        "140",
+        "142"
+      ]
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"category\":{\"databaseId\":82,\"name\":\"Top Reads\",\"slug\":\"top-reads\",\"description\":null,\"posts\":{\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":null,\"__typename\":\"CategoryToPostConnectionPageInfo\"},\"nodes\":[],\"__typename\":\"CategoryToPostConnection\"},\"__typename\":\"Category\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}
