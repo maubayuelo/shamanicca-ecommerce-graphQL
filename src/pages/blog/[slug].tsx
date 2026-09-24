@@ -308,7 +308,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                     const html = post.content.rendered;
                     const [part1, rest] = splitAtParagraph(html, 3);
                     return (
-                      <div className="post-content pt-sm-responsive pb-sm-responsive w-full min-[1440px]:max-w-175 min-[1440px]:block min-[1440px]:my-0 min-[1440px]:mx-auto">
+                      <div className="post-content pt-sm-responsive pb-sm-responsive w-full max-w-175 block my-0 mx-auto">
                         <div dangerouslySetInnerHTML={{ __html: part1 }} />
                         {banner && <InContentBanner banner={banner} />}
                         <div dangerouslySetInnerHTML={{ __html: rest }} />
