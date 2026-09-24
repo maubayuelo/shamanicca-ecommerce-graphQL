@@ -86,7 +86,7 @@ export default function AllPostsPage({ items, currentPage, totalItems }: PagePro
         <main>
           <Header />
           <div className="main">
-            <div className="blog-layout mt-lg-responsive">
+            <div className="blog-layout block xl:grid xl:grid-cols-[1fr_450px] xl:gap-15 mt-lg-responsive">
               <div className="blog-content">
                 <BlogHeader title="All Blog Articles" subtitle="Browse all our posts" className="mb-lg-responsive" />
 

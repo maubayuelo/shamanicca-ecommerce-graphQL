@@ -9,15 +9,15 @@ export default function SidebarBanner({ banner, className = '' }: Props) {
 
   const isAffiliate = banner.banner_type === 'affiliate';
   const inner = (
-    <div className={`blog-sidebar__banner${isAffiliate ? ' is-affilliated' : ''} ${className}`}>
-      <div className="blog-sidebar__banner-image">
-        <Image src={banner.banner_image} alt={banner.banner_headline} width={180} height={180} />
+    <div className={`blog-sidebar__banner group self-stretch pr-legacy-15 bg-white overflow-hidden outline-1 outline-solid outline-gray-800 justify-start mt-legacy-15 -mb-7.5 items-center gap-legacy-15 inline-flex [&.is-affilliated]:bg-gray-100 ${isAffiliate ? ' is-affilliated' : ''} ${className}`}>
+      <div className="blog-sidebar__banner-image w-37.5 [height:-webkit-fill-available] [padding:0] relative bg-black">
+        <Image className="w-full h-full object-cover block" src={banner.banner_image} alt={banner.banner_headline} width={180} height={180} />
       </div>
       <div>
         <div className="">
-          <div className="type-xl type-extrabold">{banner.banner_headline}</div>
+          <div className="type-xl type-extrabold [.group:hover_&]:text-[#675dff]">{banner.banner_headline}</div>
           {banner.banner_subtext && (
-            <div className="type-md mb-xm-responsive">{banner.banner_subtext}</div>
+            <div className="type-md mb-xm-responsive [.group:hover_&]:text-[#675dff]">{banner.banner_subtext}</div>
           )}
           {isAffiliate && (
             <div className="type-italic type-xs mt-0" aria-label="Affiliated">Affiliated Ad</div>

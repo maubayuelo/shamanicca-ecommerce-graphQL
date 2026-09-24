@@ -65,7 +65,7 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
         <main>
           <Header />
           <div className="main">
-            <div className="blog-layout mt-lg-responsive mb-xl-responsive">
+            <div className="blog-layout block xl:grid xl:grid-cols-[1fr_450px] xl:gap-15 mt-lg-responsive mb-xl-responsive">
               <div className="blog-content">
                 <BlogHeader title={name ? decodeEntities(name) : 'Blog Category'} subtitle={subtitleText} className="mb-lg-responsive" />
 

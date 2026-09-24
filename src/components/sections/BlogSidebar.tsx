@@ -26,13 +26,13 @@ type BlogSidebarProps = {
 
 export default function BlogSidebar({ sections = [], banners = [], className = '' }: BlogSidebarProps) {
   return (
-    <aside className={`blog-sidebar ${className}`}>
+    <aside className={`blog-sidebar [display:none] flex-col gap-15 xl:flex ${className}`}>
       {sections.map((section, idx) => (
         <React.Fragment key={`secfrag-${idx}`}>
           {/* Section */}
-          <div className="blog-sidebar__section">
+          <div className="blog-sidebar__section flex flex-col gap-legacy-15">
             <h3 className="type-3xl type-extrabold type-uppercase mt-0 mb-0">{section.title}</h3>
-            <div className="blog-sidebar__list">
+            <div className="blog-sidebar__list flex flex-col gap-7.5">
               {section.items.map((item) => (
                 <BlogSidebarCard key={item.id} item={item} />
               ))}

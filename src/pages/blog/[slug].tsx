@@ -215,7 +215,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
           <Header />
 
           <div className="main">
-            <div className="blog-layout mt-lg-responsive mb-xl-responsive">
+            <div className="blog-layout block xl:grid xl:grid-cols-[1fr_450px] xl:gap-15 mt-lg-responsive mb-xl-responsive">
               <div className="blog-content">
 
                 <Breadcrumb
@@ -255,7 +255,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
 
                 <ArticleShareIcons articleTitle={decodeEntities(post.title?.rendered ?? '')} articleUrl={`/blog/${post.slug}`} className="mt-xs-responsive  mb-md-responsive" />
 
-                <article className="post-body">
+                <article className="post-body flex flex-col">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {post.featuredImage && (
                     <Image
@@ -285,7 +285,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                       <Fragment>
 
                         <iframe
-                          className="post-video mb-sm-responsive"
+                          className="post-video mb-sm-responsive block w-full aspect-video h-auto [border:0]"
                           src={url}
                           title={decodeEntities(title)}
                           frameBorder={0}
@@ -308,7 +308,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                     const html = post.content.rendered;
                     const [part1, rest] = splitAtParagraph(html, 3);
                     return (
-                      <div className="post-content pt-sm-responsive pb-sm-responsive">
+                      <div className="post-content pt-sm-responsive pb-sm-responsive w-full min-[1440px]:max-w-175 min-[1440px]:block min-[1440px]:my-0 min-[1440px]:mx-auto">
                         <div dangerouslySetInnerHTML={{ __html: part1 }} />
                         {banner && <InContentBanner banner={banner} />}
                         <div dangerouslySetInnerHTML={{ __html: rest }} />
