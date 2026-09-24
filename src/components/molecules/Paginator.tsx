@@ -39,6 +39,25 @@ import Link from 'next/link';
 import React, { Fragment } from 'react';
 import Image from 'next/image';
 
+// Shared by every <a>, <button> and <span> inside a page item (the SCSS it
+// replaces styled all three with one rule, sr-only spans included). The 600px
+// query is exact: the JS in useResponsiveCounts (PHONE_MAX) uses the same
+// value, and both move in Phase 9. No font-family: the <button> renders in the
+// UA font today.
+const PAG_TEXT =
+  'inline-flex items-center justify-center min-w-10 [border:0] no-underline text-black py-2.5 px-4 [@media(max-width:600px)]:min-w-8 [@media(max-width:600px)]:p-2 cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,opacity_120ms_ease]';
+// <span>: transparent, and font-size/weight/line-height come from the
+// unlayered remnant in paginator.scss (they must beat .type-lg / .type-extrabold).
+const PAG_SPAN = `${PAG_TEXT} bg-transparent`;
+// <a> and <button>: inherit the item's font, gray on hover (ungated, like the SCSS).
+const PAG_CTRL = `${PAG_TEXT} [font-size:inherit] [font-weight:inherit] [line-height:inherit] [&:hover]:bg-gray-50`;
+// The dots keep the base min-width but override padding, cursor and opacity.
+const PAG_DOTS =
+  'inline-flex items-center justify-center min-w-10 [border:0] no-underline text-black py-0 px-legacy-15 [@media(max-width:600px)]:min-w-8 cursor-default opacity-80 [transition:background-color_120ms_ease,color_120ms_ease,opacity_120ms_ease] bg-transparent';
+const PAG_ITEM = 'paginator__item mb-0 flex items-center justify-center relative not-first:border-l not-first:border-l-gray-100';
+const PAG_LIST =
+  'paginator__list inline-flex items-stretch bg-white border border-gray-300 rounded-[10px] [box-shadow:0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05),0_1px_0_-1px_rgba(0,0,0,0.05)] overflow-hidden [padding:0] [margin:0] list-none [@media(max-width:600px)]:overflow-x-auto [@media(max-width:600px)]:[-webkit-overflow-scrolling:touch]';
+
 export type PaginatorProps = {
   /** 1-based current page */
   currentPage: number;
@@ -106,17 +125,17 @@ export default function Paginator({
   const nextDisabled = page >= totalPages;
 
   return (
-    <nav className={`paginator ${className}`} aria-label="Pagination" role="navigation">
-      <ul className="paginator__list" role="list">
+    <nav className={`paginator w-full flex items-center justify-center ${className}`} aria-label="Pagination" role="navigation">
+      <ul className={PAG_LIST} role="list">
         {/* Prev */}
-        <li className={`paginator__item mb-0 paginator__prev${prevDisabled ? ' is-disabled' : ''}`}>
+        <li className={`${PAG_ITEM} paginator__prev${prevDisabled ? ' is-disabled' : ''}`}>
           {hrefBuilder ? (
-            <Link aria-disabled={prevDisabled} tabIndex={prevDisabled ? -1 : 0} href={hrefBuilder(goPrev)} onClick={prevDisabled ? undefined : handleClick(goPrev)} aria-label="Previous page">
+            <Link className={`${PAG_CTRL} bg-transparent${prevDisabled ? ' pointer-events-none opacity-50' : ''}`} aria-disabled={prevDisabled} tabIndex={prevDisabled ? -1 : 0} href={hrefBuilder(goPrev)} onClick={prevDisabled ? undefined : handleClick(goPrev)} aria-label="Previous page">
               <Image src="/images/icon-chevron-left.svg" alt="" aria-hidden width={12} height={21} />
-              <span className="sr-only">Previous</span>
+              <span className={`sr-only ${PAG_SPAN}`}>Previous</span>
             </Link>
           ) : (
-            <button type="button" aria-label="Previous" disabled={prevDisabled} onClick={handleClick(goPrev)}>
+            <button type="button" className={`${PAG_CTRL} bg-transparent disabled:cursor-default disabled:opacity-60`} aria-label="Previous" disabled={prevDisabled} onClick={handleClick(goPrev)}>
               <Image src="/images/icon-chevron-left.svg" alt="" aria-hidden width={12} height={21} />
             </button>
           )}
@@ -126,26 +145,26 @@ export default function Paginator({
         {items.map((item, idx) => {
           if (item.type === 'dots') {
             return (
-              <li key={`dots-${idx}`} className="paginator__item mb-0 is-ellipsis" aria-hidden>
-                <span className="type-lg type-medium">…</span>
+              <li key={`dots-${idx}`} className={`${PAG_ITEM} is-ellipsis`} aria-hidden>
+                <span className={`type-lg type-medium ${PAG_DOTS}`}>…</span>
               </li>
             );
           }
           const isActive = item.page === page;
           const content = (
             <Fragment>
-              <span className="sr-only">Page </span>
-              <span className="type-lg type-extrabold">{item.page}</span>
+              <span className={`sr-only ${PAG_SPAN}`}>Page </span>
+              <span className={`type-lg type-extrabold ${PAG_SPAN}`}>{item.page}</span>
             </Fragment>
           );
           return (
-            <li key={item.page} className={`paginator__item mb-0${isActive ? ' is-active' : ''}`} aria-current={isActive ? 'page' : undefined}>
+            <li key={item.page} className={`${PAG_ITEM}${isActive ? ' is-active' : ''}`} aria-current={isActive ? 'page' : undefined}>
               {hrefBuilder ? (
-                <Link href={hrefBuilder(item.page)} aria-label={`Go to page ${item.page}`} onClick={handleClick(item.page)}>
+                <Link className={`${PAG_CTRL} ${isActive ? 'bg-gray-50' : 'bg-transparent'}`} href={hrefBuilder(item.page)} aria-label={`Go to page ${item.page}`} onClick={handleClick(item.page)}>
                   {content}
                 </Link>
               ) : (
-                <button type="button" aria-label={`Go to page ${item.page}`} onClick={handleClick(item.page)} disabled={isActive}>
+                <button type="button" className={`${PAG_CTRL} ${isActive ? 'bg-gray-50' : 'bg-transparent'} disabled:cursor-default disabled:opacity-60`} aria-label={`Go to page ${item.page}`} onClick={handleClick(item.page)} disabled={isActive}>
                   {content}
                 </button>
               )}
@@ -154,14 +173,14 @@ export default function Paginator({
         })}
 
         {/* Next */}
-        <li className={`paginator__item mb-0 paginator__next${nextDisabled ? ' is-disabled' : ''}`}>
+        <li className={`${PAG_ITEM} paginator__next${nextDisabled ? ' is-disabled' : ''}`}>
           {hrefBuilder ? (
-            <Link aria-disabled={nextDisabled} tabIndex={nextDisabled ? -1 : 0} href={hrefBuilder(goNext)} onClick={nextDisabled ? undefined : handleClick(goNext)} aria-label="Next page">
+            <Link className={`${PAG_CTRL} bg-transparent${nextDisabled ? ' pointer-events-none opacity-50' : ''}`} aria-disabled={nextDisabled} tabIndex={nextDisabled ? -1 : 0} href={hrefBuilder(goNext)} onClick={nextDisabled ? undefined : handleClick(goNext)} aria-label="Next page">
               <Image src="/images/icon-chevron-right.svg" alt="" aria-hidden width={12} height={21} />
-              <span className="sr-only">Next</span>
+              <span className={`sr-only ${PAG_SPAN}`}>Next</span>
             </Link>
           ) : (
-            <button type="button" aria-label="Next" disabled={nextDisabled} onClick={handleClick(goNext)}>
+            <button type="button" className={`${PAG_CTRL} bg-transparent disabled:cursor-default disabled:opacity-60`} aria-label="Next" disabled={nextDisabled} onClick={handleClick(goNext)}>
               <Image src="/images/icon-chevron-right.svg" alt="" aria-hidden width={12} height={21} />
             </button>
           )}
