@@ -1,0 +1,16 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetCategoryPostIds",
+    "query": "query GetCategoryPostIds($slug: ID!, $first: Int!) {\n  category(id: $slug, idType: SLUG) {\n    databaseId\n    name\n    slug\n    description\n    count\n    posts(first: $first) {\n      nodes {\n        databaseId\n        date\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "slug": "magical-practices",
+      "first": 100
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"category\":{\"databaseId\":7,\"name\":\"Magical Practices\",\"slug\":\"magical-practices\",\"description\":\"Learn about the essential tools used in Wiccan and magical practices, from the athame and wand to altars and crystals. Explore the art of ritual creation, spell crafting, and harnessing the power of herbs and natural elements.<!-- notionvc: 2c239640-0203-4b08-8451-c41712d43b8f -->\",\"count\":6,\"posts\":{\"nodes\":[{\"databaseId\":585,\"date\":\"2025-02-05T23:24:36\",\"__typename\":\"Post\"},{\"databaseId\":584,\"date\":\"2025-02-05T23:24:09\",\"__typename\":\"Post\"},{\"databaseId\":583,\"date\":\"2025-02-05T23:23:44\",\"__typename\":\"Post\"},{\"databaseId\":582,\"date\":\"2025-02-05T23:23:16\",\"__typename\":\"Post\"},{\"databaseId\":162,\"date\":\"2022-04-30T06:06:22\",\"__typename\":\"Post\"},{\"databaseId\":146,\"date\":\"2022-02-11T17:22:33\",\"__typename\":\"Post\"}],\"__typename\":\"CategoryToPostConnection\"},\"__typename\":\"Category\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}

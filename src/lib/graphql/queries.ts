@@ -371,13 +371,13 @@ export const GET_POSTS_BY_IDS = gql`
   }
 `;
 export const GET_CATEGORY_POSTS_CURSOR = gql`
-  query GetCategoryPostsCursor($slug: ID!, $first: Int!, $after: String) {
+  query GetCategoryPostsCursor($slug: ID!, $first: Int!, $after: String, $notIn: [ID]) {
     category(id: $slug, idType: SLUG) {
       databaseId
       name
       slug
       description
-      posts(first: $first, after: $after, where: { orderby: { field: DATE, order: DESC } }) {
+      posts(first: $first, after: $after, where: { notIn: $notIn, orderby: { field: DATE, order: DESC } }) {
         pageInfo { hasNextPage endCursor }
         nodes {
           databaseId

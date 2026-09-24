@@ -83,8 +83,8 @@ export default function BlogMainPage({ posts, topReads = [], magicalPractices = 
 
         <BlogSidebar
           sections={[
-            { title: 'Top Reads', items: topReads.length > 0 ? topReads : block1.slice(0, 3) },
-            { title: 'Magical Practices', items: magicalPractices.length > 0 ? magicalPractices : block1.slice(3, 6) },
+            { title: 'Top Reads', items: topReads },
+            { title: 'Magical Practices', items: magicalPractices },
           ]}
           banners={sidebarBanners}
         />

@@ -13,6 +13,7 @@ import client from '../../../lib/graphql/apolloClient';
 import { GET_CATEGORY_POST_IDS, GET_POSTS_BY_IDS, GET_CATEGORY_POSTS_CURSOR } from '../../../lib/graphql/queries';
 import { pickImage } from '../../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../../utils/html';
+import { visiblePostIds } from '../../../utils/blog-sidebar';
 import { MAX_LISTING_IDS, paginateIds, parsePageParam, warnIfTruncated } from '../../../utils/paginate';
 
 const PAGE_SIZE = 12;
@@ -122,18 +123,6 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
       href: `/blog/${n.slug}`,
     });
 
-    // Sidebar: always Top Reads + Magical Practices
-    let topReads: BlogGridItem[] = [];
-    let magicalPractices: BlogGridItem[] = [];
-    try {
-      const [topRes, magRes] = await Promise.all([
-        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3 }, fetchPolicy: 'no-cache' }),
-        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3 }, fetchPolicy: 'no-cache' }),
-      ]);
-      topReads = (topRes.data.category?.posts?.nodes || []).map(toGridItem);
-      magicalPractices = (magRes.data.category?.posts?.nodes || []).map(toGridItem);
-    } catch { /* sidebar stays empty */ }
-
     try {
       // One query lists every post id of the category in the site's own order
       // (a category's count is not used: WPGraphQL cursors repeat and skip
@@ -152,6 +141,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
       const { pageIds } = paginateIds(ids, currentPage, PAGE_SIZE);
 
       let items: BlogGridItem[] = [];
+      let visibleNodes: any[] = [];
       if (pageIds.length > 0) {
         const { data } = await client.query<{ posts: { nodes: any[] } }>({
           query: GET_POSTS_BY_IDS,
@@ -159,8 +149,21 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
           fetchPolicy: 'no-cache',
         });
         const byId = new Map<number, any>((data.posts?.nodes || []).map((n: any) => [n.databaseId, n]));
-        items = pageIds.map((id) => byId.get(id)).filter(Boolean).map((n: any) => toGridItem(n));
+        visibleNodes = pageIds.map((id) => byId.get(id)).filter(Boolean);
+        items = visibleNodes.map((n: any) => toGridItem(n));
       }
+
+      const visibleIds = visiblePostIds(visibleNodes);
+      let topReads: BlogGridItem[] = [];
+      let magicalPractices: BlogGridItem[] = [];
+      try {
+        const [topRes, magRes] = await Promise.all([
+          client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3, notIn: visibleIds }, fetchPolicy: 'no-cache' }),
+          client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3, notIn: visibleIds }, fetchPolicy: 'no-cache' }),
+        ]);
+        topReads = (topRes.data.category?.posts?.nodes || []).map(toGridItem);
+        magicalPractices = (magRes.data.category?.posts?.nodes || []).map(toGridItem);
+      } catch { /* sidebar stays empty */ }
 
       return {
         props: {

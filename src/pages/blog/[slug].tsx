@@ -61,6 +61,7 @@ import client from '../../lib/graphql/apolloClient';
 import { GET_POST_BY_SLUG, GET_POST_SLUGS, GET_CATEGORY_POSTS_CURSOR } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../utils/html';
+import { visiblePostIds } from '../../utils/blog-sidebar';
 
 async function fetchAcfBySlug(slug: string): Promise<Record<string, unknown> | null> {
   try {
@@ -372,6 +373,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
 
     // Related posts: same category as the current post
     let relatedPosts: BlogGridItem[] = [];
+    let relatedNodes: any[] = [];
     if (categorySlug) {
       try {
         const res = await client.query<CursorData>({
@@ -379,7 +381,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
           variables: { slug: categorySlug, first: 5 },
           fetchPolicy: 'no-cache',
         });
-        relatedPosts = (res.data.category?.posts?.nodes || [])
+        relatedNodes = res.data.category?.posts?.nodes || [];
+        relatedPosts = relatedNodes
           .filter((n: any) => n.slug !== slug)
           .map(toGridItem)
           .slice(0, 4);
@@ -389,10 +392,11 @@ export const getStaticProps: GetStaticProps<PageProps> = async (ctx) => {
     // Sidebar: always Top Reads + Magical Practices categories
     let topReadsPosts: BlogGridItem[] = [];
     let magicalPracticesPosts: BlogGridItem[] = [];
+    const visibleIds = visiblePostIds([postNode, ...relatedNodes]);
     try {
       const [topRes, magRes] = await Promise.all([
-        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3 }, fetchPolicy: 'no-cache' }),
-        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3 }, fetchPolicy: 'no-cache' }),
+        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3, notIn: visibleIds }, fetchPolicy: 'no-cache' }),
+        client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3, notIn: visibleIds }, fetchPolicy: 'no-cache' }),
       ]);
       topReadsPosts = (topRes.data.category?.posts?.nodes || []).map(toGridItem);
       magicalPracticesPosts = (magRes.data.category?.posts?.nodes || []).map(toGridItem);

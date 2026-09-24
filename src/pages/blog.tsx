@@ -42,6 +42,7 @@ import client from '../lib/graphql/apolloClient';
 import { GET_BLOG_POSTS, GET_CATEGORIES, GET_CATEGORY_POSTS_CURSOR } from '../lib/graphql/queries';
 import { pickImage } from '../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../utils/html';
+import { visiblePostIds } from '../utils/blog-sidebar';
 
 type BlogCategory = {
   id: number;
@@ -93,11 +94,14 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   // Main posts + categories (page fails if these error)
   let posts: BlogGridItem[] = [];
   let categories: BlogCategory[] = [];
+  let visibleIds: string[] = [];
   try {
     const [postsRes, catsRes] = await Promise.all([
       client.query<{ posts: { nodes: any[] } }>({ query: GET_BLOG_POSTS, variables: { first: 15 } }),
       client.query<{ categories: { nodes: any[] } }>({ query: GET_CATEGORIES, variables: { first: 100 } }),
     ]);
+    const visibleNodes = (postsRes.data.posts.nodes || []).slice(0, 11);
+    visibleIds = visiblePostIds(visibleNodes);
     posts = (postsRes.data.posts.nodes || []).map(mapPost);
     categories = (catsRes.data.categories.nodes || []).map((c: any) => ({
       id: c.databaseId,
@@ -118,8 +122,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   let magicalPractices: BlogGridItem[] = [];
   try {
     const [topReadsRes, magicalRes] = await Promise.all([
-      client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3 }, fetchPolicy: 'no-cache' }),
-      client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3 }, fetchPolicy: 'no-cache' }),
+      client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'top-reads', first: 3, notIn: visibleIds }, fetchPolicy: 'no-cache' }),
+      client.query<CursorData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug: 'magical-practices', first: 3, notIn: visibleIds }, fetchPolicy: 'no-cache' }),
     ]);
     topReads = (topReadsRes.data.category?.posts?.nodes || []).map(mapPost);
     magicalPractices = (magicalRes.data.category?.posts?.nodes || []).map(mapPost);
