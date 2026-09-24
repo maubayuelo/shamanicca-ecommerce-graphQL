@@ -2,114 +2,38 @@
 @use "../mixins" as *;
 
 .blog-header {
-  background: #ececec;
   @include responsive-border-radius;
-  padding: 15px;
-  text-align: center;
-
-  @include media-tablet-up {
-    padding: 24px;
-  }
-
-  &__title {
-    color: $black;
-  }
-  &__subtitle {
-    color: $black;
-  }
 }
 
-.blog-layout {
-  display: block;
 
-  @media (min-width: 1280px) {
-    display: grid;
-    grid-template-columns: 1fr 450px;
-    gap: $spacing-60;
-  }
-  @media (min-width: 1440px) {
-        display: grid;
-        grid-template-columns: 1fr 450px;
-        gap: $spacing-60;
-  }
-}
 
-.post-body{
-    display: flex;
-    flex-direction: column;
-}
 
-.post-content{
-    width: 100%;
-    
-    @media (min-width: 1440px) {
-        max-width: 700px;
-    display: block;
-    margin: 0 auto;
-  }
-  ul, p{
+
+.post-content {
+  ul, p {
     margin-top: 0;
-    //margin-bottom: 0;
   }
 
-  h2, h3{
+  h2, h3 {
     margin-top: 0;
     margin-bottom: 0;
   }
 }
 
 
-.blog-sidebar {
-  display: none;
-  flex-direction: column;
-  gap: $spacing-60;
 
-  // Show sidebar only on screens >= 1280px
-  @media (min-width: 1280px) {
-    display: flex;
-  }
-}
 
-.blog-sidebar__section {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-15;
-}
 
-.blog-sidebar__list {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-30;
-}
 
-.blog-sidebar__row {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: $spacing-15;
-}
+
+
+
 
 .blog-sidebar__thumb {
-  width: 150px;
-  height: 150px;
   @include responsive-border-radius;
-  overflow: hidden;
-  position: relative;
-  background-color: $black;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 }
 
-.blog-sidebar__info {
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+
 
 .blog-sidebar__banner {
   align-self: stretch;
