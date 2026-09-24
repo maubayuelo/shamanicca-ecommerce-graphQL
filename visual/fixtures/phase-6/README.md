@@ -94,6 +94,23 @@ all `graphql/`:
   sale product's later slides).
 - 0 hits for `ck_` / `cs_` in the new files.
 
+**2026-09-24, blog pagination fix** (recorded from `7a12c31`). 12 new files, all
+`graphql/`, made with `record-missing`; every pre-existing fixture is
+byte-identical (201 files before). They serve the ids paging used by
+`/blog/all` and `/blog/category/[slug]` (`GetPostIds`, `GetCategoryPostIds`,
+`GetPostsByIds`):
+
+| Operation | Variables | Used by |
+|---|---|---|
+| `GetPostIds` | `first 100` | every `/blog/all` page (51 ids on the recording date) |
+| `GetPostsByIds` | 9 ids each | `/blog/all` pages 1-6 (page 1: `602,585,795,600,887,584,881,843,844`) |
+| `GetCategoryPostIds` | `mindfulness-healing`, `ancient-traditions` | the category route |
+| `GetPostsByIds` | 12 ids each | `mindfulness-healing` pages 1-2, `ancient-traditions` page 1 |
+
+The old `GetAllPostsWithTotal` / `GetAllPostsCursor` fixtures stay in the set but
+nothing requests them any more. Media: 10 new cache entries (20 files) outside
+the repo; the original 256 files are byte-identical. 0 hits for `ck_` / `cs_`.
+
 ## Re-recording
 
 Deliberate and separate: re-record only in its own commit, never as a side

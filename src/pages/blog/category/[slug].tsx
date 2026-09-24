@@ -10,9 +10,10 @@ import BlogSidebar from '../../../components/sections/BlogSidebar';
 import Paginator from '../../../components/molecules/Paginator';
 import { useBanners } from '../../../hooks/useBanners';
 import client from '../../../lib/graphql/apolloClient';
-import { GET_CATEGORY_BY_SLUG, GET_POSTS_BY_CATEGORY_ID_WITH_TOTAL, GET_CATEGORY_POSTS_CURSOR } from '../../../lib/graphql/queries';
+import { GET_CATEGORY_POST_IDS, GET_POSTS_BY_IDS, GET_CATEGORY_POSTS_CURSOR } from '../../../lib/graphql/queries';
 import { pickImage } from '../../../lib/graphql/utils';
 import { cleanExcerpt, decodeEntities } from '../../../utils/html';
+import { MAX_LISTING_IDS, paginateIds, parsePageParam, warnIfTruncated } from '../../../utils/paginate';
 
 const PAGE_SIZE = 12;
 
@@ -109,9 +110,7 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
 export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => {
   try {
     const slug = ctx.params?.slug ? String(ctx.params.slug) : '';
-    const pageParam = typeof ctx.query.page === 'string' ? parseInt(ctx.query.page, 10) : NaN;
-    const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
-    const offset = (currentPage - 1) * PAGE_SIZE;
+    const currentPage = parsePageParam(ctx.query.page);
 
     type CursorData = { category: { posts: { nodes: any[] } } };
     const toGridItem = (n: any): BlogGridItem => ({
@@ -136,35 +135,32 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
     } catch { /* sidebar stays empty */ }
 
     try {
-      const catRes = await client.query<{ category: { name: string; description: string; count: number; databaseId: number } }>({ query: GET_CATEGORY_BY_SLUG, variables: { slug } });
-      const cat = catRes.data.category;
+      // One query lists every post id of the category in the site's own order
+      // (a category's count is not used: WPGraphQL cursors repeat and skip
+      // posts because that order is not by date, see utils/paginate.ts).
+      type CategoryIds = { category: { databaseId: number; name: string; description: string; posts: { nodes: Array<{ databaseId: number }> } } | null };
+      const idsRes = await client.query<CategoryIds>({
+        query: GET_CATEGORY_POST_IDS,
+        variables: { slug, first: MAX_LISTING_IDS },
+        fetchPolicy: 'no-cache',
+      });
+      const cat = idsRes.data.category;
       if (!cat) return { notFound: true };
+      const ids = (cat.posts?.nodes || []).map((n) => n.databaseId);
+      warnIfTruncated(ids.length, `/blog/category/${slug}`);
 
-      type CursorPageData = { category: { posts: { nodes: any[]; pageInfo: { endCursor: string; hasNextPage: boolean } } } };
-      // Walk pages to requested page using cursors
-      let after: string | undefined = undefined;
-      if (currentPage > 1) {
-        const head = await client.query<CursorPageData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
-        after = head.data.category?.posts?.pageInfo?.endCursor;
-        for (let i = 2; i < currentPage; i++) {
-          const pageRes = await client.query<CursorPageData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
-          after = pageRes.data.category?.posts?.pageInfo?.endCursor;
-          const hasNext = pageRes.data.category?.posts?.pageInfo?.hasNextPage;
-          if (!hasNext) break;
-        }
+      const { pageIds } = paginateIds(ids, currentPage, PAGE_SIZE);
+
+      let items: BlogGridItem[] = [];
+      if (pageIds.length > 0) {
+        const { data } = await client.query<{ posts: { nodes: any[] } }>({
+          query: GET_POSTS_BY_IDS,
+          variables: { in: pageIds.map(String), first: PAGE_SIZE },
+          fetchPolicy: 'no-cache',
+        });
+        const byId = new Map<number, any>((data.posts?.nodes || []).map((n: any) => [n.databaseId, n]));
+        items = pageIds.map((id) => byId.get(id)).filter(Boolean).map((n: any) => toGridItem(n));
       }
-
-      const { data } = await client.query<CursorPageData>({ query: GET_CATEGORY_POSTS_CURSOR, variables: { slug, first: PAGE_SIZE, after } });
-      const catNode = data.category;
-      if (!catNode) return { notFound: true };
-      const items: BlogGridItem[] = (catNode.posts?.nodes || []).map((n: any) => ({
-        id: n.databaseId,
-        title: decodeEntities(n.title || ''),
-        summary: cleanExcerpt(n.excerpt || ''),
-        imageUrl: pickImage(n, 'thumbnail') || null,
-        imageUrlMedium: pickImage(n, 'medium') || null,
-        href: `/blog/${n.slug}`,
-      }));
 
       return {
         props: {
@@ -173,46 +169,14 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (ctx) => 
           description: cat.description || '',
           items,
           currentPage,
-          totalItems: Number(cat.count) || items.length || 0,
+          totalItems: ids.length,
           topReads,
           magicalPractices,
           categoryId: cat.databaseId,
         },
       };
     } catch {
-      // Last resort: try taxQuery with includeChildren
-      try {
-        const catRes = await client.query<{ category: { name: string; description: string; count: number; databaseId: number } }>({ query: GET_CATEGORY_BY_SLUG, variables: { slug } });
-        const cat = catRes.data.category;
-        if (!cat) return { notFound: true };
-        const taxRes = await client.query<{ posts: { nodes: any[]; pageInfo: { offsetPagination: { total: number } } } }>({
-          query: GET_POSTS_BY_CATEGORY_ID_WITH_TOTAL,
-          variables: { categoryId: [cat.databaseId], size: PAGE_SIZE, offset },
-        });
-        const items: BlogGridItem[] = (taxRes.data.posts?.nodes || []).map((n: any) => ({
-          id: n.databaseId,
-          title: decodeEntities(n.title || ''),
-          summary: cleanExcerpt(n.excerpt || ''),
-          imageUrl: pickImage(n, 'thumbnail') || null,
-          imageUrlMedium: pickImage(n, 'medium') || null,
-          href: `/blog/${n.slug}`,
-        }));
-        return {
-          props: {
-            slug,
-            name: cat.name,
-            description: cat.description || '',
-            items,
-            currentPage,
-            totalItems: taxRes.data.posts?.pageInfo?.offsetPagination?.total ?? Number(cat.count) ?? items.length ?? 0,
-            topReads,
-            magicalPractices,
-            categoryId: cat.databaseId,
-          },
-        };
-      } catch {
-        return { notFound: true };
-      }
+      return { notFound: true };
     }
   } catch {
     return { notFound: true };

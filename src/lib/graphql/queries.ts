@@ -331,6 +331,45 @@ export const GET_ALL_POSTS_CURSOR = gql`
 `;
 
 // Cursor-based: fetch a page of posts within a category by slug
+// Blog listings, paged from ids (see utils/paginate.ts). WordPress keeps a
+// curated post order that `orderby` does not change, while WPGraphQL cursors
+// filter by date, so cursor walking repeats posts. One query lists every id in
+// the site's own order (WPGraphQL returns at most 100 nodes per request), a
+// second loads the posts of the current page in exactly that order.
+export const GET_POST_IDS = gql`
+  query GetPostIds($first: Int!) {
+    posts(first: $first) {
+      nodes { databaseId date }
+    }
+  }
+`;
+export const GET_CATEGORY_POST_IDS = gql`
+  query GetCategoryPostIds($slug: ID!, $first: Int!) {
+    category(id: $slug, idType: SLUG) {
+      databaseId
+      name
+      slug
+      description
+      count
+      posts(first: $first) {
+        nodes { databaseId date }
+      }
+    }
+  }
+`;
+export const GET_POSTS_BY_IDS = gql`
+  query GetPostsByIds($in: [ID], $first: Int!) {
+    posts(first: $first, where: { in: $in, orderby: { field: IN, order: ASC } }) {
+      nodes {
+        databaseId
+        slug
+        title(format: RENDERED)
+        excerpt(format: RENDERED)
+        featuredImage { node { sourceUrl mediaDetails { sizes { name sourceUrl } } } }
+      }
+    }
+  }
+`;
 export const GET_CATEGORY_POSTS_CURSOR = gql`
   query GetCategoryPostsCursor($slug: ID!, $first: Int!, $after: String) {
     category(id: $slug, idType: SLUG) {

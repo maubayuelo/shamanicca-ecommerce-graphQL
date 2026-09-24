@@ -1,0 +1,16 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetCategoryPostIds",
+    "query": "query GetCategoryPostIds($slug: ID!, $first: Int!) {\n  category(id: $slug, idType: SLUG) {\n    databaseId\n    name\n    slug\n    description\n    count\n    posts(first: $first) {\n      nodes {\n        databaseId\n        date\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {
+      "slug": "mindfulness-healing",
+      "first": 100
+    }
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"category\":{\"databaseId\":8,\"name\":\"Mindfulness & Healing\",\"slug\":\"mindfulness-healing\",\"description\":\"Cultivate inner peace and personal growth through mindfulness practices, meditation, breathwork, shadow work, and other transformative techniques. Explore the connection between mind, body, and spirit for holistic well-being.<!-- notionvc: 4567c829-6e0a-4f9a-9174-d20813dcd0df -->\",\"count\":21,\"posts\":{\"nodes\":[{\"databaseId\":602,\"date\":\"2025-02-05T23:35:33\",\"__typename\":\"Post\"},{\"databaseId\":795,\"date\":\"2025-02-10T17:00:22\",\"__typename\":\"Post\"},{\"databaseId\":887,\"date\":\"2025-02-10T20:04:52\",\"__typename\":\"Post\"},{\"databaseId\":881,\"date\":\"2025-02-10T19:49:32\",\"__typename\":\"Post\"},{\"databaseId\":843,\"date\":\"2025-02-10T19:35:33\",\"__typename\":\"Post\"},{\"databaseId\":844,\"date\":\"2025-02-10T19:19:49\",\"__typename\":\"Post\"},{\"databaseId\":845,\"date\":\"2025-02-10T18:56:19\",\"__typename\":\"Post\"},{\"databaseId\":846,\"date\":\"2025-02-10T18:45:36\",\"__typename\":\"Post\"},{\"databaseId\":847,\"date\":\"2025-02-10T18:30:27\",\"__typename\":\"Post\"},{\"databaseId\":834,\"date\":\"2025-02-10T18:08:00\",\"__typename\":\"Post\"},{\"databaseId\":835,\"date\":\"2025-02-10T18:04:02\",\"__typename\":\"Post\"},{\"databaseId\":796,\"date\":\"2025-02-10T16:38:26\",\"__typename\":\"Post\"},{\"databaseId\":792,\"date\":\"2025-02-10T17:35:33\",\"__typename\":\"Post\"},{\"databaseId\":793,\"date\":\"2025-02-10T17:30:25\",\"__typename\":\"Post\"},{\"databaseId\":794,\"date\":\"2025-02-10T17:10:26\",\"__typename\":\"Post\"},{\"databaseId\":797,\"date\":\"2025-02-10T16:18:39\",\"__typename\":\"Post\"},{\"databaseId\":262,\"date\":\"2022-07-08T17:17:04\",\"__typename\":\"Post\"},{\"databaseId\":144,\"date\":\"2021-11-11T05:54:14\",\"__typename\":\"Post\"},{\"databaseId\":152,\"date\":\"2021-11-10T22:41:59\",\"__typename\":\"Post\"},{\"databaseId\":142,\"date\":\"2021-10-28T08:12:14\",\"__typename\":\"Post\"},{\"databaseId\":154,\"date\":\"2021-05-19T20:44:16\",\"__typename\":\"Post\"}],\"__typename\":\"CategoryToPostConnection\"},\"__typename\":\"Category\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}
