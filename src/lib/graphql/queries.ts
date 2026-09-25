@@ -534,6 +534,22 @@ export const GET_SITE_SETTINGS_BANNER = gql`
   }
 `;
 
+// Site settings: top novelties announcement banner.
+export const GET_SITE_SETTINGS_ANNOUNCEMENT = gql`
+  query GetSiteSettingsAnnouncement {
+    page(id: "site-settings", idType: URI) {
+      siteSettings {
+        topNoveltiesBanner {
+          bannerText
+          bannerCtaLabel
+          bannerCtaUrl
+          bannerEnabled
+        }
+      }
+    }
+  }
+`;
+
 // Fetch home page banners from ACF
 export const GET_HOME_BANNERS = gql`
   query GetHomeBanners {
