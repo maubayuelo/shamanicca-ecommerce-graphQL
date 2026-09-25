@@ -59,11 +59,15 @@ BEFORE and AFTER builds replay these same files.
 
 ## Contents at recording
 
-135 GraphQL responses (+1 `.orig.json` backup, never served), 60 REST
-responses: 197 files, 1.3 MB. The recorded media cache is 110 images, 16 MB,
+136 GraphQL responses (+1 `.orig.json` backup, never served), 60 REST
+responses: 198 files, 1.3 MB. The recorded media cache is 110 images, 16 MB,
 kept outside the repo. 0 hits for `ck_` / `cs_` in any fixture.
 
 ## Additive recordings
+
+The announcement baseline GraphQL fixture is synthetic with
+`bannerEnabled: false`, so base captures keep the banner hidden even when the
+live WordPress value is enabled.
 
 Made with `graphql-replay.mjs record-missing` (existing fixture files are
 served from disk and can never be overwritten; new keys are written with an

@@ -1,36 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-const WP_REST = (
-  process.env.WORDPRESS_API_URL ||
-  `${(process.env.NEXT_PUBLIC_WP_BASE_URL || 'https://master.shamanicca.com').replace(/\/$/, '')}/wp-json`
-).replace(/\/$/, '');
-
-const SITE_SETTINGS_SLUG = process.env.WP_SITE_SETTINGS_SLUG || 'site-settings';
+import client from '../../../lib/graphql/apolloClient';
+import { GET_SITE_SETTINGS_ANNOUNCEMENT } from '../../../lib/graphql/queries';
+import type { GetSiteSettingsAnnouncementData } from '../../../lib/graphql/types';
+import { mapAnnouncement } from '../../../utils/announcement';
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
-  const url = `${WP_REST}/wp/v2/pages?slug=${SITE_SETTINGS_SLUG}&_fields=acf`;
+  res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
 
   try {
-    const wpRes = await fetch(url);
-
-    if (!wpRes.ok) {
-      return res.status(200).json({ banner: null, _debug: { url, status: wpRes.status } });
-    }
-
-    const pages = await wpRes.json();
-
-    if (!Array.isArray(pages) || pages.length === 0) {
-      return res.status(200).json({ banner: null, _debug: { url, reason: 'no pages returned' } });
-    }
-
-    const banner = pages[0]?.acf?.top_novelties_banner ?? null;
-
-    res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=300');
-    return res.status(200).json({ banner, _debug: { url, acf_keys: Object.keys(pages[0]?.acf ?? {}) } });
-  } catch (err) {
-    return res.status(200).json({
-      banner: null,
-      _debug: { url, error: err instanceof Error ? err.message : String(err) },
+    const { data } = await client.query<GetSiteSettingsAnnouncementData>({
+      query: GET_SITE_SETTINGS_ANNOUNCEMENT,
+      fetchPolicy: 'no-cache',
     });
+
+    return res.status(200).json({ banner: mapAnnouncement(data.page) });
+  } catch (err) {
+    console.error(
+      '[api/cms/announcement] GraphQL request failed:',
+      err instanceof Error ? err.message : String(err),
+    );
+    return res.status(200).json({ banner: null });
   }
 }

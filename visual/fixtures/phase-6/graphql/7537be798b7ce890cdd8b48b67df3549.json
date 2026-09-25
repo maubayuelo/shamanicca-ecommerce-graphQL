@@ -1,0 +1,13 @@
+{
+  "key": {
+    "kind": "graphql",
+    "operationName": "GetSiteSettingsAnnouncement",
+    "query": "query GetSiteSettingsAnnouncement {\n  page(id: \"site-settings\", idType: URI) {\n    siteSettings {\n      topNoveltiesBanner {\n        bannerText\n        bannerCtaLabel\n        bannerCtaUrl\n        bannerEnabled\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}",
+    "variables": {}
+  },
+  "status": 200,
+  "headers": {
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "body": "{\"data\":{\"page\":{\"siteSettings\":{\"topNoveltiesBanner\":{\"bannerText\":\"\",\"bannerCtaLabel\":\"\",\"bannerCtaUrl\":\"\",\"bannerEnabled\":false,\"__typename\":\"SiteSettingsTopNoveltiesBanner\"},\"__typename\":\"SiteSettings\"},\"__typename\":\"Page\"}},\"extensions\":{\"debug\":[{\"type\":\"DEBUG_LOGS_INACTIVE\",\"message\":\"GraphQL Debug logging is not active. To see debug logs, GRAPHQL_DEBUG must be enabled.\"}]}}"
+}
