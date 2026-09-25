@@ -19,7 +19,7 @@ export default function SizeChartPage({ page }: Props) {
       <Header />
       <main>
         <section className="main-condensed content">
-          <div className="page mt-md-responsive mb-lg-responsive">
+          <div className="page mt-legacy-15 lg:mt-legacy-25 mb-7.5 lg:mb-legacy-45">
             <Breadcrumb
               ariaLabel="Breadcrumb"
               items={[{ label: 'Home', href: '/' }, { label: page.title.rendered }]}

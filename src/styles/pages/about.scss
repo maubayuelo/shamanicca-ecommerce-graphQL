@@ -1,60 +1,16 @@
-// About page styles - mobile first approach
 @use "../variables" as *;
 @use "../mixins" as *;
 
-.page{
-
-    
-    
-    .page-hero-section {
-    @include flex-column;
-    gap: $spacing-10;
+.page {
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: $spacing-15;
 
     @include media-tablet-up {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        gap: $spacing-30;
+      border-radius: $spacing-30;
     }
-
-    @include media-desktop-up {
-        gap: $spacing-60;
-    }    
-}
-img {
-      display: block;
-      width: 100%;
-      height: auto;
-      margin: 0 auto;
-      border-radius: $spacing-15;
-      @include media-tablet-up {
-            border-radius: $spacing-30;
-        }
-
-
-      &.page-profile-image {
-        width: 180px;
-        height: 180px;
-        align-self: center;
-
-        @include media-tablet-up {
-            width: 210px;
-            height: 210px;
-            align-self: flex-start;
-        }
-
-        @include media-desktop-up {
-            width: 450px;
-            height: 450px;
-        }
-    }
-    }
-
-    
-
-.page-content-wrapper {
-    @include flex-column;
-    gap: $spacing-30;
-    flex: 1;
-}
+  }
 }
