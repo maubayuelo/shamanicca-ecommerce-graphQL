@@ -49,3 +49,18 @@ export type ProductCategoryNode = CategoryNode & {
 export type GetProductCategoriesData = {
   productCategories?: { nodes?: ProductCategoryNode[] };
 };
+
+export type SiteSettingsAnnouncement = {
+  bannerText?: string | null;
+  bannerCtaLabel?: string | null;
+  bannerCtaUrl?: string | null;
+  bannerEnabled?: boolean | null;
+};
+
+export type GetSiteSettingsAnnouncementData = {
+  page?: {
+    siteSettings?: {
+      topNoveltiesBanner?: SiteSettingsAnnouncement | null;
+    } | null;
+  } | null;
+};
