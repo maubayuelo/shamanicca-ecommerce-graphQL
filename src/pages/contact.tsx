@@ -130,13 +130,13 @@ export default function ContactPage({ page }: Props) {
             )}
 
             {submitted ? (
-              <div className="contact-success" role="alert">
-                <div className="contact-success__icon">&#10003;</div>
+              <div className="contact-success flex flex-col items-center text-center py-15 gap-legacy-15" role="alert">
+                <div className="contact-success__icon w-[52px] h-[52px] rounded-[50%] bg-[#675dff] text-white flex items-center justify-center text-[1.4rem] [font-weight:700]">&#10003;</div>
                 <p className="type-lg type-bold m-0">Message sent!</p>
                 <p className="type-md">Thanks for reaching out — we&apos;ll get back to you shortly.</p>
               </div>
             ) : (
-              <form className="contact-form" onSubmit={handleSubmit} noValidate>
+              <form className="contact-form flex flex-col gap-legacy-25 mt-7.5" onSubmit={handleSubmit} noValidate>
                 {/* Honeypot — hidden from real users, bots fill it */}
                 <input
                   type="text"
@@ -149,17 +149,17 @@ export default function ContactPage({ page }: Props) {
                   style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
                 />
                 {serverError && (
-                  <p className="contact-form__server-error type-sm" role="alert">{serverError}</p>
+                  <p className="contact-form__server-error type-sm bg-[rgba(192,57,43,0.07)] border border-[rgba(192,57,43,0.3)] text-[#c0392b] rounded-[8px] p-legacy-15 [margin:0]" role="alert">{serverError}</p>
                 )}
 
-                <div className="contact-form__row">
-                  <div className={`form-field${errors.name ? ' form-field--error' : ''}`}>
-                    <label htmlFor="c-name" className="form-field__label">
-                      Name <span className="form-field__required" aria-hidden="true">*</span>
+                <div className="contact-form__row grid grid-cols-[1fr] gap-legacy-25 sm:grid-cols-[1fr_1fr]">
+                  <div className={`form-field${errors.name ? ' form-field--error' : ''} flex flex-col gap-2.5 w-full`}>
+                    <label htmlFor="c-name" className="form-field__label [font-family:Poppins,sans-serif] [font-size:16px] [line-height:28px] [@media(max-width:1024px)]:[line-height:26px] text-black flex items-center gap-1">
+                      Name <span className="form-field__required text-[#e74c3c] [font-weight:700]" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="c-name"
-                      className="form-field__control"
+                      className="form-field__control [font-family:Poppins,sans-serif] [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-300 rounded-[8px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-[#a5a5a5] [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 [.form-field--error_&]:border-[#e74c3c] [.form-field--error_&:focus]:border-[#e74c3c] [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(231,76,60,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500"
                       type="text"
                       name="name"
                       value={form.name}
@@ -169,16 +169,16 @@ export default function ContactPage({ page }: Props) {
                       aria-invalid={!!errors.name}
                       aria-describedby={errors.name ? 'err-name' : undefined}
                     />
-                    {errors.name && <span id="err-name" className="contact-form__field-error type-sm" role="alert">{errors.name}</span>}
+                    {errors.name && <span id="err-name" className="contact-form__field-error type-sm block text-[#c0392b] mt-1.25" role="alert">{errors.name}</span>}
                   </div>
 
-                  <div className={`form-field${errors.email ? ' form-field--error' : ''}`}>
-                    <label htmlFor="c-email" className="form-field__label">
-                      Email <span className="form-field__required" aria-hidden="true">*</span>
+                  <div className={`form-field${errors.email ? ' form-field--error' : ''} flex flex-col gap-2.5 w-full`}>
+                    <label htmlFor="c-email" className="form-field__label [font-family:Poppins,sans-serif] [font-size:16px] [line-height:28px] [@media(max-width:1024px)]:[line-height:26px] text-black flex items-center gap-1">
+                      Email <span className="form-field__required text-[#e74c3c] [font-weight:700]" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="c-email"
-                      className="form-field__control"
+                      className="form-field__control [font-family:Poppins,sans-serif] [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-300 rounded-[8px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-[#a5a5a5] [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 [.form-field--error_&]:border-[#e74c3c] [.form-field--error_&:focus]:border-[#e74c3c] [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(231,76,60,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500"
                       type="email"
                       name="email"
                       value={form.email}
@@ -188,17 +188,17 @@ export default function ContactPage({ page }: Props) {
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'err-email' : undefined}
                     />
-                    {errors.email && <span id="err-email" className="contact-form__field-error type-sm" role="alert">{errors.email}</span>}
+                    {errors.email && <span id="err-email" className="contact-form__field-error type-sm block text-[#c0392b] mt-1.25" role="alert">{errors.email}</span>}
                   </div>
                 </div>
 
-                <div className={`form-field${errors.subject ? ' form-field--error' : ''}`}>
-                  <label htmlFor="c-subject" className="form-field__label">
-                    Subject <span className="form-field__required" aria-hidden="true">*</span>
+                <div className={`form-field${errors.subject ? ' form-field--error' : ''} flex flex-col gap-2.5 w-full`}>
+                  <label htmlFor="c-subject" className="form-field__label [font-family:Poppins,sans-serif] [font-size:16px] [line-height:28px] [@media(max-width:1024px)]:[line-height:26px] text-black flex items-center gap-1">
+                    Subject <span className="form-field__required text-[#e74c3c] [font-weight:700]" aria-hidden="true">*</span>
                   </label>
                   <select
                     id="c-subject"
-                    className="form-field__control form-field__select"
+                    className="form-field__control form-field__select [font-family:Poppins,sans-serif] [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-300 rounded-[8px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-[#a5a5a5] [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 [.form-field--error_&]:border-[#e74c3c] [.form-field--error_&:focus]:border-[#e74c3c] [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(231,76,60,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500 [cursor:pointer] [background-image:url(data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20fill=%27none%27%20viewBox=%270%200%2020%2020%27%3e%3cpath%20stroke=%27%236b7280%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20stroke-width=%271.5%27%20d=%27M6%208l4%204%204-4%27/%3e%3c/svg%3e)] [background-position:right_12px_center] [background-repeat:no-repeat] [background-size:16px] [padding-right:40px] [appearance:none]"
                     name="subject"
                     value={form.subject}
                     onChange={handleChange}
@@ -210,16 +210,16 @@ export default function ContactPage({ page }: Props) {
                       <option key={s} value={s}>{s}</option>
                     ))}
                   </select>
-                  {errors.subject && <span id="err-subject" className="contact-form__field-error type-sm" role="alert">{errors.subject}</span>}
+                  {errors.subject && <span id="err-subject" className="contact-form__field-error type-sm block text-[#c0392b] mt-1.25" role="alert">{errors.subject}</span>}
                 </div>
 
-                <div className={`form-field${errors.message ? ' form-field--error' : ''}`}>
-                  <label htmlFor="c-message" className="form-field__label">
-                    Message <span className="form-field__required" aria-hidden="true">*</span>
+                <div className={`form-field${errors.message ? ' form-field--error' : ''} flex flex-col gap-2.5 w-full`}>
+                  <label htmlFor="c-message" className="form-field__label [font-family:Poppins,sans-serif] [font-size:16px] [line-height:28px] [@media(max-width:1024px)]:[line-height:26px] text-black flex items-center gap-1">
+                    Message <span className="form-field__required text-[#e74c3c] [font-weight:700]" aria-hidden="true">*</span>
                   </label>
                   <textarea
                     id="c-message"
-                    className="form-field__control"
+                    className="form-field__control [font-family:Poppins,sans-serif] [font-size:14px] p-[14px_16px] bg-white border-2 border-gray-300 rounded-[8px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-[#a5a5a5] [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 [.form-field--error_&]:border-[#e74c3c] [.form-field--error_&:focus]:border-[#e74c3c] [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(231,76,60,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500 resize-y min-h-[100px] [line-height:1.5]"
                     name="message"
                     rows={6}
                     value={form.message}
@@ -228,12 +228,12 @@ export default function ContactPage({ page }: Props) {
                     aria-invalid={!!errors.message}
                     aria-describedby={errors.message ? 'err-message' : undefined}
                   />
-                  {errors.message && <span id="err-message" className="contact-form__field-error type-sm" role="alert">{errors.message}</span>}
+                  {errors.message && <span id="err-message" className="contact-form__field-error type-sm block text-[#c0392b] mt-1.25" role="alert">{errors.message}</span>}
                 </div>
 
                 <button
                   type="submit"
-                  className="btn btn-primary btn-large contact-form__submit"
+                  className="btn btn-primary btn-large contact-form__submit self-start min-w-[160px] disabled:opacity-[.65]"
                   disabled={loading}
                 >
                   {loading ? 'Sending…' : 'Send Message'}
