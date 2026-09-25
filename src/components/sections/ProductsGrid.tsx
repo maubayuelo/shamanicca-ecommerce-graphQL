@@ -171,11 +171,11 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
         <Image className="absolute z-0 inset-0 block w-full h-full object-cover" src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
       </Link>
       <button
-        className={`btn-wishlist${wishlisted ? ' is-wishlisted' : ''}`}
+        className={`btn-wishlist absolute top-2.5 right-2.5 z-[2] w-[34px] h-[34px] rounded-[999px] [border:none] [background:rgba(255,255,255,0.88)] [backdrop-filter:blur(4px)] flex items-center justify-center cursor-pointer [transition:background_0.15s,transform_0.15s] [&:hover]:bg-white [&:hover]:[transform:scale(1.1)] [&.is-wishlisted]:bg-[#e7e1ff] [&.is-wishlisted:hover]:bg-[#e7e1ff] ${wishlisted ? 'is-wishlisted' : ''}`}
         onClick={() => toggle({ id: String(product.id), name, slug: product.slug || String(product.id), price: priceNum, regularPrice: regularPriceNum, image: img })}
         aria-label={wishlisted ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}
       >
-        <Image src={wishlisted ? '/images/icon-heart-full.svg' : '/images/icon-heart.svg'} alt="" width={18} height={18} aria-hidden />
+        <Image className="block w-[18px] h-[18px]" src={wishlisted ? '/images/icon-heart-full.svg' : '/images/icon-heart.svg'} alt="" width={18} height={18} aria-hidden />
       </button>
       <div className="flex flex-col">
         <h3 className="type-lg type-bold mt-sm-responsive mb-xs-responsive text-black">

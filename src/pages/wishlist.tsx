@@ -55,8 +55,8 @@ export default function WishlistPage() {
           )}
 
           {hydrated && items.length === 0 && (
-            <div className="wishlist-empty">
-              <Image src="/images/icon-heart.svg" alt="" width={48} height={48} className="wishlist-empty__icon" aria-hidden />
+            <div className="wishlist-empty flex flex-col items-center text-center py-[90px] gap-2.5">
+              <Image src="/images/icon-heart.svg" alt="" width={48} height={48} className="wishlist-empty__icon opacity-25 mb-2.5" aria-hidden />
               <p className="type-xl type-bold">Your wishlist is empty.</p>
               <p className="type-md type-gray-80">Save items you love and find them here anytime.</p>
               <Link href="/shop" className="btn btn-primary mt-md-responsive">Browse the Shop</Link>
@@ -64,10 +64,10 @@ export default function WishlistPage() {
           )}
 
           {hydrated && items.length > 0 && (
-            <div className="wishlist-grid">
+            <div className="wishlist-grid grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)]">
               {items.map((item) => (
-                <div key={item.id} className="wishlist-tile">
-                  <Link href={`/products/${item.slug}`} className="wishlist-tile__image-wrap" aria-label={`View ${item.name}`}>
+                <div key={item.id} className="wishlist-tile flex flex-col gap-legacy-15">
+                  <Link href={`/products/${item.slug}`} className="wishlist-tile__image-wrap relative block w-full aspect-square overflow-hidden bg-gray-50 after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_var(--color-gray-200)] after:pointer-events-none" aria-label={`View ${item.name}`}>
                     {item.image ? (
                       <Image
                         src={item.image}
@@ -77,15 +77,15 @@ export default function WishlistPage() {
                         style={{ objectFit: 'cover' }}
                       />
                     ) : (
-                      <div className="wishlist-tile__placeholder" />
+                      <div className="wishlist-tile__placeholder w-full h-full bg-gray-100" />
                     )}
                   </Link>
 
-                  <div className="wishlist-tile__info">
-                    <Link href={`/products/${item.slug}`} className="wishlist-tile__name type-lg type-bold">
+                  <div className="wishlist-tile__info flex flex-col gap-1">
+                    <Link href={`/products/${item.slug}`} className="wishlist-tile__name type-lg type-bold text-black no-underline [&:hover]:text-[#675dff]">
                       {item.name}
                     </Link>
-                    <div className="wishlist-tile__price">
+                    <div className="wishlist-tile__price flex gap-2.5 items-center">
                       {item.regularPrice && Number.isFinite(item.regularPrice) && item.regularPrice > item.price && (
                         <span className="type-md type-gray-60" style={{ textDecoration: 'line-through' }}>
                           ${item.regularPrice.toFixed(2)}
@@ -97,12 +97,12 @@ export default function WishlistPage() {
                     </div>
                   </div>
 
-                  <div className="wishlist-tile__actions">
+                  <div className="wishlist-tile__actions flex items-center gap-legacy-15 mt-[5px]">
                     <Link href={`/products/${item.slug}`} className="btn btn-primary btn-small">
                       View Product
                     </Link>
                     <button
-                      className="wishlist-tile__remove type-sm"
+                      className="wishlist-tile__remove type-sm [background:none] [border:none] text-gray-500 cursor-pointer [padding:0] underline [text-underline-offset:3px] [transition:color_0.15s] [&:hover]:text-black"
                       onClick={() => removeItem(item.id)}
                       aria-label={`Remove ${item.name} from wishlist`}
                     >
