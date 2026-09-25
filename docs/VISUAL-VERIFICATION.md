@@ -345,6 +345,10 @@ node scripts/capture.mjs <outputDir> [--base http://localhost:3000]
 npm run capture -- <outputDir> [--base http://localhost:3000]
 ```
 
+`npm run flicker -- --before <dir> --after <dir>` writes an offline viewer.
+It defaults to differing captures; pass `--all` to include identical files.
+Use Space, D, and Z to pause/toggle, show the diff overlay, and change zoom.
+
 ### BEFORE (reference commit, port 3001)
 
 Capture from a separate git worktree so the working copy is untouched:

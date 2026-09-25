@@ -57,3 +57,5 @@ visual/*
 !visual/routes.json
 !visual/fixtures/
 visual/fixtures/**/media/
+!visual/overrides/
+!visual/overrides/**

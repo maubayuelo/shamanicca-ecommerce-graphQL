@@ -84,6 +84,56 @@ const COOKIE_CONSENT_VALUE = JSON.stringify({
 const NEWSLETTER_DISMISSED_KEY = 'shamanicca_newsletter_dismissed';
 const NEWSLETTER_DISMISSED_VALUE = '1';
 
+// Capture-only data from the recorded Merkaba product fixture. These values
+// are intentionally kept here (rather than in app code) so seeded cart and
+// wishlist states exercise the same product already used by the replay set.
+const SEEDED_PRODUCT = {
+  id: '1923',
+  name: "Merkaba Rider - Women's t-shirt",
+  slug: 'merkaba-rider-womens-t-shirt',
+  price: 49,
+  image: 'https://master.shamanicca.com/wp-content/uploads/2026/07/merkaba-rider-womens-t-shirt-back.png',
+};
+
+const STATE_STORAGE = {
+  'wishlist:filled': {
+    ['shamanicca-wishlist']: JSON.stringify([SEEDED_PRODUCT]),
+  },
+  'cart:filled': {
+    ['shamanicca-cart']: JSON.stringify([{
+      key: `${SEEDED_PRODUCT.id}:M`,
+      product: { ...SEEDED_PRODUCT, image: { sourceUrl: SEEDED_PRODUCT.image } },
+      qty: 2,
+      options: { size: 'M' },
+    }]),
+  },
+  'cart:qty-hover': {
+    ['shamanicca-cart']: JSON.stringify([{
+      key: `${SEEDED_PRODUCT.id}:M`,
+      product: { ...SEEDED_PRODUCT, image: { sourceUrl: SEEDED_PRODUCT.image } },
+      qty: 2,
+      options: { size: 'M' },
+    }]),
+  },
+  'cart:qty-focus': {
+    ['shamanicca-cart']: JSON.stringify([{
+      key: `${SEEDED_PRODUCT.id}:M`,
+      product: { ...SEEDED_PRODUCT, image: { sourceUrl: SEEDED_PRODUCT.image } },
+      qty: 2,
+      options: { size: 'M' },
+    }]),
+  },
+  'newsletter:modal-open': { [NEWSLETTER_DISMISSED_KEY]: null },
+  'newsletter:success': { [NEWSLETTER_DISMISSED_KEY]: null },
+};
+
+const STUB_RESPONSES = {
+  '/api/contact': { ok: true },
+  '/api/newsletter': { ok: true },
+};
+
+const OVERRIDE_ROOT = path.join(rootDir, 'visual', 'overrides');
+
 // The Next.js dev overlay mounts a <nextjs-portal> custom element (shadow DOM)
 // directly under <body>. Hiding the host element hides the whole overlay.
 const HIDE_DEV_INDICATOR_CSS = 'nextjs-portal { display: none !important; }';
@@ -216,6 +266,75 @@ async function installEmbedBlocker(context) {
     if (!EMBED_HOST.test(host)) return route.fallback();
     return route.fulfill({ status: 200, contentType: 'text/html; charset=utf-8', body: BLANK_EMBED_DOCUMENT });
   });
+}
+
+// Capture safety boundary. A capture must never accidentally send a form,
+// mutate an external service, or follow a checkout request. Only the two
+// explicitly registered same-origin API stubs may receive POST requests.
+async function installRequestGuard(context, { stubPaths, overrides, guardFailures }) {
+  await context.route('**/*', async (route) => {
+    const request = route.request();
+    const method = request.method().toUpperCase();
+    const requestUrl = new URL(request.url());
+
+    const overridePath = overrides.get(requestUrl.pathname);
+    if (method === 'GET' && overridePath) {
+      const body = fs.readFileSync(overridePath, 'utf-8');
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body,
+      });
+    }
+
+    if (method === 'GET') {
+      if (requestUrl.origin !== baseOrigin && request.isNavigationRequest() && request.resourceType() === 'document') {
+        if (EMBED_HOST.test(requestUrl.hostname)) return route.fallback();
+        const message = `blocked external navigation during capture: ${requestUrl.toString()}`;
+        guardFailures.push(message);
+        console.error(`[guard] ${message}`);
+        return route.abort('blockedbyclient');
+      }
+      return route.fallback();
+    }
+
+    const sameOriginApi = requestUrl.origin === baseOrigin && requestUrl.pathname.startsWith('/api/');
+    const externalHost = requestUrl.origin !== baseOrigin;
+    if (!sameOriginApi && !externalHost) return route.fallback();
+
+    // The replay proxy is the capture's explicitly registered GraphQL
+    // transport. It is still subject to the proxy's replay/record-missing
+    // miss checks below; it is not an escape hatch for arbitrary hosts.
+    const replayGraphql = replay && requestUrl.origin === new URL(replay).origin && requestUrl.pathname === '/graphql';
+    if (replayGraphql && method === 'POST') return route.fallback();
+
+    if (sameOriginApi && stubPaths.has(requestUrl.pathname)) {
+      const payload = STUB_RESPONSES[requestUrl.pathname];
+      return route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(payload),
+      });
+    }
+
+    const message = `blocked unstubbed non-GET request: ${requestUrl.toString()}`;
+    guardFailures.push(message);
+    console.error(`[guard] ${message}`);
+    return route.abort('blockedbyclient');
+  });
+}
+
+function resolveCaptureOverrides(stateEntry) {
+  const overrides = new Map();
+  for (const [requestPath, relativePath] of Object.entries(stateEntry?.overrides || {})) {
+    const absolutePath = path.resolve(rootDir, relativePath);
+    if (!absolutePath.startsWith(`${OVERRIDE_ROOT}${path.sep}`)) {
+      throw new Error(`capture override must live under visual/overrides: ${relativePath}`);
+    }
+    if (!fs.existsSync(absolutePath)) throw new Error(`capture override not found: ${relativePath}`);
+    overrides.set(requestPath, absolutePath);
+  }
+  return overrides;
 }
 
 // ---------------------------------------------------------------------------
@@ -672,6 +791,97 @@ const STATE_PERMISSIONS = {
 };
 
 const STATE_HANDLERS = {
+  'wishlist:filled': async (page) => {
+    await page.locator('.wishlist-grid .wishlist-tile').first().waitFor({ state: 'attached', timeout: 5000 });
+  },
+
+  'cart:filled': async (page) => {
+    await page.locator('.cart__layout .cart__item').first().waitFor({ state: 'attached', timeout: 5000 });
+  },
+
+  'cart:qty-hover': async (page) => {
+    const target = page.locator('.cart__qty_btn:not([disabled])').first();
+    await target.hover();
+    await assertHovered(page, '.cart__qty_btn:not([disabled])');
+    await waitAnimationsSettled(page, '.cart__qty', 3000);
+  },
+
+  'cart:qty-focus': async (page) => {
+    const target = page.locator('.cart__qty_input').first();
+    await target.focus();
+    await resetMouse(page);
+    await withHardTimeout(
+      page.evaluate(() => {
+        if (document.activeElement?.classList.contains('cart__qty_input') === false) {
+          throw new Error('.cart__qty_input did not receive focus');
+        }
+      }),
+      2000,
+      'cart quantity input to receive focus',
+    );
+    await scrollElementToOffset(page, '.cart__qty_input', 250);
+  },
+
+  'contact:focus': async (page) => {
+    await page.locator('#c-name').focus();
+    await resetMouse(page);
+    await withHardTimeout(
+      page.evaluate(() => {
+        if (document.activeElement?.id !== 'c-name') throw new Error('#c-name did not receive focus');
+      }),
+      2000,
+      '#c-name to receive focus',
+    );
+  },
+
+  'contact:validation-error': async (page) => {
+    await page.locator('.contact-form button[type="submit"]').click();
+    await page.locator('.contact-form--error, .contact-form__field-error').first().waitFor({ state: 'attached', timeout: 5000 });
+    await withHardTimeout(
+      page.evaluate(() => {
+        const errors = document.querySelectorAll('.contact-form__field-error');
+        if (errors.length === 0) throw new Error('contact validation errors did not render');
+      }),
+      3000,
+      'contact validation errors to render',
+    );
+  },
+
+  'contact:submitted': async (page) => {
+    await page.locator('#c-name').fill('Capture Test');
+    await page.locator('#c-email').fill('capture@example.com');
+    await page.locator('#c-subject').selectOption({ label: 'Other' });
+    await page.locator('#c-message').fill('Deterministic visual capture submission.');
+    await page.locator('.contact-form button[type="submit"]').click();
+    await page.locator('.contact-success[role="alert"]').waitFor({ state: 'attached', timeout: 5000 });
+  },
+
+  'newsletter:modal-open': async (page) => {
+    await page.evaluate(() => {
+      document.dispatchEvent(new MouseEvent('mouseleave', { bubbles: false, clientY: 0 }));
+    });
+    await page.locator('[role="dialog"][aria-label="Subscribe to our newsletter"]').waitFor({ state: 'attached', timeout: 5000 });
+  },
+
+  'newsletter:success': async (page) => {
+    await page.evaluate(() => {
+      document.dispatchEvent(new MouseEvent('mouseleave', { bubbles: false, clientY: 0 }));
+    });
+    const dialog = page.locator('[role="dialog"][aria-label="Subscribe to our newsletter"]');
+    await dialog.waitFor({ state: 'attached', timeout: 5000 });
+    await dialog.locator('.newsletter-form input[type="email"]').fill('capture@example.com');
+    await dialog.locator('.newsletter-form button[type="submit"]').click();
+    await dialog.locator('.newsletter-success[role="alert"]').waitFor({ state: 'attached', timeout: 5000 });
+  },
+
+  'announcement:visible': async (page) => {
+    await page.locator('.announcement-banner').waitFor({ state: 'visible', timeout: 5000 });
+  },
+
+  'home:announcement-visible': async (page) => {
+    await page.locator('.announcement-banner').waitFor({ state: 'visible', timeout: 5000 });
+  },
+
   'product:thumb-2': async (page) => {
     await page.locator('.gallery__thumbs .thumb').nth(1).click();
     await resetMouse(page);
@@ -968,6 +1178,7 @@ for (const stateEntry of manifest.states || []) {
       route,
       viewport,
       state: stateEntry.name,
+      stateEntry,
       label: `${route.name}__${viewport.name}__${stateEntry.name}`,
     });
   }
@@ -1004,7 +1215,7 @@ async function main() {
 
   try {
     for (let i = 0; i < jobs.length; i++) {
-      const { route, viewport, state, label } = jobs[i];
+      const { route, viewport, state, stateEntry, label } = jobs[i];
       console.log(`[${i + 1}/${jobs.length}] ${label} ...`);
       const startedAt = Date.now();
       let context;
@@ -1027,11 +1238,25 @@ async function main() {
           },
         );
 
+        const stateKey = state ? `${route.name}:${state}` : null;
+        const stateStorage = stateKey ? STATE_STORAGE[stateKey] : null;
+        if (stateStorage) {
+          await context.addInitScript((storage) => {
+            for (const [key, value] of Object.entries(storage)) {
+              if (value === null) window.localStorage.removeItem(key);
+              else window.localStorage.setItem(key, value);
+            }
+          }, stateStorage);
+        }
+
         const mediaMisses = [];
         if (media) await installMediaCache(context, mediaMisses);
         await installEmbedBlocker(context);
 
-        const stateKey = state ? `${route.name}:${state}` : null;
+        const guardFailures = [];
+        const stubPaths = new Set(stateEntry?.stubs || []);
+        const overrides = resolveCaptureOverrides(stateEntry);
+        await installRequestGuard(context, { stubPaths, overrides, guardFailures });
         if (stateKey && STATE_INIT_SCRIPTS[stateKey]) await context.addInitScript(STATE_INIT_SCRIPTS[stateKey]);
         if (stateKey && STATE_PERMISSIONS[stateKey]) await context.grantPermissions(STATE_PERMISSIONS[stateKey], { origin: new URL(base).origin });
 
@@ -1088,6 +1313,8 @@ async function main() {
           if (mediaMisses.length > 0) throw new Error(`${mediaMisses.length} media cache miss(es): ${mediaMisses.join('; ')}`);
           await writeStableScreenshot(page, outputPath, true);
         }
+
+        if (guardFailures.length > 0) throw new Error(guardFailures.join('; '));
 
         if (mediaMisses.length > 0) {
           throw new Error(`${mediaMisses.length} media cache miss(es): ${mediaMisses.join('; ')}`);
