@@ -26,10 +26,10 @@ export default function AnnouncementBanner() {
   if (!banner) return null;
 
   return (
-    <div className="announcement-banner">
-      <span className="announcement-banner__text">{banner.banner_text}</span>
+    <div className="announcement-banner bg-black text-white [font-family:var(--font-main)] text-sm font-medium leading-none p-2 text-center flex items-center justify-center gap-1.5 flex-wrap">
+      <span className="announcement-banner__text text-white">{banner.banner_text}</span>
       {banner.banner_cta_label && banner.banner_cta_url && (
-        <Link href={banner.banner_cta_url} className="announcement-banner__cta">
+        <Link href={banner.banner_cta_url} className="announcement-banner__cta text-white font-bold underline underline-offset-2 [&:hover]:opacity-80">
           {banner.banner_cta_label}
         </Link>
       )}
