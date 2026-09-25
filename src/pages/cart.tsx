@@ -77,20 +77,20 @@ export default function CartPage() {
         <div className="main pb-lg-responsive pt-lg-responsive">
           <h1 className="type-3xl mt-0 mb-sm-responsive">Your Bag</h1>
           {!hasHydrated ? (
-            <div className="cart__loading">Loading your bag…</div>
+            <div className="cart__loading py-7.5">Loading your bag…</div>
           ) : items.length === 0 ? (
-            <div className="cart__empty">
+            <div className="cart__empty py-7.5">
               <p>Your bag is empty.</p>
               <Link href="/" className="btn btn-secondary mt-sm-responsive">
                 Continue shopping
               </Link>
             </div>
           ) : (
-            <div className="cart__layout">
-              <ul className="cart__items">
+            <div className="cart__layout grid grid-cols-[1fr] gap-7.5 lg:grid-cols-[2fr_1fr] lg:[align-items:start]">
+              <ul className="cart__items list-none [padding:0] [margin:0] grid gap-legacy-15">
                 {items.map((i) => (
-                  <li key={i.key} className="cart__item">
-                    <div className="cart__thumb">
+                  <li key={i.key} className="cart__item grid grid-cols-[96px_1fr_auto] gap-legacy-15 items-center p-legacy-15 border border-gray-300 rounded-[10px] bg-white [@media(max-width:768px)]:grid-cols-[96px_1fr]">
+                    <div className="cart__thumb w-[96px] h-[96px] rounded-[10px] overflow-hidden bg-gray-50">
                       {i.product.image?.sourceUrl ? (
                         <Image
                           src={i.product.image.sourceUrl}
@@ -99,29 +99,29 @@ export default function CartPage() {
                           height={96}
                         />
                       ) : (
-                        <div className="cart__thumb_placeholder" aria-hidden />
+                        <div className="cart__thumb_placeholder w-full h-full bg-gray-50" aria-hidden />
                       )}
                     </div>
-                    <div className="cart__info">
+                    <div className="cart__info flex flex-col gap-1.25">
                       <Link
                         href={`/products/${i.product.slug}`}
-                        className="product-name type-bold"
+                        className="product-name type-bold text-black no-underline"
                       >
                         {i.product.name}
                       </Link>
                       {i.options?.size && (
-                        <div className="cart__opt">Size: {i.options.size}</div>
+                        <div className="cart__opt text-gray-600">Size: {i.options.size}</div>
                       )}
-                      <div className="prices">
-                        <span className="price type-bold">
+                      <div className="prices inline-flex gap-2.5">
+                        <span className="price type-bold text-black">
                           ${i.product.price.toFixed(2)}
                         </span>
                       </div>
                     </div>
-                    <div className="cart__controls">
-                      <div className="cart__qty">
+                    <div className="cart__controls flex flex-col gap-2.5 items-end [@media(max-width:768px)]:col-span-full [@media(max-width:768px)]:items-start">
+                      <div className="cart__qty inline-flex items-center gap-2.5">
                         <button
-                          className="btn btn-secondary btn-small cart__qty_btn"
+                          className="btn btn-secondary btn-small cart__qty_btn inline-flex items-center justify-center"
                           onClick={() => updateQty(i.key, Math.max(1, i.qty - 1))}
                           aria-label="Decrease quantity"
                           disabled={i.qty <= 1}
@@ -136,7 +136,7 @@ export default function CartPage() {
 
                         <input
                           id={`qty-${i.key}`}
-                          className="form-control cart__qty_input"
+                          className="form-control cart__qty_input w-[88px] text-center"
                           type="number"
                           min={1}
                           value={i.qty}
@@ -147,14 +147,14 @@ export default function CartPage() {
                         />
 
                         <button
-                          className="btn btn-secondary btn-small cart__qty_btn"
+                          className="btn btn-secondary btn-small cart__qty_btn inline-flex items-center justify-center"
                           onClick={() => updateQty(i.key, i.qty + 1)}
                           aria-label="Increase quantity"
                         >
                           +
                         </button>
                       </div>
-                      <div className="cart__actions">
+                      <div className="cart__actions inline-flex justify-end">
                         <button
                           className="btn btn-muted btn-small mt-sm-responsive"
                           onClick={() => removeItem(i.key)}
@@ -167,8 +167,8 @@ export default function CartPage() {
                 ))}
               </ul>
 
-              <aside className="cart__summary">
-                <div className="cart__row">
+              <aside className="cart__summary sticky top-[30px] p-5 border border-gray-300 rounded-[10px] bg-white flex flex-col gap-legacy-15">
+                <div className="cart__row flex justify-between items-baseline">
                   <span>Subtotal</span>
                   <span className="type-bold">${subtotal.toFixed(2)}</span>
                 </div>
@@ -181,7 +181,7 @@ export default function CartPage() {
                 )}
 
                 <button
-                  className="btn btn-primary btn-large"
+                  className="btn btn-primary btn-large w-full"
                   onClick={handleCheckout}
                   disabled={checkoutLoading || !hasHydrated || items.length === 0}
                 >
