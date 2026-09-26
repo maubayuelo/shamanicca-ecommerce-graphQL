@@ -1,14 +1,12 @@
-// Global, reusable form styles and mixins
-// Reference: footer newsletter form. Applies variables for colors, spacing, radii.
+// Global, reusable form primitives. Component-specific mappings live in JSX.
 
 @use "./variables" as *;
 @use "./typography" as *;
 @use "./mixins" as *;
 
-// Base input control mixin
 @mixin form-control {
 	@include font-style(sm, regular, md);
-	padding: $spacing-15; // 15px
+	padding: $spacing-15;
 	background: $white;
 	border: 1px solid $gray-40;
 	border-radius: $spacing-10;
@@ -30,7 +28,6 @@
 	}
 }
 
-// Button mixins
 @mixin button-base {
 	@include font-style(sm, bold, md);
 	border: none;
@@ -43,7 +40,6 @@
 	@include button-base;
 	background: $primary-color;
 	color: $white;
-	// Mirror component .btn-primary interactive states
 	&:hover,
 	&:active {
 		color: $white;
@@ -52,150 +48,26 @@
 	}
 }
 
-// Inline form pattern: input + submit in one rounded group
-@mixin form-inline {
-	display: flex;
-	gap: 0;
-	overflow: hidden;
-	border-radius: $spacing-10;
-	box-shadow: 0px 3px 6px -3px rgba(0, 0, 0, 0.05), 0px 2px 4px -2px rgba(0, 0, 0, 0.05);
-}
-
-// Radio group helpers
-@mixin radio-group {
-	display: flex;
-	gap: $spacing-15;
-	border: none;
-	margin: 0;
-	padding: 0;
-}
-
-@mixin radio-item {
-	display: inline-flex;
-	align-items: center;
-	gap: $spacing-5;
-}
-
-// Input group helpers (shared patterns)
-@mixin input-group-left {
-	// Shared input used on footer newsletter and header search
-	@include form-control;
-	border-right: none;
-	border-radius: $spacing-10 0 0 $spacing-10;
-	// Ensure it grows when inside flex groups (harmless inside CSS grid)
-	flex: 1;
-}
-
-@mixin input-group-right-button {
-	// Shared submit button for grouped inputs (footer newsletter, header search)
-	@include button-primary;
-	padding: $spacing-15 $spacing-30;
-	border-radius: 0 $spacing-10 $spacing-10 0;
-}
-
-// Size variants
 @mixin control-condensed-padding { padding: $spacing-10; }
 @mixin button-condensed-padding { padding: $spacing-10 $spacing-15; }
-@mixin input-group-right-button-condensed {
-	@include button-primary; // keep visual style consistent
-	@include button-condensed-padding;
-	border-radius: 0 $spacing-10 $spacing-10 0;
-}
 
-// Utility classes (opt-in via JSX if desired)
 .form-control { @include form-control; }
 .form-control--condensed { @include control-condensed-padding; }
-// alias to support the requested naming variant
-.form-control-condensed { @extend .form-control--condensed; }
-.form-inline { @include form-inline; }
-.radio-group { @include radio-group; }
-.radio-item { @include radio-item; }
 
-// Mappings for existing components so no JSX changes are required
-
-// Newsletter form — shared styles (footer + standalone page)
-.newsletter-form { @include form-inline; }
-.newsletter-form input[type="email"] { @include input-group-left; }
-.newsletter-form .newsletter-submit { @include input-group-right-button; }
-
-// Header search input + submit
-.header__search_form {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	gap: $spacing-15;
-	@include media-tablet-up { flex-direction: row; }
-}
-.header__search_field {
-	display: grid;
-	grid-template-columns: 1fr auto;
-	align-items: center;
-	width: 100%;
-}
-.header__search_field input[type="text"] { @include input-group-left; }
-.header__search_submit {
-	@include input-group-right-button;
-	// Prevent layout shift: reserve space for the border
-	border: 2px solid transparent;
-	// Header form button interactive preference: keep background black and show white border
-	&:hover,
-	&:active {
-		background-color: $black;
-		border-color: $white;
-	}
-}
-
-// Condensed form variant (apply on a parent wrapper)
+// Shared parent variant for controls and buttons. The Header keeps this hook;
+// its component-specific descendants now carry their own utilities.
 .form--condensed, .is-condensed {
-	// Utilities
 	.form-control { @include control-condensed-padding; }
 	.btn, .btn--primary { @include button-condensed-padding; }
-
-	// Newsletter form mapping
-	.newsletter-form input[type="email"] { @include control-condensed-padding; }
-	.newsletter-form .newsletter-submit { @include input-group-right-button-condensed; }
-
-	// Header search mapping
-	.header__search_field input[type="text"] { @include control-condensed-padding; }
-	.header__search_submit {
-		@include input-group-right-button-condensed;
-		// Prevent layout shift when showing border on hover
-		border: 2px solid transparent;
-		&:hover,
-		&:active {
-			background-color: $black;
-			border-color: $white;
-		}
-	}
 }
 
-// Formover black background variant
-.form--black-bg, .is-black-bg {
-	.form-control {
-		background-color: $black;
-		border: 1px solid $gray-70;
-		color: $white;
-		&::placeholder { color: $gray-50; }
-		&:focus {
-			border-color: $primary-color;
-			box-shadow: 0px 3px 6px -3px rgba(112, 90, 248, 0.15);
-		}
-	}
+// Preserve the old unlayered winners over the typography helper classes.
+.newsletter-form input[type="email"] { line-height: 24px; }
+.newsletter-form .newsletter-submit {
+	font-weight: 600;
+	line-height: 24px;
 }
-// Header search radio styles
-.header__search_scope { @include radio-group; }
-.header__search_radio { @include radio-item; color: $white; }
-.header__search_radio input { accent-color: $primary-color; margin: 0; }
-
-// Search page overrides: form reuses header search classes but sits on a white background
-.search-page__form {
-	.header__search_radio { color: $black; }
-	.header__search_scope { margin-top: $spacing-15; }
-	.header__search_submit {
-		&:hover,
-		&:active {
-			border-color: $primary-color;
-		}
-	}
+.form--condensed .header__search_submit,
+.is-condensed .header__search_submit {
+	line-height: 24px;
 }
-
