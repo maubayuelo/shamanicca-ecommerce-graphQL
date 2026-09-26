@@ -1,3 +1,0 @@
-// Keeps .type-* late in the bundle; component rules depended on this order (Phase 6b finding).
-// Remove in Phase 9 when typography migrates.
-@use "./typography" as *;

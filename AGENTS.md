@@ -59,6 +59,16 @@ to `main`, on PRs targeting `main`, and on `workflow_dispatch`. Pushing a
 feature branch alone runs nothing. Lint fails on errors only; warnings are not
 gated (see Known debt).
 
+**Branching:**
+
+```bash
+git switch -c <branch> --no-track origin/main   # new branch from main
+git push -u origin HEAD                          # first push, always
+```
+
+Without `--no-track` the branch tracks `origin/main`, so `git push` targets
+`main` and skips the PR.
+
 ---
 
 ## Directory map

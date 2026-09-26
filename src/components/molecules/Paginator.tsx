@@ -48,14 +48,14 @@ import { DESKTOP_MIN, pageItemsForWidth } from '../../utils/paginationWindow';
 // UA font today.
 const PAG_TEXT =
   'inline-flex items-center justify-center min-w-10 [border:0] no-underline text-black py-2.5 px-4 [@media(max-width:600px)]:min-w-8 [@media(max-width:600px)]:p-2 cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,opacity_120ms_ease]';
-// <span>: transparent, and font-size/weight/line-height come from the
-// unlayered remnant in paginator.scss (they must beat .type-lg / .type-extrabold).
-const PAG_SPAN = `${PAG_TEXT} bg-transparent`;
+// <span>: transparent, and font-size/weight/line-height inherit from the item
+// (the utilities beat the .type-lg / .type-extrabold on the page number).
+const PAG_SPAN = `${PAG_TEXT} bg-transparent [font-size:inherit] [font-weight:inherit] [line-height:inherit]`;
 // <a> and <button>: inherit the item's font, gray on hover (ungated, like the SCSS).
 const PAG_CTRL = `${PAG_TEXT} [font-size:inherit] [font-weight:inherit] [line-height:inherit] [&:hover]:bg-gray-50`;
 // The dots keep the base min-width but override padding, cursor and opacity.
 const PAG_DOTS =
-  'inline-flex items-center justify-center min-w-10 [border:0] no-underline text-black py-0 px-legacy-15 [@media(max-width:600px)]:min-w-8 cursor-default opacity-80 [transition:background-color_120ms_ease,color_120ms_ease,opacity_120ms_ease] bg-transparent';
+  'inline-flex items-center justify-center min-w-10 [border:0] no-underline text-black py-0 px-legacy-15 [@media(max-width:600px)]:min-w-8 cursor-default opacity-80 [transition:background-color_120ms_ease,color_120ms_ease,opacity_120ms_ease] bg-transparent [font-size:inherit] [font-weight:inherit] [line-height:inherit]';
 const PAG_ITEM = 'paginator__item mb-0 flex items-center justify-center relative not-first:border-l not-first:border-l-gray-100';
 const PAG_LIST =
   'paginator__list inline-flex items-stretch bg-white border border-gray-300 rounded-[10px] [box-shadow:0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05),0_1px_0_-1px_rgba(0,0,0,0.05)] overflow-hidden [padding:0] [margin:0] list-none [@media(max-width:600px)]:overflow-x-auto [@media(max-width:600px)]:[-webkit-overflow-scrolling:touch]';

@@ -88,14 +88,14 @@ export default function NewsletterForm({ className = '' }: Props) {
           aria-label="Email address"
           aria-invalid={!!error}
           aria-describedby={error ? 'newsletter-error' : undefined}
-          className="type-sm flex-1 p-[15px] bg-white border border-gray-300 border-r-0 rounded-[10px_0_0_10px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-500 [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
+          className="type-sm [line-height:24px] flex-1 p-[15px] bg-white border border-gray-300 border-r-0 rounded-[10px_0_0_10px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-500 [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
           autoComplete="email"
           required
           disabled={status === 'loading'}
         />
         <button
           type="submit"
-          className="newsletter-submit type-sm type-extrabold type-uppercase [border:none] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[15px_30px] rounded-[0_10px_10px_0] [&:hover]:text-white [&:hover]:bg-black [&:hover]:[text-decoration:none] [&:active]:text-white [&:active]:bg-black [&:active]:[text-decoration:none]"
+          className="newsletter-submit type-sm type-bold type-uppercase [line-height:24px] [border:none] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[15px_30px] rounded-[0_10px_10px_0] [&:hover]:text-white [&:hover]:bg-black [&:hover]:[text-decoration:none] [&:active]:text-white [&:active]:bg-black [&:active]:[text-decoration:none]"
           disabled={status === 'loading'}
         >
           {status === 'loading' ? '...' : 'Send'}

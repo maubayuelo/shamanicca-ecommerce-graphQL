@@ -23,7 +23,6 @@ import client from '../lib/graphql/apolloClient';
 import '../styles/layers.css';
 import '../styles/globals.scss';
 import '../styles/components/header.scss';
-import '../styles/typography-cascade.scss';
 import '../styles/pages/about.scss';
 import '../styles/pages/cart.scss';
 import '../styles/pages/wishlist.scss';
