@@ -118,7 +118,7 @@ export default function SearchPage() {
 
           {/* Inline search field */}
           <form className="search-page__form mb-md-responsive" onSubmit={handleSearch} role="search">
-            <div className="header__search_field">
+            <div className="header__search_field grid grid-cols-[1fr_auto] items-center w-full">
               <label htmlFor="search-page-input" className="visually-hidden">Search</label>
               <input
                 id="search-page-input"
@@ -128,18 +128,19 @@ export default function SearchPage() {
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Search products or posts"
                 autoComplete="off"
+                className="[font-family:Poppins,sans-serif] text-[14px] leading-6 p-[15px] flex-1 bg-white border border-gray-300 border-r-0 rounded-[10px_0_0_10px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-500 [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
               />
-              <button type="submit" className="header__search_submit type-bold type-sm type-uppercase">Search</button>
+              <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[15px_30px] rounded-[0_10px_10px_0] [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none] [.search-page__form_&:hover]:border-[#675dff] [.search-page__form_&:active]:border-[#675dff]">Search</button>
             </div>
 
-            <fieldset className="header__search_scope mt-sm-responsive">
+            <fieldset className="header__search_scope flex gap-legacy-15 border-0 [margin:0] [padding:0] mt-[15px]">
               <legend className="visually-hidden">Search scope</legend>
-              <label className="header__search_radio">
-                <input type="radio" name="scope" value="shop" checked={scope === 'shop'} onChange={() => changeScope('shop')} />
+              <label className="header__search_radio inline-flex items-center gap-1.25 text-black">
+                <input type="radio" name="scope" value="shop" checked={scope === 'shop'} onChange={() => changeScope('shop')} className="[accent-color:#675dff] [margin:0]" />
                 <span>Shop</span>
               </label>
-              <label className="header__search_radio">
-                <input type="radio" name="scope" value="blog" checked={scope === 'blog'} onChange={() => changeScope('blog')} />
+              <label className="header__search_radio inline-flex items-center gap-1.25 text-black">
+                <input type="radio" name="scope" value="blog" checked={scope === 'blog'} onChange={() => changeScope('blog')} className="[accent-color:#675dff] [margin:0]" />
                 <span>Blog</span>
               </label>
             </fieldset>

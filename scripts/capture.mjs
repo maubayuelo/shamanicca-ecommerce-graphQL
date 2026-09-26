@@ -874,6 +874,22 @@ const STATE_HANDLERS = {
     await dialog.locator('.newsletter-success[role="alert"]').waitFor({ state: 'attached', timeout: 5000 });
   },
 
+  'home:header-search-open': async (page) => {
+    await page.locator('button[aria-label="search"]').click();
+    await page.locator('.header__search_form').waitFor({ state: 'visible', timeout: 5000 });
+    await waitAnimationsSettled(page, '.header__search', 3000);
+  },
+
+  'home:header-search-submit-hover': async (page) => {
+    await page.locator('button[aria-label="search"]').click();
+    await page.locator('.header__search_form').waitFor({ state: 'visible', timeout: 5000 });
+    await waitAnimationsSettled(page, '.header__search', 3000);
+    const submit = page.locator('.header__search_submit');
+    await submit.hover();
+    await assertHovered(page, '.header__search_submit');
+    await waitTransitionsSettled(page);
+  },
+
   'announcement:visible': async (page) => {
     await page.locator('.announcement-banner').waitFor({ state: 'visible', timeout: 5000 });
   },
