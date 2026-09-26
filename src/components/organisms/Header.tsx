@@ -280,7 +280,7 @@ export default function Header() {
                   </Link>
                   
                   {item.children && item.children.length > 0 && (
-                    <div className="pt-10 pb-10 absolute left-0 top-full z-40 mt-0 min-w-45 hidden [.group:hover_&]:block! group-focus-within:block! rounded-b-md bg-gray-200" role="menu" aria-label={`${item.label} subcategories`}>
+                    <div className="pt-2.5 pb-2.5 absolute left-0 top-full z-40 mt-0 min-w-45 hidden [.group:hover_&]:block! group-focus-within:block! rounded-b-md bg-gray-200" role="menu" aria-label={`${item.label} subcategories`}>
                       <ul className="list-none m-0 p-0 rounded-b-md">
                         {item.children.map((child) => (
                           <li key={child.id} className="p-0 m-0">

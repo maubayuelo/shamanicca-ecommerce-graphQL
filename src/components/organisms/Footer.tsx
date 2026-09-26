@@ -14,7 +14,7 @@ export default function Footer() {
               Hit subscribe and save – your inbox will thank you.
             </p>
 
-            <NewsletterForm className="mt-15" />
+            <NewsletterForm className="mt-legacy-15" />
 
             <div className="mt-xl-responsive mb-lg-responsive">
               <div className="type-sm mb-sm-responsive">Catch updates following us on:</div>
