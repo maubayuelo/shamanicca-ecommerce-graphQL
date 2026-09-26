@@ -40,7 +40,7 @@ export default function NotFoundPage() {
                 The page you're looking for doesn't exist or has been moved.
               </p>
               <div>
-                <Link href="/" className="btn btn-primary mr-30">
+                <Link href="/" className="btn btn-primary mr-7.5">
                   Shop
                 </Link>
                 <Link href="/blog" className="btn btn-secondary">

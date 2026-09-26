@@ -1,36 +1,5 @@
 @use "./variables" as *;
 @use "./mixins" as *;
-// Margin helpers
-.m-0 {
-    margin: 0 !important;
-} // m-reseted
-.mt-0 {
-    margin-top: 0;
-}
-.mt-15 {
-    margin-top: $spacing-15;
-}
-.mb-0 {
-    margin-bottom: 0 !important;
-}
-
-.mr-30 {
-    margin-right: $spacing-30;
-}
-
-// Padding helpers
-.p-0 {
-    padding: 0 !important;
-}
-.pt-0 {
-    padding-top: 0;
-}
-.pt-10 {
-    padding-top: $spacing-10;
-}
-.pb-10 {
-    padding-bottom: $spacing-10;
-}
 
 // Responsive helpers
 .mb-lg-responsive {
@@ -192,10 +161,6 @@
   clip: rect(0, 0, 0, 0) !important;
   white-space: nowrap !important; /* added line */
   border: 0 !important;
-}
-
-.hidden{
-    display: none !important;
 }
 
 .visually-hidden {
