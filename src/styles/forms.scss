@@ -30,6 +30,8 @@
 
 @mixin control-condensed-padding { padding: $spacing-10; }
 
+@layer components {
 .form-control { @include form-control; }
 .form-control--condensed { @include control-condensed-padding; }
+}
 

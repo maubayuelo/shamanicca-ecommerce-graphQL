@@ -121,7 +121,7 @@ export default function CartPage() {
                     <div className="cart__controls flex flex-col gap-2.5 items-end [@media(max-width:768px)]:col-span-full [@media(max-width:768px)]:items-start">
                       <div className="cart__qty inline-flex items-center gap-2.5">
                         <button
-                          className="btn btn-secondary btn-small cart__qty_btn inline-flex items-center justify-center"
+                          className="btn btn-secondary btn-small cart__qty_btn inline-flex items-center justify-center p-2.5 border border-[#dbdbdb] bg-white"
                           onClick={() => updateQty(i.key, Math.max(1, i.qty - 1))}
                           aria-label="Decrease quantity"
                           disabled={i.qty <= 1}
@@ -147,7 +147,7 @@ export default function CartPage() {
                         />
 
                         <button
-                          className="btn btn-secondary btn-small cart__qty_btn inline-flex items-center justify-center"
+                          className="btn btn-secondary btn-small cart__qty_btn inline-flex items-center justify-center p-2.5 border border-[#dbdbdb] bg-white"
                           onClick={() => updateQty(i.key, i.qty + 1)}
                           aria-label="Increase quantity"
                         >
