@@ -45,61 +45,42 @@
     text-rendering: optimizeLegibility;
 }
 
-// Primary button variant - blue background (alias supports legacy .btn--primary)
-.btn-primary, .btn--primary {
+// Primary button variant - blue background
+.btn-primary {
     background-color: $primary-color;
     color: $white;
 }
 
-.btn-primary:hover, .btn--primary:hover {
+.btn-primary:hover {
     color: $white;
     background-color: $black;
     text-decoration: none;
 }
 
-.btn-primary:active, .btn--primary:active {
+.btn-primary:active {
     color: $white;
     background-color: $black;
     text-decoration: none;
 }
 
-// Secondary button variant - white background with border (alias supports legacy .btn--secondary)
-.btn-secondary, .btn--secondary {
+// Secondary button variant - white background with border
+.btn-secondary {
     background-color: $white;
     color: $primary-color;
     border: 2px solid $primary-color;
 }
 
-.btn-secondary:hover, .btn--secondary:hover {
+.btn-secondary:hover {
     color: $white;
     background-color: $black;
     border: 2px solid $black;
     text-decoration: none;
 }
 
-.btn-secondary:active, .btn--secondary:active {
+.btn-secondary:active {
     color: $white;
     background-color:$black;
     border: 2px solid $black;
-    text-decoration: none;
-}
-
-// White button variant (alias supports legacy .btn--white)
-.btn-white, .btn--white {
-    background-color: $white;
-    color: $primary-color;
-    border: 2px solid $white;
-}
-.btn-white:hover, .btn--white:hover {
-    color: $white;
-    background-color: $primary-color;
-    border: 2px solid $primary-color;
-    text-decoration: none;
-}
-.btn-white:active, .btn--white:active {
-    color: $white;
-    background-color:$primary-color;
-    border: 2px solid $primary-color;
     text-decoration: none;
 }
 
@@ -123,17 +104,7 @@
     // Keep using font-style(sm, bold, sm) from .btn
 }
 
-.btn-medium {
-    padding: $spacing-10 $spacing-15;
-    // Keep using font-style(sm, bold, sm) from .btn
-}
-
 .btn-large {
     //@include font-style(md, bold, md);
     padding: $spacing-15 $spacing-15;
-}
-
-// Legacy condensed alias (kept for compatibility with older markup)
-.btn--condensed {
-    padding: $spacing-10 $spacing-15;
 }

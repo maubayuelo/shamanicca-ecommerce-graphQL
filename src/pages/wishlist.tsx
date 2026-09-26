@@ -87,7 +87,7 @@ export default function WishlistPage() {
                     </Link>
                     <div className="wishlist-tile__price flex gap-2.5 items-center">
                       {item.regularPrice && Number.isFinite(item.regularPrice) && item.regularPrice > item.price && (
-                        <span className="type-md type-gray-60" style={{ textDecoration: 'line-through' }}>
+                        <span className="type-md" style={{ textDecoration: 'line-through' }}>
                           ${item.regularPrice.toFixed(2)}
                         </span>
                       )}

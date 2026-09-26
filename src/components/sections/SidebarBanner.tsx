@@ -17,7 +17,7 @@ export default function SidebarBanner({ banner, className = '' }: Props) {
         <div className="">
           <div className="type-xl type-extrabold [.group:hover_&]:text-[#675dff]">{banner.banner_headline}</div>
           {banner.banner_subtext && (
-            <div className="type-md mb-xm-responsive [.group:hover_&]:text-[#675dff]">{banner.banner_subtext}</div>
+            <div className="type-md [.group:hover_&]:text-[#675dff]">{banner.banner_subtext}</div>
           )}
           {isAffiliate && (
             <div className="type-italic type-xs mt-0" aria-label="Affiliated">Affiliated Ad</div>

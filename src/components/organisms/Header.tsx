@@ -271,7 +271,7 @@ export default function Header() {
             <Image src="/images/shamanicca-logo.svg" alt="Shamanicca" width={160} height={40} className="h-[1.8rem] w-auto cursor-pointer" priority />
           </Link>
           <div className="h-fit">
-            {/* ! overrides unlayered .hidden/ul rules in helpers.scss/typography.scss and link colors in button.scss; remove it once those styles are migrated. */}
+            {/* The ! on xl:flex (and on the submenu's block) is needed only to beat the unlayered .hidden !important in helpers.scss; drop it when that helper is removed. */}
             <nav className="hidden h-full xl:flex! font-[family-name:var(--font-main)]" aria-label="Main navigation">
               {computedNav.map((item) => (
                 <div key={item.id} className="header__nav_item_wrapper group relative flex items-center hover:bg-gray-200 focus:bg-gray-200">
@@ -338,11 +338,9 @@ export default function Header() {
         </div>
       </div>
 
-      {/* ! overrides the unlayered hr rule in globals.scss; remove it once globals.scss is migrated. */}
       <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]" />
 
       <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
-        {/* ! overrides unlayered ul padding in typography.scss and anchor colors in button.scss; remove it once those styles are migrated. */}
         <nav ref={mobileNavRef} className="pb-sm-responsive bg-white" aria-label="Mobile navigation">
           {computedNav.map((item) => {
             const hasChildren = item.children && item.children.length > 0;
