@@ -71,6 +71,66 @@ const { outputDir, base, replay, only, media } = parseArgs(process.argv);
 const manifestPath = path.join(rootDir, 'visual', 'routes.json');
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 
+function staticBundleFiles() {
+  const staticDir = path.join(rootDir, '.next', 'static');
+  if (!fs.existsSync(staticDir)) return [];
+  const files = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(fullPath);
+      else files.push(fullPath);
+    }
+  };
+  walk(staticDir);
+  return files;
+}
+
+function assertReplayBuild(replayUrl) {
+  const staticFiles = staticBundleFiles();
+  const replayOrigin = new URL(replayUrl).origin;
+  const graphEndpoint = `${replayOrigin}/graphql`;
+  const buildCommand = [
+    `NEXT_PUBLIC_GRAPHQL_URL=${graphEndpoint}`,
+    `NEXT_PUBLIC_GRAPHQL_ENDPOINT=${graphEndpoint}`,
+    `GRAPHQL_ENDPOINT=${graphEndpoint}`,
+    `NEXT_PUBLIC_WP_BASE_URL=${replayOrigin}`,
+    `WORDPRESS_API_URL=${replayOrigin}/wp-json`,
+    `WC_STORE_URL=${replayOrigin}`,
+    `NEXT_PUBLIC_WC_STORE_URL=${replayOrigin}`,
+    'npm run build',
+  ].join(' ');
+
+  if (staticFiles.length === 0) {
+    throw new Error(
+      `replay build preflight failed: .next/static is missing; build with ${buildCommand}`,
+    );
+  }
+
+  const read = (file) => fs.readFileSync(file, 'utf8');
+  const bundleText = staticFiles.map(read).join('\n');
+  const cartBundleText = staticFiles
+    .filter((file) => /[\\/]cart-[^/\\]+\.js$/.test(file))
+    .map(read)
+    .join('\n');
+  const missing = [];
+  if (!bundleText.includes(graphEndpoint)) {
+    missing.push('NEXT_PUBLIC_GRAPHQL_URL / NEXT_PUBLIC_GRAPHQL_ENDPOINT / GRAPHQL_ENDPOINT');
+  }
+  if (!cartBundleText.includes(replayOrigin)) {
+    missing.push('NEXT_PUBLIC_WC_STORE_URL');
+  }
+
+  if (missing.length > 0) {
+    throw new Error(
+      `replay build preflight failed: ${missing.join(', ')} does not point at ${replayOrigin}; ` +
+      `rebuild this BEFORE/AFTER build with: ${buildCommand}`,
+    );
+  }
+}
+
+if (replay) assertReplayBuild(replay);
+
 const resolvedOutputDir = path.isAbsolute(outputDir) ? outputDir : path.resolve(process.cwd(), outputDir);
 fs.mkdirSync(resolvedOutputDir, { recursive: true });
 
@@ -504,6 +564,14 @@ async function waitAnimationsSettled(page, selector, timeoutMs = 5000) {
     timeoutMs,
     `animations/transitions on "${selector}" to finish`,
   );
+}
+
+async function waitClientBanner(page, selector) {
+  try {
+    await page.locator(selector).first().waitFor({ state: 'visible', timeout: 5000 });
+  } catch (error) {
+    throw new Error(`banner not rendered — check replay endpoint (${selector})`, { cause: error });
+  }
 }
 
 async function resetMouse(page) {
@@ -1112,6 +1180,7 @@ const STATE_HANDLERS = {
   },
 
   'blog:sidebar-banner-hover': async (page) => {
+    await waitClientBanner(page, '.blog-sidebar__banner');
     await scrollElementToOffset(page, '.blog-sidebar__banner', 250);
     await page.locator('.blog-sidebar__banner').first().hover();
     await assertHovered(page, '.blog-sidebar__banner');
@@ -1119,6 +1188,7 @@ const STATE_HANDLERS = {
   },
 
   'blog:content-banner-hover': async (page) => {
+    await waitClientBanner(page, '.blog-banner');
     await scrollElementToOffset(page, '.blog-banner', 250);
     await page.locator('.blog-banner').first().hover();
     await assertHovered(page, '.blog-banner');
