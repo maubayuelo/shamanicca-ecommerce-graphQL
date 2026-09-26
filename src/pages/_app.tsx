@@ -20,6 +20,7 @@ import Script from 'next/script';
 import { ApolloProvider } from '@apollo/client/react';
 import client from '../lib/graphql/apolloClient';
 // Global styles loaded once here — apply to every page
+import '../styles/layers.css';
 import '../styles/globals.scss';
 import '../styles/components/header.scss';
 import '../styles/typography-cascade.scss';

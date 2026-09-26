@@ -15,8 +15,6 @@
 @use "./components/wp-content" as *;
 @use "./components/contact-form" as *;
 
-@layer base, theme, utilities;
-
 // Global SCSS (custom variables)
 :root {
     --background: #{$white};
