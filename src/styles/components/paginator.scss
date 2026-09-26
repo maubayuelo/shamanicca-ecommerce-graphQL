@@ -1,9 +1,0 @@
-// Page-number spans carry .type-lg / .type-extrabold, which are unlayered and
-// would beat any utility. This rule (higher specificity) keeps the numbers at
-// the item's inherited size, weight and line-height, exactly as before.
-// Remove in Phase 9 with the typography migration.
-.paginator__item span {
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-}

@@ -33,12 +33,3 @@
 .form-control { @include form-control; }
 .form-control--condensed { @include control-condensed-padding; }
 
-// Preserve the old unlayered winners over the typography helper classes.
-.newsletter-form input[type="email"] { line-height: 24px; }
-.newsletter-form .newsletter-submit {
-	font-weight: 600;
-	line-height: 24px;
-}
-.form--condensed .header__search_submit {
-	line-height: 24px;
-}
