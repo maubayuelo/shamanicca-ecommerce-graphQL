@@ -16,6 +16,7 @@ export default function InContentBanner({ banner, className = '' }: Props) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img className="w-full h-full object-cover block" src={banner.banner_image_large || banner.banner_image} alt={banner.banner_headline} />
         </picture>
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/50 opacity-0 [transition:opacity_200ms_ease] motion-reduce:transition-none [.group:hover_&]:opacity-100" />
       </div>
       <div className="blog-banner__body flex-1 flex flex-col gap-1.5 p-legacy-15 sm:p-0">
         <div className="blog-banner__title type-2xl type-extrabold text-black transition-[color] duration-200 ease-[ease-in-out] [.group:hover_&]:text-[#675dff]">{banner.banner_headline}</div>

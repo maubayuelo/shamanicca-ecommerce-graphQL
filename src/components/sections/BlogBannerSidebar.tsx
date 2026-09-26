@@ -29,6 +29,7 @@ export default function BlogBannerSidebar({
     >
       <div className="blog-sidebar__banner-image w-37.5 [height:-webkit-fill-available] [padding:0] relative bg-black">
         <Image className="w-full h-full object-cover block" src={imageUrl} alt={title || ''} width={180} height={180} />
+        <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/50 opacity-0 [transition:opacity_200ms_ease] motion-reduce:transition-none [.group:hover_&]:opacity-100" />
       </div>
       <div className="blog-sidebar__banner-body [flex:1_1_0] inline-flex flex-col justify-start items-start py-legacy-15 px-0 gap-legacy-15">
         <div>
