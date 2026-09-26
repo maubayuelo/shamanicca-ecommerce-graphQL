@@ -35,8 +35,8 @@ export default function NotFoundPage() {
           <div className="main">
             <div className="mt-lg-responsive mb-lg-responsive type-center">
               <h1 className="type-5xl type-extrabold mb-md-responsive">404</h1>
-              <p className="type-2xl type-bold type-gray-70 mb-sm-responsive">Page Not Found</p>
-              <p className="type-lg type-medium type-gray-60 mb-lg-responsive">
+              <p className="type-2xl type-bold mb-sm-responsive">Page Not Found</p>
+              <p className="type-lg type-medium mb-lg-responsive">
                 The page you're looking for doesn't exist or has been moved.
               </p>
               <div>

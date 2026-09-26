@@ -148,8 +148,6 @@ Do not, without an explicit instruction saying so:
   in `src`. The product gallery is a hand-rolled scroll carousel.
 - **`src/lib/api/stripe.ts` is legacy** and imported nowhere. Checkout goes
   through WooCommerce.
-- **`src/styles/globals.css` contains `@tailwind` directives** but Tailwind is
-  not installed and nothing imports the file. Dead code, not migration state.
 
 ---
 
@@ -167,7 +165,25 @@ Do not, without an explicit instruction saying so:
 
 ## Current focus
 
-No migration is in progress. The SCSS → Tailwind migration is planned but has
-not started: Tailwind is not installed, there is no config, and PostCSS
-registers only `autoprefixer`. Do not begin it, install Tailwind, or create a
-config without an explicit instruction.
+SCSS → Tailwind migration, **Phase 9 in progress** (foundation + cleanup).
+Phases 0–8 are merged. Tailwind v4 runs through `@tailwindcss/postcss`,
+tokens live in `src/styles/tailwind.css` (`@theme`), and Preflight is not
+imported. The remaining SCSS still loads from `_app.tsx`. Contract: zero
+visual change except explicitly approved breakpoint shifts, proven per
+`docs/VISUAL-VERIFICATION.md`.
+
+Approved end state:
+
+- CMS/WordPress HTML scopes (`.wp-content`, `.post-content`, `.page img`)
+  become plain CSS in `@layer cms`.
+- Shared primitives (`.type-*`, `.btn*`, `.form-control*`, helpers) become
+  plain rules in `@layer components`, original selectors verbatim — only
+  after the helper names Tailwind also generates (`mt-15`, `pt-10`, …) are
+  de-collided.
+- Sass is removed at the end (9h). Preflight is out of Phase 9.
+- Radius remnants move 601 → `sm` (approved, 9g).
+- Not part of the migration: capture hooks → `data-*`, a z-index scale,
+  hover gating.
+
+Work one sub-phase at a time (9a dead code and phantom classes first) and
+stop for review after each.

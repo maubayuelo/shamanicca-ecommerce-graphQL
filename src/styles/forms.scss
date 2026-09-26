@@ -28,38 +28,10 @@
 	}
 }
 
-@mixin button-base {
-	@include font-style(sm, bold, md);
-	border: none;
-	cursor: pointer;
-	white-space: nowrap;
-	transition: opacity 0.2s ease, transform 0.05s ease-in-out, background-color 0.2s ease;
-}
-
-@mixin button-primary {
-	@include button-base;
-	background: $primary-color;
-	color: $white;
-	&:hover,
-	&:active {
-		color: $white;
-		background-color: $black;
-		text-decoration: none;
-	}
-}
-
 @mixin control-condensed-padding { padding: $spacing-10; }
-@mixin button-condensed-padding { padding: $spacing-10 $spacing-15; }
 
 .form-control { @include form-control; }
 .form-control--condensed { @include control-condensed-padding; }
-
-// Shared parent variant for controls and buttons. The Header keeps this hook;
-// its component-specific descendants now carry their own utilities.
-.form--condensed, .is-condensed {
-	.form-control { @include control-condensed-padding; }
-	.btn, .btn--primary { @include button-condensed-padding; }
-}
 
 // Preserve the old unlayered winners over the typography helper classes.
 .newsletter-form input[type="email"] { line-height: 24px; }
@@ -67,7 +39,6 @@
 	font-weight: 600;
 	line-height: 24px;
 }
-.form--condensed .header__search_submit,
-.is-condensed .header__search_submit {
+.form--condensed .header__search_submit {
 	line-height: 24px;
 }

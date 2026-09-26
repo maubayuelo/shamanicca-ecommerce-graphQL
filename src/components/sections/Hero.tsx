@@ -67,23 +67,23 @@ export default function Hero() {
         <div className="grid grid-cols-[1fr] items-center gap-5 py-5 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-15 lg:py-0">
           <div className="order-2 max-w-prose lg:order-1">
             {data.hero_subtitle && (
-              <p className="type-md type-extrabold type-uppercase fade-up m-0 text-primary-500 tracking-[0.04em]">
+              <p className="type-md type-extrabold type-uppercase m-0 text-primary-500 tracking-[0.04em]">
                 {data.hero_subtitle}
               </p>
             )}
             {data.hero_title && (
-              <h1 className="type-5xl type-extrabold fade-up mt-0 mb-md-responsive">
+              <h1 className="type-5xl type-extrabold mt-0 mb-md-responsive">
                 {data.hero_title}
               </h1>
             )}
             {data.hero_body_text && (
-              <p className="type-lg fade-up mx-0 mt-0 mb-legacy-25 max-w-[60ch] text-gray-800">
+              <p className="type-lg mx-0 mt-0 mb-legacy-25 max-w-[60ch] text-gray-800">
                 {data.hero_body_text}
               </p>
             )}
 
             {(data.cta_1_label || data.cta_2_label) && (
-              <div className="fade-up flex flex-wrap gap-legacy-15">
+              <div className="flex flex-wrap gap-legacy-15">
                 {data.cta_1_label && data.cta_1_url && (
                   <Link href={data.cta_1_url} className="btn btn-primary btn-large">
                     {data.cta_1_label}
@@ -103,7 +103,7 @@ export default function Hero() {
               which made this container grow on scroll. 106px = header (46px) +
               hero top padding (30px) + bottom gap (30px). Update if the header
               height changes. */}
-          <div className="hero__media fade-in order-1 relative box-border w-full aspect-square max-h-[50svh] overflow-hidden border border-solid border-gray-300 md:aspect-5/3 lg:order-2 lg:aspect-square lg:max-h-[calc(100svh-106px)]">
+          <div className="hero__media order-1 relative box-border w-full aspect-square max-h-[50svh] overflow-hidden border border-solid border-gray-300 md:aspect-5/3 lg:order-2 lg:aspect-square lg:max-h-[calc(100svh-106px)]">
             {/* On desktop the landscape source is cover-cropped into a square container, so the rendered image is wider than the slot and needs a larger source. */}
             <Image
               src={bgUrl}

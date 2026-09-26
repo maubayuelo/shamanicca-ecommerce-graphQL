@@ -34,7 +34,7 @@ export default function BlogBannerSidebar({
       <div className="blog-sidebar__banner-body [flex:1_1_0] inline-flex flex-col justify-start items-start py-legacy-15 px-0 gap-legacy-15">
         <div>
           {title && <div className="type-xl type-extrabold [.group:hover_&]:text-[#675dff]">{title}</div>}
-          {subtitle && <div className="type-md mb-xm-responsive [.group:hover_&]:text-[#675dff]">{subtitle}</div>}
+          {subtitle && <div className="type-md [.group:hover_&]:text-[#675dff]">{subtitle}</div>}
           {isAffilliated && (
           <div className="type-italic type-xs mt-0" aria-label="Affiliated">Affilliated Ad</div>
         )}

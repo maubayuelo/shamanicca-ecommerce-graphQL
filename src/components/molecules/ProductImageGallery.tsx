@@ -212,7 +212,7 @@ export default function ProductImageGallery({
         {/* Navigation arrows (desktop priority) */}
         <button
           type="button"
-          className="nav nav--prev type-extrabold type-xl-responsive left-2 absolute top-1/2 [transform:translateY(-50%)] w-9.5 h-9.5 rounded-[999px] [border:none] bg-black/45 text-white max-sm:hidden sm:inline-flex items-center justify-center cursor-pointer z-[3] disabled:opacity-40 disabled:cursor-default [&_img]:w-2.25 [&_img]:h-auto"
+          className="nav nav--prev type-extrabold left-2 absolute top-1/2 [transform:translateY(-50%)] w-9.5 h-9.5 rounded-[999px] [border:none] bg-black/45 text-white max-sm:hidden sm:inline-flex items-center justify-center cursor-pointer z-[3] disabled:opacity-40 disabled:cursor-default [&_img]:w-2.25 [&_img]:h-auto"
           onClick={goPrev}
           aria-label="Previous image"
           disabled={active === 0}
@@ -221,7 +221,7 @@ export default function ProductImageGallery({
         </button>
         <button
           type="button"
-          className="nav nav--next type-extrabold type-xl-responsive right-2 absolute top-1/2 [transform:translateY(-50%)] w-9.5 h-9.5 rounded-[999px] [border:none] bg-black/45 text-white max-sm:hidden sm:inline-flex items-center justify-center cursor-pointer z-[3] disabled:opacity-40 disabled:cursor-default [&_img]:w-2.25 [&_img]:h-auto"
+          className="nav nav--next type-extrabold right-2 absolute top-1/2 [transform:translateY(-50%)] w-9.5 h-9.5 rounded-[999px] [border:none] bg-black/45 text-white max-sm:hidden sm:inline-flex items-center justify-center cursor-pointer z-[3] disabled:opacity-40 disabled:cursor-default [&_img]:w-2.25 [&_img]:h-auto"
           onClick={goNext}
           aria-label="Next image"
           disabled={active === imgs.length - 1}

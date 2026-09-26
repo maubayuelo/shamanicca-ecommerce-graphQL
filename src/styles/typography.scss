@@ -152,7 +152,7 @@ $line-heights-phone: (
     @include responsive-font-size(md);
     @include responsive-line-height(md);
 }
-.type-lg, .type-paragraph {
+.type-lg {
     font-family: $font-family-base;
     @include responsive-font-size(lg);
     @include responsive-line-height(lg);
@@ -239,30 +239,12 @@ $line-heights-phone: (
     color: $gray-80;
 }
 
-.type-gray-90 {
-    color: $gray-90;
-}
-
 .type-center {
     text-align: center;
 }
 
 .type-uppercase{
     text-transform: uppercase;
-}
-.type-underline {
-    text-decoration: underline;
-}
-
-
-@mixin type-link {
-    @include heading-style(md, extrabold, md);
-    color: $primary-color;
-    cursor: pointer;
-
-    @media (min-width: $breakpoint-desktop) {
-        @include heading-style(lg, extrabold, lg);
-    }
 }
 
 @layer base {
