@@ -46,6 +46,8 @@
     { "route": "newsletter", "name": "modal-open", "viewports": ["1440"] },
     { "route": "newsletter", "name": "success", "viewports": ["1440"], "stubs": ["/api/newsletter"] },
     { "route": "home", "name": "announcement-visible", "viewports": ["375", "620", "1440"], "overrides": { "/api/cms/announcement": "visual/overrides/phase-8/announcement-visible.json" } },
+    { "route": "home", "name": "header-search-open", "viewports": ["375", "620", "1440"] },
+    { "route": "home", "name": "header-search-submit-hover", "viewports": ["1440"] },
     { "route": "product", "name": "thumb-2", "viewports": ["375", "768", "1440"] },
     { "route": "product", "name": "last-image", "viewports": ["768", "1440"] },
     { "route": "product", "name": "modal-image-2", "viewports": ["375", "1440"] },
