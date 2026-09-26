@@ -260,7 +260,6 @@ Known gaps and planned work, so nothing here is a surprise:
 - Tailwind migration — refactor the SCSS layer to Tailwind with a design-token system. This is a prerequisite for planned checkout work.
 - Fix .env.example — declare the Resend variables (RESEND_API_KEY, RESEND_FROM, CONTACT_EMAIL) and remove the unused SendGrid/SMTP keys.
 - Lint cleanup — work through the ~100 existing warnings (largely no-explicit-any).
-- Remove dead code — src/lib/api/stripe.ts is no longer imported anywhere and can be deleted.
 - Measure test coverage — @vitest/coverage-v8 isn't installed yet; add it and wire up npm run test:coverage.
 - Gate lint on warnings — once the cleanup pass above lands, tighten CI to next lint --max-warnings 0.
 - Upgrade Vitest — move from 1.6 to the current major (4) once there's time to handle any breaking config changes.

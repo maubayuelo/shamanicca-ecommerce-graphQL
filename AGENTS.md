@@ -23,7 +23,8 @@ Deployed on Vercel from `main`.
 ## Stack
 
 Next.js (**Pages Router**) · React 18 · TypeScript · Apollo Client +
-`graphql-request` → WPGraphQL · SCSS (`sass`) · Vitest + Testing Library + jsdom.
+`graphql-request` → WPGraphQL · Tailwind CSS v4 (`@tailwindcss/postcss`, no
+Preflight) alongside SCSS (`sass`) · Vitest + Testing Library + jsdom.
 
 Exact versions live in `package.json`; the Node version lives in `.nvmrc` and
 drives CI. Read those rather than trusting a number written here.
@@ -74,7 +75,7 @@ src/
 ├── lib/
 │   ├── graphql/    apolloClient.ts, queries.ts, types.ts, utils.ts
 │   ├── context/    cart, wishlist, cookieConsent
-│   └── api/        woocommerce.ts, wp.ts, stripe.ts (legacy)
+│   └── api/        woocommerce.ts
 ├── styles/         SCSS
 ├── test/
 ├── types/          Ambient/global declarations only — see type rule below
@@ -146,8 +147,6 @@ Do not, without an explicit instruction saying so:
   own task.
 - **`@mantine/*` and `embla-carousel-react` are declared dependencies but unused**
   in `src`. The product gallery is a hand-rolled scroll carousel.
-- **`src/lib/api/stripe.ts` is legacy** and imported nowhere. Checkout goes
-  through WooCommerce.
 
 ---
 

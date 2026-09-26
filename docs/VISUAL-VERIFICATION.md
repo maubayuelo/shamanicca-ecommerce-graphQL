@@ -219,8 +219,8 @@ Excluded from this PR: touch swipe (the gallery's scroll listener is
 attached to the viewport, not the track, so swipe-to-active sync is already
 flagged as unreliable in the Phase 6 READ and shouldn't be baselined until
 that's fixed), the native `<select>` popup (an OS-level surface, not part of
-the page's render tree), and the filter drawer (`ProductFilterPanel` isn't
-mounted on any route today).
+the page's render tree), and the filter drawer (`ProductFilterPanel` was
+never mounted on any route and was deleted in Phase 9a2).
 
 ---
 
@@ -524,10 +524,11 @@ curl -s localhost:4001/__recorded          # exactly which keys were added
 #    and only then run the acceptance captures
 ```
 
-Some recordings are the live backend's real behaviour, not what the code
-"should" do: `GetAllPostsWithTotal` (WPGraphQL offset pagination) is recorded
-as a GraphQL error today, so `/blog/all` always takes its cursor fallback — the
-fixtures keep that.
+Blog listings page by id list since PR #25 (`GetPostIds` /
+`GetCategoryPostIds`, then `GetPostsByIds`; see `utils/paginate.ts`). The
+older `GetAllPostsWithTotal`, `GetAllPostsCursor` and `GetCategoryBySlug`
+recordings are no longer requested (the queries were deleted in Phase 9a2);
+their fixture files stay committed, unused.
 
 Within a phase, the BEFORE build and the AFTER build both replay the **same
 committed fixture set** — never re-record between them. Re-recording is a
