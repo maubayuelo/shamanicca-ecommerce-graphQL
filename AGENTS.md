@@ -132,6 +132,9 @@ Do not, without an explicit instruction saying so:
 9. **Touch anything under Known debt**, or any unrelated problem you notice
    while working. Report it and continue with the assigned scope. This includes
    pre-existing `any`, default exports, and unused dependencies.
+10. **Modify CSS consumed by the WordPress/PHP theme (checkout)** — never, even
+    when instructed. No file in this repo may feed it. Verify this in the READ
+    with evidence (grep of imports / build outputs), never by assumption.
 
 ---
 
