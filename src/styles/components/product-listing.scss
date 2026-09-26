@@ -1,6 +1,0 @@
-@use "../variables" as *;
-
-// Radii stay in SCSS: tablet corners start at 601px while cards remain stacked until 640px.
-.section-featured-products .image-wrap {
-  @include responsive-border-radius;
-}

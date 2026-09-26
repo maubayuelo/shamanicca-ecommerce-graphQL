@@ -12,7 +12,7 @@ export default function BlogMainArticle({ item, className = '' }: BlogMainArticl
 
   return (
     <section className={`blog-main-article mb-lg-responsive flex flex-col gap-legacy-15 lg:flex-row lg:gap-7.5 ${className}`}>
-      <a href={item.href || '#'} className="blog-main-article__thumb w-full h-67.5 overflow-hidden relative lg:h-82.5 lg:w-3/5 lg:shrink-0" aria-label={`Read ${item.title}`}>
+      <a href={item.href || '#'} className="blog-main-article__thumb rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] w-full h-67.5 overflow-hidden relative lg:h-82.5 lg:w-3/5 lg:shrink-0" aria-label={`Read ${item.title}`}>
         <picture>
           <source media="(min-width: 1024px)" srcSet={largeSrc} />
           {/* eslint-disable-next-line @next/next/no-img-element */}

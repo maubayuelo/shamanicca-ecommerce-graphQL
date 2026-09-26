@@ -103,7 +103,7 @@ export default function Hero() {
               which made this container grow on scroll. 106px = header (46px) +
               hero top padding (30px) + bottom gap (30px). Update if the header
               height changes. */}
-          <div className="hero__media order-1 relative box-border w-full aspect-square max-h-[50svh] overflow-hidden border border-solid border-gray-300 md:aspect-5/3 lg:order-2 lg:aspect-square lg:max-h-[calc(100svh-106px)]">
+          <div className="hero__media rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] order-1 relative box-border w-full aspect-square max-h-[50svh] overflow-hidden border border-solid border-gray-300 md:aspect-5/3 lg:order-2 lg:aspect-square lg:max-h-[calc(100svh-106px)]">
             {/* On desktop the landscape source is cover-cropped into a square container, so the rendered image is wider than the slot and needs a larger source. */}
             <Image
               src={bgUrl}

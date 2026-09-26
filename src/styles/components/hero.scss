@@ -1,6 +1,0 @@
-@use "../variables" as *;
-
-// Keep the exact 15/18/24px radii at 0/601/1024px in SCSS.
-.hero__media {
-    @include responsive-border-radius;
-}

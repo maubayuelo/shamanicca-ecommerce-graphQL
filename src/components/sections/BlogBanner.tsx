@@ -17,7 +17,7 @@ export default function BlogBanner({ title, subtitle, ctaLabel, href = '#', imag
   return (
     <a
       href={href}
-      className={`blog-banner group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-legacy-45 sm:flex-row sm:items-center sm:gap-legacy-15 sm:pr-legacy-15 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
+      className={`blog-banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-legacy-45 sm:flex-row sm:items-center sm:gap-legacy-15 sm:pr-legacy-15 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
       target={isAffilliated ? '_blank' : undefined}
       rel={isAffilliated ? 'noopener noreferrer' : undefined}
     >

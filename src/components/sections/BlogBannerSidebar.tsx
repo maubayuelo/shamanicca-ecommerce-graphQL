@@ -23,7 +23,7 @@ export default function BlogBannerSidebar({
   return (
     <a
       href={href}
-      className={`blog-sidebar__banner group self-stretch pr-legacy-15 bg-white overflow-hidden outline-1 outline-solid outline-gray-800 justify-start mt-legacy-15 -mb-7.5 items-center gap-legacy-15 inline-flex [&.is-affilliated]:bg-gray-100 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
+      className={`blog-sidebar__banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group self-stretch pr-legacy-15 bg-white overflow-hidden outline-1 outline-solid outline-gray-800 justify-start mt-legacy-15 -mb-7.5 items-center gap-legacy-15 inline-flex [&.is-affilliated]:bg-gray-100 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
       target={isAffilliated ? '_blank' : undefined}
       rel={isAffilliated ? 'noopener noreferrer' : undefined}
     >

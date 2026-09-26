@@ -275,7 +275,7 @@ export default function Header() {
             <nav className="hidden h-full xl:flex! font-[family-name:var(--font-main)]" aria-label="Main navigation">
               {computedNav.map((item) => (
                 <div key={item.id} className="header__nav_item_wrapper group relative flex items-center hover:bg-gray-200 focus:bg-gray-200">
-                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-[0.9375rem] leading-none text-black no-underline cursor-pointer hover:text-primary-500 focus:text-primary-500`}>
+                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu after:block after:w-[9px] after:h-[9px] after:bg-current after:mask-[url(/images/icon-chevron-down.svg)] after:mask-no-repeat after:mask-center after:mask-contain' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-[0.9375rem] leading-none text-black no-underline cursor-pointer hover:text-primary-500 focus:text-primary-500`}>
                     {item.label}
                   </Link>
                   

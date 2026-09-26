@@ -9,7 +9,7 @@ type BlogHeaderProps = {
 
 export default function BlogHeader({ title, subtitle, className = '' }: BlogHeaderProps) {
   return (
-    <div className={`blog-header bg-[#ececec] p-legacy-15 text-center sm:p-6 ${className}`}>
+    <div className={`blog-header rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] bg-[#ececec] p-legacy-15 text-center sm:p-6 ${className}`}>
       <div className="blog-header__title type-xl type-bold text-black">{title}</div>
       {subtitle && (
         <div className="blog-header__subtitle type-lg text-black">{decodeEntities(subtitle)}</div>
