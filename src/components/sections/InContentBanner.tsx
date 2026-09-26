@@ -6,7 +6,7 @@ type Props = { banner: AcfBanner; className?: string };
 export default function InContentBanner({ banner, className = '' }: Props) {
   const isAffiliate = banner.banner_type === 'affiliate';
   const inner = (
-    <div className={`blog-banner group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-legacy-45 sm:flex-row sm:items-center sm:gap-legacy-15 sm:pr-legacy-15 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffiliate ? ' is-affilliated' : ''}`}>
+    <div className={`blog-banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-legacy-45 sm:flex-row sm:items-center sm:gap-legacy-15 sm:pr-legacy-15 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffiliate ? ' is-affilliated' : ''}`}>
       <div className="blog-banner__image w-full h-52.5 relative overflow-hidden sm:w-37.5 sm:h-37.5 sm:shrink-0 xl:w-52.5">
         <picture>
           {/* Tablet+ (≥601px): image is 150–210px wide — medium is sufficient */}

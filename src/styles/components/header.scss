@@ -2,25 +2,5 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
-.header{
-    &__nav_item_wrapper {
-        .header__nav_item {
-            // Keep the SVG-mask chevron here to preserve its exact dimensions and currentColor behavior.
-            &.has-submenu::after{
-                content: "";
-                display: block;
-                width: 9px;
-                height: 9px;
-                /* use the SVG as a mask so the element's background-color becomes the icon color */
-                background-color: currentColor;
-                mask-image: url('/images/icon-chevron-down.svg');
-                mask-repeat: no-repeat;
-                mask-position: center;
-                mask-size: contain;
-            }
-        }
-    }
-}
-
 /* Search overlay */
 :root { --header-height: 64px; } // fallback, overwritten by JS

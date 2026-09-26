@@ -1,9 +1,5 @@
 @use "../variables" as *;
 
-.blog-header {
-  @include responsive-border-radius;
-}
-
 @layer cms {
 .post-content {
   ul, p {
@@ -15,24 +11,4 @@
     margin-bottom: 0;
   }
 }
-}
-
-.blog-sidebar__thumb {
-  @include responsive-border-radius;
-}
-
-.blog-sidebar__banner {
-  @include responsive-border-radius;
-}
-
-.blog-banner {
-  @include responsive-border-radius;
-}
-
-.blog-main-article__thumb {
-  @include responsive-border-radius;
-}
-
-.post-video {
-  @include responsive-border-radius;
 }

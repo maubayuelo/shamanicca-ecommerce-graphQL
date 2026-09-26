@@ -179,7 +179,7 @@ export default function ProductImageGallery({
               className="gallery__slide min-w-full snap-start"
               ref={(el) => { slideRefs.current[i] = el; }}
             >
-              <div className="gallery__image-wrapper relative overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_oklch(0.9067_0_0)] after:z-[1] after:pointer-events-none">
+              <div className="gallery__image-wrapper rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] relative overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_oklch(0.9067_0_0)] after:z-[1] after:pointer-events-none">
                 {isOnSale && (
                   <div className="badge badge--sale type-bold absolute top-3 left-3 bg-highlighted-500 py-1.5 px-2.5 rounded-sm z-[2] [&>span]:text-white" aria-label="On sale">
                     <span>SALE</span>

@@ -166,7 +166,7 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
 
   return (
     <article className="relative flex flex-col items-stretch bg-transparent pb-legacy-15">
-      <Link href={href} aria-label={`View ${name}`} className="image-wrap relative block w-full aspect-square overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_#e0e0e0] after:z-1 after:pointer-events-none">
+      <Link href={href} aria-label={`View ${name}`} className="image-wrap rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] relative block w-full aspect-square overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_#e0e0e0] after:z-1 after:pointer-events-none">
         {onSale && <div className="type-sm type-bold absolute z-1 top-legacy-15 left-legacy-15 px-2 py-1.5 bg-highlighted-500 text-white rounded-[10px]">SALE</div>}
         <Image className="absolute z-0 inset-0 block w-full h-full object-cover" src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
       </Link>

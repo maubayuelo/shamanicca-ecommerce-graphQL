@@ -40,7 +40,7 @@ const SHARE_LINK =
   'group inline-flex items-center justify-center text-black no-underline transition-[color] duration-200 ease-[ease-in-out]';
 const SHARE_WRAP =
   'share-icon-wrap inline-flex items-center justify-center w-7.5 h-7.5 bg-black rounded-md transition-[background-color] duration-200 ease-[ease-in-out] [.group:hover_&]:bg-[#675dff] [.group:focus-visible_&]:bg-[#675dff]';
-const SHARE_ICON = 'share-icon inline-block w-4.5 h-4.5 bg-white';
+const SHARE_ICON = 'share-icon inline-block w-4.5 h-4.5 bg-white mask-no-repeat mask-center mask-contain';
 
 export type ArticleShareIconsProps = {
   articleTitle: string;
@@ -84,30 +84,35 @@ export default function ArticleShareIcons({ articleTitle, articleUrl, className 
       href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${articleTitle} - ${resolvedUrl}`)}`,
       title: 'Share on X',
       icon: 'x',
+      mask: 'mask-[url(/images/icon-social-x.svg)]',
       external: true,
     },
     {
       href: `https://www.facebook.com/share.php?u=${encodeURIComponent(resolvedUrl)}&t=${encodeURIComponent(articleTitle)}`,
       title: 'Share on Facebook',
       icon: 'fb',
+      mask: 'mask-[url(/images/icon-social-fb.svg)]',
       external: true,
     },
     {
       href: `https://api.whatsapp.com/send?text=${encodeURIComponent(`${articleTitle} ${resolvedUrl}`)}`,
       title: 'Share on WhatsApp',
       icon: 'whatsapp',
+      mask: 'mask-[url(/images/icon-social-whatsapp.svg)]',
       external: true,
     },
     {
       href: `https://telegram.me/share/url?url=${encodeURIComponent(resolvedUrl)}&text=${encodeURIComponent(articleTitle)}`,
       title: 'Share on Telegram',
       icon: 'telegram',
+      mask: 'mask-[url(/images/icon-social-telegram.svg)]',
       external: true,
     },
     {
       href: `mailto:?subject=${encodeURIComponent(articleTitle)}&body=${encodeURIComponent(resolvedUrl)}`,
       title: 'Share via Email',
       icon: 'email',
+      mask: 'mask-[url(/images/icon-email.svg)]',
       external: false,
     },
   ];
@@ -129,7 +134,7 @@ export default function ArticleShareIcons({ articleTitle, articleUrl, className 
               rel={link.external ? 'noopener noreferrer' : undefined}
             >
               <span className={SHARE_WRAP}>
-                <span className={`${SHARE_ICON} share-icon--${link.icon}`} aria-hidden="true" />
+                <span className={`${SHARE_ICON} share-icon--${link.icon} ${link.mask}`} aria-hidden="true" />
               </span>
             </a>
           </li>
@@ -146,7 +151,7 @@ export default function ArticleShareIcons({ articleTitle, articleUrl, className 
             }}
           >
             <span className={SHARE_WRAP}>
-              <span className={`${SHARE_ICON} share-icon--link`} aria-hidden="true" />
+              <span className={`${SHARE_ICON} share-icon--link mask-[url(/images/icon-link.svg)]`} aria-hidden="true" />
             </span>
           </a>
         </li>

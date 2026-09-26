@@ -264,7 +264,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                       alt=""
                       width={915}
                       height={531}
-                      className={`${featuredCaption ? 'mb-xs-responsive' : 'mb-md-responsive'} rounded-30`}
+                      className={`${featuredCaption ? 'mb-xs-responsive' : 'mb-md-responsive'} rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] overflow-hidden`}
                       sizes="(min-width: 1280px) 915px, 100vw"
                       style={{ width: '100%', height: 'auto' }}
                       priority={false}
@@ -286,7 +286,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
                       <Fragment>
 
                         <iframe
-                          className="post-video mb-sm-responsive block w-full aspect-video h-auto [border:0]"
+                          className="post-video rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] mb-sm-responsive block w-full aspect-video h-auto [border:0]"
                           src={url}
                           title={decodeEntities(title)}
                           frameBorder={0}

@@ -1,6 +1,0 @@
-@use "../variables" as *;
-
-// Responsive radius mixin has no Tailwind equivalent yet; remove in Phase 9.
-.product-image-gallery .gallery__image-wrapper {
-	@include responsive-border-radius;
-}

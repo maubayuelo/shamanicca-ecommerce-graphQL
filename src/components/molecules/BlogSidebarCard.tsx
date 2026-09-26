@@ -32,7 +32,7 @@ export default function BlogSidebarCard({ item }: BlogSidebarCardProps) {
   const summaryText = item.summary ? (item.summary.length > 57 ? item.summary.slice(0, 56).trimEnd() + '…' : item.summary) : undefined;
   return (
     <article className="blog-sidebar__row inline-flex items-start gap-legacy-15">
-      <a href={item.href || '#'} className="blog-sidebar__thumb rounded-30 w-37.5 h-37.5 relative bg-black" aria-label={`Read ${item.title}`}>
+      <a href={item.href || '#'} className="blog-sidebar__thumb rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] overflow-hidden [&_img]:rounded-[inherit] [&_img]:block w-37.5 h-37.5 relative bg-black" aria-label={`Read ${item.title}`}>
         <Image className="w-full h-full object-cover block" src={item.imageUrl || 'https://placehold.co/180x180.png'} alt="" width={180} height={180} loading="lazy" />
       </a>
       <div className="blog-sidebar__info [flex:1_1_0] flex flex-col gap-1.5">

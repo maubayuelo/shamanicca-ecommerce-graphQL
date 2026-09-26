@@ -1,6 +1,0 @@
-@use "../variables" as *;
-@use "../mixins" as *;
-
-.wishlist-tile__image-wrap {
-  @include responsive-border-radius;
-}

@@ -139,18 +139,6 @@
     }
 }
 
-// Rounded utility
-.rounded-30 {
-    @include responsive-border-radius;
-    overflow: hidden; // ensure inner image is clipped
-
-    // Support Next.js Image inner <img>
-    img {
-        border-radius: inherit;
-        display: block;
-    }
-}
-
 // Screen-reader only utility (if not defined elsewhere)
 .sr-only {
   position: absolute !important;

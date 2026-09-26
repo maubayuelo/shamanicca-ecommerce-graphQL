@@ -67,7 +67,7 @@ export default function WishlistPage() {
             <div className="wishlist-grid grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)]">
               {items.map((item) => (
                 <div key={item.id} className="wishlist-tile flex flex-col gap-legacy-15">
-                  <Link href={`/products/${item.slug}`} className="wishlist-tile__image-wrap relative block w-full aspect-square overflow-hidden bg-gray-50 after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_var(--color-gray-200)] after:pointer-events-none" aria-label={`View ${item.name}`}>
+                  <Link href={`/products/${item.slug}`} className="wishlist-tile__image-wrap rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] relative block w-full aspect-square overflow-hidden bg-gray-50 after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_var(--color-gray-200)] after:pointer-events-none" aria-label={`View ${item.name}`}>
                     {item.image ? (
                       <Image
                         src={item.image}
