@@ -17,6 +17,7 @@
     }
 }
 
+@layer components {
 // Base button styles - shared by all button types
 .btn {
     //@include font-style(sm, bold, sm);
@@ -107,4 +108,5 @@
 .btn-large {
     //@include font-style(md, bold, md);
     padding: $spacing-15 $spacing-15;
+}
 }

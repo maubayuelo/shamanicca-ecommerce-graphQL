@@ -233,7 +233,7 @@ export default function ContactPage({ page }: Props) {
 
                 <button
                   type="submit"
-                  className="btn btn-primary btn-large contact-form__submit self-start min-w-[160px] disabled:opacity-[.65]"
+                  className="btn btn-primary btn-large contact-form__submit self-start min-w-[160px] disabled:opacity-[.65] disabled:cursor-not-allowed"
                   disabled={loading}
                 >
                   {loading ? 'Sending…' : 'Send Message'}
