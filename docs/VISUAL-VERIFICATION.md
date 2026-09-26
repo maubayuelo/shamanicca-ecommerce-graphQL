@@ -411,6 +411,11 @@ export WC_STORE_URL=http://localhost:4001
 export NEXT_PUBLIC_WC_STORE_URL=http://localhost:4001
 ```
 
+`capture.mjs --replay` scans `.next/static` before opening a browser and
+fails if the client endpoints are not baked to that replay proxy. Rebuild
+both BEFORE and AFTER with the complete environment block above; restarting
+an incorrectly built server cannot repair the client bundle.
+
 Restarting the server does not change a page that was already prerendered
 (ISR output lives in `.next`): switching the proxy from record to replay
 requires a **fresh build** (`rm -rf .next`), not just a restart. Kill the old
