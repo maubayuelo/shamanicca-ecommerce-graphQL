@@ -1,6 +1,7 @@
 @use "./variables" as *;
 @use "./mixins" as *;
 
+@layer components {
 // Responsive helpers
 .mb-lg-responsive {
     margin-bottom: $spacing-30;
@@ -169,4 +170,5 @@
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
   white-space: nowrap;
+}
 }
