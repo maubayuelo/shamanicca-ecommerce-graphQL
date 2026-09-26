@@ -35,6 +35,10 @@ Read `AGENTS.md` and `docs/VISUAL-VERIFICATION.md` before any task.
    `PHONE_MAX`) and `.post-content`'s 1440.
 8. CMS/WordPress HTML (`.wp-content`, `.post-content` descendants,
    `.page img`) stays scoped CSS.
+9. Inside Tailwind arbitrary values/variants (`[...]`), `_` compiles to a
+   space, so BEM classes break: `[.paginator__item_&]:` becomes
+   `.paginator  item &`. Escape with `\_` (`\\_` inside a JS string
+   literal), or avoid the arbitrary variant when the class contains `_`.
 
 ## Workflow
 
