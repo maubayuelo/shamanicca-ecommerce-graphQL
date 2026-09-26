@@ -1,6 +1,7 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
+@layer cms {
 // Styles for HTML content rendered from WordPress (page.content.rendered)
 .wp-content {
   color: $black;
@@ -88,4 +89,5 @@
       font-weight: $font-weight-bold;
     }
   }
+}
 }

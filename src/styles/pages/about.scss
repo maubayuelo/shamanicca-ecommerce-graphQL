@@ -1,6 +1,7 @@
 @use "../variables" as *;
 @use "../mixins" as *;
 
+@layer cms {
 .page {
   img {
     display: block;
@@ -13,4 +14,5 @@
       border-radius: $spacing-30;
     }
   }
+}
 }
