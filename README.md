@@ -2,7 +2,7 @@
 
 # Shamanicca — E-Commerce Storefront
 
-A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **React 18**, **TypeScript 5**, **Apollo Client 4 (GraphQL)**, and **SCSS**.
+A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **React 18**, **TypeScript 5**, **Apollo Client 4 (GraphQL)**, and **Tailwind CSS v4 + plain layered CSS** (Preflight off).
 
 This app is the public-facing website. It shows products, a blog, a shopping cart, and a wishlist, and it hands the actual payment step off to WordPress / WooCommerce by redirecting the shopper there to complete checkout. Content — both products and blog articles — lives in WordPress and is read over GraphQL.
 
@@ -96,7 +96,7 @@ The data only flows **one way for content**: WordPress is the source of truth, t
 | UI library | React 18 |
 | Data / API | GraphQL via Apollo Client 4 |
 | UI components | Mantine 8 |
-| Styling | SCSS *(migration to Tailwind planned — see [Roadmap](#roadmap))* |
+| Styling | Tailwind CSS v4 + plain layered CSS; Preflight off |
 | Email | Resend |
 | Newsletter | Mailchimp |
 | Analytics | Google Analytics 4 (Consent Mode v2) |
@@ -183,7 +183,7 @@ src/
 │   ├── shop/
 │   ├── blog/
 │   └── products/
-├── styles/              # SCSS
+├── styles/              # Tailwind v4 tokens + plain layered CSS
 └── utils/
 
 scripts/                 # setup.sh (run via `npm run setup`)
@@ -257,7 +257,7 @@ This repo carries a curated, version-pinned set of **14 agent skills** (in `.age
 
 ## Roadmap
 Known gaps and planned work, so nothing here is a surprise:
-- Tailwind migration — refactor the SCSS layer to Tailwind with a design-token system. This is a prerequisite for planned checkout work.
+- Completed: SCSS → Tailwind v4 + plain layered CSS migration ([PR #48](https://github.com/maubayuelo/shamanicca-ecommerce-graphQL/pull/48), merge `362bb921`). Preflight remains off; checkout changes are separate work.
 - Fix .env.example — declare the Resend variables (RESEND_API_KEY, RESEND_FROM, CONTACT_EMAIL) and remove the unused SendGrid/SMTP keys.
 - Lint cleanup — work through the ~100 existing warnings (largely no-explicit-any).
 - Measure test coverage — @vitest/coverage-v8 isn't installed yet; add it and wire up npm run test:coverage.

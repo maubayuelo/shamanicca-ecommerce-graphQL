@@ -1,14 +1,17 @@
 # Visual verification
 
 Traditional gates cannot see. `tsc`, ESLint and Vitest will all stay green while
-the header collapses on mobile. During the SCSS → Tailwind migration, this
-procedure is the only real gate on the thing actually being changed.
+the header collapses on mobile. This procedure remains the visual regression
+gate after the SCSS → Tailwind/CSS migration completed in PR #48 / merge
+`362bb921`. Styling is Tailwind v4 + plain layered CSS; Preflight stays OFF.
 
 `AGENTS.md` requires visual confirmation for any change that alters what the
 user sees. This file is that procedure.
 
-It is manual on purpose. Automating it before we know what we are comparing
-would be automating the wrong thing.
+Capture and replay tooling automates deterministic inputs and screenshots;
+decoded-pixel comparison and manual/flicker review establish the result.
+`visual/routes.json` is authoritative for routes, viewports and states.
+Historical manual methods and Phase 6/7 results are retained below as context.
 
 ---
 
@@ -17,27 +20,30 @@ would be automating the wrong thing.
 **D1 — Reference.** Two tiers.
 
 - *Fast loop*, while working: local dev server.
-- *Formal gate*, before merging any phase: Vercel preview vs Vercel production.
+- *Formal gate*, before merging a visual change: Vercel preview vs Vercel production.
 
-The fast tier never substitutes for the formal one. A phase is not verified
+The fast tier never substitutes for the formal one. A visual change is not verified
 until it has passed the formal gate.
 
 **D3 — Viewports.** 375 · 768 · 1440 by default. `product` and `product-sale`
 additionally capture at 620 (midpoint of the Phase 6a 601–639 shifted band),
-1024 (the `lg` breakpoint boundary used throughout `product.scss`) and 1366
+1024 (the `lg` breakpoint boundary used by the product layout) and 1366
 (a common laptop width otherwise unsampled between 1024 and 1440). A route
 opts into a non-default viewport list via a `"viewports"` array of names on
 its entry in `visual/routes.json`; routes without one get the default three.
 
-**D4 — Location.** `visual/`, git-ignored. This document is committed; the
-images are not. Binary artifacts in git history are permanent and never get
-cleaned up.
+**D4 — Location.** Generated captures and viewers under `visual/` are
+git-ignored. This document, `visual/routes.json`, replay fixtures and overrides
+are committed; images are not. Keep these reusable inputs when cleaning
+outputs. Binary artifacts committed to Git remain in its history.
 
 ```
 visual/
-├── baseline/          Full sweep of the site before the migration. Captured once.
-└── <phase>/
-    ├── before/        Only the surface this phase touches.
+├── routes.json        Authoritative route, viewport and state manifest.
+├── fixtures/phase-6/  Shared recorded regression data; name kept for compatibility.
+├── overrides/phase-8/ Announcement-visible capture input.
+└── <comparison>/
+    ├── before/
     └── after/
 ```
 
@@ -48,7 +54,7 @@ route, viewport and state:
 <route>__<viewport>[__<state>].png
 ```
 
-Examples: `home__375.png` · `home__375__menu-open.png` ·
+Examples: `home__375.png` · `home__375__header-search-open.png` ·
 `cart__1440__filled.png`
 
 `__` (double underscore) separates fields. Multi-word route names use a hyphen:
@@ -57,17 +63,19 @@ Examples: `home__375.png` · `home__375__menu-open.png` ·
 **D5 — Pass criterion.** Any pixel difference is a regression until its cause
 can be named.
 
-- A named, intended difference is logged as an accepted diff in the phase notes.
-- An unexplained difference blocks the phase.
+- A named, intended difference is logged as an accepted diff in the comparison report.
+- An unexplained difference blocks the change.
 
 "Looks fine" is not the standard. "I can explain every difference" is.
 
-**D2b — Scope per round.** During a phase, capture only the surface that phase
-touches. Run the full sweep once, as the merge gate for that phase.
+**D2b — Scope per round.** While iterating, capture only the surface the
+change touches. Run the full sweep as the visual merge gate.
 
-A full sweep is 94 captures per side (Phase 7.0; it was ~39 originally). Doing that after every stylesheet edit is
-expensive enough that it would get skipped — and a procedure that gets skipped
-is worse than no procedure, because it creates false confidence.
+At `362bb921`, a full sweep is **138 captures per side: 86 route captures
+and 52 state captures**, from 25 routes and 29 state definitions in
+`visual/routes.json`. Use that manifest when the inventory changes.
+The Phase 7.0 sweep was 94 per side (the earliest sweep was about 39);
+those are historical counts, not today's scope.
 
 ---
 
@@ -75,7 +83,9 @@ is worse than no procedure, because it creates false confidence.
 
 Dynamic routes must resolve to the **same content every round**. Change the
 product or the post and every difference observed afterwards is meaningless.
-These are fixed for the duration of the migration.
+The pinned routes remain stable for regression comparisons; changing them
+or their recordings is deliberate, separate work. This table reflects
+`visual/routes.json` at `362bb921`; the manifest is authoritative.
 
 | Slug | URL |
 |---|---|
@@ -97,13 +107,19 @@ These are fixed for the duration of the migration.
 | `wishlist` | `/wishlist` |
 | `about` | `/about` |
 | `contact` | `/contact` |
+| `faq` | `/faq` |
+| `returns-exchanges` | `/returns-exchanges` |
+| `privacy-policy` | `/privacy-policy` |
+| `size-chart` | `/size-chart` |
+| `terms-and-conditions` | `/terms-and-conditions` |
+| `newsletter` | `/newsletter` |
 | `404` | `/this-page-does-not-exist` |
 
 `product` should be one with several gallery images and a long description — it
 exercises more CSS than a sparse one.
 
 `product-sale` is pinned to a product confirmed (by querying the live
-endpoint directly, not assumed) to be on sale — `regularPrice ($49.50) >
+endpoint directly on the recording date, not assumed) to be on sale — `regularPrice ($49.50) >
 price ($39.50)`, which is what `products/[slug].tsx` computes `isOnSale`
 from — with all four size variations in stock, so it exercises the sale
 price line, the savings badge and the gallery SALE badge (rendered on every
@@ -117,23 +133,18 @@ interaction states — those are scoped to `product` only (see States below).
 
 ### Routes
 
-13 routes × 3 default viewports, plus `product` and `product-sale` at 3
-additional viewports each (620, 1024, 1366), plus `product-oos` at 375 and 1440
-(full-page base capture of the recorded out-of-stock alias, no separate state).
-Phase 7.0 added `blog`, `blog-category`, `blog-post` and `blog-all` at 620 and
-1366 (the 601–639 and 1280–1439 bands), `blog-all` (page 1), and `blog-all-p2`
-and `blog-post-video` at 375 and 1440 — 86 route captures in total, plus 8
-states in Phase 7.0 on top of the earlier ones (94 per side):
+The 25 routes expand to **86 full-page route captures**:
 
-```
-home__<vp>            shop__<vp>            shop-category__<vp>
-product__<vp>         product-oos__<vp>     product-sale__<vp>
-blog__<vp>            blog-category__<vp>   blog-post__<vp>
-blog-all__<vp>        blog-all-p2__<vp>     blog-post-video__<vp>
-search-shop__<vp>     search-blog__<vp>     cart__<vp>
-wishlist__<vp>        about__<vp>           contact__<vp>
-404__<vp>
-```
+| Routes | Viewports | Captures |
+|---|---|---|
+| `home`, `shop`, `shop-category`, `search-shop`, `search-blog`, `cart`, `wishlist`, `about`, `contact`, `faq`, `returns-exchanges`, `privacy-policy`, `size-chart`, `terms-and-conditions`, `newsletter`, `404` | 375, 768, 1440 | 48 |
+| `product`, `product-sale` | 375, 768, 620, 1024, 1366, 1440 | 12 |
+| `product-oos`, `blog-all-p2`, `blog-post-video` | 375, 1440 | 6 |
+| `blog`, `blog-category`, `blog-post`, `blog-all` | 375, 768, 620, 1366, 1440 | 20 |
+
+The Phase 7.0 additions included blog widths 620/1366, `blog-all`,
+`blog-all-p2` and `blog-post-video`. Later additions are represented in the
+current manifest above; historical Phase 7 results remain below.
 
 **Full-page captures never paint an out-of-process iframe.** A cross-origin
 `<iframe>` (the blog post's video) comes out as a blank rectangle in a
@@ -146,25 +157,59 @@ video.
 
 ### States
 
-States only exist after an interaction. A route can pass while its overlay is
-wrecked — and overlays, fixed positioning and transforms are exactly where a
-SCSS → Tailwind migration breaks. Interaction states are captured as
-**viewport** screenshots (not full-page) after scrolling the relevant element
-into view, because fixed-position elements (the gallery modal, the sticky
-bar) render wrong in a stitched full-page capture.
+States exercise interactions or explicitly seeded content. Overlays, fixed
+positioning and transforms can regress even when a route's base view passes.
+State captures are **viewport** screenshots after scrolling the relevant
+element into view, because fixed-position elements render incorrectly in
+stitched full-page captures. Each uses a fresh browser context.
 
-```
-home__375__menu-open              home__768__menu-open
-home__375__menu-search-open       home__1440__menu-search-open
-cart__375__filled                 cart__1440__filled
-cart__375__empty                  cart__1440__empty
-product__375__gallery-open        product__1440__gallery-open
-shop__375__filter-open            shop__1440__filter-open
-```
+The current 29 state definitions expand to **52 state captures**:
 
-The mobile menu is only captured below the desktop breakpoint. Cart and overlay
-states are captured at the extremes only — 768 adds nothing 375 and 1440 do not
-already show.
+| Route | State | Viewports |
+|---|---|---|
+| `wishlist` | `filled` | 375, 620, 768, 1024, 1440 |
+| `cart` | `filled` | 375, 620, 768, 1024, 1440 |
+| `cart` | `qty-hover` | 1440 |
+| `cart` | `qty-focus` | 1440 |
+| `contact` | `focus` | 375 |
+| `contact` | `validation-error` | 375, 620, 1440 |
+| `contact` | `submitted` | 1440 |
+| `newsletter` | `modal-open` | 1440 |
+| `newsletter` | `success` | 1440 |
+| `home` | `announcement-visible` | 375, 620, 1440 |
+| `home` | `header-search-open` | 375, 620, 1440 |
+| `home` | `header-search-submit-hover` | 1440 |
+| `product` | `thumb-2` | 375, 768, 1440 |
+| `product` | `last-image` | 768, 1440 |
+| `product` | `modal-image-2` | 375, 1440 |
+| `product` | `modal-thumb-4` | 375, 1440 |
+| `product` | `sticky-bar-visible` | 375, 768, 1440 |
+| `product` | `size-error` | 375, 1440 |
+| `product` | `wishlist-saved` | 375, 1440 |
+| `product` | `wishlist-hover` | 1440 |
+| `product` | `size-focused` | 1440 |
+| `shop` | `paginator-hover` | 1440 |
+| `blog-all` | `paginator-anchor-hover` | 1440 |
+| `blog-post` | `share-hover` | 1440 |
+| `blog-post` | `share-focus` | 1440 |
+| `blog-post` | `url-copied` | 1440 |
+| `blog` | `sidebar-banner-hover` | 1440 |
+| `blog` | `content-banner-hover` | 1440 |
+| `blog` | `main-article-hover` | 1440 |
+
+Empty cart/wishlist are covered by base route captures. Legacy `menu-open`,
+`menu-search-open`, `gallery-open` and `filter-open` names are not
+current manifest entries; use the state names above.
+
+`home:announcement-visible` uses
+`visual/overrides/phase-8/announcement-visible.json` for
+`/api/cms/announcement`. The recorded baseline keeps the banner hidden;
+this separate override exercises its visible state without modifying fixtures.
+Keep the override and its README even though the directory is named phase-8.
+
+`contact:submitted` stubs `/api/contact` and `newsletter:success` stubs
+`/api/newsletter` through the manifest's `stubs` entries. These captures
+exercise success UI without sending real messages or newsletter subscriptions.
 
 #### Product states (Phase 6.0)
 
@@ -215,7 +260,7 @@ nav and gallery controls, and the header nav's item count is WordPress
 content, not fixed — that would make this state's setup nondeterministic,
 which is exactly what this PR exists to eliminate elsewhere.
 
-Excluded from this PR: touch swipe (the gallery's scroll listener is
+Excluded from the capture inventory: touch swipe (the gallery's scroll listener is
 attached to the viewport, not the track, so swipe-to-active sync is already
 flagged as unreliable in the Phase 6 READ and shouldn't be baselined until
 that's fixed), the native `<select>` popup (an OS-level surface, not part of
@@ -224,7 +269,11 @@ never mounted on any route and was deleted in Phase 9a2).
 
 ---
 
-## Capture method — pinned per viewport
+## Historical manual capture method — pinned per viewport
+
+This section records the original manual method. The current automated
+production/replay procedure is in "Automated capture" and "Hermetic captures"
+below. Do not mix manual and automated methods within a comparison.
 
 Rendering differs between capture methods. Mixing them across a BEFORE/AFTER
 pair produces differences that have nothing to do with the code.
@@ -244,7 +293,11 @@ JPEG compression artifacts shimmer under flicker comparison and read as changes.
 
 ---
 
-## Determinism protocol
+## Historical manual determinism protocol
+
+These manual steps explain the original failure modes. Automated runs use
+the condition-based waits and same-build determinism test below, not fixed
+sleeps or a shared browser storage state.
 
 These pages are not deterministic. None of the following is caused by CSS, and
 every one of them will show up as a diff if not controlled:
@@ -279,7 +332,16 @@ banded in the middle, capture it at 50% zoom and note it here so AFTER matches.
 
 ## Comparing
 
-Do **not** view the two images side by side.
+Compare matching filename sets and image dimensions, then decoded RGBA
+pixels at zero tolerance, without resizing. Byte differences in PNG encoding
+alone are not pixel differences. Review differing captures and record their
+cause; a passing comparison does not prove the intended state was captured.
+
+`npm run flicker -- --before <dir> --after <dir>` provides an offline
+viewer with a diff overlay; pass `--all` to review identical captures too.
+Its successful exit means the viewer was generated, not that pixels match.
+
+Do **not** rely on viewing the two images side by side.
 
 Open BEFORE and AFTER in macOS Preview as two tabs and flip between them with
 the arrow keys. Flicker comparison: when images alternate in the same screen
@@ -288,31 +350,25 @@ entirely.
 
 ---
 
-## Workflow per phase
+## Workflow per visual change
 
-```bash
-PHASE=phase-1-header
-mkdir -p "visual/$PHASE"/{before,after}
-```
+1. Select the affected routes and states from `visual/routes.json`.
+2. Capture BEFORE from an explicit reference commit in a temporary worktree.
+3. Make the approved change.
+4. Capture AFTER with the same browser/script version, fixture set, media
+   cache, viewports and states, in the same session.
+5. Compare exact decoded pixels and review by flicker.
+6. Log every accepted difference with its cause.
+7. **Merge gate:** full sweep, Vercel production vs Vercel preview. Local
+   replay evidence supports iteration but does not replace this formal gate.
+8. An unexplained difference blocks the change.
 
-1. Write this phase's route + state list — only the surface being touched.
-2. **BEFORE**: on `main`, capture that list at all three viewports.
-3. Do the work.
-4. **AFTER**: same browser, same session, same list, same order.
-5. Compare by flicker.
-6. Log every accepted diff in the phase notes, with its cause.
-7. **Merge gate**: full sweep, Vercel production vs Vercel preview.
-8. An unexplained difference blocks the phase. It does not get merged and
-   revisited.
+## Automation status
 
----
-
-## Later
-
-Once several phases have run manually and the failure modes are understood,
-Playwright's `toHaveScreenshot()` automates the capture and the diff. Not before
-— automating a comparison whose ground rules are still being discovered would
-encode the wrong rules and hide the interesting failures behind a green check.
+Capture, replay, media caching and the flicker viewer are existing tooling,
+not future migration work. Keep them for ongoing regression verification.
+A future assertion/CI integration is separate work; it must preserve the
+same determinism and exact-pixel requirements, plus manual state review.
 
 ---
 
@@ -324,7 +380,7 @@ modal, waiting out fonts and lazy images, and writing a full-page PNG. For
 interaction states (`visual/routes.json`'s `states` array) it instead runs a
 named handler that performs the action sequence and writes a **viewport**
 screenshot. It does not compare images; comparison is still the manual
-flicker method above, or the decoded-pixel compare used for a phase gate.
+flicker viewer/method above and decoded-pixel comparison.
 
 Every wait in the script is a condition — no in-flight /graphql or WP REST
 requests, fonts ready, images decoded, scroll position settled for 3
@@ -335,8 +391,8 @@ that was in progress is not written (no partial screenshots), and the whole
 run exits non-zero naming the route, viewport and state that failed. See
 "Determinism test" below for why this matters enough to test on its own.
 
-The route, viewport and state list lives in `visual/routes.json`, generated
-from the pinned URL table above. A route may override the default viewport
+The route, viewport and state list lives in `visual/routes.json`, the source
+of truth for the tables above. A route may override the default viewport
 list with its own `"viewports"` array of names.
 
 ```bash
@@ -349,29 +405,40 @@ npm run capture -- <outputDir> [--base http://localhost:3000]
 It defaults to differing captures; pass `--all` to include identical files.
 Use Space, D, and Z to pause/toggle, show the diff overlay, and change zoom.
 
-### BEFORE (reference commit, port 3001)
+### BEFORE — temporary detached worktree
 
-Capture from a separate git worktree so the working copy is untouched:
-
-```bash
-git worktree add ../shamanicca-before <reference-commit-or-branch>
-cd ../shamanicca-before
-npm install
-npm run dev -- --port 3001
-# in another terminal, from the main working copy:
-node scripts/capture.mjs visual/<phase>/before --base http://localhost:3001
-```
-
-Remove the worktree when done: `git worktree remove ../shamanicca-before`.
-
-### AFTER (working copy, port 3000)
+Use an explicit reference SHA, so neither worktree needs to check out the
+same branch. Choose an unused directory; a permanent BEFORE checkout is not
+required.
 
 ```bash
-npm run dev
-node scripts/capture.mjs visual/<phase>/after --base http://localhost:3000
+git worktree add --detach ../shamanicca-visual-before <reference-commit-sha>
+cd ../shamanicca-visual-before
+npm ci
 ```
 
-Run BEFORE and AFTER in the same session per the determinism protocol above.
+Run the production/replay runbook below from that worktree, with the same
+fixture set and media cache as AFTER. If the reference predates those inputs,
+establish matching verification inputs deliberately before comparing.
+
+### AFTER — working copy
+
+Run the same production/replay runbook from the working copy. Use separate
+application ports for simultaneous servers, or stop the comparison's BEFORE
+server before starting AFTER. Run each capture command from its corresponding
+worktree: the replay preflight scans that worktree's `.next/static`.
+
+Keep BEFORE and AFTER in the same session. Once the comparison is complete,
+account for ignored environment files and evidence, then remove only the
+temporary worktree:
+
+```bash
+git worktree remove ../shamanicca-visual-before
+```
+
+If removal is refused because of local files, inspect them; do not blindly
+force removal. Dev servers remain a fast layout loop, not replay acceptance
+evidence.
 
 ---
 
@@ -381,7 +448,8 @@ The live WordPress/WooCommerce backend is not deterministic enough to be a
 capture fixture (search returned different result sets for the same query
 seconds apart; the pinned product's stock changed). So captures run against
 **recorded** responses, served by `scripts/graphql-replay.mjs`. One set,
-`visual/fixtures/phase-6/{graphql,rest}/`, covers the whole phase; its
+`visual/fixtures/phase-6/{graphql,rest}/`, is the continuing shared regression
+fixture set. The phase-6 name stays for compatibility; its
 `README.md` records the date, the commit it was recorded from and every edit.
 The fixtures are public storefront data (no secrets) and **are committed**.
 
@@ -502,7 +570,7 @@ the next normal `npm run build` uses the live endpoint again (it reads
 
 ### Adding fixtures without touching existing ones: `record-missing`
 
-When a phase needs a route the set does not cover, do **not** re-record.
+When a comparison needs a route the set does not cover, do **not** re-record.
 `record-missing` is replay plus an additive top-up: a key that has a fixture
 file is served from disk and never forwarded; a key with none is forwarded
 upstream and stored with an exclusive write, so an existing file can never be
@@ -530,7 +598,7 @@ older `GetAllPostsWithTotal`, `GetAllPostsCursor` and `GetCategoryBySlug`
 recordings are no longer requested (the queries were deleted in Phase 9a2);
 their fixture files stay committed, unused.
 
-Within a phase, the BEFORE build and the AFTER build both replay the **same
+Within a comparison, the BEFORE build and the AFTER build both replay the **same
 committed fixture set** — never re-record between them. Re-recording is a
 separate commit with its own explanation, because it changes what every
 future comparison is measured against.
@@ -561,7 +629,7 @@ that with the same rule as the proxy:
   cache is a hard error naming the variable and the path.
 - `--media replay` — fulfils from disk; a miss aborts that image, fails the
   capture (no screenshot is written) and names the missed URL.
-- The app's own local assets are never cached, so a phase that changes an icon
+- The app's own local assets are never cached, so a change to an icon
   or a local image is still measured against the build under test.
 
 Record it in the same pass as the GraphQL/REST fixtures:
@@ -634,11 +702,15 @@ node scripts/capture.mjs visual/<phase>/run1 --base http://localhost:3010 --repl
 node scripts/capture.mjs visual/<phase>/run2 --base http://localhost:3010 --replay http://localhost:4001 --media replay
 ```
 
-Both runs must also finish with 0 proxy misses and 0 media misses. Phase 7.0
-result: **94/94 identical** between back-to-back runs, about 111s per run. Run both in
-one shell invocation (no gap) and confirm `scripts/capture.mjs` did not change
-between them — a run made with an older script does not count. Phase 6.0
-result: 71/71 identical, about 84s per run.
+Both runs must finish with 0 proxy misses and 0 media misses. The current
+manifest produces 138 captures per run. Run both in one shell invocation (no
+gap) and confirm `scripts/capture.mjs` did not change between them — a run
+made with an older script does not count.
+
+Historical results: Phase 7.0 was **94/94 identical** between back-to-back
+runs, about 111s per run; Phase 6.0 was **71/71 identical**, about 84s per run.
+Those results verify their respective script versions and fixture inventories,
+not a fresh determinism test of today's 138-capture inventory.
 
 Then decode-pixel compare every matching filename between `run1` and
 `run2` — dimensions first, then a full per-pixel diff, zero tolerance, no
