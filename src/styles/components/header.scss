@@ -1,6 +1,0 @@
-// Import global variables used by component styles
-@use "../variables" as *;
-@use "../mixins" as *;
-
-/* Search overlay */
-:root { --header-height: 64px; } // fallback, overwritten by JS

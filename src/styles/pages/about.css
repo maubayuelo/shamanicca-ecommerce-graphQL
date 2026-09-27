@@ -1,0 +1,14 @@
+@layer cms {
+  .page img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 15px;
+  }
+  @media (min-width: 601px) {
+    .page img {
+      border-radius: 30px;
+    }
+  }
+}
