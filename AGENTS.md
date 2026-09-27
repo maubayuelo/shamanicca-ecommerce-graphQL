@@ -24,7 +24,7 @@ Deployed on Vercel from `main`.
 
 Next.js (**Pages Router**) · React 18 · TypeScript · Apollo Client +
 `graphql-request` → WPGraphQL · Tailwind CSS v4 (`@tailwindcss/postcss`, no
-Preflight) alongside SCSS (`sass`) · Vitest + Testing Library + jsdom.
+Preflight) + plain layered CSS · Vitest + Testing Library + jsdom.
 
 Exact versions live in `package.json`; the Node version lives in `.nvmrc` and
 drives CI. Read those rather than trusting a number written here.
@@ -86,7 +86,7 @@ src/
 │   ├── graphql/    apolloClient.ts, queries.ts, types.ts, utils.ts
 │   ├── context/    cart, wishlist, cookieConsent
 │   └── api/        woocommerce.ts
-├── styles/         SCSS
+├── styles/         Tailwind v4 tokens + plain layered CSS
 ├── test/
 ├── types/          Ambient/global declarations only — see type rule below
 └── utils/          Pure functions only
@@ -175,27 +175,30 @@ Do not, without an explicit instruction saying so:
 
 ---
 
-## Current focus
+## Styling architecture
 
-SCSS → Tailwind migration, **Phase 9 in progress** (foundation + cleanup).
-Phases 0–8 are merged. Tailwind v4 runs through `@tailwindcss/postcss`,
-tokens live in `src/styles/tailwind.css` (`@theme`), and Preflight is not
-imported. The remaining SCSS still loads from `_app.tsx`. Contract: zero
-visual change except explicitly approved breakpoint shifts, proven per
-`docs/VISUAL-VERIFICATION.md`.
+The SCSS → Tailwind/CSS migration is complete: Phase 9h merged in
+[PR #48](https://github.com/maubayuelo/shamanicca-ecommerce-graphQL/pull/48),
+merge `362bb921`. Sass is removed. Tailwind v4 runs through
+`@tailwindcss/postcss`; tokens live in `src/styles/tailwind.css`
+(`@theme`). **Preflight remains OFF.**
 
-Approved end state:
+`src/styles/layers.css` is imported first in `_app.tsx` and declares:
+`properties, theme, base, cms, components, utilities`. Preserve this order.
 
 - CMS/WordPress HTML scopes (`.wp-content`, `.post-content`, `.page img`)
-  become plain CSS in `@layer cms`.
-- Shared primitives (`.type-*`, `.btn*`, `.form-control*`, helpers) become
-  plain rules in `@layer components`, original selectors verbatim — only
-  after the helper names Tailwind also generates (`mt-15`, `pt-10`, …) are
-  de-collided.
-- Sass is removed at the end (9h). Preflight is out of Phase 9.
-- Radius remnants move 601 → `sm` (approved, 9g).
-- Not part of the migration: capture hooks → `data-*`, a z-index scale,
-  hover gating.
+  are plain CSS in `@layer cms`.
+- Shared primitives (`.type-*`, `.btn*`, `.form-control*`, helpers) are
+  plain rules in `@layer components`, preserving their original selectors.
+  Never add a helper whose name Tailwind also generates.
+- Preserve exact colors and spacing. Use an existing project token only when
+  it renders the exact value; otherwise keep the literal, never a nearest
+  default shade. Keep the scoped breakpoint exceptions in `CLAUDE.md`.
+- The contract remains zero unintended visual change, proven per
+  `docs/VISUAL-VERIFICATION.md`. Earlier approved breakpoint shifts are
+  historical decisions, not permission for further shifts.
+- Preflight, capture hooks → `data-*`, a z-index scale and hover gating
+  remain separate work; migration completion does not authorize them.
 
-Work one sub-phase at a time (9a dead code and phantom classes first) and
-stop for review after each.
+Housekeeping proceeds only within the approved cleanup scope. Preserve the
+reusable visual regression tooling, fixtures and media-cache contract.

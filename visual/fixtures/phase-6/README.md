@@ -1,9 +1,17 @@
-# Phase 6 capture fixtures
+# Shared regression fixtures (phase-6)
 
 Recorded GraphQL and WP/WooCommerce REST responses, replayed by
 `scripts/graphql-replay.mjs` so a capture run never touches the live backend.
-One set for the whole of Phase 6 (6b product, 6c sticky bar, 6d gallery):
-BEFORE and AFTER builds replay these same files.
+Originally recorded for Phase 6 (6b product, 6c sticky bar, 6d gallery) and
+extended later, this is the continuing shared visual regression fixture set
+after migration completion in PR #48 / merge `362bb921`. The `phase-6`
+directory name and tooling defaults remain unchanged for compatibility.
+BEFORE and AFTER builds must replay the same files.
+
+At `362bb921`, the set contains 274 GraphQL JSON files (including one
+`.orig.json` backup) and 60 REST JSON files. This inventory does not imply
+every record is still requested. The recording counts and Phase 6/7 notes
+below are historical provenance, not the current inventory.
 
 - `graphql/` — POST /graphql, keyed by hash of operationName + query + variables
 - `rest/` — everything else (WP REST, CMS routes, WooCommerce REST), keyed by
