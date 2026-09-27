@@ -21,9 +21,9 @@ import { ApolloProvider } from '@apollo/client/react';
 import client from '../lib/graphql/apolloClient';
 // Global styles loaded once here — apply to every page
 import '../styles/layers.css';
-import '../styles/globals.scss';
-import '../styles/components/header.scss';
-import '../styles/pages/about.scss';
+import '../styles/globals.css';
+import '../styles/components/header.css';
+import '../styles/pages/about.css';
 import '../styles/tailwind.css';
 import { Poppins } from 'next/font/google';
 import { CartProvider } from '../lib/context/cart';
