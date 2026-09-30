@@ -2,19 +2,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import NewsletterForm from '../molecules/NewsletterForm';
 
-export default function Footer() {
+type FooterProps = { showNewsletterSignup?: boolean };
+
+export default function Footer({ showNewsletterSignup = true }: FooterProps) {
   return (
     <footer className="border-t border-gray-300">
       <div className="main py-7.5 sm:py-15">
         <div className="grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[34%_24%_15%_15%] xl:grid-cols-[30%_30%_15%_15%] xl:gap-legacy-45">
           <div className="flex flex-col">
-            <h3 className="type-md type-extrabold type-uppercase m-0">Get The Good Stuff</h3>
-            <p className="type-md">
-              We're not into spam. Just: product drops and juicy updates.
-              Hit subscribe and save – your inbox will thank you.
-            </p>
+            {showNewsletterSignup && (
+              <>
+                <h3 className="type-md type-extrabold type-uppercase m-0">Get The Good Stuff</h3>
+                <p className="type-md">
+                  We're not into spam. Just: product drops and juicy updates.
+                  Hit subscribe and save – your inbox will thank you.
+                </p>
 
-            <NewsletterForm className="mt-legacy-15" />
+                <NewsletterForm className="mt-legacy-15" confirmationVariant="footer" />
+              </>
+            )}
 
             <div className="mt-xl-responsive mb-lg-responsive">
               <div className="type-sm mb-sm-responsive">Catch updates following us on:</div>

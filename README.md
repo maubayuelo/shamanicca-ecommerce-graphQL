@@ -41,7 +41,7 @@ This app is the public-facing website. It shows products, a blog, a shopping car
 | **Blog** | Articles fetched from WordPress via GraphQL |
 | **Search** | Searches products or blog posts |
 | **SEO** | Structured data (Schema.org), meta tags, 301 redirects |
-| **Newsletter** | Email signup modal connected to Mailchimp |
+| **Newsletter** | Shared footer, popup and page signup connected to Brevo double opt-in |
 | **Contact form** | Sends email via the **Resend** API |
 | **Analytics** | Google Analytics 4 with Consent Mode v2 |
 
@@ -98,7 +98,7 @@ The data only flows **one way for content**: WordPress is the source of truth, t
 | UI components | Mantine 8 |
 | Styling | Tailwind CSS v4 + plain layered CSS; Preflight off |
 | Email | Resend |
-| Newsletter | Mailchimp |
+| Newsletter | Brevo double opt-in |
 | Analytics | Google Analytics 4 (Consent Mode v2) |
 | Backend (external) | WordPress + WooCommerce |
 
@@ -155,10 +155,78 @@ The table below mirrors `.env.example`, which matches what the code actually rea
 | `RESEND_API_KEY` | Yes (contact form) | Resend API key — powers the contact form |
 | `RESEND_FROM` | Yes (contact form) | "From" address for contact-form email |
 | `CONTACT_EMAIL` | Yes (contact form) | "To" address that receives contact-form email |
-| `MAILCHIMP_API_KEY` | Yes (newsletter) | Mailchimp API key — powers newsletter signup |
-| `MAILCHIMP_AUDIENCE_ID` | Yes (newsletter) | Mailchimp audience/list ID |
-| `MAILCHIMP_SERVER` | Yes (newsletter) | Mailchimp server prefix (e.g. `us10`) |
+| `BREVO_API_KEY` | Yes (newsletter) | Private server-only Brevo API key |
+| `BREVO_LIST_ID` | Yes (newsletter) | Positive integer destination list ID |
+| `BREVO_DOI_TEMPLATE_ID` | Yes (newsletter) | Positive integer active double opt-in template ID |
+| `BREVO_DOI_REDIRECT_URL` | Optional | DOI return URL; defaults to `https://shamanicca.com/newsletter?confirmed=1` |
 | `NODE_ENV` / `PORT` | Optional | Standard Node runtime settings |
+
+### Newsletter: Brevo double opt-in
+
+The footer, popup and `/newsletter` share `NewsletterForm`, which posts to
+`/api/newsletter`. The Pages Router API route uses native `fetch` to call
+[Brevo's DOI endpoint](https://developers.brevo.com/reference/create-doi-contact).
+The API key stays on the server; no Brevo SDK or browser embed is required.
+
+To activate the integration:
+
+1. Create a newsletter list in Brevo and record its numeric ID.
+2. Configure and authenticate your sending domain and sender in Brevo, and ensure
+   transactional email sending is enabled for the account.
+3. Create and activate a DOI transactional email template with Brevo's **Double
+   opt-in link** on its confirmation button. A normal link directly to the website
+   does not confirm membership. Record the template ID. Brevo's template API
+   exposes `isActive` and `doiTemplate` for checking template configuration.
+4. Set `BREVO_API_KEY`, `BREVO_LIST_ID` and `BREVO_DOI_TEMPLATE_ID` in the appropriate
+   Vercel environment, then redeploy. For local development, set them privately in
+   `.env.local`. Never use a `NEXT_PUBLIC_` prefix or commit credentials.
+5. Submit an address you control. Check Brevo's transactional logs, receive the
+   confirmation email, follow its link, and verify membership in the selected
+   list. Set `BREVO_DOI_REDIRECT_URL` to
+   `http://localhost:3000/newsletter?confirmed=1` locally and
+   `https://shamanicca.com/newsletter?confirmed=1` in production. This override
+   takes precedence over the production fallback. Existing values pointing at
+   `/newsletter/confirmed` still work through a compatibility redirect, but
+   should be updated to the new URL in your private environment settings.
+
+The normal `/newsletter` page displays the signup form. Successful submissions
+show “Check your email” with confirmation instructions in the shared form,
+including the footer and popup. The `confirmed=1` query displays “You're in!”
+and the blog link in place of the main signup heading, instructions and form.
+This query is presentation state after the Brevo redirect, not independent proof
+of membership; visiting it directly does not subscribe anyone or call Brevo.
+The old `/newsletter/confirmed` route only issues a temporary server redirect to
+`/newsletter?confirmed=1` and contains no confirmation UI.
+
+The dedicated newsletter page owns its confirmation feedback and opts out of
+the footer signup block. Footer signup remains enabled by default on all other
+pages, and footer and popup forms retain independent state. Newsletter success
+messages use a decorative 44px purple check circle and centered text based on
+the Contact page's visual language. The footer variant uses a 36px circle,
+20px check, 8px gaps and smaller typography, with supporting copy capped at
+34ch. It is centered below 1024px and left-aligned from 1024px onward.
+The default newsletter, popup and Contact success treatments are unchanged.
+
+A Brevo `201` response means the DOI request was accepted, not that the person is
+subscribed or that inbox delivery is guaranteed. The form asks them to check
+their email and confirm. Brevo manages confirmation and list membership.
+Repeated submissions use the same DOI endpoint: an accepted request shows the
+same confirmation instructions; a rejection (including an existing-contact
+rejection) shows a retry error. The app does not force subscription, remove
+blocklists, or translate arbitrary Brevo errors into success.
+
+Missing/invalid environment variables return `503`. Brevo authentication,
+list/template errors, rate limits, unexpected statuses and network failures
+return a generic `502` error without exposing provider messages or credentials.
+Requests time out after 10 seconds. Server logs contain only a fixed error label
+and, when available, the upstream HTTP status. Check Brevo's dashboard to
+diagnose provider configuration or delivery issues.
+
+Tests mock Brevo; visual captures stub `/api/newsletter` to avoid sending mail.
+Live delivery, template validity, repeat-contact behavior and list membership
+must also be checked with the configured Brevo account before launch. Existing
+Mailchimp contacts and campaigns are not imported by this code change. Remove
+the old `MAILCHIMP_*` Vercel variables after the Brevo cutover is verified.
 
 ---
 

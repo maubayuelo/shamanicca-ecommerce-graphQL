@@ -1,80 +1,69 @@
-/**
- * api/newsletter.ts — Newsletter signup API endpoint
- *
- * Route: POST /api/newsletter
- *
- * Subscribes an email address to the Mailchimp mailing list.
- * Like the contact form, this is a server-side route to keep the
- * Mailchimp API key secret (never exposed to the browser).
- *
- * MAILCHIMP API DETAILS:
- *  - Uses Mailchimp Marketing API v3
- *  - PUT to /lists/{audienceId}/members/{emailHash}
- *  - PUT is idempotent (safe to call multiple times — won't duplicate)
- *  - status_if_new: 'subscribed' → immediately subscribed (no double opt-in email)
- *
- * WHY MD5 HASH?
- *  Mailchimp identifies members by an MD5 hash of their lowercase email.
- *  This is Mailchimp's own convention for their API — not a security measure.
- *    emailHash = md5(email.toLowerCase())
- *
- * ERROR HANDLING:
- *  - 'Member Exists' → already subscribed → return success (user can resub safely)
- *  - 'Forgotten Email Not Subscribed' → GDPR unsubscribed user → return success
- *    (we do not re-subscribe users who opted out — this is a legal requirement)
- *  - If env vars are missing (local dev) → log warning and return fake success
- */
-
 import type { NextApiRequest, NextApiResponse } from 'next';
-import crypto from 'crypto';
+
+const FAILURE_MESSAGE = 'Could not send a confirmation email. Please try again later.';
+
+function positiveId(value: string | undefined): number | null {
+  if (!value || !/^[1-9]\d*$/.test(value)) return null;
+  const id = Number(value);
+  return Number.isSafeInteger(id) ? id : null;
+}
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  res.setHeader('Cache-Control', 'no-store');
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-  const { email } = req.body ?? {};
+  const body: unknown = req.body;
+  const email = body && typeof body === 'object' && 'email' in body && typeof body.email === 'string'
+    ? body.email.trim().toLowerCase()
+    : '';
 
-  if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Valid email address is required.' });
   }
 
-  const apiKey = process.env.MAILCHIMP_API_KEY;
-  const audienceId = process.env.MAILCHIMP_AUDIENCE_ID;
-  const server = process.env.MAILCHIMP_SERVER;
+  const apiKey = process.env.BREVO_API_KEY?.trim();
+  const listId = positiveId(process.env.BREVO_LIST_ID);
+  const templateId = positiveId(process.env.BREVO_DOI_TEMPLATE_ID);
+  const confirmationUrl =
+    process.env.BREVO_DOI_REDIRECT_URL ||
+    "https://shamanicca.com/newsletter?confirmed=1";
 
-  if (!apiKey || !audienceId || !server) {
-    console.warn('[newsletter] Mailchimp env vars not set — skipping');
-    return res.status(200).json({ ok: true });
+
+  if (!apiKey || !listId || !templateId) {
+    console.error('[newsletter] Missing or invalid Brevo configuration');
+    return res.status(503).json({ error: FAILURE_MESSAGE });
   }
 
-  const emailHash = crypto.createHash('md5').update(email.toLowerCase().trim()).digest('hex');
-  const url = `https://${server}.api.mailchimp.com/3.0/lists/${audienceId}/members/${emailHash}`;
-
   try {
-    const mc = await fetch(url, {
-      method: 'PUT',
+    const brevo = await fetch('https://api.brevo.com/v3/contacts/doubleOptinConfirmation', {
+      method: 'POST',
       headers: {
-        Authorization: `apikey ${apiKey}`,
+        'api-key': apiKey,
         'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({
-        email_address: email.toLowerCase().trim(),
-        status_if_new: 'subscribed',
+        email,
+        includeListIds: [listId],
+        templateId,
+        redirectionUrl: confirmationUrl,
       }),
+      signal: AbortSignal.timeout(10000),
+      redirect: 'error',
     });
 
-    if (!mc.ok) {
-      const data = await mc.json();
-      // Mailchimp 400 "Member Exists" or compliance errors — treat as success
-      if (data.title === 'Member Exists' || data.title === 'Forgotten Email Not Subscribed') {
-        return res.status(200).json({ ok: true });
-      }
-      console.error('[newsletter] Mailchimp error:', data);
-      return res.status(500).json({ error: 'Could not subscribe. Please try again.' });
+    // DOI returns 201 without a required response body; it does not confirm membership.
+    if (brevo.status !== 201) {
+      console.error('[newsletter] Brevo DOI request rejected:', brevo.status);
+      return res.status(502).json({ error: FAILURE_MESSAGE });
     }
 
     return res.status(200).json({ ok: true });
-  } catch (err) {
-    console.error('[newsletter] fetch error:', err);
-    return res.status(500).json({ error: 'Could not subscribe. Please try again.' });
+  } catch {
+    console.error('[newsletter] Brevo DOI request failed');
+    return res.status(502).json({ error: FAILURE_MESSAGE });
   }
 }

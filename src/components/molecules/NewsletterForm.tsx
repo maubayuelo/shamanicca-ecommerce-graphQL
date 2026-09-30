@@ -2,7 +2,7 @@
  * NewsletterForm.tsx — Email subscription form (Molecule)
  *
  * A standalone email input + submit button that POSTs to /api/newsletter.
- * Used inside the NewsletterModal and potentially on other pages.
+ * Shared by the footer, NewsletterModal, and newsletter page.
  *
  * ATOMIC DESIGN LEVEL: Molecule
  * Combines an input (atom) + button (atom) with fetch logic and state management.
@@ -18,19 +18,20 @@
  *  1. User types email and submits
  *  2. Quick client-side validation (must contain "@")
  *  3. POST to /api/newsletter with { email }
- *  4. On success: show "You're in!" message
+ *  4. On success: ask the visitor to confirm via email
  *  5. On error: show error text below form, allow retry
  *
- * NOTE: The server-side /api/newsletter handles the actual Mailchimp call,
+ * NOTE: The server-side /api/newsletter handles the actual Brevo DOI call,
  * keeping the API key secret from the browser.
  */
 
 'use client';
 import { useState } from 'react';
+import { NewsletterConfirmation } from '../atoms/NewsletterConfirmation';
 
-type Props = { className?: string };
+type Props = { className?: string; confirmationVariant?: 'default' | 'footer' };
 
-export default function NewsletterForm({ className = '' }: Props) {
+export default function NewsletterForm({ className = '', confirmationVariant = 'default' }: Props) {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
@@ -50,9 +51,12 @@ export default function NewsletterForm({ className = '' }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Something went wrong. Please try again.');
+      const data: unknown = await res.json();
+      if (!res.ok || !data || typeof data !== 'object' || !('ok' in data) || data.ok !== true) {
+        const message = data && typeof data === 'object' && 'error' in data && typeof data.error === 'string'
+          ? data.error
+          : 'Something went wrong. Please try again.';
+        setError(message);
         setStatus('error');
       } else {
         setStatus('success');
@@ -65,10 +69,12 @@ export default function NewsletterForm({ className = '' }: Props) {
 
   if (status === 'success') {
     return (
-      <div className={`newsletter-success ${className}`} role="alert">
-        <p className="type-md type-bold">You&apos;re in! ✓</p>
-        <p className="type-md">Welcome to the Shamanicca community. Check your inbox soon.</p>
-      </div>
+      <NewsletterConfirmation
+        className={className}
+        variant={confirmationVariant}
+        title="Check your email"
+        message="We've sent a confirmation email. Click the link to confirm your subscription."
+      />
     );
   }
 
