@@ -320,7 +320,31 @@ The follow-up is to make build-time data fetching degrade gracefully so the buil
 
 ## AI-assisted development
 
-This repo carries a curated, version-pinned set of **14 agent skills** (in `.agents/skills/`, e.g. `deploy-to-vercel`, `vercel-react-best-practices`, `web-design-guidelines`) with their sources and content hashes locked in `skills-lock.json`, so AI-assisted work stays reproducible. `.claude/skills/` holds symlinks into the same set for Claude Code's discovery path — same skills, one source of truth. These are curated third-party skills, pinned like any other dependency.
+AI coding agents work in this repo inside a harness that is versioned with the code: instructions, a human-approval workflow, and verification gates.
+
+### Agent instructions
+
+- [`AGENTS.md`](AGENTS.md) is the canonical, tool-agnostic instruction file. It encodes architecture constraints (Pages Router only, no `app/`), repo conventions, hard rules (e.g. no `src/lib/graphql/queries.ts` changes without an explicit instruction, and never any CSS consumed by the WordPress checkout), and the known debt agents must leave alone.
+- [`CLAUDE.md`](CLAUDE.md) imports it with `@AGENTS.md`, so there is one source of truth, and adds only the CSS cascade rules. It carries a harness load-check line: if the agent can quote it without opening a file, the import is active.
+
+### Human-in-the-loop workflow
+
+Work moves through **READ → PROPOSE → human approval → IMPLEMENT → VERIFY**, one phase at a time. The agent never commits, pushes or merges; a person does. Unrelated problems found along the way are reported, not silently changed.
+
+### Verification gates
+
+- Completion gate: `npm run lint && npm run typecheck && npm run test`. GitHub Actions runs the same three checks (job `verify`) on pushes and pull requests to `main`.
+- `next build` is not run in CI, because it fetches the live WPGraphQL endpoint. The Vercel preview/deployment verifies the production build.
+- For anything that changes what the user sees, these checks are necessary but not sufficient. [`docs/VISUAL-VERIFICATION.md`](docs/VISUAL-VERIFICATION.md) defines the visual procedure: deterministic captures, exact decoded-pixel comparison, flicker review, and Vercel preview vs production as the merge gate.
+
+### Example: SCSS → Tailwind CSS v4
+
+The styling migration ran as a series of phased PRs, completed in [PR #48](https://github.com/maubayuelo/shamanicca-ecommerce-graphQL/pull/48) (merge `362bb921`). Its contract was zero unintended visual change, checked per `docs/VISUAL-VERIFICATION.md`: early phases with a manual capture protocol, later ones with the capture and replay tooling in `scripts/` (recorded GraphQL fixtures, a media cache, zero-tolerance pixel comparison).
+
+### Agent skills
+
+This repo carries a curated, version-pinned set of **14 agent skills** (in `.agents/skills/`, e.g. `deploy-to-vercel`, `vercel-react-best-practices`, `web-design-guidelines`) with their sources and content hashes locked in `skills-lock.json`, so AI-assisted work stays reproducible. `.claude/skills/` holds symlinks into the same set for Claude Code's discovery path — same skills, one source of truth. These are curated third-party skills, pinned like any other dependency. They are one layer of the harness, alongside the instructions and gates above.
+
 ---
 
 ## Roadmap
