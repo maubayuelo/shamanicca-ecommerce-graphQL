@@ -194,7 +194,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/images/logo.png`,
+        url: `${siteUrl}/favicon/android-chrome-512x512.png`,
       },
     },
     url: `${siteUrl}/blog/${post.slug}`,
