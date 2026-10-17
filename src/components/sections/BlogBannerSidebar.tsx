@@ -36,7 +36,7 @@ export default function BlogBannerSidebar({
           {title && <div className="type-xl type-extrabold [.group:hover_&]:text-[#675dff]">{title}</div>}
           {subtitle && <div className="type-md [.group:hover_&]:text-[#675dff]">{subtitle}</div>}
           {isAffilliated && (
-          <div className="type-italic type-xs mt-0" aria-label="Affiliated">Affilliated Ad</div>
+          <div className="type-italic type-xs mt-0" aria-label="Affiliated">Affiliated Ad</div>
         )}
         </div>
         {ctaLabel && (

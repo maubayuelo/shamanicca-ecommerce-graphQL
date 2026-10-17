@@ -36,7 +36,7 @@ export default function BlogBanner({ title, subtitle, ctaLabel, href = '#', imag
         <div className="blog-banner__title type-2xl type-extrabold text-black transition-[color] duration-200 ease-[ease-in-out] [.group:hover_&]:text-[#675dff]">{title}</div>
         {subtitle && <div className="blog-banner__subtitle type-sm mb-0 text-black transition-[color] duration-200 ease-[ease-in-out] [.group:hover_&]:text-[#675dff]">{subtitle}</div>}
         {isAffilliated && (
-          <div className="type-xs mt-0 type-italic" aria-label="Affiliated">Affilliated Ad</div>
+          <div className="type-xs mt-0 type-italic" aria-label="Affiliated">Affiliated Ad</div>
         )}
       </div>
       {ctaLabel && (
