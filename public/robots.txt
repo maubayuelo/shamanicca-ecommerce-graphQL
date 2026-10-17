@@ -4,6 +4,5 @@ Allow: /
 # Block internal/utility paths
 Disallow: /api/
 Disallow: /cart
-Disallow: /_next/
 
 Sitemap: https://shamanicca.com/sitemap.xml
