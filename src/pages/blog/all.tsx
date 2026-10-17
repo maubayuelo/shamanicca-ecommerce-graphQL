@@ -26,10 +26,10 @@
  */
 
 import { Fragment } from 'react';
-import Head from 'next/head';
 import type { GetServerSideProps } from 'next';
 import Header from '../../components/organisms/Header';
 import Footer from '../../components/organisms/Footer';
+import SeoHead from '../../components/atoms/SeoHead';
 import BlogHeader from '../../components/sections/BlogHeader';
 import BlogGrid, { type BlogGridItem } from '../../components/sections/BlogGrid';
 import BlogSidebar from '../../components/sections/BlogSidebar';
@@ -76,9 +76,11 @@ export default function AllPostsPage({ items, currentPage, totalItems, topReads,
 
   return (
     <Fragment>
-      <Head>
-        <title>All Posts — Shamanicca</title>
-      </Head>
+      <SeoHead
+        title="All Posts — Blog"
+        description="Every article on the Shamanicca blog: spiritual practice, ritual, divination, symbols and tradition, newest first."
+        canonical={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com'}${hrefBuilder(currentPage)}`}
+      />
       <div>
         <main>
           <Header />
