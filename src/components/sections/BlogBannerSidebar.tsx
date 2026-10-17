@@ -25,7 +25,7 @@ export default function BlogBannerSidebar({
       href={href}
       className={`blog-sidebar__banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group self-stretch pr-4 bg-white overflow-hidden outline-1 outline-solid outline-gray-800 justify-start mt-4 -mb-7.5 items-center gap-4 inline-flex [&.is-affilliated]:bg-gray-100 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
       target={isAffilliated ? '_blank' : undefined}
-      rel={isAffilliated ? 'noopener noreferrer' : undefined}
+      rel={isAffilliated ? 'noopener noreferrer sponsored' : undefined}
     >
       <div className="blog-sidebar__banner-image w-37.5 [height:-webkit-fill-available] [padding:0] relative bg-black">
         <Image className="w-full h-full object-cover block" src={imageUrl} alt={title || ''} width={180} height={180} />

@@ -19,7 +19,7 @@ export default function BlogBanner({ title, subtitle, ctaLabel, href = '#', imag
       href={href}
       className={`blog-banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-11 sm:flex-row sm:items-center sm:gap-4 sm:pr-4 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffilliated ? ' is-affilliated' : ''} ${className}`}
       target={isAffilliated ? '_blank' : undefined}
-      rel={isAffilliated ? 'noopener noreferrer' : undefined}
+      rel={isAffilliated ? 'noopener noreferrer sponsored' : undefined}
     >
       <div className="blog-banner__image w-full h-52.5 relative overflow-hidden sm:w-37.5 sm:h-37.5 sm:shrink-0 xl:w-52.5">
         <picture>
