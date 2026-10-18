@@ -750,7 +750,7 @@
     box-shadow: 0px 3px 6px -3px rgba(0, 0, 0, 0.05);
   }
   .form-control::placeholder {
-    color: #a8a8a8;
+    color: var(--color-gray-800);
   }
   .form-control:focus {
     border-color: var(--color-primary-500);

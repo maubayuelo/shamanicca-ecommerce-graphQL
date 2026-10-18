@@ -408,7 +408,7 @@ export default function Header() {
               name="q"
               placeholder="Search products or posts"
               autoComplete="off"
-              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-500 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
+              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
             />
             <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [line-height:24px] [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[10px_15px] rounded-l-none rounded-r-control [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none]">Search</button>
           </div>
