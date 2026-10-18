@@ -606,8 +606,18 @@
   }
 }
 @layer components {
+  /* Size scale: .btn is medium; .btn-small / .btn-large below. min-height
+     (not height) so a label that wraps on a narrow screen grows instead of
+     being clipped by overflow: hidden. */
   .btn {
+    box-sizing: border-box;
+    min-height: 48px;
+    padding: 0 24px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
     font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -619,17 +629,6 @@
     cursor: pointer;
     transition: all 0.2s ease;
     overflow: hidden;
-    padding: 15px 15px;
-  }
-  @media (min-width: 768px) {
-    .btn {
-      padding: 15px 15px;
-    }
-  }
-  @media (min-width: 1024px) {
-    .btn {
-      padding: 15px 30px;
-    }
   }
   .btn {
     -webkit-font-smoothing: antialiased;
@@ -679,10 +678,19 @@
     text-decoration: none;
   }
   .btn-small {
-    padding: 5px 10px;
+    min-height: 40px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+  .btn-medium {
+    min-height: 48px;
+    padding: 0 24px;
+    font-size: 16px;
   }
   .btn-large {
-    padding: 15px 15px;
+    min-height: 54px;
+    padding: 0 30px;
+    font-size: 16px;
   }
 }
 @layer cms {

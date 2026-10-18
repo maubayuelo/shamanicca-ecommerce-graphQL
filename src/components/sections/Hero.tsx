@@ -83,14 +83,14 @@ export default function Hero() {
             )}
 
             {(data.cta_1_label || data.cta_2_label) && (
-              <div className="flex flex-wrap gap-legacy-15">
+              <div className="flex flex-wrap gap-3 sm:gap-legacy-15">
                 {data.cta_1_label && data.cta_1_url && (
-                  <Link href={data.cta_1_url} className="btn btn-primary btn-large">
+                  <Link href={data.cta_1_url} className="btn btn-primary btn-large w-full sm:w-auto">
                     {data.cta_1_label}
                   </Link>
                 )}
                 {data.cta_2_label && data.cta_2_url && (
-                  <Link href={data.cta_2_url} className="btn btn-secondary btn-large">
+                  <Link href={data.cta_2_url} className="btn btn-secondary btn-large w-full sm:w-auto">
                     {data.cta_2_label}
                   </Link>
                 )}
