@@ -89,7 +89,7 @@ export default function CartPage() {
             <div className="cart__layout grid grid-cols-[1fr] gap-7.5 lg:grid-cols-[2fr_1fr] lg:[align-items:start]">
               <ul className="cart__items list-none [padding:0] [margin:0] grid gap-legacy-15">
                 {items.map((i) => (
-                  <li key={i.key} className="cart__item grid grid-cols-[96px_1fr_auto] gap-legacy-15 items-center p-legacy-15 border border-gray-300 rounded-[10px] bg-white [@media(max-width:768px)]:grid-cols-[96px_1fr]">
+                  <li key={i.key} className="cart__item grid grid-cols-[96px_1fr_auto] gap-legacy-15 items-center p-legacy-15 border border-gray-300 rounded-control bg-white [@media(max-width:768px)]:grid-cols-[96px_1fr]">
                     <div className="cart__thumb w-[96px] h-[96px] rounded-[10px] overflow-hidden bg-gray-50">
                       {i.product.image?.sourceUrl ? (
                         <Image

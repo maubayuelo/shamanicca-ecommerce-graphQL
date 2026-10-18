@@ -76,6 +76,9 @@
   --font-weight-semibold: 600;
   --font-weight-black:    900;
 
+  /* Shared radius for buttons, inputs, selects and cart items. */
+  --radius-control: 10px;
+
   /* Cookie consent bar entrance. */
   --animate-cookie-slide-up: cookie-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 
