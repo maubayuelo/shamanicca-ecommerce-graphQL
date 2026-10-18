@@ -743,7 +743,7 @@
   .form-control {
     padding: 15px;
     background: var(--color-white);
-    border: 1px solid #dbdbdb;
+    border: 1px solid var(--color-gray-600);
     border-radius: var(--radius-control);
     color: #000;
     transition: all 0.2s ease;
@@ -753,10 +753,10 @@
     color: #a8a8a8;
   }
   .form-control:focus {
-    border-color: #675dff;
+    border-color: var(--color-primary-500);
   }
   .form-control:hover:not(:focus) {
-    border-color: var(--color-gray-400);
+    border-color: var(--color-gray-800);
   }
   .form-control:disabled {
     background-color: #f0f0f0;
