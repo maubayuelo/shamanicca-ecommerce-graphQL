@@ -16,7 +16,7 @@ export function NewsletterConfirmation({
   const isFooter = variant === 'footer';
   const layout = isFooter
     ? 'items-center text-center gap-2 lg:items-start lg:text-left'
-    : 'items-center text-center gap-legacy-15';
+    : 'items-center text-center gap-4';
   const checkSize = isFooter ? 20 : 24;
 
   return (

@@ -59,13 +59,6 @@
   --shadow-lg: 0 4px 24px rgb(0 0 0 / 0.10);
   --shadow-lg-up: 0 -4px 24px rgb(0 0 0 / 0.10);
 
-  /* Spacing stays on Tailwind's default 4px scale. These three values from
-  the SCSS system cannot be expressed on it exactly. Temporary — retire
-  once each call site is checked against p-4/p-6/p-11 (within 1–3px). */
-  --spacing-legacy-15: 0.9375rem;   /* 15px — was $spacing-15 */
-  --spacing-legacy-25: 1.5625rem;   /* 25px — was $spacing-25 */
-  --spacing-legacy-45: 2.8125rem;   /* 45px — was $spacing-45 */
-
   /* Type scale — mobile-first. These are the phone/tablet values; desktop
   sizes are applied with md:/lg: variants in markup. xs–xl are identical
   across all breakpoints and need no variants. NOTE: text-5xl is 32px

@@ -133,7 +133,7 @@ export default function SearchPage() {
               <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[15px_30px] rounded-l-none rounded-r-control [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none] [.search-page__form_&:hover]:border-[#675dff] [.search-page__form_&:active]:border-[#675dff]">Search</button>
             </div>
 
-            <fieldset className="header__search_scope flex gap-legacy-15 border-0 [margin:0] [padding:0] mt-[15px]">
+            <fieldset className="header__search_scope flex gap-4 border-0 [margin:0] [padding:0] mt-[15px]">
               <legend className="visually-hidden">Search scope</legend>
               <label className="header__search_radio inline-flex items-center gap-1.25 text-black">
                 <input type="radio" name="scope" value="shop" checked={scope === 'shop'} onChange={() => changeScope('shop')} className="[accent-color:#675dff] [margin:0]" />
