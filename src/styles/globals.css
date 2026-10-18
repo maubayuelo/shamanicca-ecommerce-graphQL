@@ -595,6 +595,16 @@
   button, input, select, textarea {
     font: inherit;
   }
+  /* WCAG 2.4.7 / 2.4.11: keyboard-only focus ring, 4.58:1 on white. */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  .btn:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
   a {
     color: #000;
     text-decoration: none;
@@ -743,9 +753,7 @@
     color: #a8a8a8;
   }
   .form-control:focus {
-    outline: none;
     border-color: #675dff;
-    box-shadow: 0px 3px 6px -3px rgba(112, 90, 248, 0.15);
   }
   .form-control:hover:not(:focus) {
     border-color: var(--color-gray-400);

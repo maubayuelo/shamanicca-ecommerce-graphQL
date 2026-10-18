@@ -408,7 +408,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               images={images}
             />
 
-            <div className="flex flex-col gap-7.5 overflow-hidden">
+            <div className="flex flex-col gap-7.5 min-w-0 overflow-hidden [&:has(:focus-visible)]:overflow-visible">
               
               <h1 className="mt-lg-responsive mb-0 type-5xl type-antialiased font-black text-black">{title}</h1>
 
@@ -426,7 +426,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     <label htmlFor="size" className="text-sm font-semibold text-black">Size</label>
                     <select
                       id="size"
-                      className="w-full text-sm py-2.5 px-3 bg-white border border-gray-300 rounded-control shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
+                      className="w-full text-sm py-2.5 px-3 bg-white border border-gray-300 rounded-control shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] focus:border-[#675dff]"
                       value={size}
                       onChange={(e) => {
                         setSize(e.target.value);
@@ -464,7 +464,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     </button>
                     <input
                       id="quantity"
-                      className="w-17.5 text-sm text-center py-2.5 px-3 bg-white border border-gray-300 rounded-control shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
+                      className="w-17.5 text-sm text-center py-2.5 px-3 bg-white border border-gray-300 rounded-control shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] focus:border-[#675dff]"
                       type="number"
                       min={1}
                       value={qty}
