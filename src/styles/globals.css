@@ -590,6 +590,11 @@
 }
 
 @layer base {
+  /* Preflight is off: without this, form controls fall back to the UA font
+     (Arial 13.33px) instead of the page's Poppins. */
+  button, input, select, textarea {
+    font: inherit;
+  }
   a {
     color: #000;
     text-decoration: none;
