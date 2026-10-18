@@ -48,7 +48,7 @@ export default function NewsletterPage({ page }: Props) {
                   message="Thank you for confirming your subscription. Welcome to the Shamanicca community."
                 />
                 <p className="type-md type-center">
-                  <Link href="/blog" className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#675dff]">Explore the blog</Link>
+                  <Link href="/blog">Explore the blog</Link>
                 </p>
               </>
             ) : (
