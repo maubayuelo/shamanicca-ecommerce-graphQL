@@ -108,7 +108,7 @@ export default function NewsletterForm({ className = '', confirmationVariant = '
         </button>
       </form>
       {error && (
-        <span id="newsletter-error" className="field-error type-sm" role="alert" style={{ display: 'block', marginTop: 8 }}>
+        <span id="newsletter-error" className="field-error type-sm text-highlighted-600" role="alert" style={{ display: 'block', marginTop: 8 }}>
           {error}
         </span>
       )}

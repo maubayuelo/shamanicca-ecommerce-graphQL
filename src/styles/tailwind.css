@@ -32,6 +32,9 @@
   /* Sale badges. Lossless conversion of #ea3323. Adopting Tailwind's
   red palette is queued as a separate, deliberate change. */
   --color-highlighted-500: oklch(61.1% 0.220 29.8);
+  /* #d42a1f: 5.06:1 with white. SALE badges and the error state
+  (text, border, marker); 500 stays for large fills. */
+  --color-highlighted-600: oklch(56.5% 0.206 29.2);
 
   /* Neutrals — chroma 0, genuinely neutral. Renumbered sequentially from
   the SCSS gray-10…gray-90. NOTE: lighter than Tailwind's defaults at
