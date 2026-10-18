@@ -304,7 +304,7 @@ export default function Header() {
             </nav>
           </div>
           <div className="flex items-center gap-legacy-15">
-            <button aria-label="search" className="bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60" onClick={toggleSearch}>
+            <button aria-label="search" className="inline-flex items-center bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60" onClick={toggleSearch}>
               <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="size-6" />
             </button>
             <Link href="/wishlist" aria-label="Wishlist" className="relative inline-flex items-center no-underline bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60">
@@ -321,7 +321,7 @@ export default function Header() {
             </Link>
             <button
               aria-label="Toggle mobile menu"
-              className="inline-block xl:hidden bg-transparent border-0"
+              className="inline-flex items-center xl:hidden bg-transparent border-0"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               <Image
@@ -408,9 +408,9 @@ export default function Header() {
               name="q"
               placeholder="Search products or posts"
               autoComplete="off"
-              className="[font-family:Poppins,sans-serif] text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-300 border-r-0 rounded-[10px_0_0_10px] text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-500 [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
+              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-300 border-r-0 rounded-l-control rounded-r-none text-black [transition:all_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-500 [&:focus]:[outline:none] [&:focus]:border-[#675dff] [&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(112,90,248,0.15)] [&:hover:not(:focus)]:border-gray-400 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
             />
-            <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [line-height:24px] [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[10px_15px] rounded-[0_10px_10px_0] [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none]">Search</button>
+            <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [line-height:24px] [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[10px_15px] rounded-l-none rounded-r-control [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none]">Search</button>
           </div>
 
           <fieldset className="header__search_scope flex gap-legacy-15 border-0 [margin:0] [padding:0]">

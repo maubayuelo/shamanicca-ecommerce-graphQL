@@ -23,13 +23,13 @@ export default function CookieConsent() {
       </p>
       <div className="flex items-center gap-2.5 shrink-0 w-full justify-end sm:w-auto sm:justify-start">
         <button
-          className="[font-family:inherit] rounded-full py-2 px-5 text-[13px] font-black whitespace-nowrap cursor-pointer [transition:background_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease,transform_0.1s_ease] active:[transform:scale(0.97)] bg-transparent border border-gray-300 text-gray-800 hover:bg-black hover:text-white hover:border-black"
+          className="rounded-full py-2 px-5 text-[13px] font-black whitespace-nowrap cursor-pointer [transition:background_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease,transform_0.1s_ease] active:[transform:scale(0.97)] bg-transparent border border-gray-300 text-gray-800 hover:bg-black hover:text-white hover:border-black"
           onClick={rejectAll}
         >
           Necessary only
         </button>
         <button
-          className="[font-family:inherit] rounded-full py-2 px-5 text-[13px] font-black whitespace-nowrap cursor-pointer [transition:background_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease,transform_0.1s_ease] active:[transform:scale(0.97)] bg-primary-500 border border-transparent text-white hover:bg-black"
+          className="rounded-full py-2 px-5 text-[13px] font-black whitespace-nowrap cursor-pointer [transition:background_0.2s_ease,color_0.2s_ease,border-color_0.2s_ease,transform_0.1s_ease] active:[transform:scale(0.97)] bg-primary-500 border border-transparent text-white hover:bg-black"
           onClick={acceptAll}
         >
           Accept all

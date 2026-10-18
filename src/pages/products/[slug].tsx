@@ -426,7 +426,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     <label htmlFor="size" className="text-sm font-semibold text-black">Size</label>
                     <select
                       id="size"
-                      className="w-full py-2.5 px-3 bg-white border border-gray-300 rounded-[10px] shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
+                      className="w-full text-sm py-2.5 px-3 bg-white border border-gray-300 rounded-control shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
                       value={size}
                       onChange={(e) => {
                         setSize(e.target.value);
@@ -456,7 +456,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                   <div className="inline-flex items-center gap-2.5">
                     <button
                       type="button"
-                      className="size-9 rounded-lg border border-gray-300 bg-white cursor-pointer"
+                      className="size-9 text-sm rounded-control border border-gray-300 bg-white cursor-pointer"
                       aria-label="Decrease quantity"
                       onClick={() => setQty((q) => Math.max(1, q - 1))}
                     >
@@ -464,7 +464,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     </button>
                     <input
                       id="quantity"
-                      className="w-17.5 text-center py-2.5 px-3 bg-white border border-gray-300 rounded-[10px] shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
+                      className="w-17.5 text-sm text-center py-2.5 px-3 bg-white border border-gray-300 rounded-control shadow-[0_3px_6px_-3px_rgba(0,0,0,0.05),0_2px_4px_-2px_rgba(0,0,0,0.05),0_1px_2px_-1px_rgba(0,0,0,0.05)] outline-none focus:border-[#675dff] focus:shadow-[0_0_0_3px_rgba(103,93,255,0.1)]"
                       type="number"
                       min={1}
                       value={qty}
@@ -473,7 +473,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                     />
                     <button
                       type="button"
-                      className="size-9 rounded-lg border border-gray-300 bg-white cursor-pointer"
+                      className="size-9 text-sm rounded-control border border-gray-300 bg-white cursor-pointer"
                       aria-label="Increase quantity"
                       onClick={() => setQty((q) => q + 1)}
                     >
@@ -516,7 +516,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
               )}
 
               <button
-                className={`product__wishlist-btn flex w-full items-center justify-center gap-2.5 py-3.5 px-5 border-[1.5px] rounded-[10px] cursor-pointer [font-family:Poppins,sans-serif] text-sm font-semibold transition-[border-color,color,background] duration-150 ease-[ease] ${wishlisted ? 'is-wishlisted border-[#675dff] bg-[#e7e1ff] text-[#675dff]' : 'border-gray-300 bg-transparent text-black [&:hover]:border-[#675dff] [&:hover]:text-[#675dff]'}`}
+                className={`product__wishlist-btn flex w-full items-center justify-center gap-2.5 py-3.5 px-5 border-[1.5px] rounded-control cursor-pointer text-sm font-semibold transition-[border-color,color,background] duration-150 ease-[ease] ${wishlisted ? 'is-wishlisted border-[#675dff] bg-[#e7e1ff] text-[#675dff]' : 'border-gray-300 bg-transparent text-black [&:hover]:border-[#675dff] [&:hover]:text-[#675dff]'}`}
                 onClick={() => {
                   if (!product || !wishlistId) return;
                   toggle({
