@@ -257,7 +257,7 @@ export default function Header() {
 
   return (
     <Fragment>
-    <header ref={headerRef} className="header sticky top-0 z-[1000] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+    <header ref={headerRef} className="header sticky top-0 z-[1000] bg-white shadow-md">
       {/* <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
       </div> */}
@@ -275,7 +275,7 @@ export default function Header() {
             <nav className="hidden h-full xl:flex! font-[family-name:var(--font-main)]" aria-label="Main navigation">
               {computedNav.map((item) => (
                 <div key={item.id} className="header__nav_item_wrapper group relative flex items-center hover:bg-gray-200 focus:bg-gray-200">
-                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu after:block after:w-[9px] after:h-[9px] after:bg-current after:mask-[url(/images/icon-chevron-down.svg)] after:mask-no-repeat after:mask-center after:mask-contain' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 p-legacy-15 h-[calc(100%-30px)] text-base text-black no-underline cursor-pointer hover:text-primary-500 focus:text-primary-500`}>
+                  <Link href={item.href} className={`header__nav_item ${item.children ? 'has-submenu after:block after:w-[9px] after:h-[9px] after:bg-current after:mask-[url(/images/icon-chevron-down.svg)] after:mask-no-repeat after:mask-center after:mask-contain' : ''} type-bold relative flex flex-row flex-nowrap items-center content-center justify-between gap-1.5 box-border h-full px-4 py-3.75 text-base text-black no-underline cursor-pointer hover:text-primary-500 focus:text-primary-500`}>
                     {item.label}
                   </Link>
                   
@@ -290,7 +290,7 @@ export default function Header() {
                                   ? (child as any).href
                                   : `/shop/${child.id}`
                               }
-                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-[#111] no-underline hover:text-primary-500"
+                              className="type-md type-bold block m-0 py-1.25 box-border w-full px-4 text-gray-900 no-underline hover:text-primary-500"
                             >
                               {child.label}
                             </Link>
@@ -303,7 +303,7 @@ export default function Header() {
               ))}
             </nav>
           </div>
-          <div className="flex items-center gap-legacy-15">
+          <div className="flex items-center gap-4">
             <button aria-label="search" className="inline-flex items-center bg-transparent border-0 cursor-pointer p-0 m-0 hover:opacity-60" onClick={toggleSearch}>
               <Image src="/images/icon-magnifying-glass.svg" alt="Search" width={24} height={24} className="size-6" />
             </button>
@@ -338,16 +338,16 @@ export default function Header() {
         </div>
       </div>
 
-      <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]" />
+      <hr className="m-0 border-0 border-t border-solid border-t-gray-400" />
 
-      <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
+      <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-md' : 'hidden'}`}>
         <nav ref={mobileNavRef} className="pb-sm-responsive bg-white" aria-label="Mobile navigation">
           {computedNav.map((item) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = mobileExpandedId === item.id;
             return (
               <div key={item.id} className="border-b border-b-gray-200">
-                <div className="flex items-center justify-between p-legacy-15">
+                <div className="flex items-center justify-between p-4">
                   <Link
                     href={item.href}
                     className="type-bold text-black no-underline flex-1"
@@ -367,12 +367,12 @@ export default function Header() {
                   )}
                 </div>
                 {hasChildren && isExpanded && (
-                  <ul className="list-none pt-0 pr-legacy-15 pb-legacy-15 pl-7.5 m-0 bg-gray-50">
+                  <ul className="list-none pt-0 pr-4 pb-4 pl-7.5 m-0 bg-gray-50">
                     {item.children!.map((child: any) => (
                       <li key={child.id} className="py-1.5 px-0">
                         <Link
                           href={item.id === 'blog' && child.href ? child.href : `/shop/${child.id}`}
-                          className="text-[#333] no-underline [&:hover]:text-primary-500"
+                          className="text-gray-900 no-underline [&:hover]:text-primary-500"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
@@ -390,7 +390,7 @@ export default function Header() {
 
     {/* Search Overlay (moved outside header to layer beneath it) */}
     <div
-      className={`header__search fixed left-0 top-[var(--header-height,_64px)] bg-black p-legacy-15 w-[calc(100%-30px)] z-[900] overflow-hidden [transition:max-height_0.25s_ease,opacity_0.2s_ease,transform_0.25s_ease] ${searchOpen ? 'max-h-65 opacity-100 [transform:translateY(0)] pointer-events-auto' : 'max-h-0 opacity-0 [transform:translateY(-9px)] pointer-events-none'}`}
+      className={`header__search fixed left-0 top-[var(--header-height,_64px)] bg-black box-border w-full p-4 z-[900] overflow-hidden [transition:max-height_0.25s_ease,opacity_0.2s_ease,transform_0.25s_ease] ${searchOpen ? 'max-h-65 opacity-100 [transform:translateY(0)] pointer-events-auto' : 'max-h-0 opacity-0 [transform:translateY(-9px)] pointer-events-none'}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby="header-search-title"
@@ -398,7 +398,7 @@ export default function Header() {
     >
       <div className="mx-auto text-white flex flex-row justify-between w-full max-w-150 items-start md:items-center" role="document">
         <h2 id="header-search-title" className="visually-hidden">Site search</h2>
-        <form className="header__search_form form--condensed w-full flex flex-col gap-legacy-15 sm:flex-row" role="search" aria-label="Site search" onSubmit={handleSearchSubmit}>
+        <form className="header__search_form form--condensed w-full flex flex-col gap-4 sm:flex-row" role="search" aria-label="Site search" onSubmit={handleSearchSubmit}>
           <div className="header__search_field grid grid-cols-[1fr_auto] items-center w-full">
             <label htmlFor="global-search" className="visually-hidden">Search</label>
             <input
@@ -408,12 +408,12 @@ export default function Header() {
               name="q"
               placeholder="Search products or posts"
               autoComplete="off"
-              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
+              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
             />
             <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [line-height:24px] [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[10px_15px] rounded-l-none rounded-r-control [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none]">Search</button>
           </div>
 
-          <fieldset className="header__search_scope flex gap-legacy-15 border-0 [margin:0] [padding:0]">
+          <fieldset className="header__search_scope flex gap-4 border-0 [margin:0] [padding:0]">
             <legend className="visually-hidden">Search scope</legend>
             <label className="header__search_radio inline-flex items-center gap-1.25 text-white">
               <input type="radio" name="scope" value="shop" defaultChecked className="[accent-color:#675dff] [margin:0]" />
@@ -427,8 +427,8 @@ export default function Header() {
         </form>
 
         <div className="block w-fit float-right">
-          <button aria-label="Close search" className="bg-transparent border-0 cursor-pointer p-0 ml-legacy-15 size-legacy-15" onClick={() => setSearchOpen(false)}>
-            <Image src="/images/icon-close.svg" alt="Close" width={20} height={20} className="size-legacy-15 invert" />
+          <button aria-label="Close search" className="bg-transparent border-0 cursor-pointer p-0 ml-4 size-4" onClick={() => setSearchOpen(false)}>
+            <Image src="/images/icon-close.svg" alt="Close" width={20} height={20} className="size-4 invert" />
           </button>
         </div>
       </div>

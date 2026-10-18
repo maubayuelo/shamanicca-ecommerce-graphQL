@@ -58,7 +58,7 @@ function BlogGridCard({ item }: { item: BlogGridItem }) {
   const img = item.imageUrlMedium || item.imageUrl || 'https://placehold.co/350x233.png';
   const summaryText = item.summary ? (item.summary.length > 57 ? item.summary.slice(0, 56).trimEnd() + '…' : item.summary) : undefined;
   return (
-    <article className="flex flex-col gap-legacy-15 sm:flex-row">
+    <article className="flex flex-col gap-4 sm:flex-row">
       <a href={item.href || '#'} className="relative block w-full max-w-full h-57.5 rounded-[15px] overflow-hidden shrink-0 sm:w-37.5 sm:h-37.5" aria-label={`Read ${item.title}`}>
         <Image className="block w-full h-full object-cover rounded-[inherit]" src={img} alt="" width={350} height={233} loading="lazy" sizes="(max-width: 600px) 100vw, 150px" />
       </a>

@@ -77,13 +77,13 @@ export default function Hero() {
               </h1>
             )}
             {data.hero_body_text && (
-              <p className="type-lg mx-0 mt-0 mb-legacy-25 max-w-[60ch] text-gray-800">
+              <p className="type-lg mx-0 mt-0 mb-6 max-w-[60ch] text-gray-800">
                 {data.hero_body_text}
               </p>
             )}
 
             {(data.cta_1_label || data.cta_2_label) && (
-              <div className="flex flex-wrap gap-3 sm:gap-legacy-15">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
                 {data.cta_1_label && data.cta_1_url && (
                   <Link href={data.cta_1_url} className="btn btn-primary btn-large w-full sm:w-auto">
                     {data.cta_1_label}

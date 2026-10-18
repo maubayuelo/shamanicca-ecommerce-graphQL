@@ -8,7 +8,7 @@ export default function Footer({ showNewsletterSignup = true }: FooterProps) {
   return (
     <footer className="border-t border-gray-300">
       <div className="main py-7.5 sm:py-15">
-        <div className="grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[34%_24%_15%_15%] xl:grid-cols-[30%_30%_15%_15%] xl:gap-legacy-45">
+        <div className="grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[34%_24%_15%_15%] xl:grid-cols-[30%_30%_15%_15%] xl:gap-11">
           <div className="flex flex-col">
             {showNewsletterSignup && (
               <>
@@ -18,20 +18,20 @@ export default function Footer({ showNewsletterSignup = true }: FooterProps) {
                   Hit subscribe and save – your inbox will thank you.
                 </p>
 
-                <NewsletterForm className="mt-legacy-15" confirmationVariant="footer" />
+                <NewsletterForm className="mt-4" confirmationVariant="footer" />
               </>
             )}
 
             <div className="mt-xl-responsive mb-lg-responsive">
               <div className="type-sm mb-sm-responsive">Catch updates following us on:</div>
               <div className="flex gap-7.5">
-                <a className="size-legacy-45 rounded-md bg-white [&_img]:w-full [&_img]:h-full [&_img]:object-contain" href="https://instagram.com/shamaniccatv" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <a className="size-11 rounded-md bg-white [&_img]:w-full [&_img]:h-full [&_img]:object-contain" href="https://instagram.com/shamaniccatv" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                   <Image src="/images/icon-social-ig.svg" alt="Instagram" width={30} height={30} />
                 </a>
-                <a className="size-legacy-45 rounded-md bg-white [&_img]:w-full [&_img]:h-full [&_img]:object-contain" href="https://www.youtube.com/@shamanicca" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+                <a className="size-11 rounded-md bg-white [&_img]:w-full [&_img]:h-full [&_img]:object-contain" href="https://www.youtube.com/@shamanicca" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
                   <Image src="/images/icon-social-yt.svg" alt="YouTube" width={30} height={30} />
                 </a>
-                <a className="size-legacy-45 rounded-md bg-white [&_img]:w-full [&_img]:h-full [&_img]:object-contain" href="https://www.tiktok.com/@shamaniccatv" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                <a className="size-11 rounded-md bg-white [&_img]:w-full [&_img]:h-full [&_img]:object-contain" href="https://www.tiktok.com/@shamaniccatv" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
                   <Image src="/images/icon-social-tt.svg" alt="TikTok" width={30} height={30} />
                 </a>
               </div>

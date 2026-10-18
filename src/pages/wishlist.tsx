@@ -66,7 +66,7 @@ export default function WishlistPage() {
           {hydrated && items.length > 0 && (
             <div className="wishlist-grid grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)]">
               {items.map((item) => (
-                <div key={item.id} className="wishlist-tile flex flex-col gap-legacy-15">
+                <div key={item.id} className="wishlist-tile flex flex-col gap-4">
                   <Link href={`/products/${item.slug}`} className="wishlist-tile__image-wrap rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] relative block w-full aspect-square overflow-hidden bg-gray-50 after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_var(--color-gray-200)] after:pointer-events-none" aria-label={`View ${item.name}`}>
                     {item.image ? (
                       <Image
@@ -97,7 +97,7 @@ export default function WishlistPage() {
                     </div>
                   </div>
 
-                  <div className="wishlist-tile__actions flex items-center gap-legacy-15 mt-[5px]">
+                  <div className="wishlist-tile__actions flex items-center gap-4 mt-[5px]">
                     <Link href={`/products/${item.slug}`} className="btn btn-primary btn-small">
                       View Product
                     </Link>

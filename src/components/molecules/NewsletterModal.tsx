@@ -84,10 +84,10 @@ export default function NewsletterModal() {
   return (
     <div className="fixed inset-0 z-[9500] flex items-end justify-center animate-modal-fade-in sm:items-center" role="dialog" aria-modal="true" aria-label="Subscribe to our newsletter">
       <button className="absolute inset-0 size-full bg-black/55 border-0 cursor-pointer" onClick={dismiss} aria-label="Close" />
-      <div className="relative bg-white w-full max-w-120 rounded-t-3xl pt-legacy-45 px-7.5 pb-7.5 animate-modal-slide-up sm:rounded-3xl sm:py-15 sm:px-legacy-45">
-        <button className="absolute top-legacy-15 right-legacy-15 size-8 rounded-full border border-gray-200 bg-white text-gray-700 text-[14px] cursor-pointer flex items-center justify-center [transition:background_0.15s,color_0.15s] hover:bg-gray-50 hover:text-black" onClick={dismiss} aria-label="Close">✕</button>
+      <div className="relative bg-white w-full max-w-120 rounded-t-3xl pt-11 px-7.5 pb-7.5 animate-modal-slide-up sm:rounded-3xl sm:py-15 sm:px-11">
+        <button className="absolute top-4 right-4 size-8 rounded-full border border-gray-200 bg-white text-gray-700 text-[14px] cursor-pointer flex items-center justify-center [transition:background_0.15s,color_0.15s] hover:bg-gray-50 hover:text-black" onClick={dismiss} aria-label="Close">✕</button>
 
-        <div className="flex flex-col gap-legacy-15">
+        <div className="flex flex-col gap-4">
           <div className="type-sm type-bold type-uppercase text-primary-500 tracking-[0.08em]">New drops & offers</div>
           <h2 className="type-4xl type-extrabold m-0">
             Get the<br />good stuff.

@@ -9,7 +9,7 @@ export default function CookieConsent() {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-[9000] flex flex-col items-start gap-legacy-15 p-5 bg-white border-t border-gray-200 shadow-[0_-4px_24px_rgba(0,0,0,0.06)] animate-cookie-slide-up sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:py-legacy-15 sm:px-7.5"
+      className="fixed bottom-0 left-0 right-0 z-[9000] flex flex-col items-start gap-4 p-5 bg-white border-t border-gray-200 shadow-lg-up animate-cookie-slide-up sm:flex-row sm:items-center sm:justify-between sm:gap-5 sm:py-4 sm:px-7.5"
       role="region"
       aria-label="Cookie consent"
       aria-live="polite"

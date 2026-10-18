@@ -369,7 +369,7 @@
     color: #675dff;
   }
   .type-gray-80 {
-    color: #787878;
+    color: var(--color-gray-700);
   }
   .type-center {
     text-align: center;
@@ -412,7 +412,7 @@
   }
   ul li {
     font-weight: 400;
-    color: #000;
+    color: var(--color-black);
   }
 }
 @layer base {
@@ -606,7 +606,7 @@
     outline-offset: 2px;
   }
   a {
-    color: #000;
+    color: var(--color-black);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -655,12 +655,12 @@
   }
   .btn-primary:hover {
     color: var(--color-white);
-    background-color: #000;
+    background-color: var(--color-black);
     text-decoration: none;
   }
   .btn-primary:active {
     color: var(--color-white);
-    background-color: #000;
+    background-color: var(--color-black);
     text-decoration: none;
   }
   .btn-secondary {
@@ -670,25 +670,25 @@
   }
   .btn-secondary:hover {
     color: var(--color-white);
-    background-color: #000;
-    border: 2px solid #000;
+    background-color: var(--color-black);
+    border: 2px solid var(--color-black);
     text-decoration: none;
   }
   .btn-secondary:active {
     color: var(--color-white);
-    background-color: #000;
-    border: 2px solid #000;
+    background-color: var(--color-black);
+    border: 2px solid var(--color-black);
     text-decoration: none;
   }
   .btn-muted {
-    background-color: #e5e5e5;
-    color: #666666;
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-800);
     font-weight: 400;
     border: none;
   }
   .btn-muted:hover {
-    background-color: #d0d0d0;
-    color: #444444;
+    background-color: var(--color-gray-300);
+    color: var(--color-gray-900);
     text-decoration: none;
   }
   .btn-small {
@@ -753,10 +753,10 @@
     background: var(--color-white);
     border: 1px solid var(--color-gray-600);
     border-radius: var(--radius-control);
-    color: #000;
+    color: var(--color-black);
     transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease,
       box-shadow 0.2s ease;
-    box-shadow: 0px 3px 6px -3px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
   }
   .form-control::placeholder {
     color: var(--color-gray-800);
@@ -768,12 +768,12 @@
     border-color: var(--color-gray-800);
   }
   .form-control:disabled {
-    background-color: #f0f0f0;
-    color: #909090;
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-600);
     cursor: not-allowed;
   }
   .form-control:disabled::placeholder {
-    color: #a8a8a8;
+    color: var(--color-gray-500);
   }
   .form-control--condensed {
     padding: 10px;
@@ -781,7 +781,7 @@
 }
 @layer cms {
   .wp-content {
-    color: #000;
+    color: var(--color-black);
     line-height: 1.75;
   }
   .wp-content h1, .wp-content h2, .wp-content h3, .wp-content h4, .wp-content h5, .wp-content h6 {
@@ -851,16 +851,16 @@
   }
   .wp-content hr {
     border: none;
-    border-top: 1px solid #e8e8e8;
+    border-top: 1px solid var(--color-gray-200);
     margin: 45px 0;
   }
   .wp-content blockquote {
     border-left: 3px solid #675dff;
     margin: 30px 0;
     padding: 15px 20px;
-    background: #f8f8f8;
+    background: var(--color-gray-50);
     font-style: italic;
-    color: #606060;
+    color: var(--color-gray-800);
   }
   .wp-content img {
     max-width: 100%;
@@ -875,17 +875,17 @@
   }
   .wp-content table th, .wp-content table td {
     padding: 10px 15px;
-    border: 1px solid #e8e8e8;
+    border: 1px solid var(--color-gray-200);
     text-align: left;
   }
   .wp-content table th {
-    background: #f8f8f8;
+    background: var(--color-gray-50);
     font-weight: 700;
   }
 }
 :root {
-  --background: #ffffff;
-  --foreground: #000;
+  --background: var(--color-white);
+  --foreground: var(--color-black);
   --primary-500: #675dff;
   --font-main: Poppins, sans-serif;
 }
@@ -939,7 +939,7 @@ body .main-condensed {
 @layer base {
   hr {
     border: none;
-    border-top: 1px solid #f8f8f8;
+    border-top: 1px solid var(--color-gray-50);
     margin: 0;
   }
 }

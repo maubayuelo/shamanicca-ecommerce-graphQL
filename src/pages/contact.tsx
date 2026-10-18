@@ -112,7 +112,7 @@ export default function ContactPage({ page }: Props) {
       <Header />
       <main>
         <section className="main-condensed content">
-          <div className="page mt-legacy-15 lg:mt-legacy-25 mb-7.5 lg:mb-legacy-45">
+          <div className="page mt-4 lg:mt-6 mb-7.5 lg:mb-11">
             <Breadcrumb
               ariaLabel="Breadcrumb"
               items={[{ label: 'Home', href: '/' }, { label: 'Contact Us' }]}
@@ -130,13 +130,13 @@ export default function ContactPage({ page }: Props) {
             )}
 
             {submitted ? (
-              <div className="contact-success flex flex-col items-center text-center py-15 gap-legacy-15" role="alert">
+              <div className="contact-success flex flex-col items-center text-center py-15 gap-4" role="alert">
                 <div className="contact-success__icon w-[52px] h-[52px] rounded-[50%] bg-[#675dff] text-white flex items-center justify-center text-[1.4rem] [font-weight:700]">&#10003;</div>
                 <p className="type-lg type-bold m-0">Message sent!</p>
                 <p className="type-md">Thanks for reaching out — we&apos;ll get back to you shortly.</p>
               </div>
             ) : (
-              <form className="contact-form flex flex-col gap-legacy-25 mt-7.5" onSubmit={handleSubmit} noValidate>
+              <form className="contact-form flex flex-col gap-6 mt-7.5" onSubmit={handleSubmit} noValidate>
                 {/* Honeypot — hidden from real users, bots fill it */}
                 <input
                   type="text"
@@ -149,17 +149,17 @@ export default function ContactPage({ page }: Props) {
                   style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', opacity: 0 }}
                 />
                 {serverError && (
-                  <p className="contact-form__server-error type-sm bg-[rgba(212,42,31,0.07)] border border-[rgba(212,42,31,0.3)] text-highlighted-600 rounded-[8px] p-legacy-15 [margin:0]" role="alert">{serverError}</p>
+                  <p className="contact-form__server-error type-sm bg-[rgba(212,42,31,0.07)] border border-[rgba(212,42,31,0.3)] text-highlighted-600 rounded-[8px] p-4 [margin:0]" role="alert">{serverError}</p>
                 )}
 
-                <div className="contact-form__row grid grid-cols-[1fr] gap-legacy-25 sm:grid-cols-[1fr_1fr]">
+                <div className="contact-form__row grid grid-cols-[1fr] gap-6 sm:grid-cols-[1fr_1fr]">
                   <div className={`form-field${errors.name ? ' form-field--error' : ''} flex flex-col gap-2.5 w-full`}>
                     <label htmlFor="c-name" className="form-field__label [font-size:16px] [line-height:28px] [@media(max-width:1024px)]:[line-height:26px] text-black flex items-center gap-1">
                       Name <span className="form-field__required text-highlighted-600 [font-weight:700]" aria-hidden="true">*</span>
                     </label>
                     <input
                       id="c-name"
-                      className="form-field__control [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(212,42,31,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500"
+                      className="form-field__control [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500"
                       type="text"
                       name="name"
                       value={form.name}
@@ -178,7 +178,7 @@ export default function ContactPage({ page }: Props) {
                     </label>
                     <input
                       id="c-email"
-                      className="form-field__control [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(212,42,31,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500"
+                      className="form-field__control [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500"
                       type="email"
                       name="email"
                       value={form.email}
@@ -198,7 +198,7 @@ export default function ContactPage({ page }: Props) {
                   </label>
                   <select
                     id="c-subject"
-                    className="form-field__control form-field__select [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(212,42,31,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500 [cursor:pointer] [background-image:url(data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20fill=%27none%27%20viewBox=%270%200%2020%2020%27%3e%3cpath%20stroke=%27%236b7280%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20stroke-width=%271.5%27%20d=%27M6%208l4%204%204-4%27/%3e%3c/svg%3e)] [background-position:right_12px_center] [background-repeat:no-repeat] [background-size:16px] [padding-right:40px] [appearance:none]"
+                    className="form-field__control form-field__select [font-size:14px] [line-height:24px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500 [cursor:pointer] [background-image:url(data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20fill=%27none%27%20viewBox=%270%200%2020%2020%27%3e%3cpath%20stroke=%27%236b7280%27%20stroke-linecap=%27round%27%20stroke-linejoin=%27round%27%20stroke-width=%271.5%27%20d=%27M6%208l4%204%204-4%27/%3e%3c/svg%3e)] [background-position:right_12px_center] [background-repeat:no-repeat] [background-size:16px] [padding-right:40px] [appearance:none]"
                     name="subject"
                     value={form.subject}
                     onChange={handleChange}
@@ -219,7 +219,7 @@ export default function ContactPage({ page }: Props) {
                   </label>
                   <textarea
                     id="c-message"
-                    className="form-field__control [font-size:14px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [.form-field--error_&:focus]:[box-shadow:0px_3px_6px_-3px_rgba(212,42,31,0.15)] [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500 resize-y min-h-[100px] [line-height:1.5]"
+                    className="form-field__control [font-size:14px] p-[14px_16px] bg-white border-2 border-gray-600 rounded-control text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 [.form-field--error_&]:border-highlighted-600 [.form-field--error_&:focus]:border-highlighted-600 [&:disabled]:bg-gray-100 [&:disabled]:text-gray-600 [&:disabled]:cursor-not-allowed [&:disabled::placeholder]:text-gray-500 resize-y min-h-[100px] [line-height:1.5]"
                     name="message"
                     rows={6}
                     value={form.message}

@@ -111,7 +111,7 @@ export default function ProductsGrid({
         <h2 className="type-4xl type-extrabold mt-lg-responsive mb-md-responsive text-black">{title}</h2>
       )}
 
-      <div className="grid grid-cols-[1fr] gap-legacy-15 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)] lg:gap-7.5">
+      <div className="grid grid-cols-[1fr] gap-4 sm:grid-cols-[repeat(2,1fr)] lg:grid-cols-[repeat(3,1fr)] lg:gap-7.5">
         {visibleProducts?.map((p) => (
           <ProductTile key={p.id} product={p} />
         ))}
@@ -165,9 +165,9 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
   const regularPriceNum = regularPrice != null ? parsePrice(regularPrice) : undefined;
 
   return (
-    <article className="relative flex flex-col items-stretch bg-transparent pb-legacy-15">
-      <Link href={href} aria-label={`View ${name}`} className="image-wrap rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] relative block w-full aspect-square overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_#e0e0e0] after:z-1 after:pointer-events-none">
-        {onSale && <div className="type-sm type-bold absolute z-1 top-legacy-15 left-legacy-15 px-2 py-1.5 bg-highlighted-600 text-white rounded-[10px]">SALE</div>}
+    <article className="relative flex flex-col items-stretch bg-transparent pb-4">
+      <Link href={href} aria-label={`View ${name}`} className="image-wrap rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] relative block w-full aspect-square overflow-hidden after:content-[''] after:absolute after:inset-0 after:rounded-[inherit] after:[box-shadow:inset_0_0_0_1px_var(--color-gray-200)] after:z-1 after:pointer-events-none">
+        {onSale && <div className="type-sm type-bold absolute z-1 top-4 left-4 px-2 py-1.5 bg-highlighted-600 text-white rounded-[10px]">SALE</div>}
         <Image className="absolute z-0 inset-0 block w-full h-full object-cover" src={img} alt={name} width={1024} height={1024} loading="lazy" sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw" />
       </Link>
       <button
@@ -181,7 +181,7 @@ function ProductTile({ product }: { product: FeaturedProduct }) {
         <h3 className="type-lg type-bold mt-sm-responsive mb-xs-responsive text-black">
           <Link href={href} aria-label={`View ${name}`}>{name}</Link>
         </h3>
-        <div className="inline-flex items-start gap-legacy-15">
+        <div className="inline-flex items-start gap-4">
           {onSale && <span className="type-lg text-black line-through opacity-80">{formatPrice(regularPrice)}</span>}
           <span className="type-lg text-black">{formatPrice(price)}</span>
         </div>

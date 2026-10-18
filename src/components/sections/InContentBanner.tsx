@@ -6,7 +6,7 @@ type Props = { banner: AcfBanner; className?: string };
 export default function InContentBanner({ banner, className = '' }: Props) {
   const isAffiliate = banner.banner_type === 'affiliate';
   const inner = (
-    <div className={`blog-banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-legacy-45 sm:flex-row sm:items-center sm:gap-legacy-15 sm:pr-legacy-15 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffiliate ? ' is-affilliated' : ''}`}>
+    <div className={`blog-banner rounded-[15px] sm:rounded-[18px] lg:rounded-[24px] group flex flex-col items-stretch border border-solid border-gray-600 overflow-hidden gap-0 mt-[0px] mb-7.5 lg:mb-11 sm:flex-row sm:items-center sm:gap-4 sm:pr-4 xl:gap-7.5 [.post-content_&]:my-5 lg:[.post-content_&]:my-7.5 [&.is-affilliated]:bg-gray-50 ${isAffiliate ? ' is-affilliated' : ''}`}>
       <div className="blog-banner__image w-full h-52.5 relative overflow-hidden sm:w-37.5 sm:h-37.5 sm:shrink-0 xl:w-52.5">
         <picture>
           {/* Tablet+ (≥601px): image is 150–210px wide — medium is sufficient */}
@@ -18,7 +18,7 @@ export default function InContentBanner({ banner, className = '' }: Props) {
         </picture>
         <span aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/50 opacity-0 [transition:opacity_200ms_ease] motion-reduce:transition-none [.group:hover_&]:opacity-100" />
       </div>
-      <div className="blog-banner__body flex-1 flex flex-col gap-1.5 p-legacy-15 sm:p-0">
+      <div className="blog-banner__body flex-1 flex flex-col gap-1.5 p-4 sm:p-0">
         <div className="blog-banner__title type-2xl type-extrabold text-black transition-[color] duration-200 ease-[ease-in-out] [.group:hover_&]:text-[#675dff]">{banner.banner_headline}</div>
         {banner.banner_subtext && (
           <div className="blog-banner__subtitle type-sm mb-0 text-black transition-[color] duration-200 ease-[ease-in-out] [.group:hover_&]:text-[#675dff]">{banner.banner_subtext}</div>
@@ -28,7 +28,7 @@ export default function InContentBanner({ banner, className = '' }: Props) {
         )}
       </div>
       {banner.banner_cta_label && (
-        <div className="btn btn-primary mt-[0px] mx-legacy-15 mb-legacy-15 self-stretch sm:m-0 sm:self-center">
+        <div className="btn btn-primary mt-[0px] mx-4 mb-4 self-stretch sm:m-0 sm:self-center">
           <span>{banner.banner_cta_label}</span>
           {isAffiliate && (
             // eslint-disable-next-line @next/next/no-img-element

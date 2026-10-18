@@ -81,7 +81,7 @@ export default function NewsletterForm({ className = '', confirmationVariant = '
   return (
     <div className={className}>
         <form
-          className="newsletter-form flex gap-0 overflow-hidden [&:has(:focus-visible)]:overflow-visible rounded-control [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05),0px_2px_4px_-2px_rgba(0,0,0,0.05)]"
+          className="newsletter-form flex gap-0 overflow-hidden [&:has(:focus-visible)]:overflow-visible rounded-control shadow-sm"
           onSubmit={handleSubmit}
           noValidate
         >
@@ -94,7 +94,7 @@ export default function NewsletterForm({ className = '', confirmationVariant = '
           aria-label="Email address"
           aria-invalid={!!error}
           aria-describedby={error ? 'newsletter-error' : undefined}
-          className="type-sm [line-height:24px] flex-1 p-[15px] bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
+          className="type-sm [line-height:24px] flex-1 p-[15px] bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
           autoComplete="email"
           required
           disabled={status === 'loading'}
