@@ -257,7 +257,7 @@ export default function Header() {
 
   return (
     <Fragment>
-    <header ref={headerRef} className="header sticky top-0 z-[1000] bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+    <header ref={headerRef} className="header sticky top-0 z-[1000] bg-white shadow-md">
       {/* <div className="header__top_bar">
         Get 15% off orders over $50! Use code <span className="type-bold">SEASONAL15</span>.
       </div> */}
@@ -340,7 +340,7 @@ export default function Header() {
 
       <hr className="m-0 border-0 border-t border-solid border-t-gray-400" />
 
-      <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
+      <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-md' : 'hidden'}`}>
         <nav ref={mobileNavRef} className="pb-sm-responsive bg-white" aria-label="Mobile navigation">
           {computedNav.map((item) => {
             const hasChildren = item.children && item.children.length > 0;
@@ -408,7 +408,7 @@ export default function Header() {
               name="q"
               placeholder="Search products or posts"
               autoComplete="off"
-              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] [box-shadow:0px_3px_6px_-3px_rgba(0,0,0,0.05)] [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
+              className="text-[14px] leading-6 p-2.5 flex-1 bg-white border border-gray-600 border-r-0 [&:focus-visible]:relative [&:focus-visible]:z-1 rounded-l-control rounded-r-none text-black [transition:color_0.2s_ease,background-color_0.2s_ease,border-color_0.2s_ease,box-shadow_0.2s_ease] shadow-sm [&::placeholder]:text-gray-800 [&:focus]:border-primary-500 [&:hover:not(:focus)]:border-gray-800 disabled:bg-gray-100 disabled:text-gray-600 disabled:cursor-not-allowed disabled:[&::placeholder]:text-gray-500"
             />
             <button type="submit" className="header__search_submit type-bold type-sm type-uppercase [line-height:24px] [border:2px_solid_transparent] cursor-pointer whitespace-nowrap [transition:opacity_0.2s_ease,transform_0.05s_ease-in-out,background-color_0.2s_ease] bg-[#675dff] text-white p-[10px_15px] rounded-l-none rounded-r-control [&:hover]:bg-black [&:active]:bg-black [&:hover]:border-white [&:active]:border-white [&:hover]:[text-decoration:none] [&:active]:[text-decoration:none]">Search</button>
           </div>
