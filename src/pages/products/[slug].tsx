@@ -445,7 +445,7 @@ export default function ProductPage({ product: productProp, relatedProducts }: P
                         </option>
                       ))}
                     </select>
-                    <span id="size-error" className="block min-h-5 text-[0.875rem] text-[oklch(0.4437_0.1613_26.9)]" aria-live="polite">
+                    <span id="size-error" className="block min-h-5 text-[0.875rem] text-highlighted-600" aria-live="polite">
                       {sizeError}
                     </span>
                   </div>
