@@ -175,7 +175,7 @@ export default function CartPage() {
                 <p className="type-sm">Taxes and shipping calculated at checkout.</p>
 
                 {checkoutError && (
-                  <p className="type-sm" style={{ color: '#991b1b' }} role="alert">
+                  <p className="type-sm text-highlighted-600" role="alert">
                     {checkoutError}
                   </p>
                 )}

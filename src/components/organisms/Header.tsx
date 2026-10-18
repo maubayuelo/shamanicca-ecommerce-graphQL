@@ -290,7 +290,7 @@ export default function Header() {
                                   ? (child as any).href
                                   : `/shop/${child.id}`
                               }
-                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-[#111] no-underline hover:text-primary-500"
+                              className="type-md type-bold block m-0 py-1.25 px-legacy-15 w-[calc(100%-30px)] text-gray-900 no-underline hover:text-primary-500"
                             >
                               {child.label}
                             </Link>
@@ -338,7 +338,7 @@ export default function Header() {
         </div>
       </div>
 
-      <hr className="m-0 border-0 border-t border-solid border-t-[#b2b2b2]" />
+      <hr className="m-0 border-0 border-t border-solid border-t-gray-400" />
 
       <div className={`xl:hidden ${mobileOpen ? 'block fixed top-[var(--header-height,_64px)] left-0 right-0 h-[calc(100dvh_-_var(--header-height,_64px))] overflow-y-auto [-webkit-overflow-scrolling:touch] bg-white z-[999] shadow-[0_4px_12px_rgba(0,0,0,0.1)]' : 'hidden'}`}>
         <nav ref={mobileNavRef} className="pb-sm-responsive bg-white" aria-label="Mobile navigation">
@@ -372,7 +372,7 @@ export default function Header() {
                       <li key={child.id} className="py-1.5 px-0">
                         <Link
                           href={item.id === 'blog' && child.href ? child.href : `/shop/${child.id}`}
-                          className="text-[#333] no-underline [&:hover]:text-primary-500"
+                          className="text-gray-900 no-underline [&:hover]:text-primary-500"
                           onClick={() => setMobileOpen(false)}
                         >
                           {child.label}
