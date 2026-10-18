@@ -37,7 +37,7 @@ export default function BlogGrid({
       {items.length === 0 && emptyMessage ? (
         <p className="type-md">{emptyMessage}</p>
       ) : (
-      <div className="grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)] xl:gap-legacy-45">
+      <div className="grid grid-cols-[1fr] gap-7.5 sm:grid-cols-[repeat(2,1fr)]">
         {items.map((item) => (
           <BlogGridCard key={item.id} item={item} />
         ))}
