@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
-import Head from 'next/head';
 import type { GetServerSideProps } from 'next';
 import Header from '../../../components/organisms/Header';
 import Footer from '../../../components/organisms/Footer';
+import SeoHead from '../../../components/atoms/SeoHead';
 import BlogHeader from '../../../components/sections/BlogHeader';
 import BlogGrid, { type BlogGridItem } from '../../../components/sections/BlogGrid';
 import InContentBanner from '../../../components/sections/InContentBanner';
@@ -38,6 +38,8 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
   const secondBlock = items.slice(6);
 
   const subtitleText = cleanExcerpt(description);
+  const categoryName = name ? decodeEntities(name) : 'Blog Category';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com';
 
   const hrefBuilder = (page: number) => {
     const base = `/blog/category/${encodeURIComponent(slug)}`;
@@ -60,9 +62,11 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
 
   return (
     <Fragment>
-      <Head>
-        <title>{name ? `${decodeEntities(name)} — Blog` : 'Blog Category'} — Shamanicca</title>
-      </Head>
+      <SeoHead
+        title={`${categoryName} — Blog`}
+        description={subtitleText.slice(0, 160) || `${categoryName} articles on the Shamanicca blog.`}
+        canonical={`${siteUrl}${hrefBuilder(currentPage)}`}
+      />
       <div>
         <main>
           <Header />

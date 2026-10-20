@@ -194,10 +194,31 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/images/logo.png`,
+        url: `${siteUrl}/favicon/android-chrome-512x512.png`,
       },
     },
     url: `${siteUrl}/blog/${post.slug}`,
+  };
+
+  // Linear path for search engines: Home > Blog > primary category > post.
+  // Mirrors the visible Breadcrumb, minus the curation-only "top-reads" category.
+  const primaryCategory = (categories.length > 0 ? categories : (categoryName && categorySlug ? [{ name: categoryName, slug: categorySlug }] : []))
+    .find((c) => c.slug !== 'top-reads');
+  const breadcrumbTrail = [
+    { name: 'Home', url: `${siteUrl}/` },
+    { name: 'Blog', url: `${siteUrl}/blog` },
+    ...(primaryCategory ? [{ name: decodeEntities(primaryCategory.name), url: `${siteUrl}/blog/category/${primaryCategory.slug}` }] : []),
+    { name: postTitle, url: `${siteUrl}/blog/${post.slug}` },
+  ];
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbTrail.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: crumb.name,
+      item: crumb.url,
+    })),
   };
 
   return (
@@ -209,7 +230,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
         ogImage={post.featuredImage ?? null}
         ogType="article"
         publishedAt={post.date}
-        jsonLd={articleSchema}
+        jsonLd={[articleSchema, breadcrumbSchema]}
       />
       <div>
         <main>

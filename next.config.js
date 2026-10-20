@@ -76,6 +76,23 @@ module.exports = {
         destination: '/shop/:category',
         permanent: true,
       },
+      // Placeholder (lorem ipsum) slugs left over from the theme demo, renamed in
+      // WordPress during the SEO/AEO cleanup. Deploy together with the WP slug change.
+      {
+        source: '/blog/risus-pretium-quam-vulputate-dignissim',
+        destination: '/blog/runes-numerology-sacred-geometry-guide',
+        permanent: true,
+      },
+      {
+        source: '/blog/autem-voluptates-atque-repellat',
+        destination: '/blog/beginners-guide-to-wiccan-tools',
+        permanent: true,
+      },
+      {
+        source: '/blog/accusantium-nulla-impedit-quae-voluptatibus',
+        destination: '/blog/how-to-craft-spells-ritual-magic',
+        permanent: true,
+      },
     ];
   },
 };

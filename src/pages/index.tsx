@@ -101,7 +101,7 @@ export default function Home({ hero, blogItems, products: productsSSR, banners }
     '@type': 'Organization',
     name: 'Shamanicca',
     url: siteUrl,
-    logo: `${siteUrl}/images/logo.png`,
+    logo: `${siteUrl}/favicon/android-chrome-512x512.png`,
     sameAs: [
       'https://www.instagram.com/shamanicca',
       'https://www.youtube.com/@shamanicca',

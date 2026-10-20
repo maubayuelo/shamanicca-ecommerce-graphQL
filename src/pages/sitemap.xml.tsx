@@ -24,14 +24,18 @@
  *  - STATIC_ROUTES: hardcoded pages with manual changefreq and priority settings
  *  - Product slugs: fetched from WooCommerce via GET_PRODUCT_SLUGS query (up to 500)
  *  - Blog post slugs: fetched from WordPress via GET_POST_SLUGS query (up to 500)
+ *  - Blog category slugs: GET_CATEGORIES, non-empty only, curation categories excluded
  *
  * PRIORITY VALUES:
  *  1.0 → Homepage (most important)
  *  0.9 → Shop
  *  0.8 → Blog, product pages
  *  0.7 → Blog posts
+ *  0.6 → Blog categories
  *  0.5 → About
- *  0.3 → Cart (least important)
+ *
+ * /cart is intentionally absent: robots.txt disallows it, and a sitemap must
+ * not list URLs crawlers are told to skip.
  *
  * ERROR HANDLING:
  * Each GraphQL call is wrapped in its own try/catch. If WooCommerce is down,
@@ -40,7 +44,7 @@
 
 import type { GetServerSideProps } from 'next';
 import client from '../lib/graphql/apolloClient';
-import { GET_PRODUCT_SLUGS, GET_POST_SLUGS } from '../lib/graphql/queries';
+import { GET_PRODUCT_SLUGS, GET_POST_SLUGS, GET_CATEGORIES } from '../lib/graphql/queries';
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com';
 
@@ -49,8 +53,10 @@ const STATIC_ROUTES = [
   { path: '/shop', changefreq: 'daily', priority: '0.9' },
   { path: '/blog', changefreq: 'daily', priority: '0.8' },
   { path: '/about', changefreq: 'monthly', priority: '0.5' },
-  { path: '/cart', changefreq: 'never', priority: '0.3' },
 ];
+
+// Curation-only category: the breadcrumb already hides it; keep it out of the index too.
+const EXCLUDED_CATEGORY_SLUGS = new Set(['top-reads', 'uncategorized']);
 
 function buildUrl(path: string, changefreq: string, priority: string) {
   return `
@@ -100,6 +106,22 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     slugs.forEach((slug) => {
       urls.push(buildUrl(`/blog/${slug}`, 'monthly', '0.7'));
     });
+  } catch {
+    // skip if GraphQL is unavailable during build
+  }
+
+  // Blog category slugs (non-empty, indexable categories only)
+  try {
+    type CategoryNode = { slug?: string | null; count?: number | null };
+    const { data } = await client.query<{ categories: { nodes: CategoryNode[] } }>({
+      query: GET_CATEGORIES,
+      variables: { first: 100 },
+    });
+    (data?.categories?.nodes || [])
+      .filter((c) => c.slug && (c.count ?? 0) > 0 && !EXCLUDED_CATEGORY_SLUGS.has(c.slug))
+      .forEach((c) => {
+        urls.push(buildUrl(`/blog/category/${c.slug}`, 'weekly', '0.6'));
+      });
   } catch {
     // skip if GraphQL is unavailable during build
   }
