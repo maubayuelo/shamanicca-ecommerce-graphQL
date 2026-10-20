@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { truncateAtWord } from './html';
+import { toIsoUtc, truncateAtWord } from './html';
 
 describe('truncateAtWord', () => {
   it('returns short text unchanged (trimmed, whitespace collapsed)', () => {
@@ -19,5 +19,18 @@ describe('truncateAtWord', () => {
   it('falls back to a hard cut when there is no usable space', () => {
     const out = truncateAtWord('x'.repeat(200), 160);
     expect(out.length).toBe(160);
+  });
+});
+
+describe('toIsoUtc', () => {
+  it('appends Z to a WordPress datetime without offset', () => {
+    expect(toIsoUtc('2022-04-30T06:06:22')).toBe('2022-04-30T06:06:22Z');
+  });
+  it('keeps an existing offset', () => {
+    expect(toIsoUtc('2022-04-30T06:06:22+00:00')).toBe('2022-04-30T06:06:22+00:00');
+    expect(toIsoUtc('2022-04-30T06:06:22Z')).toBe('2022-04-30T06:06:22Z');
+  });
+  it('returns undefined for empty input', () => {
+    expect(toIsoUtc(undefined)).toBeUndefined();
   });
 });

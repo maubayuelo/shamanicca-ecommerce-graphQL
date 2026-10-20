@@ -60,7 +60,7 @@ import { useBanners } from '../../hooks/useBanners';
 import client from '../../lib/graphql/apolloClient';
 import { GET_POST_BY_SLUG, GET_POST_SLUGS, GET_CATEGORY_POSTS_CURSOR } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
-import { cleanExcerpt, decodeEntities, truncateAtWord } from '../../utils/html';
+import { cleanExcerpt, decodeEntities, toIsoUtc, truncateAtWord } from '../../utils/html';
 import { visiblePostIds } from '../../utils/blog-sidebar';
 
 async function fetchAcfBySlug(slug: string): Promise<Record<string, unknown> | null> {
@@ -181,8 +181,8 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
     headline: postTitle,
     description: postExcerpt || undefined,
     image: post.featuredImage ?? undefined,
-    datePublished: post.date,
-    dateModified: post.modified ?? post.date,
+    datePublished: toIsoUtc(post.date),
+    dateModified: toIsoUtc(post.modified ?? post.date),
     author: {
       '@type': 'Organization',
       name: 'Shamanicca',
@@ -229,7 +229,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
         canonical={`${siteUrl}/blog/${post.slug}`}
         ogImage={post.featuredImage ?? null}
         ogType="article"
-        publishedAt={post.date}
+        publishedAt={toIsoUtc(post.date)}
         jsonLd={[articleSchema, breadcrumbSchema]}
       />
       <div>
