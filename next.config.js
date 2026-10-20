@@ -93,6 +93,17 @@ module.exports = {
         destination: '/blog/how-to-craft-spells-ritual-magic',
         permanent: true,
       },
+      // Slugs that described a different article than the one they serve.
+      {
+        source: '/blog/these-unseen-beings-can-give-fame-talent-wealth-power',
+        destination: '/blog/tarot-for-beginners-how-to-read-the-cards',
+        permanent: true,
+      },
+      {
+        source: '/blog/the-most-powerful-entity-on-earth',
+        destination: '/blog/animal-totems-and-spirit-animals',
+        permanent: true,
+      },
     ];
   },
 };

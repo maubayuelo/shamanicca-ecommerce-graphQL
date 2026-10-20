@@ -12,7 +12,7 @@ import { useBanners } from '../../../hooks/useBanners';
 import client from '../../../lib/graphql/apolloClient';
 import { GET_CATEGORY_POST_IDS, GET_POSTS_BY_IDS, GET_CATEGORY_POSTS_CURSOR } from '../../../lib/graphql/queries';
 import { pickImage } from '../../../lib/graphql/utils';
-import { cleanExcerpt, decodeEntities } from '../../../utils/html';
+import { cleanExcerpt, decodeEntities, truncateAtWord } from '../../../utils/html';
 import { visiblePostIds } from '../../../utils/blog-sidebar';
 import { MAX_LISTING_IDS, paginateIds, parsePageParam, warnIfTruncated } from '../../../utils/paginate';
 
@@ -64,7 +64,7 @@ export default function BlogCategoryPage({ slug, name, description, items, curre
     <Fragment>
       <SeoHead
         title={`${categoryName} — Blog`}
-        description={subtitleText.slice(0, 160) || `${categoryName} articles on the Shamanicca blog.`}
+        description={truncateAtWord(subtitleText) || `${categoryName} articles on the Shamanicca blog.`}
         canonical={`${siteUrl}${hrefBuilder(currentPage)}`}
       />
       <div>

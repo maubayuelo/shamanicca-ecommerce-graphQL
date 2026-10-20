@@ -60,7 +60,7 @@ import { useBanners } from '../../hooks/useBanners';
 import client from '../../lib/graphql/apolloClient';
 import { GET_POST_BY_SLUG, GET_POST_SLUGS, GET_CATEGORY_POSTS_CURSOR } from '../../lib/graphql/queries';
 import { pickImage } from '../../lib/graphql/utils';
-import { cleanExcerpt, decodeEntities } from '../../utils/html';
+import { cleanExcerpt, decodeEntities, truncateAtWord } from '../../utils/html';
 import { visiblePostIds } from '../../utils/blog-sidebar';
 
 async function fetchAcfBySlug(slug: string): Promise<Record<string, unknown> | null> {
@@ -168,7 +168,7 @@ export default function BlogPostPage({ post, relatedPosts, sidebarSections, cate
   })();
 
   const postTitle = decodeEntities(post.title?.rendered ?? '');
-  const postExcerpt = cleanExcerpt(post.excerpt?.rendered ?? '').slice(0, 160);
+  const postExcerpt = truncateAtWord(cleanExcerpt(post.excerpt?.rendered ?? ''));
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shamanicca.com';
 
   const articleSchema = {
