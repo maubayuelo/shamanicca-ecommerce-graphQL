@@ -40,3 +40,11 @@ export function truncateAtWord(text: string, max = 160): string {
   const base = lastSpace > max * 0.6 ? cut.slice(0, lastSpace) : cut;
   return `${base.replace(/[\s,;:.—–-]+$/, '')}…`;
 }
+
+// WPGraphQL `date`/`modified` come without an offset. The WordPress site clock is UTC
+// (verified Oct 2026: modified times match edits in UTC), so mark them as UTC for schema.org.
+// If the WP timezone setting ever changes, switch the query to dateGmt/modifiedGmt instead.
+export function toIsoUtc(date?: string | null): string | undefined {
+  if (!date) return undefined;
+  return /([zZ]|[+-]\d{2}:?\d{2})$/.test(date) ? date : `${date}Z`;
+}
