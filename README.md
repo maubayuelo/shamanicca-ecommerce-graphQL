@@ -6,6 +6,8 @@ A modern e-commerce storefront for **Shamanicca**, built with **Next.js 15**, **
 
 This app is the public-facing website. It shows products, a blog, a shopping cart, and a wishlist, and it hands the actual payment step off to WordPress / WooCommerce by redirecting the shopper there to complete checkout. Content — both products and blog articles — lives in WordPress and is read over GraphQL.
 
+> **Case study:** [Shamanicca Design System](https://mauriciobayuelo.com/dev/project-shamanicca-design-system/) — how the design system was extracted from this codebase, and how its accessibility and consistency fixes shipped through PRs #52–#55 under the visual verification harness.
+
 > **Status:** the app builds and runs. Linting and type-checking pass. A GitHub Actions CI pipeline runs lint, typecheck, and tests on every push and pull request (build is intentionally excluded — see [Continuous integration](#continuous-integration)), and a Vitest suite (20 tests) covers the cart context. Test coverage is not measured yet — see [Roadmap](#roadmap). This README describes what exists today, not what's intended.
 
 ---
@@ -344,6 +346,8 @@ The styling migration ran as a series of phased PRs, completed in [PR #48](https
 ### Agent skills
 
 This repo carries a curated, version-pinned set of **14 agent skills** (in `.agents/skills/`, e.g. `deploy-to-vercel`, `vercel-react-best-practices`, `web-design-guidelines`) with their sources and content hashes locked in `skills-lock.json`, so AI-assisted work stays reproducible. `.claude/skills/` holds symlinks into the same set for Claude Code's discovery path — same skills, one source of truth. These are curated third-party skills, pinned like any other dependency. They are one layer of the harness, alongside the instructions and gates above.
+
+For a worked example of this harness in use, see the [Shamanicca Design System case study](https://mauriciobayuelo.com/dev/project-shamanicca-design-system/).
 
 ---
 
